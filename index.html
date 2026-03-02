@@ -10,76 +10,80 @@
 
 <style>
 :root{
-  --bg:#000;
-  --ink:#fff;
-  --ink-weak:rgba(255,255,255,.75);
-  --line:rgba(255,255,255,.18);
-  --line-strong:rgba(255,255,255,.32);
-  --muted:rgba(255,255,255,.55);
-  --muted2:rgba(255,255,255,.35);
-  --serif:'Noto Serif TC', serif;
-  --display:'IM Fell English', serif;
+  --bg-center: #1a1a1a;
+  --bg: #050505;
+  --ink: #ffffff;
+  --ink-weak: rgba(255,255,255,.75);
+  --line: rgba(255,255,255,.15);
+  --line-strong: rgba(255,255,255,.35);
+  --muted: rgba(255,255,255,.55);
+  --accent: #f4f4f4;
+  --serif: 'Noto Serif TC', serif;
+  --display: 'IM Fell English', serif;
 
-  --rail:22px;       /* 左右導線距離邊緣 */
-  --content-pad:42px;
-  --maxw:820px;
+  --rail: 24px;       /* 左右導線距離邊緣 */
+  --content-pad: 48px;
+  --maxw: 860px;
 }
 
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{
-  background:var(--bg);
-  color:var(--ink);
-  font-family:var(--serif);
-  min-height:100vh;
-  overflow-x:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
+  background: radial-gradient(circle at 50% 10%, var(--bg-center) 0%, var(--bg) 80%);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--serif);
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* 主舞台 */
 #app{
-  width:100%;
-  max-width:var(--maxw);
-  padding: 28px 14px 96px;
-  position:relative;
+  width: 100%;
+  max-width: var(--maxw);
+  padding: 32px 16px 100px;
+  position: relative;
 }
 
 /* 外框：極簡畫冊導線 */
 .frame{
-  position:relative;
-  background:#000;
-  border:none;
+  position: relative;
+  background: transparent;
+  border: none;
 }
 
 /* 左右長導線 */
 .frame::before,
 .frame::after{
-  content:"";
-  position:absolute;
-  top:0; bottom:0;
-  width:1px;
-  background:var(--line);
-  pointer-events:none;
-  z-index:1;
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--line) 10%, var(--line) 90%, transparent);
+  pointer-events: none;
+  z-index: 1;
 }
-.frame::before{ left:var(--rail); }
-.frame::after{ right:var(--rail); }
+.frame::before{ left: var(--rail); }
+.frame::after{ right: var(--rail); }
 
-/* 角落小圓點（像圖中那種小點） */
+/* 角落小圓點 */
 .corner-dots{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:2;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
 }
 .corner-dots i{
-  position:absolute;
-  width:6px;height:6px;
-  border-radius:50%;
-  border:1px solid var(--line-strong);
-  opacity:.9;
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 0 8px rgba(255,255,255,0.2);
 }
 .corner-dots i.tl{ left: calc(var(--rail) - 3px); top: 14px; }
 .corner-dots i.tr{ right: calc(var(--rail) - 3px); top: 14px; }
@@ -88,480 +92,598 @@ body{
 
 /* 內容區 */
 .section{
-  position:relative;
-  padding: 0 var(--content-pad) 56px;
-  z-index:3;
+  position: relative;
+  padding: 0 var(--content-pad) 64px;
+  z-index: 3;
 }
 
-/* 頂部橫幅：像圖中的 Header Bar */
+/* 頂部橫幅 */
 .topbar{
-  position:sticky;
-  top:0;
-  z-index:50;
-  background:#000;
-  padding: 16px var(--content-pad);
-  border-bottom:1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(5, 5, 5, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 20px var(--content-pad);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 24px;
 }
 .topbar .brand{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
 }
 .brand-left{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 .brand-tag{
-  font-family:var(--serif);
-  font-size:12px;
-  letter-spacing:2px;
-  color:var(--muted);
+  font-family: var(--serif);
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
 }
 .brand-title{
-  font-family:var(--serif);
-  font-size:34px;
-  letter-spacing:2px;
-  font-weight:600;
+  font-family: var(--serif);
+  font-size: 32px;
+  letter-spacing: 4px;
+  font-weight: 600;
+  text-shadow: 0 2px 10px rgba(255,255,255,0.1);
 }
 .burger{
-  width:42px;height:42px;
-  border:1px solid var(--line);
-  display:grid;place-items:center;
-  border-radius:999px;
-  color:var(--ink);
-  background:transparent;
-  cursor:pointer;
+  width: 44px; height: 44px;
+  border: 1px solid var(--line);
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.burger:hover{
+  background: rgba(255,255,255,0.05);
+  border-color: var(--line-strong);
 }
 .burger span{
-  display:block;
-  width:16px;height:10px;
-  position:relative;
+  display: block;
+  width: 18px; height: 12px;
+  position: relative;
 }
 .burger span::before,
 .burger span::after,
 .burger span i{
-  content:"";
-  position:absolute;
-  left:0; right:0;
-  height:1px;
-  background:var(--ink);
-  opacity:.85;
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.9;
+  transition: all 0.3s ease;
 }
-.burger span::before{ top:0; }
-.burger span i{ top:50%; transform:translateY(-50%); }
-.burger span::after{ bottom:0; }
+.burger span::before{ top: 0; }
+.burger span i{ top: 50%; transform: translateY(-50%); width: 70%; left: auto; right: 0; }
+.burger span::after{ bottom: 0; }
+.burger:hover span i{ width: 100%; }
 
-/* 內容導線：左側垂直線 + 圓點 + 下方十字星 */
+/* 內容導線裝飾 */
 .left-rail{
-  position:absolute;
-  left: calc(var(--rail) + 18px);
-  top: 120px;
-  bottom: 90px;
-  width:1px;
-  background:var(--line);
-  z-index:2;
-  pointer-events:none;
+  position: absolute;
+  left: calc(var(--rail) + 20px);
+  top: 140px;
+  bottom: 100px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--line), transparent);
+  z-index: 2;
+  pointer-events: none;
 }
 .left-rail-dot{
-  position:absolute;
-  left: calc(var(--rail) + 14px);
-  top: 300px;
-  width:10px;height:10px;
-  border-radius:50%;
-  background:var(--ink);
-  z-index:3;
-  pointer-events:none;
+  position: absolute;
+  left: calc(var(--rail) + 16px);
+  top: 320px;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 0 0 10px rgba(255,255,255,0.5);
+  z-index: 3;
+  pointer-events: none;
+  animation: pulse 3s infinite ease-in-out;
 }
 
-/* 右側導線下方兩顆點（像圖中底部） */
-.right-rail-dots{
-  position:absolute;
-  right: calc(var(--rail) + 14px);
-  bottom: 80px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  pointer-events:none;
-  z-index:3;
-}
-.right-rail-dots b{
-  width:7px;height:7px;
-  border-radius:50%;
-  border:1px solid var(--line-strong);
-  opacity:.9;
-}
-
-/* 十字星（類似圖中的四向星） */
+/* 十字星動效 */
 .star-cross{
-  position:absolute;
-  right: calc(var(--rail) + 70px);
-  top: 160px;
-  width: 90px; height: 90px;
-  pointer-events:none;
-  z-index:3;
-  opacity:.95;
+  position: absolute;
+  right: calc(var(--rail) + 60px);
+  top: 180px;
+  width: 100px; height: 100px;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.8;
+  animation: spin 40s linear infinite;
 }
 .star-cross::before,
 .star-cross::after{
-  content:"";
-  position:absolute;
-  left:50%; top:50%;
-  transform:translate(-50%,-50%);
-  background:var(--ink);
+  content: "";
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%,-50%);
+  background: radial-gradient(circle, var(--ink) 0%, transparent 80%);
 }
-.star-cross::before{ width:100%; height:1px; opacity:.95; }
-.star-cross::after{ width:1px; height:100%; opacity:.95; }
+.star-cross::before{ width: 100%; height: 1px; }
+.star-cross::after{ width: 1px; height: 100%; }
 .star-cross i{
-  position:absolute;
-  left:50%; top:50%;
-  width:10px; height:10px;
-  transform:translate(-50%,-50%);
-  border-radius:50%;
-  background:#000;
-  border:1px solid rgba(255,255,255,.18);
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 8px; height: 8px;
+  transform: translate(-50%,-50%);
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
 }
 
-/* 小星點裝飾（可選，別太花） */
-.spark{
-  position:absolute;
-  left: calc(var(--rail) + 6px);
-  bottom: 86px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  pointer-events:none;
-  z-index:3;
-  opacity:.9;
-}
-.spark em{
-  display:block;
-  width:2px; height:12px;
-  background:var(--ink);
-  opacity:.8;
-}
-.spark s{
-  display:block;
-  width:2px;height:2px;
-  background:var(--ink);
-  opacity:.9;
-}
-.spark small{
-  display:block;
-  width:8px;height:8px;
-  border:1px solid var(--line-strong);
-  border-radius:50%;
-}
-
-/* 內文標題與英文主視覺 */
+/* 內文標題與主視覺 */
 .h1{
-  margin-top: 34px;
-  font-family:var(--display);
-  font-style:italic;
-  font-weight:400;
-  letter-spacing:2px;
-  font-size: 44px;
-  line-height:1.1;
+  margin-top: 40px;
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 2px;
+  font-size: 52px;
+  line-height: 1.15;
+  background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .subtitle{
-  margin-top: 10px;
-  font-family:var(--display);
-  font-style:italic;
-  font-weight:400;
-  font-size: 28px;
-  letter-spacing:1px;
-  color:var(--ink);
-  opacity:.95;
+  margin-top: 16px;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 26px;
+  letter-spacing: 4px;
+  color: var(--ink);
+  opacity: 0.9;
 }
 .lead{
-  margin-top: 30px;
+  margin-top: 36px;
   color: var(--ink-weak);
-  line-height: 2.1;
+  line-height: 2.2;
   font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 1px;
 }
-.lead strong{ color:var(--ink); font-weight:600; }
+.lead strong{ 
+  color: var(--ink); 
+  font-weight: 600; 
+  text-shadow: 0 0 8px rgba(255,255,255,0.3);
+}
 
 /* 極簡分隔線 */
 .rule{
-  margin: 30px 0;
-  height:1px;
-  width:100%;
+  margin: 40px 0;
+  height: 1px;
+  width: 100%;
   background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+  position: relative;
+}
+.rule::after{
+  content: "✦";
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--muted);
+  font-size: 10px;
+  background: var(--bg);
+  padding: 0 10px;
 }
 
-/* 按鈕：極簡線框 */
+/* 按鈕：高級線框 */
 .btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  border:1px solid var(--ink);
-  background:transparent;
-  color:var(--ink);
-  padding: 14px 28px;
-  font-family:var(--serif);
-  letter-spacing:2px;
-  cursor:pointer;
-  transition: all .2s ease;
-  text-decoration:none;
-  user-select:none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255,255,255,0.02);
+  color: var(--ink);
+  padding: 16px 36px;
+  font-family: var(--serif);
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-decoration: none;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+.btn::before{
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: var(--ink);
+  transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: -1;
 }
 .btn:hover{
-  background:var(--ink);
-  color:#000;
+  color: #000;
+  border-color: var(--ink);
+  box-shadow: 0 0 20px rgba(255,255,255,0.15);
+}
+.btn:hover::before{
+  left: 0;
 }
 .btn-row{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  margin-top: 10px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 24px;
+  flex-wrap: wrap;
 }
 .btn-row .mini{
-  border-color: var(--line-strong);
+  padding: 12px 24px;
+  font-size: 14px;
+  letter-spacing: 2px;
+  border-color: var(--line);
   color: var(--muted);
+  background: transparent;
 }
+.btn-row .mini::before{ display: none; }
 .btn-row .mini:hover{
-  background:transparent;
-  color:var(--ink);
-  border-color:var(--ink);
+  background: rgba(255,255,255,0.05);
+  color: var(--ink);
+  border-color: var(--line-strong);
+  box-shadow: none;
 }
 
 /* Quiz */
 .meta{
-  margin-top: 18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  color:var(--muted);
-  font-family:var(--display);
-  font-style:italic;
-  letter-spacing:2px;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--muted);
+  font-family: var(--display);
+  font-style: italic;
+  letter-spacing: 2px;
 }
 .progress{
-  display:flex;
-  gap:8px;
-  margin-top: 14px;
+  display: flex;
+  gap: 6px;
+  margin-top: 16px;
 }
 .seg{
-  flex:1;
-  height:1px;
-  background:var(--line);
-  position:relative;
-  overflow:hidden;
+  flex: 1;
+  height: 2px;
+  background: rgba(255,255,255,0.08);
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
 }
 .seg::after{
-  content:"";
-  position:absolute; inset:0;
-  background:var(--ink);
-  transform:scaleX(0);
-  transform-origin:left;
-  transition:transform .35s ease;
-  opacity:.85;
+  content: "";
+  position: absolute; inset: 0;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 0 10px rgba(255,255,255,0.5);
 }
-.seg.done::after{ transform:scaleX(1); }
-.seg.active::after{ transform:scaleX(.45); opacity:.55; }
+.seg.done::after{ transform: scaleX(1); }
+.seg.active::after{ transform: scaleX(0.5); opacity: 0.6; animation: pulseGlow 2s infinite; }
 
 .qno{
-  margin-top: 24px;
-  font-family:var(--display);
-  font-style:italic;
-  letter-spacing:3px;
-  color:var(--muted);
+  margin-top: 40px;
+  font-family: var(--display);
+  font-style: italic;
+  letter-spacing: 4px;
+  color: var(--muted);
+  font-size: 20px;
+  text-align: center;
 }
 .qtext{
-  margin-top: 12px;
-  font-size: 18px;
-  line-height: 2;
+  margin-top: 16px;
+  font-size: 22px;
+  line-height: 1.8;
   color: var(--ink);
   font-family: var(--serif);
-  letter-spacing: .2px;
+  letter-spacing: 1px;
+  text-align: center;
+  font-weight: 300;
 }
 
-/* 選項：畫冊式條列 */
+/* 選項：互動感提升 */
 .options{
-  margin-top: 18px;
-  border-top:1px solid var(--line);
+  margin-top: 40px;
+  border-top: 1px solid var(--line);
 }
 .opt{
-  width:100%;
-  background:transparent;
-  border:none;
-  border-bottom:1px solid var(--line);
-  color:var(--ink-weak);
-  text-align:left;
-  padding: 18px 0;
-  cursor:pointer;
-  transition: color .15s ease;
-  display:flex;
-  gap:14px;
-  align-items:flex-start;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-weak);
+  text-align: left;
+  padding: 24px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUpOpt 0.4s ease forwards;
 }
-.opt:hover{ color:var(--ink); }
-.opt:disabled{ cursor:default; opacity:.55; }
+/* Staggered animation delays for options */
+.opt:nth-child(1) { animation-delay: 0.1s; }
+.opt:nth-child(2) { animation-delay: 0.2s; }
+.opt:nth-child(3) { animation-delay: 0.3s; }
+.opt:nth-child(4) { animation-delay: 0.4s; }
+
+.opt::before{
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--ink);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+  transform-origin: center;
+}
+.opt:hover{ 
+  color: var(--ink); 
+  background: rgba(255,255,255,0.02);
+  padding-left: 24px;
+}
+.opt:hover::before{ transform: scaleY(1); }
+.opt:disabled{ cursor: default; opacity: 0.4; pointer-events: none; }
+
 .bullet{
-  width:10px;height:10px;
-  border-radius:50%;
-  border:1px solid var(--line-strong);
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
   margin-top: 7px;
-  flex:0 0 auto;
+  flex: 0 0 auto;
+  transition: all 0.3s ease;
+  position: relative;
 }
-.opt.selected .bullet{
-  background:var(--ink);
-  border-color:var(--ink);
+.bullet::after{
+  content: "";
+  position: absolute; inset: 2px;
+  border-radius: 50%;
+  background: var(--ink);
+  transform: scale(0);
+  transition: transform 0.3s ease;
 }
+.opt.selected .bullet{ border-color: var(--ink); }
+.opt.selected .bullet::after{ transform: scale(1); }
 .opt .txt{
-  line-height:1.9;
-  font-size: 16px;
+  line-height: 1.8;
+  font-size: 17px;
+  letter-spacing: 0.5px;
 }
 
 /* Result */
 .result-img-wrap{
-  margin-top: 12px;
-  border:1px solid var(--line);
-  border-radius: 44px 44px 0 0;
-  overflow:hidden;
+  margin-top: 24px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px 12px 0 0; /* 調整為更優雅的小圓角 */
+  overflow: hidden;
+  position: relative;
+}
+.result-img-wrap::after{
+  content: "";
+  position: absolute; inset: 0;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+  pointer-events: none;
 }
 .result-img{
-  width:100%;
-  height:auto;
-  display:block;
-  background:#000;
+  width: 100%;
+  height: auto;
+  display: block;
+  background: #000;
+  transition: transform 0.5s ease;
 }
+.result-img-wrap:hover .result-img{
+  transform: scale(1.02);
+}
+
 .result-body{
-  margin-top: 28px;
+  margin-top: 32px;
 }
 .r-eyebrow{
-  font-family:var(--display);
-  font-style:italic;
-  letter-spacing:2px;
-  color:var(--muted);
-  opacity:.9;
+  font-family: var(--display);
+  font-style: italic;
+  letter-spacing: 3px;
+  color: var(--muted);
+  font-size: 14px;
 }
 .r-name{
-  margin-top: 10px;
-  font-family:var(--serif);
-  font-weight:600;
-  font-size: 28px;
-  letter-spacing:1px;
+  margin-top: 12px;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 34px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 15px rgba(255,255,255,0.2);
 }
 .r-desc{
   margin-top: 16px;
-  line-height:2;
-  color:var(--ink-weak);
+  line-height: 2;
+  color: var(--ink-weak);
+  font-size: 16px;
+  letter-spacing: 1px;
 }
 
-/* 指標：極簡三欄 */
+/* 指標：高級毛玻璃三欄 */
 .seals{
-  margin-top: 22px;
-  display:grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap:12px;
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
 }
 .seal{
-  border:1px solid var(--line);
-  padding: 14px 12px;
-  position:relative;
-  overflow:hidden;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(4px);
+  padding: 20px 16px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  border-radius: 4px;
 }
 .seal::before{
-  content:"";
-  position:absolute;
-  left:0; right:0; bottom:0;
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
   height: var(--fill, 50%);
-  background: var(--ink);
-  opacity:.06;
+  background: linear-gradient(to top, rgba(255,255,255,0.1), transparent);
+  z-index: 0;
 }
 .seal .lab{
-  font-family:var(--display);
-  font-style:italic;
-  letter-spacing:2px;
-  color:var(--muted);
-  font-size: 12px;
-  position:relative;
-  z-index:1;
+  font-family: var(--display);
+  font-style: italic;
+  letter-spacing: 2px;
+  color: var(--muted);
+  font-size: 13px;
+  position: relative;
+  z-index: 1;
 }
 .seal .val{
-  margin-top: 10px;
-  font-family:var(--display);
-  font-style:italic;
-  color:var(--ink);
-  letter-spacing:1px;
-  position:relative;
-  z-index:1;
-  font-size: 14px;
+  margin-top: 12px;
+  font-family: var(--display);
+  font-style: italic;
+  color: var(--ink);
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+  font-size: 15px;
+  text-shadow: 0 0 8px rgba(255,255,255,0.3);
 }
 
-/* Quote / Guide：極簡框線 */
+/* Quote / Guide：引言優化 */
 .block{
-  margin-top: 18px;
-  border:1px solid var(--line);
-  padding: 18px 16px;
+  margin-top: 24px;
+  border: 1px solid var(--line);
+  background: rgba(0,0,0,0.3);
+  padding: 24px;
+  position: relative;
+}
+.block-quote::before{
+  content: "“";
+  position: absolute;
+  top: 10px; left: 16px;
+  font-family: var(--display);
+  font-size: 60px;
+  color: rgba(255,255,255,0.08);
+  line-height: 1;
+  pointer-events: none;
 }
 .block .lab{
-  font-family:var(--display);
-  font-style:italic;
-  letter-spacing:2px;
-  color:var(--muted);
-  font-size: 12px;
+  font-family: var(--display);
+  font-style: italic;
+  letter-spacing: 3px;
+  color: var(--muted);
+  font-size: 13px;
+  text-transform: uppercase;
 }
 .block .txt{
-  margin-top: 10px;
-  line-height:2;
-  color:var(--ink);
-  opacity:.92;
+  margin-top: 16px;
+  line-height: 2.2;
+  color: var(--ink);
+  font-size: 16px;
+  letter-spacing: 1px;
+  font-weight: 300;
+  position: relative;
+  z-index: 1;
 }
-.block .txt.muted{
-  color:var(--ink-weak);
-}
+.block .txt.muted{ color: var(--ink-weak); }
 
 /* CTA */
 .cta{
-  margin-top: 14px;
+  margin-top: 24px;
 }
 .cta a{
-  display:block;
-  border:1px solid var(--ink);
-  color:var(--ink);
-  padding: 14px 16px;
-  text-decoration:none;
-  letter-spacing:1px;
-  transition: all .2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--line-strong);
+  background: rgba(255,255,255,0.03);
+  color: var(--ink);
+  padding: 18px 24px;
+  text-decoration: none;
+  letter-spacing: 1.5px;
+  transition: all 0.3s ease;
+  font-weight: 400;
+}
+.cta a::after{
+  content: "→";
+  font-family: var(--serif);
+  transition: transform 0.3s ease;
 }
 .cta a:hover{
-  background:var(--ink);
-  color:#000;
+  background: var(--ink);
+  color: #000;
+  box-shadow: 0 0 15px rgba(255,255,255,0.2);
+}
+.cta a:hover::after{
+  transform: translateX(5px);
 }
 
 /* Footer stats */
 .stats{
-  margin-top: 20px;
-  padding-top: 14px;
+  margin-top: 32px;
+  padding-top: 20px;
   border-top: 1px solid var(--line);
-  color:var(--muted);
-  line-height:1.9;
+  color: var(--muted);
+  line-height: 2;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-align: center;
 }
-.stats strong{ color:var(--ink); }
+.stats strong{ color: var(--ink); font-weight: 600; }
 
-/* 動畫：微量 */
-@keyframes fadeUp{ from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
-.in{ animation: fadeUp .35s ease both; }
+/* 關鍵影格與動畫 */
+@keyframes fadeUp { 
+  from { opacity: 0; transform: translateY(15px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+@keyframes fadeUpOpt { 
+  from { opacity: 0; transform: translateY(10px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; box-shadow: 0 0 5px rgba(255,255,255,0.3); }
+  50% { opacity: 1; box-shadow: 0 0 15px rgba(255,255,255,0.8); }
+}
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.5; box-shadow: 0 0 5px rgba(255,255,255,0.2); }
+  50% { opacity: 0.8; box-shadow: 0 0 12px rgba(255,255,255,0.6); }
+}
+@keyframes spin { 
+  100% { transform: rotate(360deg); } 
+}
 
-/* 小螢幕 */
-@media (max-width: 520px){
+.in{ animation: fadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+
+/* 小螢幕響應式 */
+@media (max-width: 600px){
   :root{
-    --content-pad: 22px;
-    --rail: 14px;
+    --content-pad: 24px;
+    --rail: 16px;
   }
-  .topbar{ padding: 14px var(--content-pad); }
-  .brand-title{ font-size: 28px; }
-  .h1{ font-size: 38px; }
-  .subtitle{ font-size: 24px; }
-  .seals{ grid-template-columns: 1fr; }
+  .topbar{ padding: 16px var(--content-pad); }
+  .brand-title{ font-size: 24px; }
+  .h1{ font-size: 40px; }
+  .subtitle{ font-size: 20px; }
+  .seals{ grid-template-columns: 1fr; gap: 12px; }
   .left-rail{ left: calc(var(--rail) + 12px); }
   .left-rail-dot{ left: calc(var(--rail) + 8px); }
-  .star-cross{ right: calc(var(--rail) + 34px); width:72px;height:72px; top:140px; }
+  .star-cross{ right: calc(var(--rail) + 20px); width: 80px; height: 80px; top: 120px; }
+  .qtext{ font-size: 19px; }
+  .opt{ padding: 20px 12px; }
 }
 </style>
 </head>
@@ -573,24 +695,11 @@ body{
       <i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
     </div>
 
-    <!-- 左側導線/圓點/裝飾 -->
     <div class="left-rail" aria-hidden="true"></div>
     <div class="left-rail-dot" aria-hidden="true"></div>
-    <div class="spark" aria-hidden="true">
-      <small></small>
-      <s></s><s></s><s></s>
-      <em></em>
-    </div>
 
-    <!-- 右側底部雙圓點 -->
-    <div class="right-rail-dots" aria-hidden="true">
-      <b></b><b></b>
-    </div>
-
-    <!-- 右上十字星 -->
     <div class="star-cross" aria-hidden="true"><i></i></div>
 
-    <!-- Topbar -->
     <div class="topbar">
       <div class="brand">
         <div class="brand-left">
@@ -603,7 +712,6 @@ body{
       </div>
     </div>
 
-    <!-- INTRO -->
     <section id="intro" class="section in">
       <div class="h1">How will the story end this time?</div>
       <div class="subtitle">你又會有怎樣的故事？</div>
@@ -616,7 +724,7 @@ body{
         有人渴望被征服，有人其實想掌控一切。
       </p>
 
-      <p class="lead" style="margin-top:14px;">
+      <p class="lead" style="margin-top:16px;">
         這是一場關於<strong>支配、臣服、算計與破壞</strong>的深層試煉。<br/>
         請用直覺回答，別想太多。
       </p>
@@ -625,11 +733,9 @@ body{
 
       <div class="btn-row">
         <button class="btn" type="button" onclick="startQuiz()">墜入深淵</button>
-        <button class="btn mini" type="button" onclick="scrollTo(0,0)">返回頂部</button>
       </div>
     </section>
 
-    <!-- QUIZ -->
     <section id="quiz" class="section" style="display:none;">
       <div class="meta">
         <div id="quiz-label">Question I of VIII</div>
@@ -643,25 +749,24 @@ body{
 
       <div class="options" id="options"></div>
 
-      <div class="btn-row" style="margin-top:18px;">
+      <div class="btn-row" style="margin-top:24px; justify-content: center;">
         <button class="btn mini" type="button" onclick="location.reload()">重新開始</button>
       </div>
     </section>
 
-    <!-- RESULT -->
     <section id="result" class="section" style="display:none;">
       <div class="result-img-wrap in">
         <img id="result-img" class="result-img" src="" alt="結果圖" />
       </div>
 
-      <div class="result-body in">
+      <div class="result-body in" style="animation-delay: 0.2s;">
         <div class="r-eyebrow">Soul Specimen Revealed</div>
         <div class="r-name" id="r-name">【—】</div>
         <div class="r-desc" id="r-desc"></div>
 
         <div class="seals" id="seals"></div>
 
-        <div class="block">
+        <div class="block block-quote">
           <div class="lab">專屬台詞</div>
           <div class="txt" id="r-quote"></div>
         </div>
@@ -676,8 +781,8 @@ body{
           ✦ 正在讀取深淵數據⋯
         </div>
 
-        <div class="btn-row" style="margin-top:18px;">
-          <button class="btn" type="button" onclick="location.reload()">Re-Enter</button>
+        <div class="btn-row" style="margin-top:32px; justify-content: center;">
+          <button class="btn" type="button" onclick="location.reload()">Re-Enter 再次測驗</button>
           <button class="btn mini" type="button" onclick="copyResult()">複製結果文字</button>
         </div>
       </div>
@@ -779,7 +884,7 @@ const questions = [
     text:"凌晨三點，你在陌生的昏暗房間醒來。你第一個念頭是：",
     options:[
       {text:"先找能用的東西。要是他敢再靠近，我會讓他付出代價。", add:{dom:2,control:1,chaos:1}},
-      {text:"先弄清楚規則，再決定要不要翻桌。",                  add:{manip:2,control:1}},
+      {text:"先弄清楚規則，再決定要不要翻桌。",                 add:{manip:2,control:1}},
       {text:"門半掩？那就先不走。反正我想看看他想把我玩到哪裡。",  add:{sub:1,devotion:1,chaos:1}},
       {text:"無所謂。想弄壞我就弄壞吧，最好一次到位。",           add:{sub:2,chaos:2}}
     ]
@@ -814,7 +919,7 @@ const questions = [
   {
     text:"你更上癮的，是哪種黑暗特質？",
     options:[
-      {text:"偏執：他只對我一個人失去理智。",                    add:{devotion:2,control:1}},
+      {text:"偏執：他只對我一個人失去理智。",                   add:{devotion:2,control:1}},
       {text:"掠奪：他把我的自持一層層剝掉，直到我求饒。",        add:{control:2,chaos:1,dom:1}},
       {text:"算計：我們互相利用，互相上癮，誰先動心誰就輸。",    add:{manip:2,dom:1}},
       {text:"病態：痛和愛混在一起，我分不清我想逃還是想留。",    add:{chaos:2,sub:1,devotion:1}}
@@ -904,6 +1009,10 @@ function showQuestion(){
   updateProgress();
   const q = questions[qi];
 
+  // 加入淡入動畫重置
+  elQtext.style.animation = 'none';
+  elQtext.offsetHeight; /* trigger reflow */
+  elQtext.style.animation = 'fadeUp 0.5s ease both';
   elQtext.textContent = q.text;
 
   elOptions.innerHTML = '';
@@ -935,7 +1044,7 @@ function pick(addObj, btn){
     qi++;
     if(qi < questions.length) showQuestion();
     else showResult();
-  }, 260);
+  }, 400); // 稍微加長延遲讓使用者看清楚自己選了什麼
 }
 
 /* ========= RESULT LOGIC ========= */
@@ -970,6 +1079,10 @@ function showResult(){
   elQuiz.style.display = 'none';
   elIntro.style.display = 'none';
   elResult.style.display = 'block';
+  
+  // 重置動畫
+  elResult.classList.remove('in');
+  void elResult.offsetWidth; 
   elResult.classList.add('in');
 
   const key = determineResultKey();
@@ -1002,7 +1115,7 @@ function showResult(){
   const cta = document.getElementById('r-cta');
   cta.innerHTML = `
     <a href="${r.link}" target="_blank" rel="noopener">
-      ▷ 解鎖你的故事樣本：${r.bookName}
+      <span>解鎖你的故事樣本：${r.bookName}</span>
     </a>
   `;
 
@@ -1041,7 +1154,7 @@ function copyResult(){
   const quote = document.getElementById('r-quote').textContent || '';
   const text = `${name}\n${desc}\n\n「${quote}」`;
   navigator.clipboard.writeText(text).then(()=>{
-    alert('已複製結果文字');
+    alert('已成功複製結果，快去和朋友分享你的黑暗特質吧！');
   }).catch(()=>{
     alert('複製失敗，請手動複製');
   });
