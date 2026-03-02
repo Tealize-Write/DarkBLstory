@@ -71,15 +71,28 @@ body {
 
 /* Outer ornamental border */
 .gothic-frame {
+  border: none;
+  background: #000;
+  box-shadow: none;
   position: relative;
-  border: 1px solid rgba(180,180,180,0.18);
-  background: var(--surface);
-  backdrop-filter: blur(20px);
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.04),
-    0 0 60px rgba(0,0,0,0.4),
-    0 40px 100px rgba(0,0,0,0.8),
-    inset 0 0 80px rgba(0,0,0,0.5);
+}
+
+.gothic-frame::before,
+.gothic-frame::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255,255,255,0.15);
+}
+
+.gothic-frame::before {
+  left: 20px;
+}
+
+.gothic-frame::after {
+  right: 20px;
 }
 
 /* Four corner ornaments */
