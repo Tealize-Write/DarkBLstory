@@ -9,28 +9,24 @@
 <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+TC:wght@300;400;600&display=swap" rel="stylesheet" />
 
 <style>
-:root{
-  --bg-center: #1a1a1a;
-  --bg: #050505;
+:root {
+  --bg: #000000;
   --ink: #ffffff;
-  --ink-weak: rgba(255,255,255,.75);
-  --line: rgba(255,255,255,.15);
-  --line-strong: rgba(255,255,255,.35);
-  --muted: rgba(255,255,255,.55);
-  --accent: #f4f4f4;
+  --ink-weak: #a0a0a0;
+  --line: rgba(255, 255, 255, 0.25);
+  --line-strong: rgba(255, 255, 255, 0.7);
+  --muted: rgba(255, 255, 255, 0.4);
   --serif: 'Noto Serif TC', serif;
   --display: 'IM Fell English', serif;
 
-  --rail: 24px;       /* 左右導線距離邊緣 */
   --content-pad: 48px;
-  --maxw: 860px;
+  --maxw: 720px;
 }
 
-*{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{
-  background: radial-gradient(circle at 50% 10%, var(--bg-center) 0%, var(--bg) 80%);
-  background-attachment: fixed;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
   color: var(--ink);
   font-family: var(--serif);
   min-height: 100vh;
@@ -41,364 +37,249 @@ body{
   -webkit-font-smoothing: antialiased;
 }
 
-/* 主舞台 */
-#app{
-  width: 100%;
-  max-width: var(--maxw);
-  padding: 32px 16px 100px;
-  position: relative;
-}
-
-/* 外框：極簡畫冊導線 */
-.frame{
-  position: relative;
-  background: transparent;
-  border: none;
-}
-
-/* 左右長導線 */
-.frame::before,
-.frame::after{
-  content: "";
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 1px;
-  background: linear-gradient(to bottom, transparent, var(--line) 10%, var(--line) 90%, transparent);
-  pointer-events: none;
-  z-index: 1;
-}
-.frame::before{ left: var(--rail); }
-.frame::after{ right: var(--rail); }
-
-/* 角落小圓點 */
-.corner-dots{
-  position: absolute;
+/* =========================================
+   ART DECO / MYSTIC FIXED OVERLAYS
+   (Matching the reference images)
+========================================= */
+.art-layer {
+  position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 2;
+  z-index: 50;
 }
-.corner-dots i{
+
+/* Top Left Sunburst (Reference Image 3) */
+.art-tl {
   position: absolute;
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 1px solid var(--line-strong);
-  box-shadow: 0 0 8px rgba(255,255,255,0.2);
+  top: 0; left: 0;
+  width: 180px; height: 180px;
 }
-.corner-dots i.tl{ left: calc(var(--rail) - 3px); top: 14px; }
-.corner-dots i.tr{ right: calc(var(--rail) - 3px); top: 14px; }
-.corner-dots i.bl{ left: calc(var(--rail) - 3px); bottom: 14px; }
-.corner-dots i.br{ right: calc(var(--rail) - 3px); bottom: 14px; }
+.art-tl svg { width: 100%; height: 100%; }
+
+/* Bottom Left Moon Compass (Reference Image 2) */
+.art-bl {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 220px; height: 220px;
+}
+.art-bl svg { width: 100%; height: 100%; }
+
+/* Top Right Pendulum & Star (Reference Image 4) */
+.art-tr {
+  position: absolute;
+  top: 0; right: 0;
+  width: 150px; height: 350px;
+}
+.art-tr svg { width: 100%; height: 100%; }
+
+
+/* =========================================
+   MAIN LAYOUT & CONTAINERS
+========================================= */
+#app {
+  width: 100%;
+  max-width: var(--maxw);
+  padding: 80px 24px 120px;
+  position: relative;
+  z-index: 10;
+}
 
 /* 內容區 */
-.section{
+.section {
   position: relative;
   padding: 0 var(--content-pad) 64px;
-  z-index: 3;
 }
 
-/* 頂部橫幅 */
-.topbar{
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: rgba(5, 5, 5, 0.85);
-  backdrop-filter: blur(8px);
-  padding: 20px var(--content-pad);
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 24px;
-}
-.topbar .brand{
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-}
-.brand-left{
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.brand-tag{
-  font-family: var(--serif);
-  font-size: 11px;
-  letter-spacing: 3px;
-  color: var(--muted);
-  text-transform: uppercase;
-}
-.brand-title{
-  font-family: var(--serif);
-  font-size: 32px;
-  letter-spacing: 4px;
-  font-weight: 600;
-  text-shadow: 0 2px 10px rgba(255,255,255,0.1);
-}
-.burger{
-  width: 44px; height: 44px;
-  border: 1px solid var(--line);
-  display: grid; place-items: center;
-  border-radius: 50%;
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.burger:hover{
-  background: rgba(255,255,255,0.05);
-  border-color: var(--line-strong);
-}
-.burger span{
-  display: block;
-  width: 18px; height: 12px;
+/* =========================================
+   TYPOGRAPHY & TITLE DECOR (Reference Image 1)
+========================================= */
+.title-wrap {
   position: relative;
-}
-.burger span::before,
-.burger span::after,
-.burger span i{
-  content: "";
-  position: absolute;
-  left: 0; right: 0;
-  height: 1px;
-  background: var(--ink);
-  opacity: 0.9;
-  transition: all 0.3s ease;
-}
-.burger span::before{ top: 0; }
-.burger span i{ top: 50%; transform: translateY(-50%); width: 70%; left: auto; right: 0; }
-.burger span::after{ bottom: 0; }
-.burger:hover span i{ width: 100%; }
-
-/* 內容導線裝飾 */
-.left-rail{
-  position: absolute;
-  left: calc(var(--rail) + 20px);
-  top: 140px;
-  bottom: 100px;
-  width: 1px;
-  background: linear-gradient(to bottom, var(--line), transparent);
-  z-index: 2;
-  pointer-events: none;
-}
-.left-rail-dot{
-  position: absolute;
-  left: calc(var(--rail) + 16px);
-  top: 320px;
-  width: 9px; height: 9px;
-  border-radius: 50%;
-  background: var(--ink);
-  box-shadow: 0 0 10px rgba(255,255,255,0.5);
-  z-index: 3;
-  pointer-events: none;
-  animation: pulse 3s infinite ease-in-out;
+  margin-top: 60px;
+  margin-bottom: 40px;
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
 }
 
-/* 十字星動效 */
-.star-cross{
-  position: absolute;
-  right: calc(var(--rail) + 60px);
-  top: 180px;
-  width: 100px; height: 100px;
-  pointer-events: none;
-  z-index: 3;
-  opacity: 0.8;
-  animation: spin 40s linear infinite;
-}
-.star-cross::before,
-.star-cross::after{
-  content: "";
-  position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%,-50%);
-  background: radial-gradient(circle, var(--ink) 0%, transparent 80%);
-}
-.star-cross::before{ width: 100%; height: 1px; }
-.star-cross::after{ width: 1px; height: 100%; }
-.star-cross i{
-  position: absolute;
-  left: 50%; top: 50%;
-  width: 8px; height: 8px;
-  transform: translate(-50%,-50%);
-  border-radius: 50%;
-  background: var(--bg);
-  border: 1px solid var(--line-strong);
-}
-
-/* 內文標題與主視覺 */
-.h1{
-  margin-top: 40px;
+.h1 {
   font-family: var(--display);
-  font-style: italic;
+  font-style: normal;
   font-weight: 400;
   letter-spacing: 2px;
-  font-size: 52px;
+  font-size: 58px;
   line-height: 1.15;
-  background: linear-gradient(180deg, #fff 0%, #aaa 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  /* Outline Text Effect */
+  color: transparent;
+  -webkit-text-stroke: 1px var(--ink);
+  text-align: left;
+  position: relative;
+  z-index: 2;
 }
-.subtitle{
+
+.subtitle {
   margin-top: 16px;
   font-family: var(--serif);
   font-weight: 300;
-  font-size: 26px;
-  letter-spacing: 4px;
+  font-size: 22px;
+  letter-spacing: 6px;
   color: var(--ink);
-  opacity: 0.9;
+  text-align: center;
 }
-.lead{
+
+.lead {
   margin-top: 36px;
   color: var(--ink-weak);
   line-height: 2.2;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 300;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  text-align: center;
 }
-.lead strong{ 
-  color: var(--ink); 
-  font-weight: 600; 
-  text-shadow: 0 0 8px rgba(255,255,255,0.3);
+.lead strong {
+  color: var(--ink);
+  font-weight: 400;
 }
 
+/* Title Decorations (Image 1 Crossbursts) */
+.title-deco-left {
+  position: absolute;
+  left: -20px;
+  top: 0;
+  width: 80px; height: 220px;
+  pointer-events: none;
+}
+.title-deco-right {
+  position: absolute;
+  right: -80px;
+  top: 10px;
+  width: 140px; height: 200px;
+  pointer-events: none;
+}
+
+/* =========================================
+   UI ELEMENTS (Crisp, Flat, High-Contrast)
+========================================= */
 /* 極簡分隔線 */
-.rule{
-  margin: 40px 0;
+.rule {
+  margin: 40px auto;
   height: 1px;
-  width: 100%;
-  background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+  width: 40%;
+  background: var(--line);
   position: relative;
 }
-.rule::after{
+.rule::after {
   content: "✦";
   position: absolute;
   left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-  color: var(--muted);
-  font-size: 10px;
+  color: var(--ink);
+  font-size: 12px;
   background: var(--bg);
-  padding: 0 10px;
+  padding: 0 16px;
 }
 
-/* 按鈕：高級線框 */
-.btn{
+/* 按鈕：高級鋒利線框 */
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  border: 1px solid var(--line-strong);
-  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--ink);
+  background: var(--bg);
   color: var(--ink);
-  padding: 16px 36px;
+  padding: 18px 42px;
   font-family: var(--serif);
-  letter-spacing: 3px;
+  letter-spacing: 4px;
+  font-size: 14px;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.3s ease;
   text-decoration: none;
   user-select: none;
-  position: relative;
-  overflow: hidden;
+  border-radius: 0; /* Sharp corners */
+  text-transform: uppercase;
 }
-.btn::before{
-  content: "";
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
+.btn:hover {
   background: var(--ink);
-  transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  z-index: -1;
+  color: var(--bg);
 }
-.btn:hover{
-  color: #000;
-  border-color: var(--ink);
-  box-shadow: 0 0 20px rgba(255,255,255,0.15);
-}
-.btn:hover::before{
-  left: 0;
-}
-.btn-row{
+.btn-row {
   display: flex;
   gap: 16px;
   align-items: center;
-  margin-top: 24px;
+  justify-content: center;
+  margin-top: 32px;
   flex-wrap: wrap;
 }
-.btn-row .mini{
+.btn-row .mini {
   padding: 12px 24px;
-  font-size: 14px;
-  letter-spacing: 2px;
-  border-color: var(--line);
-  color: var(--muted);
-  background: transparent;
-}
-.btn-row .mini::before{ display: none; }
-.btn-row .mini:hover{
-  background: rgba(255,255,255,0.05);
-  color: var(--ink);
+  font-size: 13px;
+  letter-spacing: 3px;
   border-color: var(--line-strong);
-  box-shadow: none;
+  color: var(--ink-weak);
+}
+.btn-row .mini:hover {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
 }
 
-/* Quiz */
-.meta{
+/* =========================================
+   QUIZ SECTION
+========================================= */
+.meta {
   margin-top: 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
   color: var(--muted);
   font-family: var(--display);
   font-style: italic;
   letter-spacing: 2px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
 }
-.progress{
+.progress {
   display: flex;
-  gap: 6px;
-  margin-top: 16px;
+  gap: 4px;
+  margin-top: 2px;
 }
-.seg{
+.seg {
   flex: 1;
-  height: 2px;
-  background: rgba(255,255,255,0.08);
+  height: 1px;
+  background: transparent;
+  border-top: 1px dashed var(--line);
   position: relative;
-  overflow: hidden;
-  border-radius: 2px;
 }
-.seg::after{
-  content: "";
-  position: absolute; inset: 0;
-  background: var(--ink);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-  box-shadow: 0 0 10px rgba(255,255,255,0.5);
-}
-.seg.done::after{ transform: scaleX(1); }
-.seg.active::after{ transform: scaleX(0.5); opacity: 0.6; animation: pulseGlow 2s infinite; }
+.seg.done { border-top-style: solid; border-color: var(--ink); }
+.seg.active { border-top-style: solid; border-color: var(--ink-weak); }
 
-.qno{
-  margin-top: 40px;
+.qno {
+  margin-top: 60px;
   font-family: var(--display);
   font-style: italic;
-  letter-spacing: 4px;
-  color: var(--muted);
-  font-size: 20px;
+  letter-spacing: 6px;
+  color: var(--ink-weak);
+  font-size: 18px;
   text-align: center;
 }
-.qtext{
-  margin-top: 16px;
-  font-size: 22px;
-  line-height: 1.8;
+.qtext {
+  margin-top: 20px;
+  font-size: 20px;
+  line-height: 2;
   color: var(--ink);
   font-family: var(--serif);
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   text-align: center;
   font-weight: 300;
 }
 
-/* 選項：互動感提升 */
-.options{
-  margin-top: 40px;
-  border-top: 1px solid var(--line);
+/* 選項：鋒利排版 */
+.options {
+  margin-top: 50px;
+  border-top: 1px solid var(--ink);
 }
-.opt{
+.opt {
   width: 100%;
   background: transparent;
   border: none;
@@ -409,386 +290,362 @@ body{
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
-  gap: 18px;
+  gap: 20px;
   align-items: flex-start;
-  position: relative;
-  overflow: hidden;
   opacity: 0;
   transform: translateY(10px);
   animation: fadeUpOpt 0.4s ease forwards;
 }
-/* Staggered animation delays for options */
 .opt:nth-child(1) { animation-delay: 0.1s; }
 .opt:nth-child(2) { animation-delay: 0.2s; }
 .opt:nth-child(3) { animation-delay: 0.3s; }
 .opt:nth-child(4) { animation-delay: 0.4s; }
 
-.opt::before{
-  content: "";
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: var(--ink);
-  transform: scaleY(0);
-  transition: transform 0.3s ease;
-  transform-origin: center;
+.opt:hover {
+  color: var(--ink);
+  padding-left: 28px;
+  border-bottom-color: var(--ink);
 }
-.opt:hover{ 
-  color: var(--ink); 
-  background: rgba(255,255,255,0.02);
-  padding-left: 24px;
-}
-.opt:hover::before{ transform: scaleY(1); }
-.opt:disabled{ cursor: default; opacity: 0.4; pointer-events: none; }
+.opt:disabled { cursor: default; opacity: 0.3; pointer-events: none; }
 
-.bullet{
-  width: 12px; height: 12px;
-  border-radius: 50%;
+.bullet {
+  width: 8px; height: 8px;
   border: 1px solid var(--line-strong);
-  margin-top: 7px;
+  margin-top: 9px;
   flex: 0 0 auto;
+  transform: rotate(45deg); /* Diamond shape */
   transition: all 0.3s ease;
-  position: relative;
 }
-.bullet::after{
-  content: "";
-  position: absolute; inset: 2px;
-  border-radius: 50%;
-  background: var(--ink);
-  transform: scale(0);
-  transition: transform 0.3s ease;
-}
-.opt.selected .bullet{ border-color: var(--ink); }
-.opt.selected .bullet::after{ transform: scale(1); }
-.opt .txt{
+.opt:hover .bullet { background: var(--ink); border-color: var(--ink); }
+.opt.selected .bullet { background: var(--ink); border-color: var(--ink); transform: rotate(45deg) scale(1.2); }
+.opt .txt {
   line-height: 1.8;
-  font-size: 17px;
-  letter-spacing: 0.5px;
+  font-size: 16px;
+  letter-spacing: 1px;
 }
 
-/* Result */
-.result-img-wrap{
+/* =========================================
+   RESULT SECTION
+========================================= */
+.result-img-wrap {
   margin-top: 24px;
-  border: 1px solid var(--line-strong);
-  border-radius: 12px 12px 0 0; /* 調整為更優雅的小圓角 */
-  overflow: hidden;
+  border: 1px solid var(--ink);
+  padding: 8px;
   position: relative;
 }
-.result-img-wrap::after{
-  content: "";
-  position: absolute; inset: 0;
-  box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
-  pointer-events: none;
-}
-.result-img{
+.result-img {
   width: 100%;
   height: auto;
   display: block;
-  background: #000;
-  transition: transform 0.5s ease;
-}
-.result-img-wrap:hover .result-img{
-  transform: scale(1.02);
+  filter: grayscale(100%) contrast(1.2); /* Enhance the dark aesthetic */
 }
 
-.result-body{
-  margin-top: 32px;
-}
-.r-eyebrow{
+.result-body { margin-top: 40px; text-align: center; }
+.r-eyebrow {
   font-family: var(--display);
   font-style: italic;
-  letter-spacing: 3px;
-  color: var(--muted);
-  font-size: 14px;
+  letter-spacing: 4px;
+  color: var(--ink-weak);
+  font-size: 12px;
+  text-transform: uppercase;
 }
-.r-name{
-  margin-top: 12px;
+.r-name {
+  margin-top: 16px;
   font-family: var(--serif);
-  font-weight: 600;
-  font-size: 34px;
-  letter-spacing: 2px;
-  text-shadow: 0 0 15px rgba(255,255,255,0.2);
+  font-weight: 400;
+  font-size: 36px;
+  letter-spacing: 4px;
 }
-.r-desc{
+.r-desc {
   margin-top: 16px;
   line-height: 2;
   color: var(--ink-weak);
-  font-size: 16px;
-  letter-spacing: 1px;
+  font-size: 15px;
+  letter-spacing: 2px;
 }
 
-/* 指標：高級毛玻璃三欄 */
-.seals{
-  margin-top: 32px;
+/* 指標：極簡框線三欄 */
+.seals {
+  margin-top: 40px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-.seal{
+  gap: 1px; /* border thickness */
+  background: var(--line);
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(4px);
-  padding: 20px 16px;
+}
+.seal {
+  background: var(--bg);
+  padding: 24px 12px;
   position: relative;
-  overflow: hidden;
-  text-align: center;
-  border-radius: 4px;
 }
-.seal::before{
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: var(--fill, 50%);
-  background: linear-gradient(to top, rgba(255,255,255,0.1), transparent);
-  z-index: 0;
-}
-.seal .lab{
+.seal .lab {
   font-family: var(--display);
   font-style: italic;
   letter-spacing: 2px;
   color: var(--muted);
-  font-size: 13px;
-  position: relative;
-  z-index: 1;
+  font-size: 12px;
 }
-.seal .val{
+.seal .val {
   margin-top: 12px;
-  font-family: var(--display);
-  font-style: italic;
+  font-family: var(--serif);
   color: var(--ink);
   letter-spacing: 2px;
-  position: relative;
-  z-index: 1;
-  font-size: 15px;
-  text-shadow: 0 0 8px rgba(255,255,255,0.3);
+  font-size: 14px;
 }
 
-/* Quote / Guide：引言優化 */
-.block{
-  margin-top: 24px;
+/* Quote / Guide */
+.block {
+  margin-top: 32px;
   border: 1px solid var(--line);
-  background: rgba(0,0,0,0.3);
-  padding: 24px;
+  padding: 32px 24px;
   position: relative;
+  text-align: left;
 }
-.block-quote::before{
-  content: "“";
+.block::before {
+  content: "✦";
   position: absolute;
-  top: 10px; left: 16px;
-  font-family: var(--display);
-  font-size: 60px;
-  color: rgba(255,255,255,0.08);
-  line-height: 1;
-  pointer-events: none;
+  top: -8px; left: 24px;
+  background: var(--bg);
+  padding: 0 8px;
+  font-size: 10px;
+  color: var(--ink);
 }
-.block .lab{
+.block .lab {
   font-family: var(--display);
   font-style: italic;
   letter-spacing: 3px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12px;
   text-transform: uppercase;
+  margin-bottom: 16px;
 }
-.block .txt{
-  margin-top: 16px;
+.block .txt {
   line-height: 2.2;
   color: var(--ink);
-  font-size: 16px;
-  letter-spacing: 1px;
+  font-size: 15px;
+  letter-spacing: 1.5px;
   font-weight: 300;
-  position: relative;
-  z-index: 1;
 }
-.block .txt.muted{ color: var(--ink-weak); }
+.block .txt.muted { color: var(--ink-weak); }
 
 /* CTA */
-.cta{
-  margin-top: 24px;
-}
-.cta a{
+.cta { margin-top: 32px; }
+.cta a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid var(--line-strong);
-  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--ink);
   color: var(--ink);
-  padding: 18px 24px;
+  padding: 20px 24px;
   text-decoration: none;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
+  font-size: 14px;
   transition: all 0.3s ease;
-  font-weight: 400;
+  text-transform: uppercase;
 }
-.cta a::after{
+.cta a::after {
   content: "→";
   font-family: var(--serif);
   transition: transform 0.3s ease;
 }
-.cta a:hover{
+.cta a:hover {
   background: var(--ink);
-  color: #000;
-  box-shadow: 0 0 15px rgba(255,255,255,0.2);
+  color: var(--bg);
 }
-.cta a:hover::after{
-  transform: translateX(5px);
-}
+.cta a:hover::after { transform: translateX(5px); }
 
 /* Footer stats */
-.stats{
-  margin-top: 32px;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
+.stats {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px dotted var(--line-strong);
   color: var(--muted);
   line-height: 2;
-  font-size: 14px;
-  letter-spacing: 1px;
+  font-size: 13px;
+  letter-spacing: 2px;
   text-align: center;
 }
-.stats strong{ color: var(--ink); font-weight: 600; }
+.stats strong { color: var(--ink); font-weight: 400; }
 
 /* 關鍵影格與動畫 */
-@keyframes fadeUp { 
-  from { opacity: 0; transform: translateY(15px); } 
-  to { opacity: 1; transform: translateY(0); } 
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-@keyframes fadeUpOpt { 
-  from { opacity: 0; transform: translateY(10px); } 
-  to { opacity: 1; transform: translateY(0); } 
+@keyframes fadeUpOpt {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-@keyframes pulse {
-  0%, 100% { opacity: 0.6; box-shadow: 0 0 5px rgba(255,255,255,0.3); }
-  50% { opacity: 1; box-shadow: 0 0 15px rgba(255,255,255,0.8); }
-}
-@keyframes pulseGlow {
-  0%, 100% { opacity: 0.5; box-shadow: 0 0 5px rgba(255,255,255,0.2); }
-  50% { opacity: 0.8; box-shadow: 0 0 12px rgba(255,255,255,0.6); }
-}
-@keyframes spin { 
-  100% { transform: rotate(360deg); } 
-}
-
-.in{ animation: fadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.in { animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 
 /* 小螢幕響應式 */
-@media (max-width: 600px){
-  :root{
-    --content-pad: 24px;
-    --rail: 16px;
-  }
-  .topbar{ padding: 16px var(--content-pad); }
-  .brand-title{ font-size: 24px; }
-  .h1{ font-size: 40px; }
-  .subtitle{ font-size: 20px; }
-  .seals{ grid-template-columns: 1fr; gap: 12px; }
-  .left-rail{ left: calc(var(--rail) + 12px); }
-  .left-rail-dot{ left: calc(var(--rail) + 8px); }
-  .star-cross{ right: calc(var(--rail) + 20px); width: 80px; height: 80px; top: 120px; }
-  .qtext{ font-size: 19px; }
-  .opt{ padding: 20px 12px; }
+@media (max-width: 768px){
+  :root { --content-pad: 24px; }
+  .h1 { font-size: 42px; text-align: center; }
+  .title-deco-left { left: 0px; height: 160px; }
+  .title-deco-right { right: -20px; height: 140px; }
+  .title-wrap { padding: 20px 0; }
+  .seals { grid-template-columns: 1fr; }
+  .art-layer { opacity: 0.3; } /* Lessen distraction on mobile */
+  .btn-row { flex-direction: column; width: 100%; }
+  .btn { width: 100%; }
 }
 </style>
 </head>
 
 <body>
-<div id="app">
-  <div class="frame" id="frame">
-    <div class="corner-dots" aria-hidden="true">
-      <i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
-    </div>
 
-    <div class="left-rail" aria-hidden="true"></div>
-    <div class="left-rail-dot" aria-hidden="true"></div>
-
-    <div class="star-cross" aria-hidden="true"><i></i></div>
-
-    <div class="topbar">
-      <div class="brand">
-        <div class="brand-left">
-          <div class="brand-tag">暗黑童話BL合本</div>
-          <div class="brand-title">故事另有結局</div>
-        </div>
-        <button class="burger" type="button" aria-label="menu" onclick="alert('Menu (demo)')">
-          <span><i></i></span>
-        </button>
-      </div>
-    </div>
-
-    <section id="intro" class="section in">
-      <div class="h1">How will the story end this time?</div>
-      <div class="subtitle">你又會有怎樣的故事？</div>
-
-      <div class="rule"></div>
-
-      <p class="lead">
-        每個人心裡都藏著一個<strong>不能說出口的偏好</strong>。<br/>
-        有人嚮往溫柔，有人沉迷失控。<br/>
-        有人渴望被征服，有人其實想掌控一切。
-      </p>
-
-      <p class="lead" style="margin-top:16px;">
-        這是一場關於<strong>支配、臣服、算計與破壞</strong>的深層試煉。<br/>
-        請用直覺回答，別想太多。
-      </p>
-
-      <div class="rule"></div>
-
-      <div class="btn-row">
-        <button class="btn" type="button" onclick="startQuiz()">墜入深淵</button>
-      </div>
-    </section>
-
-    <section id="quiz" class="section" style="display:none;">
-      <div class="meta">
-        <div id="quiz-label">Question I of VIII</div>
-        <div id="quiz-hint">Choose by instinct</div>
-      </div>
-
-      <div class="progress" id="progress"></div>
-
-      <div class="qno" id="qno">— I —</div>
-      <div class="qtext" id="qtext"></div>
-
-      <div class="options" id="options"></div>
-
-      <div class="btn-row" style="margin-top:24px; justify-content: center;">
-        <button class="btn mini" type="button" onclick="location.reload()">重新開始</button>
-      </div>
-    </section>
-
-    <section id="result" class="section" style="display:none;">
-      <div class="result-img-wrap in">
-        <img id="result-img" class="result-img" src="" alt="結果圖" />
-      </div>
-
-      <div class="result-body in" style="animation-delay: 0.2s;">
-        <div class="r-eyebrow">Soul Specimen Revealed</div>
-        <div class="r-name" id="r-name">【—】</div>
-        <div class="r-desc" id="r-desc"></div>
-
-        <div class="seals" id="seals"></div>
-
-        <div class="block block-quote">
-          <div class="lab">專屬台詞</div>
-          <div class="txt" id="r-quote"></div>
-        </div>
-
-        <div class="block">
-          <div class="lab">Prophecy</div>
-          <div class="txt muted" id="r-guide"></div>
-          <div class="cta" id="r-cta"></div>
-        </div>
-
-        <div class="stats" id="stats">
-          ✦ 正在讀取深淵數據⋯
-        </div>
-
-        <div class="btn-row" style="margin-top:32px; justify-content: center;">
-          <button class="btn" type="button" onclick="location.reload()">Re-Enter 再次測驗</button>
-          <button class="btn mini" type="button" onclick="copyResult()">複製結果文字</button>
-        </div>
-      </div>
-    </section>
-
+<div class="art-layer" aria-hidden="true">
+  
+  <div class="art-tl">
+    <svg viewBox="0 0 180 180">
+      <path d="M0,0 L160,0 A160,160 0 0,1 0,160 Z" fill="none" stroke="#fff" stroke-width="1.2"/>
+      <path d="M0,0 L35,0 A35,35 0 0,1 0,35 Z" fill="#fff"/>
+      <path d="M33,10 L150,25 M28,18 L140,55 M20,26 L95,120 M10,32 L45,150 M22,24 L115,85" stroke="#fff" stroke-width="1"/>
+      <line x1="160" y1="20" x2="180" y2="20" stroke="#fff" stroke-width="1.2"/>
+      <line x1="160" y1="40" x2="180" y2="40" stroke="#fff" stroke-width="1.2"/>
+      <polygon points="170,26 172,28 175,30 172,32 170,34 168,32 165,30 168,28" fill="#fff"/>
+      <line x1="20" y1="160" x2="20" y2="180" stroke="#fff" stroke-width="1.2"/>
+      <line x1="40" y1="160" x2="40" y2="180" stroke="#fff" stroke-width="1.2"/>
+      <polygon points="26,170 28,172 30,175 32,172 34,170 32,168 30,165 28,168" fill="#fff"/>
+    </svg>
   </div>
+
+  <div class="art-bl">
+    <svg viewBox="0 0 220 220">
+      <circle cx="60" cy="160" r="38" fill="none" stroke="#fff" stroke-width="2"/>
+      <circle cx="60" cy="160" r="30" fill="none" stroke="#fff" stroke-width="1"/>
+      <path d="M45,160 A15,15 0 1,1 75,160 A18,18 0 1,0 45,160" fill="#fff"/>
+      <polygon points="60,105 62,115 70,117 62,119 60,129 58,119 50,117 58,115" fill="#fff"/>
+      <circle cx="60" cy="100" r="2" fill="#fff"/>
+      <line x1="98" y1="160" x2="220" y2="160" stroke="#fff" stroke-width="1.2"/>
+      <line x1="60" y1="198" x2="60" y2="220" stroke="#fff" stroke-width="1.2"/>
+      <circle cx="104" cy="160" r="3" fill="#fff"/>
+      <path d="M125,156 L130,160 L125,164" fill="none" stroke="#fff" stroke-width="1.2"/>
+      <path d="M132,156 L137,160 L132,164" fill="none" stroke="#fff" stroke-width="1.2"/>
+      <line x1="160" y1="156" x2="160" y2="164" stroke="#fff" stroke-width="1.5"/>
+      <line x1="156" y1="160" x2="164" y2="160" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="210" cy="160" r="4" fill="#fff"/>
+      <polygon points="60,205 62,208 65,210 62,212 60,215 58,212 55,210 58,208" fill="#fff"/>
+    </svg>
+  </div>
+
+  <div class="art-tr">
+    <svg viewBox="0 0 150 350">
+      <circle cx="40" cy="40" r="10" fill="#fff"/>
+      <path d="M60,0 A60,60 0 0,0 0,60" fill="none" stroke="#fff" stroke-width="1.5"/>
+      <line x1="0" y1="60" x2="0" y2="350" stroke="#fff" stroke-width="1"/>
+      <line x1="60" y1="0" x2="150" y2="0" stroke="#fff" stroke-width="1"/>
+      <line x1="90" y1="60" x2="90" y2="180" stroke="#fff" stroke-width="1.5"/>
+      <line x1="84" y1="70" x2="96" y2="70" stroke="#fff" stroke-width="2"/>
+      <line x1="87" y1="65" x2="93" y2="65" stroke="#fff" stroke-width="2"/>
+      <path d="M85,170 C85,185 90,190 90,190 C90,190 95,185 95,170 Z" fill="#fff"/>
+      <circle cx="90" cy="162" r="3" fill="#fff"/>
+      <polygon points="90,210 93,230 110,230 96,242 102,260 90,248 78,260 84,242 70,230 87,230" fill="#fff"/>
+      <circle cx="90" cy="275" r="2" fill="#fff"/>
+      <polygon points="90,285 91,290 95,292 91,294 90,300 89,294 85,292 89,290" fill="#fff"/>
+    </svg>
+  </div>
+
+</div>
+
+
+<div id="app">
+  <section id="intro" class="section in">
+    
+    <div class="title-wrap">
+      
+      <svg class="title-deco-left" viewBox="0 0 80 220">
+        <line x1="40" y1="0" x2="40" y2="170" stroke="#fff" stroke-width="1.2"/>
+        <circle cx="40" cy="80" r="6" fill="#fff"/>
+        <path d="M40,150 Q40,170 15,170 Q40,170 40,190 Q40,170 65,170 Q40,170 40,150" fill="#fff"/>
+        <line x1="0" y1="170" x2="80" y2="170" stroke="#fff" stroke-width="1"/>
+      </svg>
+
+      <div class="h1">How will<br>the story end<br>this time?</div>
+
+      <svg class="title-deco-right" viewBox="0 0 140 200">
+        <path d="M90,30 Q90,60 55,60 Q90,60 90,90 Q90,60 125,60 Q90,60 90,30" fill="#fff"/>
+        <line x1="0" y1="60" x2="140" y2="60" stroke="#fff" stroke-width="1"/>
+        <line x1="115" y1="60" x2="115" y2="180" stroke="#fff" stroke-width="1.2"/>
+        <circle cx="115" cy="188" r="3" fill="none" stroke="#fff"/>
+        <circle cx="115" cy="198" r="3" fill="none" stroke="#fff"/>
+      </svg>
+
+    </div>
+
+    <div class="subtitle">你又會有怎樣的故事？</div>
+
+    <div class="rule"></div>
+
+    <p class="lead">
+      每個人心裡都藏著一個<strong>不能說出口的偏好</strong>。<br/>
+      有人嚮往溫柔，有人沉迷失控。<br/>
+      有人渴望被征服，有人其實想掌控一切。
+    </p>
+
+    <p class="lead" style="margin-top:24px;">
+      這是一場關於<strong>支配、臣服、算計與破壞</strong>的深層試煉。<br/>
+      請用直覺回答，別想太多。
+    </p>
+
+    <div class="btn-row" style="margin-top: 50px;">
+      <button class="btn" type="button" onclick="startQuiz()">墜入深淵</button>
+    </div>
+  </section>
+
+  <section id="quiz" class="section" style="display:none;">
+    <div class="meta">
+      <div id="quiz-label">Question I of VIII</div>
+      <div id="quiz-hint">Choose by instinct</div>
+    </div>
+
+    <div class="progress" id="progress"></div>
+
+    <div class="qno" id="qno">— I —</div>
+    <div class="qtext" id="qtext"></div>
+
+    <div class="options" id="options"></div>
+
+    <div class="btn-row" style="margin-top:40px;">
+      <button class="btn mini" type="button" onclick="location.reload()">重新開始</button>
+    </div>
+  </section>
+
+  <section id="result" class="section" style="display:none;">
+    <div class="result-img-wrap in">
+      <img id="result-img" class="result-img" src="" alt="結果圖" />
+    </div>
+
+    <div class="result-body in" style="animation-delay: 0.2s;">
+      <div class="r-eyebrow">Soul Specimen Revealed</div>
+      <div class="r-name" id="r-name">【—】</div>
+      <div class="r-desc" id="r-desc"></div>
+
+      <div class="seals" id="seals"></div>
+
+      <div class="block" style="margin-top: 40px;">
+        <div class="lab">專屬台詞</div>
+        <div class="txt" id="r-quote" style="font-style: italic;"></div>
+      </div>
+
+      <div class="block">
+        <div class="lab">Prophecy</div>
+        <div class="txt muted" id="r-guide"></div>
+        <div class="cta" id="r-cta"></div>
+      </div>
+
+      <div class="stats" id="stats">
+        ✦ 正在讀取深淵數據⋯
+      </div>
+
+      <div class="btn-row" style="margin-top:40px;">
+        <button class="btn" type="button" onclick="location.reload()">Re-Enter</button>
+        <button class="btn mini" type="button" onclick="copyResult()">複製結果文字</button>
+      </div>
+    </div>
+  </section>
+
 </div>
 
 <script>
@@ -800,7 +657,7 @@ const resultsData = {
   "陰鬱偏執攻 × 陽光直男受": {
     image:"https://framerusercontent.com/images/H47mPAUXZNOJzQgxVcCZFiJP4.png",
     soulName:"陽光直男受", soulDesc:"你越是向著光，他越想將你拉入深淵。",
-    danger:"▮▮▮▮▮", dangerFill:"100%", attr:"寵溺指數", attrVal:"▮▮▮▮▯", attrFill:"80%", escape:"0%",
+    danger:"High", dangerFill:"100%", attr:"寵溺指數", attrVal:"Max", attrFill:"80%", escape:"0%",
     quote:"你對每個人都這麼笑嗎？沒關係……我會把你藏起來，以後你只能對我一個人笑。",
     guide:"你的光芒是他唯一的救贖，卻也是逼瘋他的毒藥。想知道你們將如何在這場偏執的愛中互相折磨與救贖？",
     bookName:"《寶石、烏鴉和水瓶》", link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%90%9B%E7%BE%8A"
@@ -808,7 +665,7 @@ const resultsData = {
   "放蕩影子攻 × 禁慾學者受": {
     image:"https://framerusercontent.com/images/uQPprKfZezv518Mf1QK2enDGzTI.png",
     soulName:"禁慾學者受", soulDesc:"當極致的理智遇上純粹的慾望，是誰先跌落神壇？",
-    danger:"▮▮▮▮▯", dangerFill:"80%", attr:"誘惑指數", attrVal:"▮▮▮▮▮", attrFill:"100%", escape:"10%",
+    danger:"Medium", dangerFill:"80%", attr:"誘惑指數", attrVal:"Max", attrFill:"100%", escape:"10%",
     quote:"你的心跳得這麼快，難道學術理論裡沒有教你怎麼拒絕我嗎？",
     guide:"你引以為傲的自制力，在他眼中只是不堪一擊的薄紙。準備好迎接理智全面崩盤的快感了嗎？",
     bookName:"《影子吻了我》", link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E7%9B%B8%E5%B0%8D%E4%B9%8B%E4%B8%8B"
@@ -816,7 +673,7 @@ const resultsData = {
   "偏執瘋子攻 × 廢物美人受": {
     image:"https://framerusercontent.com/images/K60BMuPYxaec4ZvETplOuAZcbw.png",
     soulName:"廢物美人受", soulDesc:"只要你乖乖當個漂亮的廢物，他願意為你發瘋毀滅世界。",
-    danger:"▮▮▮▮▮", dangerFill:"100%", attr:"圈養指數", attrVal:"▮▮▮▮▮", attrFill:"100%", escape:"0%",
+    danger:"High", dangerFill:"100%", attr:"圈養指數", attrVal:"Max", attrFill:"100%", escape:"0%",
     quote:"外面那麼髒，你這雙漂亮的腳怎麼能沾上泥土呢？乖，待在我的懷裡就好。",
     guide:"放棄掙扎吧，被一頭瘋狂的野獸無條件寵愛與圈養，其實也是一種極致的幸福。",
     bookName:"《溫先生他一絲不掛》", link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E7%81%AB%E7%99%BB"
@@ -824,7 +681,7 @@ const resultsData = {
   "暴力黑獅攻 × 冰山白神攻": {
     image:"https://framerusercontent.com/images/tU3tsyKjf8sMxVq6UnyJDCSi4c.png",
     soulName:"冰山白神攻", soulDesc:"野蠻與高潔的碰撞，撕裂你的冰冷偽裝，逼你染上紅塵的溫度。",
-    danger:"▮▮▮▮▮", dangerFill:"100%", attr:"征服指數", attrVal:"▮▮▮▮▯", attrFill:"80%", escape:"5%",
+    danger:"High", dangerFill:"100%", attr:"征服指數", attrVal:"High", attrFill:"80%", escape:"5%",
     quote:"再高冷的眼神又怎樣？到了我的地盤，就算是神，也得乖乖給我低頭。",
     guide:"絕對的力量面前，所有的反抗都是徒勞。看傲骨寸寸碎裂，化為臣服的喘息。",
     bookName:"《咬了神一口》", link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%85%8C%E7%8F%BE%E8%97%8D"
@@ -832,7 +689,7 @@ const resultsData = {
   "腹黑勢利攻 × 卑劣淫蕩受": {
     image:"https://framerusercontent.com/images/ZgfhchUbaHJuXY9V0Xipa3jxU.png",
     soulName:"卑劣淫蕩受", soulDesc:"全員惡人！互相利用卻又食髓知味，在泥沼裡交換最骯髒的吻。",
-    danger:"▮▮▮▮▯", dangerFill:"80%", attr:"慾望指數", attrVal:"▮▮▮▮▮", attrFill:"100%", escape:"20%",
+    danger:"Medium", dangerFill:"80%", attr:"慾望指數", attrVal:"Max", attrFill:"100%", escape:"20%",
     quote:"別裝出那副清高的樣子了。你跟我一樣爛透了，拿走你想要的，然後用你自己來償還。",
     guide:"沒有底線的成人遊戲，精於算計的獵手遇上甘願以身作餌的狐狸，誰會先動真心？",
     bookName:"《消失的終點線》", link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E8%91%A6%E5%AF%B6%E5%AF%B6"
@@ -840,7 +697,7 @@ const resultsData = {
   "無情獸群攻 × 自毀抹布受": {
     image:"https://framerusercontent.com/images/bSRzaW69l34wXcEwgq07OfluB5s.png",
     soulName:"自毀抹布受", soulDesc:"連你自己都放棄了自己，卻被一群沒有人性的野獸視若珍寶。",
-    danger:"▮▮▮▮▮", dangerFill:"100%", attr:"佔有指數", attrVal:"▮▮▮▮▮", attrFill:"100%", escape:"0%",
+    danger:"High", dangerFill:"100%", attr:"佔有指數", attrVal:"Max", attrFill:"100%", escape:"0%",
     quote:"想死？在我們沒有允許之前，你的每一滴血、每一絲呼吸，都只能屬於我們。",
     guide:"最極致的毀滅帶來最深沉的愛意。在鮮血與獠牙的包圍下，迎來暴力的救贖。",
     bookName:"《兩兄弟》", link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E3%80%8A%E5%85%A9%E5%85%84%E5%BC%9F%E3%80%8B"
@@ -848,7 +705,7 @@ const resultsData = {
   "佔有囚禁攻 × 自願沉淪受": {
     image:"https://framerusercontent.com/images/l5SjfsnGDqcuNrQYZbAKTQvJij4.png",
     soulName:"自願沉淪受", soulDesc:"這座名為愛的牢籠，是你主動選擇的安身之所。",
-    danger:"▮▮▮▮▯", dangerFill:"80%", attr:"偏執指數", attrVal:"▮▮▮▮▮", attrFill:"100%", escape:"0%",
+    danger:"Medium", dangerFill:"80%", attr:"偏執指數", attrVal:"Max", attrFill:"100%", escape:"0%",
     quote:"既然這個世界讓你這麼累，不如，就由我來成為你的世界吧。",
     guide:"當極致的控制慾，遇上渴望被完全接納的靈魂。推開那扇半掩的門，享受沉淪。",
     bookName:"《糖裹屋》", link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E8%98%87%E6%9C%B5%E6%8B%89"
@@ -856,7 +713,7 @@ const resultsData = {
   "二哈黑龍攻 × 人妻王子受": {
     image:"https://framerusercontent.com/images/GpHyYzlSiHtit6kGXfSSACkqf0.png",
     soulName:"人妻王子受", soulDesc:"外表毀天滅地，回家卻只會對著你搖尾巴的巨型猛獸。",
-    danger:"▮▮▯▯▯", dangerFill:"40%", attr:"忠犬指數", attrVal:"▮▮▮▮▮", attrFill:"100%", escape:"90%",
+    danger:"Low", dangerFill:"40%", attr:"忠犬指數", attrVal:"Max", attrFill:"100%", escape:"90%",
     quote:"我今天把那群討厭的傢伙都燒成灰了，我可以要一個親親當獎勵嗎？",
     guide:"掌握絕對武力的巨龍，唯一的弱點就是你。來體驗把恐怖魔王當大型犬養的快樂。",
     bookName:"《沉睡荊棘》", link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%96%B5%E8%8A%AD"
@@ -864,7 +721,7 @@ const resultsData = {
   "黑化掠奪攻 × 清冷自持受": {
     image:"https://framerusercontent.com/images/m56Q5hEDF1BiFypFDftnukMnhWM.png",
     soulName:"清冷自持受", soulDesc:"曾經的溫柔化為禁錮的鎖鏈，冷傲如你，該如何面對這場掠奪？",
-    danger:"▮▮▮▮▮", dangerFill:"100%", attr:"黑化指數", attrVal:"▮▮▮▮▮", attrFill:"100%", escape:"1%",
+    danger:"High", dangerFill:"100%", attr:"黑化指數", attrVal:"Max", attrFill:"100%", escape:"1%",
     quote:"你總是這麼冷靜，冷靜得讓人……忍不住想看看你崩潰求饒的樣子。",
     guide:"安全感被徹底撕碎，原本熟悉的溫柔面具下，藏著無可救藥的掠奪慾。",
     bookName:"《灰燼》", link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E6%82%A0%E7%84%B6"
@@ -872,7 +729,7 @@ const resultsData = {
   "病態攻 × 斯德哥爾摩受": {
     image:"https://framerusercontent.com/images/nRtAWmBjy7p9qD7Whz9VxlL0myQ.png",
     soulName:"斯德哥爾摩受", soulDesc:"愛與痛的邊界已經模糊，你終於分不清，是想逃還是不想離開。",
-    danger:"▮▮▮▮▮", dangerFill:"100%", attr:"瘋狂指數", attrVal:"▮▮▮▮▮", attrFill:"100%", escape:"0%",
+    danger:"High", dangerFill:"100%", attr:"瘋狂指數", attrVal:"Max", attrFill:"100%", escape:"0%",
     quote:"弄疼你了嗎？忍著。因為只有痛，才能讓你永遠記住你是屬於誰的。",
     guide:"當理智全面崩盤，痛覺化為最深沉的愛意。這場名為愛的無期徒刑，你準備好服刑了嗎？",
     bookName:"《哈梅爾的吹笛手》", link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E4%B9%9D"
@@ -1044,7 +901,7 @@ function pick(addObj, btn){
     qi++;
     if(qi < questions.length) showQuestion();
     else showResult();
-  }, 400); // 稍微加長延遲讓使用者看清楚自己選了什麼
+  }, 400);
 }
 
 /* ========= RESULT LOGIC ========= */
@@ -1079,10 +936,10 @@ function showResult(){
   elQuiz.style.display = 'none';
   elIntro.style.display = 'none';
   elResult.style.display = 'block';
-  
+
   // 重置動畫
   elResult.classList.remove('in');
-  void elResult.offsetWidth; 
+  void elResult.offsetWidth;
   elResult.classList.add('in');
 
   const key = determineResultKey();
@@ -1097,15 +954,15 @@ function showResult(){
   // seals
   const seals = document.getElementById('seals');
   seals.innerHTML = `
-    <div class="seal" style="--fill:${r.dangerFill}">
+    <div class="seal">
       <div class="lab">危險指數</div>
       <div class="val">${r.danger}</div>
     </div>
-    <div class="seal" style="--fill:${r.attrFill}">
+    <div class="seal">
       <div class="lab">${r.attr}</div>
       <div class="val">${r.attrVal}</div>
     </div>
-    <div class="seal" style="--fill:30%">
+    <div class="seal">
       <div class="lab">逃脫機率</div>
       <div class="val">${r.escape}</div>
     </div>
