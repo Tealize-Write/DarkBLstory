@@ -1,812 +1,693 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>故事另有結局｜黑暗特質心理測驗</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IM+Fell+English:ital@0;1&family=Noto+Serif+TC:wght@300;400;600&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Noto+Serif+TC:wght@300;400;600&display=swap" rel="stylesheet" />
+
 <style>
-:root {
-  --void:     #000000;
-  --abyss:    #080808;
-  --dark:     #111111;
-  --surface:  rgba(10,10,10,0.94);
-  --bone:     #ececec;
-  --silver:   #c0c0c0;
-  --mist:     #888888;
-  --dim:      #444444;
-  --rose:     #555555;
-  --crimson:  #999999;
-  --wine:     #222222;
-  --gold:     #d0d0d0;
-  --gold-glow:#ffffff;
-  --serif:    'Cormorant Garamond', 'Noto Serif TC', serif;
-  --display:  'IM Fell English', 'Cormorant Garamond', serif;
-  --gothic:   'Uncial Antiqua', 'IM Fell English', serif;
+:root{
+  --bg:#000;
+  --ink:#fff;
+  --ink-weak:rgba(255,255,255,.75);
+  --line:rgba(255,255,255,.18);
+  --line-strong:rgba(255,255,255,.32);
+  --muted:rgba(255,255,255,.55);
+  --muted2:rgba(255,255,255,.35);
+  --serif:'Noto Serif TC', serif;
+  --display:'IM Fell English', serif;
+
+  --rail:22px;       /* 左右導線距離邊緣 */
+  --content-pad:42px;
+  --maxw:820px;
 }
 
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--serif);
+  min-height:100vh;
+  overflow-x:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
 
-body {
-  background: var(--void);
-  color: var(--bone);
+/* 主舞台 */
+#app{
+  width:100%;
+  max-width:var(--maxw);
+  padding: 28px 14px 96px;
+  position:relative;
+}
+
+/* 外框：極簡畫冊導線 */
+.frame{
+  position:relative;
+  background:#000;
+  border:none;
+}
+
+/* 左右長導線 */
+.frame::before,
+.frame::after{
+  content:"";
+  position:absolute;
+  top:0; bottom:0;
+  width:1px;
+  background:var(--line);
+  pointer-events:none;
+  z-index:1;
+}
+.frame::before{ left:var(--rail); }
+.frame::after{ right:var(--rail); }
+
+/* 角落小圓點（像圖中那種小點） */
+.corner-dots{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+}
+.corner-dots i{
+  position:absolute;
+  width:6px;height:6px;
+  border-radius:50%;
+  border:1px solid var(--line-strong);
+  opacity:.9;
+}
+.corner-dots i.tl{ left: calc(var(--rail) - 3px); top: 14px; }
+.corner-dots i.tr{ right: calc(var(--rail) - 3px); top: 14px; }
+.corner-dots i.bl{ left: calc(var(--rail) - 3px); bottom: 14px; }
+.corner-dots i.br{ right: calc(var(--rail) - 3px); bottom: 14px; }
+
+/* 內容區 */
+.section{
+  position:relative;
+  padding: 0 var(--content-pad) 56px;
+  z-index:3;
+}
+
+/* 頂部橫幅：像圖中的 Header Bar */
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:#000;
+  padding: 16px var(--content-pad);
+  border-bottom:1px solid var(--line);
+}
+.topbar .brand{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+}
+.brand-left{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.brand-tag{
+  font-family:var(--serif);
+  font-size:12px;
+  letter-spacing:2px;
+  color:var(--muted);
+}
+.brand-title{
+  font-family:var(--serif);
+  font-size:34px;
+  letter-spacing:2px;
+  font-weight:600;
+}
+.burger{
+  width:42px;height:42px;
+  border:1px solid var(--line);
+  display:grid;place-items:center;
+  border-radius:999px;
+  color:var(--ink);
+  background:transparent;
+  cursor:pointer;
+}
+.burger span{
+  display:block;
+  width:16px;height:10px;
+  position:relative;
+}
+.burger span::before,
+.burger span::after,
+.burger span i{
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  height:1px;
+  background:var(--ink);
+  opacity:.85;
+}
+.burger span::before{ top:0; }
+.burger span i{ top:50%; transform:translateY(-50%); }
+.burger span::after{ bottom:0; }
+
+/* 內容導線：左側垂直線 + 圓點 + 下方十字星 */
+.left-rail{
+  position:absolute;
+  left: calc(var(--rail) + 18px);
+  top: 120px;
+  bottom: 90px;
+  width:1px;
+  background:var(--line);
+  z-index:2;
+  pointer-events:none;
+}
+.left-rail-dot{
+  position:absolute;
+  left: calc(var(--rail) + 14px);
+  top: 300px;
+  width:10px;height:10px;
+  border-radius:50%;
+  background:var(--ink);
+  z-index:3;
+  pointer-events:none;
+}
+
+/* 右側導線下方兩顆點（像圖中底部） */
+.right-rail-dots{
+  position:absolute;
+  right: calc(var(--rail) + 14px);
+  bottom: 80px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  pointer-events:none;
+  z-index:3;
+}
+.right-rail-dots b{
+  width:7px;height:7px;
+  border-radius:50%;
+  border:1px solid var(--line-strong);
+  opacity:.9;
+}
+
+/* 十字星（類似圖中的四向星） */
+.star-cross{
+  position:absolute;
+  right: calc(var(--rail) + 70px);
+  top: 160px;
+  width: 90px; height: 90px;
+  pointer-events:none;
+  z-index:3;
+  opacity:.95;
+}
+.star-cross::before,
+.star-cross::after{
+  content:"";
+  position:absolute;
+  left:50%; top:50%;
+  transform:translate(-50%,-50%);
+  background:var(--ink);
+}
+.star-cross::before{ width:100%; height:1px; opacity:.95; }
+.star-cross::after{ width:1px; height:100%; opacity:.95; }
+.star-cross i{
+  position:absolute;
+  left:50%; top:50%;
+  width:10px; height:10px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:#000;
+  border:1px solid rgba(255,255,255,.18);
+}
+
+/* 小星點裝飾（可選，別太花） */
+.spark{
+  position:absolute;
+  left: calc(var(--rail) + 6px);
+  bottom: 86px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  pointer-events:none;
+  z-index:3;
+  opacity:.9;
+}
+.spark em{
+  display:block;
+  width:2px; height:12px;
+  background:var(--ink);
+  opacity:.8;
+}
+.spark s{
+  display:block;
+  width:2px;height:2px;
+  background:var(--ink);
+  opacity:.9;
+}
+.spark small{
+  display:block;
+  width:8px;height:8px;
+  border:1px solid var(--line-strong);
+  border-radius:50%;
+}
+
+/* 內文標題與英文主視覺 */
+.h1{
+  margin-top: 34px;
+  font-family:var(--display);
+  font-style:italic;
+  font-weight:400;
+  letter-spacing:2px;
+  font-size: 44px;
+  line-height:1.1;
+}
+.subtitle{
+  margin-top: 10px;
+  font-family:var(--display);
+  font-style:italic;
+  font-weight:400;
+  font-size: 28px;
+  letter-spacing:1px;
+  color:var(--ink);
+  opacity:.95;
+}
+.lead{
+  margin-top: 30px;
+  color: var(--ink-weak);
+  line-height: 2.1;
+  font-size: 16px;
+}
+.lead strong{ color:var(--ink); font-weight:600; }
+
+/* 極簡分隔線 */
+.rule{
+  margin: 30px 0;
+  height:1px;
+  width:100%;
+  background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+}
+
+/* 按鈕：極簡線框 */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  border:1px solid var(--ink);
+  background:transparent;
+  color:var(--ink);
+  padding: 14px 28px;
+  font-family:var(--serif);
+  letter-spacing:2px;
+  cursor:pointer;
+  transition: all .2s ease;
+  text-decoration:none;
+  user-select:none;
+}
+.btn:hover{
+  background:var(--ink);
+  color:#000;
+}
+.btn-row{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-top: 10px;
+}
+.btn-row .mini{
+  border-color: var(--line-strong);
+  color: var(--muted);
+}
+.btn-row .mini:hover{
+  background:transparent;
+  color:var(--ink);
+  border-color:var(--ink);
+}
+
+/* Quiz */
+.meta{
+  margin-top: 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  color:var(--muted);
+  font-family:var(--display);
+  font-style:italic;
+  letter-spacing:2px;
+}
+.progress{
+  display:flex;
+  gap:8px;
+  margin-top: 14px;
+}
+.seg{
+  flex:1;
+  height:1px;
+  background:var(--line);
+  position:relative;
+  overflow:hidden;
+}
+.seg::after{
+  content:"";
+  position:absolute; inset:0;
+  background:var(--ink);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .35s ease;
+  opacity:.85;
+}
+.seg.done::after{ transform:scaleX(1); }
+.seg.active::after{ transform:scaleX(.45); opacity:.55; }
+
+.qno{
+  margin-top: 24px;
+  font-family:var(--display);
+  font-style:italic;
+  letter-spacing:3px;
+  color:var(--muted);
+}
+.qtext{
+  margin-top: 12px;
+  font-size: 18px;
+  line-height: 2;
+  color: var(--ink);
   font-family: var(--serif);
-  min-height: 100vh;
-  overflow-x: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  letter-spacing: .2px;
 }
 
-/* ══ ANIMATED BACKGROUND ══ */
-.bg-layer {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background: #000000;
+/* 選項：畫冊式條列 */
+.options{
+  margin-top: 18px;
+  border-top:1px solid var(--line);
+}
+.opt{
+  width:100%;
+  background:transparent;
+  border:none;
+  border-bottom:1px solid var(--line);
+  color:var(--ink-weak);
+  text-align:left;
+  padding: 18px 0;
+  cursor:pointer;
+  transition: color .15s ease;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+}
+.opt:hover{ color:var(--ink); }
+.opt:disabled{ cursor:default; opacity:.55; }
+.bullet{
+  width:10px;height:10px;
+  border-radius:50%;
+  border:1px solid var(--line-strong);
+  margin-top: 7px;
+  flex:0 0 auto;
+}
+.opt.selected .bullet{
+  background:var(--ink);
+  border-color:var(--ink);
+}
+.opt .txt{
+  line-height:1.9;
+  font-size: 16px;
 }
 
-/* Grain texture overlay */
-.grain {
-  position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.045;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 128px 128px;
+/* Result */
+.result-img-wrap{
+  margin-top: 12px;
+  border:1px solid var(--line);
+  border-radius: 44px 44px 0 0;
+  overflow:hidden;
+}
+.result-img{
+  width:100%;
+  height:auto;
+  display:block;
+  background:#000;
+}
+.result-body{
+  margin-top: 28px;
+}
+.r-eyebrow{
+  font-family:var(--display);
+  font-style:italic;
+  letter-spacing:2px;
+  color:var(--muted);
+  opacity:.9;
+}
+.r-name{
+  margin-top: 10px;
+  font-family:var(--serif);
+  font-weight:600;
+  font-size: 28px;
+  letter-spacing:1px;
+}
+.r-desc{
+  margin-top: 16px;
+  line-height:2;
+  color:var(--ink-weak);
 }
 
-/* Vignette */
-.vignette {
-  position: fixed; inset: 0; z-index: 2; pointer-events: none;
-  background: radial-gradient(ellipse 85% 85% at 50% 50%, transparent 40%, rgba(0,0,0,0.75) 100%);
+/* 指標：極簡三欄 */
+.seals{
+  margin-top: 22px;
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap:12px;
+}
+.seal{
+  border:1px solid var(--line);
+  padding: 14px 12px;
+  position:relative;
+  overflow:hidden;
+}
+.seal::before{
+  content:"";
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height: var(--fill, 50%);
+  background: var(--ink);
+  opacity:.06;
+}
+.seal .lab{
+  font-family:var(--display);
+  font-style:italic;
+  letter-spacing:2px;
+  color:var(--muted);
+  font-size: 12px;
+  position:relative;
+  z-index:1;
+}
+.seal .val{
+  margin-top: 10px;
+  font-family:var(--display);
+  font-style:italic;
+  color:var(--ink);
+  letter-spacing:1px;
+  position:relative;
+  z-index:1;
+  font-size: 14px;
 }
 
-#star-canvas { position:fixed; inset:0; z-index:1; pointer-events:none; }
-
-/* ══ MAIN CARD ══ */
-#app {
-  position: relative; z-index: 10;
-  max-width: 700px; width: 96%;
-  margin: 40px auto 80px;
+/* Quote / Guide：極簡框線 */
+.block{
+  margin-top: 18px;
+  border:1px solid var(--line);
+  padding: 18px 16px;
+}
+.block .lab{
+  font-family:var(--display);
+  font-style:italic;
+  letter-spacing:2px;
+  color:var(--muted);
+  font-size: 12px;
+}
+.block .txt{
+  margin-top: 10px;
+  line-height:2;
+  color:var(--ink);
+  opacity:.92;
+}
+.block .txt.muted{
+  color:var(--ink-weak);
 }
 
-/* Outer ornamental border */
-.gothic-frame {
-  border: none;
-  background: #000;
-  box-shadow: none;
-  position: relative;
+/* CTA */
+.cta{
+  margin-top: 14px;
+}
+.cta a{
+  display:block;
+  border:1px solid var(--ink);
+  color:var(--ink);
+  padding: 14px 16px;
+  text-decoration:none;
+  letter-spacing:1px;
+  transition: all .2s ease;
+}
+.cta a:hover{
+  background:var(--ink);
+  color:#000;
 }
 
-.gothic-frame::before,
-.gothic-frame::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: rgba(255,255,255,0.15);
+/* Footer stats */
+.stats{
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color:var(--muted);
+  line-height:1.9;
 }
+.stats strong{ color:var(--ink); }
 
-.gothic-frame::before {
-  left: 20px;
-}
+/* 動畫：微量 */
+@keyframes fadeUp{ from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+.in{ animation: fadeUp .35s ease both; }
 
-.gothic-frame::after {
-  right: 20px;
-}
-
-/* Four corner ornaments */
-.orn { position:absolute; width:28px; height:28px; z-index:5; }
-.orn-tl { top:-1px; left:-1px; border-top:1px solid rgba(220,220,220,0.6); border-left:1px solid rgba(220,220,220,0.6); }
-.orn-tr { top:-1px; right:-1px; border-top:1px solid rgba(220,220,220,0.6); border-right:1px solid rgba(220,220,220,0.6); }
-.orn-bl { bottom:-1px; left:-1px; border-bottom:1px solid rgba(220,220,220,0.6); border-left:1px solid rgba(220,220,220,0.6); }
-.orn-br { bottom:-1px; right:-1px; border-bottom:1px solid rgba(220,220,220,0.6); border-right:1px solid rgba(220,220,220,0.6); }
-
-/* Corner diamond */
-.orn::after {
-  content: '◆';
-  position: absolute;
-  font-size: 7px;
-  color: rgba(200,200,200,0.7);
-  opacity: 0.7;
-}
-.orn-tl::after { top:-4px; left:-4px; }
-.orn-tr::after { top:-4px; right:-4px; }
-.orn-bl::after { bottom:-4px; left:-4px; }
-.orn-br::after { bottom:-4px; right:-4px; }
-
-.card-inner { padding: 0 0 56px; }
-.card-content {
-  position: relative;
-}
-
-.card-content::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 40px;
-  bottom: 40px;
-  width: 1px;
-  background: rgba(255,255,255,0.15);
-}
-
-.card-content::after {
-  content: "";
-  position: absolute;
-  left: -4px;
-  top: 200px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #ffffff;
-}
-
-/* ══ TITLE BANNER ══ */
-.banner-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 2400/900;
-  overflow: hidden;
-}
-.banner-img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center center;
-  display: block;
-  filter: brightness(0.8) contrast(1.1) saturate(0.7);
-  transition: transform 0.8s ease;
-}
-.banner-wrap:hover .banner-img { transform: scale(1.03); }
-.banner-wrap::after {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none;
-  background:
-    linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 30%, transparent 50%, rgba(5,4,10,0.95) 100%),
-    linear-gradient(to right, rgba(5,4,10,0.4) 0%, transparent 20%, transparent 80%, rgba(5,4,10,0.4) 100%);
-}
-/* White/grey line below banner */
-.banner-wrap::before {
-  content: '';
-  position: absolute; bottom: 0; left: 0; right: 0; height: 1px; z-index: 3;
-  background: linear-gradient(90deg, transparent, rgba(200,200,200,0.3), rgba(220,220,220,0.6), rgba(200,200,200,0.3), transparent);
-}
-
-/* Banner overlay text/tag */
-.banner-sigil {
-  position: absolute; bottom: 22px; right: 24px; z-index: 4;
-  display: flex; align-items: center; gap: 8px;
-  color: rgba(200,200,200,0.7);
-  font-family: var(--display);
-  font-size: 0.78rem; letter-spacing: 4px;
-  text-transform: uppercase;
-  opacity: 0.85;
-}
-.banner-sigil::before {
-  content: '✦';
-  font-size: 0.65rem; color: rgba(200,200,200,0.7);
-  animation: sigil-pulse 3s ease-in-out infinite;
-}
-@keyframes sigil-pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.4;transform:scale(0.8);} }
-
-/* ══ SECTION HEADER ══ */
-.section-header {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 28px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(160,160,160,0.12);
-}
-.section-dot {
-  width: 6px; height: 6px;
-  background: rgba(200,200,200,0.8);
-  transform: rotate(45deg);
-  box-shadow: 0 0 6px rgba(200,200,200,0.3);
-  flex-shrink: 0;
-  animation: diamond-pulse 3s ease-in-out infinite;
-}
-@keyframes diamond-pulse { 0%,100%{opacity:1;box-shadow:0 0 6px rgba(200,200,200,0.3);} 50%{opacity:0.3;box-shadow:none;} }
-.section-label {
-  font-family: var(--display);
-  font-size: 0.78rem; letter-spacing: 5px;
-  color: var(--mist);
-  text-transform: uppercase;
-  font-style: italic;
-}
-.section-line { flex:1; height:1px; background:linear-gradient(90deg, rgba(160,160,160,0.12), transparent); }
-
-/* ══ ORNAMENTAL DIVIDER ══ */
-.orn-divider {
-  display: flex; align-items: center; gap: 0;
-  margin: 28px 0;
-  color: rgba(160,160,160,0.35);
-}
-.orn-divider::before, .orn-divider::after {
-  content: '';
-  flex: 1; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(160,160,160,0.25), transparent);
-}
-.orn-divider-center {
-  padding: 0 16px;
-  font-size: 0.7rem;
-  letter-spacing: 6px;
-  color: rgba(160,160,160,0.4);
-  font-family: var(--display);
-}
-
-/* ══ INTRO CONTENT ══ */
-h1.gothic-title {
-  font-family: var(--display);
-  font-size: 3rem;
-  letter-spacing: 4px;
-  margin-bottom: 16px;
-  font-weight: 400;
-  font-style: italic;
-  color: var(--bone);
-  text-align: center;
-  margin-bottom: 6px;
-  line-height: 1.3;
-  text-shadow: 0 0 40px rgba(255,255,255,0.06);
-}
-.title-en {
-  font-family: var(--display);
-  font-size: 1.3rem; letter-spacing: 2px;
-  color: var(--mist); opacity: 0.7;
-  text-align: center;
-  text-transform: uppercase;
-  margin-bottom: 28px;
-  font-style: italic;
-}
-
-p.intro-text {
-  color: var(--silver);
-  font-size: 1.05rem; line-height: 2;
-  margin-bottom: 12px;
-  font-weight: 300;
-  font-style: italic;
-}
-p.intro-text strong { color: var(--bone); font-weight: 600; font-style: normal; }
-
-/* ══ CTA START BUTTON ══ */
-.start-btn {
-  display: block;
-  width: fit-content;
-  margin: 8px auto 0;
-  position: relative;
-  padding: 16px 56px;
-  background: transparent;
-  color: var(--bone);
-  border: 1px solid rgba(200,200,200,0.25);
-  font-family: var(--display);
-  font-size: 1.1rem; letter-spacing: 6px;
-  font-style: italic;
-  cursor: pointer;
-  transition: all 0.5s ease;
-  overflow: hidden;
-}
-.start-btn::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.04), transparent);
-  opacity: 0; transition: opacity 0.5s;
-}
-.start-btn::after {
-  content: '';
-  position: absolute; bottom:0; left:15%; right:15%; height:1px;
-  background: linear-gradient(90deg, transparent, rgba(200,200,200,0.5), transparent);
-}
-.start-btn:hover {
-  color: #ffffff;
-  border-color: rgba(200,200,200,0.5);
-  box-shadow: 0 0 25px rgba(255,255,255,0.05);
-  letter-spacing: 8px;
-}
-.start-btn:hover::before { opacity:1; }
-
-/* Star ornaments beside button */
-.btn-wrap { display:flex; align-items:center; justify-content:center; gap:16px; }
-.btn-star { color:rgba(160,160,160,0.35); font-size:1.1rem; }
-
-/* ══ RESTART BUTTON ══ */
-.restart-btn {
-  display: block; width: fit-content; margin: 32px auto 0;
-  padding: 10px 32px;
-  background: transparent; color: var(--mist);
-  border: 1px solid rgba(80,72,72,0.4);
-  font-family: var(--display);
-  font-size: 0.85rem; letter-spacing: 4px; font-style: italic;
-  cursor: pointer; transition: all 0.4s;
-}
-.restart-btn:hover { color: var(--silver); border-color: rgba(184,154,82,0.3); }
-
-/* ══ PROGRESS ══ */
-.progress-wrap {
-  display: flex; gap: 6px;
-  margin-bottom: 32px;
-}
-.progress-seg {
-  flex: 1; height: 2px;
-  background: rgba(80,72,72,0.3);
-  position: relative; overflow: hidden;
-}
-.progress-seg::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(90deg, var(--gold), var(--crimson));
-  transform: scaleX(0); transform-origin: left;
-  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
-  box-shadow: 0 0 8px rgba(184,154,82,0.5);
-}
-.progress-seg.active::after { transform: scaleX(0.4); opacity: 0.5; }
-.progress-seg.done::after   { transform: scaleX(1); }
-
-.question-counter {
-  font-family: var(--display);
-  font-size: 0.78rem; letter-spacing: 6px;
-  color: var(--gold); opacity: 0.7;
-  text-align: center;
-  margin-bottom: 10px;
-  font-style: italic;
-}
-
-#question-text {
-  font-family: var(--display);
-  font-size: 1.2rem; line-height: 1.85;
-  color: var(--bone);
-  font-style: italic;
-  margin-bottom: 28px;
-  padding: 18px 20px;
-  border-left: 2px solid rgba(139,32,53,0.5);
-  background: rgba(91,16,32,0.06);
-  text-align: left;
-}
-
-/* ══ OPTIONS ══ */
-.option-btn {
-  display: flex; align-items: flex-start; gap: 16px;
-  width: 100%; padding: 16px 20px; margin: 8px 0;
-  background: rgba(5,4,10,0.6);
-  color: var(--silver);
-  border: 1px solid rgba(80,72,72,0.25);
-  cursor: pointer;
-  text-align: left;
-  font-family: var(--serif);
-  font-size: 1rem; line-height: 1.7;
-  font-style: italic;
-  transition: all 0.3s ease;
-  position: relative; overflow: hidden;
-}
-.option-btn::before {
-  content: '';
-  position: absolute; left: 0; top: 0; bottom: 0;
-  width: 0;
-  background: linear-gradient(90deg, rgba(139,32,53,0.15), transparent);
-  transition: width 0.4s ease;
-}
-.option-idx {
-  font-family: var(--display);
-  font-size: 0.85rem; letter-spacing: 2px;
-  color: rgba(184,154,82,0.5);
-  flex-shrink: 0; padding-top: 2px;
-  transition: color 0.3s; font-style: normal;
-}
-.option-btn:hover {
-  color: var(--bone);
-  border-color: rgba(139,32,53,0.4);
-  background: rgba(91,16,32,0.12);
-}
-.option-btn:hover::before { width: 100%; }
-.option-btn:hover .option-idx { color: var(--crimson); }
-.option-btn.selected {
-  color: var(--bone);
-  border-color: rgba(184,154,82,0.35);
-  background: rgba(91,16,32,0.18);
-}
-.option-btn.selected .option-idx { color: var(--gold); }
-.option-btn.selected::after {
-  content: '◆';
-  position: absolute; right: 16px; top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.5rem;
-  color: var(--gold); opacity: 0.7;
-}
-
-/* ══ RESULT IMAGE ══ */
-.result-img-wrap {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 3/4; max-height: 500px;
-  margin-bottom: 0;
-}
-.result-img {
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: top center;
-  display: block;
-  filter: brightness(0.85) contrast(1.1) saturate(0.8);
-}
-.result-img-wrap::after {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background:
-    linear-gradient(to bottom, transparent 40%, rgba(5,4,10,0.97) 100%),
-    linear-gradient(to right, rgba(5,4,10,0.3) 0%, transparent 15%, transparent 85%, rgba(5,4,10,0.3) 100%);
-}
-/* Gold border lines on result image */
-.result-img-wrap::before {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; z-index: 3;
-  background: linear-gradient(90deg, transparent, rgba(184,154,82,0.4), var(--gold), rgba(184,154,82,0.4), transparent);
-}
-
-/* ══ RESULT CONTENT ══ */
-.soul-eyebrow {
-  font-family: var(--display);
-  font-size: 0.72rem; letter-spacing: 6px;
-  color: var(--gold); opacity: 0.7;
-  text-align: center;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  font-style: italic;
-}
-.soul-name {
-  font-family: var(--display);
-  font-size: 1.9rem; font-weight: 400; font-style: italic;
-  color: var(--bone);
-  text-align: center;
-  letter-spacing: 2px; line-height: 1.2;
-  margin-bottom: 6px;
-  text-shadow: 0 0 30px rgba(184,154,82,0.2);
-}
-.soul-desc {
-  color: var(--silver);
-  font-size: 1.02rem; font-style: italic; line-height: 1.85;
-  padding: 14px 18px;
-  border-left: 2px solid rgba(139,32,53,0.4);
-  background: rgba(91,16,32,0.06);
-  margin-bottom: 28px;
-  text-align: left;
-}
-
-/* Compound bar */
-.compound-bar {
-  display: flex; align-items: stretch;
-  margin-bottom: 28px;
-  border: 1px solid rgba(184,154,82,0.12);
-  background: rgba(0,0,0,0.5);
-  overflow: hidden;
-}
-.compound-tag {
-  padding: 13px 16px;
-  background: rgba(184,154,82,0.07);
-  border-right: 1px solid rgba(184,154,82,0.12);
-  font-family: var(--display); font-size: 0.72rem;
-  letter-spacing: 3px; color: var(--mist);
-  flex-shrink: 0; display: flex; align-items: center;
-  font-style: italic;
-}
-.compound-val {
-  padding: 13px 18px;
-  font-family: var(--display); font-size: 0.9rem;
-  color: var(--silver); letter-spacing: 1px;
-  flex: 1; display: flex; align-items: center;
-  font-style: italic;
-}
-.compound-sep { color: rgba(184,154,82,0.3); padding: 0 10px; }
-
-/* Attribute seals (the 3 stats) */
-.seals-row {
-  display: grid; grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px; margin-bottom: 28px;
-}
-.seal {
-  position: relative;
-  background: rgba(0,0,0,0.6);
-  border: 1px solid rgba(80,72,72,0.3);
-  padding: 18px 12px 16px;
-  text-align: center; overflow: hidden;
-}
-.seal::before {
-  content: '';
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: var(--fill, 60%); opacity: 0.07;
-  transition: height 1.4s cubic-bezier(0.22,1,0.36,1);
-}
-.seal.danger   { border-color: rgba(139,32,53,0.3); }
-.seal.danger::before   { background: var(--crimson); }
-.seal.attr     { border-color: rgba(184,154,82,0.2); }
-.seal.attr::before     { background: var(--gold); }
-.seal.escape   { border-color: rgba(80,72,72,0.4); }
-.seal.escape::before   { background: var(--bone); }
-/* Top accent line */
-.seal::after {
-  content: '';
-  position: absolute; top: 0; left: 20%; right: 20%; height: 1px;
-  transition: background 0.5s;
-}
-.seal.danger::after  { background: linear-gradient(90deg, transparent, var(--crimson), transparent); }
-.seal.attr::after    { background: linear-gradient(90deg, transparent, var(--gold), transparent); }
-.seal.escape::after  { background: linear-gradient(90deg, transparent, var(--silver), transparent); }
-
-.seal-label {
-  font-family: var(--display); font-size: 0.68rem; letter-spacing: 2px;
-  color: var(--mist); margin-bottom: 8px;
-  text-transform: uppercase; font-style: italic;
-  position: relative; z-index: 1;
-}
-.seal-value {
-  font-family: var(--display); font-size: 1rem; letter-spacing: 1px;
-  position: relative; z-index: 1;
-  font-style: italic;
-}
-.seal.danger .seal-value  { color: var(--crimson); text-shadow: 0 0 12px rgba(192,41,46,0.3); }
-.seal.attr   .seal-value  { color: var(--gold-glow); text-shadow: 0 0 12px rgba(184,154,82,0.3); }
-.seal.escape .seal-value  { color: var(--silver); }
-
-/* Quote block */
-.quote-block {
-  position: relative;
-  padding: 24px 24px 24px 28px;
-  margin-bottom: 24px;
-  border: 1px solid rgba(80,72,72,0.2);
-  border-left: 3px solid rgba(139,32,53,0.5);
-  background: rgba(5,4,10,0.7);
-}
-.quote-block::before {
-  content: 'SUBJECT QUOTE';
-  position: absolute; top: -8px; left: 16px;
-  background: var(--abyss);
-  padding: 0 8px;
-  font-family: var(--display); font-size: 0.66rem;
-  letter-spacing: 4px; color: rgba(139,32,53,0.6);
-  font-style: italic;
-}
-.quote-label {
-  font-family: var(--display); font-size: 0.72rem; letter-spacing: 4px;
-  color: var(--crimson); opacity: 0.8;
-  margin-bottom: 10px; font-style: italic;
-}
-.quote-text {
-  font-family: var(--display);
-  color: var(--bone); font-size: 1.08rem;
-  line-height: 1.9; font-style: italic;
-}
-.quote-text::before { content: '\201C'; color: rgba(139,32,53,0.5); font-size: 1.5rem; line-height: 0; vertical-align: -0.4em; margin-right: 4px; }
-.quote-text::after  { content: '\201D'; color: rgba(139,32,53,0.5); font-size: 1.5rem; line-height: 0; vertical-align: -0.4em; margin-left: 4px; }
-
-/* Guide block */
-.guide-block {
-  position: relative;
-  padding: 24px 22px;
-  margin-bottom: 24px;
-  border: 1px solid rgba(80,72,72,0.15);
-  border-top: 1px solid rgba(184,154,82,0.18);
-  background: rgba(3,2,8,0.5);
-}
-.guide-block::before {
-  content: 'PROPHECY';
-  position: absolute; top: -8px; left: 16px;
-  background: var(--abyss);
-  padding: 0 8px;
-  font-family: var(--display); font-size: 0.66rem;
-  letter-spacing: 4px; color: rgba(184,154,82,0.45);
-  font-style: italic;
-}
-.guide-text {
-  color: var(--silver); font-size: 1.02rem; font-style: italic;
-  line-height: 1.9; margin-bottom: 20px;
-  font-family: var(--serif);
-}
-.cta-label {
-  font-family: var(--display); font-size: 0.72rem; letter-spacing: 4px;
-  color: var(--mist); margin-bottom: 8px;
-  font-style: italic;
-}
-.cta-btn {
-  display: block; width: 100%;
-  padding: 17px 24px;
-  background: rgba(0,0,0,0.7);
-  border: 1px solid rgba(184,154,82,0.25);
-  border-bottom: 2px solid rgba(184,154,82,0.4);
-  color: var(--gold);
-  text-decoration: none;
-  font-family: var(--display);
-  font-size: 0.95rem; letter-spacing: 4px; font-style: italic;
-  text-align: center;
-  transition: all 0.4s ease;
-  position: relative; overflow: hidden;
-}
-.cta-btn::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(184,154,82,0.06), transparent);
-  opacity: 0; transition: opacity 0.4s;
-}
-.cta-btn:hover {
-  color: var(--gold-glow);
-  border-color: rgba(184,154,82,0.5);
-  box-shadow: 0 0 25px rgba(184,154,82,0.1);
-}
-.cta-btn:hover::before { opacity: 1; }
-
-/* Stats footer */
-.stats-footer {
-  margin-top: 24px; padding: 16px 0 0;
-  border-top: 1px solid rgba(80,72,72,0.15);
-  font-family: var(--display); font-size: 0.9rem; font-style: italic;
-  color: var(--mist); line-height: 1.7;
-  text-align: left;
-}
-.stats-footer strong { color: var(--silver); font-style: normal; }
-
-/* ══ UTILS ══ */
-.hidden { display: none !important; }
-
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(20px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-.animate-in { animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) forwards; }
-
-/* Horizontal gold rule */
-.gold-rule {
-  width: 100%; height: 1px; margin: 32px 0;
-  background: linear-gradient(90deg, transparent, rgba(184,154,82,0.2), rgba(184,154,82,0.5), rgba(184,154,82,0.2), transparent);
-}
-
-/* Mobile */
-@media (max-width: 520px) {
-  .card-content { padding: 28px 20px 0; }
-  h1.gothic-title { font-size: 1.35rem; }
-  .seals-row { grid-template-columns: 1fr; }
-  .compound-val { font-size: 0.78rem; }
-  #question-text { font-size: 1.05rem; }
-  .option-btn { font-size: 0.92rem; }
+/* 小螢幕 */
+@media (max-width: 520px){
+  :root{
+    --content-pad: 22px;
+    --rail: 14px;
+  }
+  .topbar{ padding: 14px var(--content-pad); }
+  .brand-title{ font-size: 28px; }
+  .h1{ font-size: 38px; }
+  .subtitle{ font-size: 24px; }
+  .seals{ grid-template-columns: 1fr; }
+  .left-rail{ left: calc(var(--rail) + 12px); }
+  .left-rail-dot{ left: calc(var(--rail) + 8px); }
+  .star-cross{ right: calc(var(--rail) + 34px); width:72px;height:72px; top:140px; }
 }
 </style>
 </head>
+
 <body>
-
-<div class="bg-layer"></div>
-<div class="grain"></div>
-<canvas id="star-canvas"></canvas>
-<div class="vignette"></div>
-
 <div id="app">
-  <div class="gothic-frame">
-    <div class="orn orn-tl"></div>
-    <div class="orn orn-tr"></div>
-    <div class="orn orn-bl"></div>
-    <div class="orn orn-br"></div>
+  <div class="frame" id="frame">
+    <div class="corner-dots" aria-hidden="true">
+      <i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
+    </div>
 
-    <div class="card-inner">
+    <!-- 左側導線/圓點/裝飾 -->
+    <div class="left-rail" aria-hidden="true"></div>
+    <div class="left-rail-dot" aria-hidden="true"></div>
+    <div class="spark" aria-hidden="true">
+      <small></small>
+      <s></s><s></s><s></s>
+      <em></em>
+    </div>
 
-      <!-- ══ INTRO ══ -->
-      <div id="intro-screen">
-        <!-- Title banner full bleed -->
-        <div class="banner-wrap">
-          <img class="banner-img"
-               src="https://framerusercontent.com/images/U9tml45l5qnasVf4dveA1xGFc.png"
-               alt="故事另有結局">
-          <div class="banner-sigil">Dark Trait Analysis</div>
+    <!-- 右側底部雙圓點 -->
+    <div class="right-rail-dots" aria-hidden="true">
+      <b></b><b></b>
+    </div>
+
+    <!-- 右上十字星 -->
+    <div class="star-cross" aria-hidden="true"><i></i></div>
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-left">
+          <div class="brand-tag">暗黑童話BL合本</div>
+          <div class="brand-title">故事另有結局</div>
         </div>
+        <button class="burger" type="button" aria-label="menu" onclick="alert('Menu (demo)')">
+          <span><i></i></span>
+        </button>
+      </div>
+    </div>
 
-        <div class="card-content">
-          <div class="section-header" style="margin-top:32px;">
-            <div class="section-dot"></div>
-            <span class="section-label">Psychological Revelation</span>
-            <div class="section-line"></div>
-          </div>
+    <!-- INTRO -->
+    <section id="intro" class="section in">
+      <div class="h1">How will the story end this time?</div>
+      <div class="subtitle">你又會有怎樣的故事？</div>
 
-          <h1 class="gothic-title">故事另有結局</h1>
-          <div class="title-en">How will the story end this time?</div>
+      <div class="rule"></div>
 
-          <p class="intro-text">每個人心裡都藏著一個<strong>不能說出口的偏好</strong>。<br>有人嚮往溫柔，有人沉迷失控。<br>有人渴望被征服，有人其實想掌控一切。</p>
+      <p class="lead">
+        每個人心裡都藏著一個<strong>不能說出口的偏好</strong>。<br/>
+        有人嚮往溫柔，有人沉迷失控。<br/>
+        有人渴望被征服，有人其實想掌控一切。
+      </p>
 
-          <div class="orn-divider">
-            <div class="orn-divider-center">✦ · · · ✦</div>
-          </div>
+      <p class="lead" style="margin-top:14px;">
+        這是一場關於<strong>支配、臣服、算計與破壞</strong>的深層試煉。<br/>
+        請用直覺回答，別想太多。
+      </p>
 
-          <p class="intro-text">這是一場關於<strong>「支配、臣服、算計與破壞」</strong>的深層試煉。<br>請用直覺回答——別想太多。</p>
+      <div class="rule"></div>
 
-          <div class="gold-rule"></div>
+      <div class="btn-row">
+        <button class="btn" type="button" onclick="startQuiz()">墜入深淵</button>
+        <button class="btn mini" type="button" onclick="scrollTo(0,0)">返回頂部</button>
+      </div>
+    </section>
 
-          <div class="btn-wrap">
-            <span class="btn-star">✦</span>
-            <button class="start-btn" onclick="startQuiz()">墜入深淵</button>
-            <span class="btn-star">✦</span>
-          </div>
-        </div>
+    <!-- QUIZ -->
+    <section id="quiz" class="section" style="display:none;">
+      <div class="meta">
+        <div id="quiz-label">Question I of VIII</div>
+        <div id="quiz-hint">Choose by instinct</div>
       </div>
 
-      <!-- ══ QUIZ ══ -->
-      <div id="quiz-screen" class="hidden">
-        <div class="card-content">
-          <div class="section-header">
-            <div class="section-dot"></div>
-            <span class="section-label" id="quiz-label">Question I of VIII</span>
-            <div class="section-line"></div>
-          </div>
+      <div class="progress" id="progress"></div>
 
-          <div class="progress-wrap" id="progress-bar"></div>
-          <div class="question-counter" id="question-num">— I —</div>
-          <h2 id="question-text"></h2>
-          <div id="options-container"></div>
-        </div>
+      <div class="qno" id="qno">— I —</div>
+      <div class="qtext" id="qtext"></div>
+
+      <div class="options" id="options"></div>
+
+      <div class="btn-row" style="margin-top:18px;">
+        <button class="btn mini" type="button" onclick="location.reload()">重新開始</button>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="result" class="section" style="display:none;">
+      <div class="result-img-wrap in">
+        <img id="result-img" class="result-img" src="" alt="結果圖" />
       </div>
 
-      <!-- ══ RESULT ══ -->
-      <div id="result-screen" class="hidden">
-        <div class="result-img-wrap">
-          <img id="final-result-img" class="result-img" src="" alt="結果圖">
+      <div class="result-body in">
+        <div class="r-eyebrow">Soul Specimen Revealed</div>
+        <div class="r-name" id="r-name">【—】</div>
+        <div class="r-desc" id="r-desc"></div>
+
+        <div class="seals" id="seals"></div>
+
+        <div class="block">
+          <div class="lab">專屬台詞</div>
+          <div class="txt" id="r-quote"></div>
         </div>
 
-        <div class="card-content">
-          <div class="section-header" style="margin-top:32px;">
-            <div class="section-dot" style="background:var(--crimson);box-shadow:0 0 8px rgba(192,41,46,0.6);"></div>
-            <span class="section-label" style="color:rgba(192,41,46,0.7);">Soul Specimen Revealed</span>
-            <div class="section-line"></div>
-          </div>
+        <div class="block">
+          <div class="lab">Prophecy</div>
+          <div class="txt muted" id="r-guide"></div>
+          <div class="cta" id="r-cta"></div>
+        </div>
 
-          <div id="result-content"></div>
+        <div class="stats" id="stats">
+          ✦ 正在讀取深淵數據⋯
+        </div>
 
-          <div class="stats-footer" id="stats-content">
-            <span style="color:rgba(184,154,82,0.5);margin-right:8px;">✦</span>正在讀取深淵數據⋯
-          </div>
-          <button class="restart-btn" onclick="location.reload()">✦ Re-Enter the Abyss ✦</button>
+        <div class="btn-row" style="margin-top:18px;">
+          <button class="btn" type="button" onclick="location.reload()">Re-Enter</button>
+          <button class="btn mini" type="button" onclick="copyResult()">複製結果文字</button>
         </div>
       </div>
+    </section>
 
-    </div><!-- /card-inner -->
-  </div><!-- /gothic-frame -->
-</div><!-- /app -->
+  </div>
+</div>
 
 <script>
-/* ══ STARFIELD CANVAS ══ */
-(function(){
-  const cv = document.getElementById('star-canvas');
-  const cx = cv.getContext('2d');
-  let stars = [];
-  function resize(){ cv.width=innerWidth; cv.height=innerHeight; }
-  window.addEventListener('resize', resize); resize();
-
-  class Star {
-    constructor(rand){
-      this.reset(rand);
-    }
-    reset(rand){
-      this.x = Math.random()*cv.width;
-      this.y = rand ? Math.random()*cv.height : cv.height+2;
-      this.r = Math.random()*0.9+0.1;
-      this.vy = Math.random()*0.25+0.05;
-      this.vx = (Math.random()-0.5)*0.06;
-      this.a = Math.random()*0.35+0.03;
-      this.t = Math.random()*Math.PI*2;
-      // Mostly white/silver, occasional faint crimson
-      const roll = Math.random();
-      this.col = roll > 0.92 ? 'rgba(184,80,80,1)' :
-                 roll > 0.82 ? 'rgba(184,154,82,1)' :
-                               'rgba(220,210,200,1)';
-    }
-    update(){
-      this.y -= this.vy; this.x += this.vx; this.t += 0.012;
-      if(this.y < -2 || this.x < -2 || this.x > cv.width+2) this.reset(false);
-    }
-    draw(){
-      cx.globalAlpha = this.a*(0.7+0.3*Math.sin(this.t));
-      cx.fillStyle = this.col;
-      cx.beginPath(); cx.arc(this.x,this.y,this.r,0,Math.PI*2); cx.fill();
-    }
-  }
-
-  function init(){
-    stars=[];
-    const n = Math.floor((cv.width*cv.height)/9000);
-    for(let i=0;i<n;i++) stars.push(new Star(true));
-  }
-  function loop(){
-    cx.clearRect(0,0,cv.width,cv.height); cx.globalAlpha=1;
-    stars.forEach(s=>{s.update();s.draw();}); cx.globalAlpha=1;
-    requestAnimationFrame(loop);
-  }
-  init(); loop();
-  window.addEventListener('resize',()=>{resize();init();});
-})();
-
-/* ══ DATA ══ */
+/* ========= DATA ========= */
 const GAS_URL = "在此貼上你的_GAS_網址";
 const AXES = ["dom","sub","control","manip","chaos","devotion"];
 
@@ -893,7 +774,6 @@ const resultsData = {
   }
 };
 
-/* ══ QUESTIONS (8題) ══ */
 const questions = [
   {
     text:"凌晨三點，你在陌生的昏暗房間醒來。你第一個念頭是：",
@@ -970,189 +850,201 @@ const questions = [
 ];
 
 const ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
-const LABELS = ['A','B','C','D'];
+
+/* ========= STATE ========= */
 let qi = 0;
 let axesScore = {};
-AXES.forEach(k => axesScore[k]=0);
+AXES.forEach(k => axesScore[k] = 0);
 
-/* ══ UI FLOW ══ */
-function startQuiz() {
-  document.getElementById('intro-screen').classList.add('hidden');
-  const qs = document.getElementById('quiz-screen');
-  qs.classList.remove('hidden');
-  qs.classList.add('animate-in');
-  // Build 8 progress segments
-  const pb = document.getElementById('progress-bar');
-  pb.innerHTML = '';
+/* ========= UI ========= */
+const elIntro  = document.getElementById('intro');
+const elQuiz   = document.getElementById('quiz');
+const elResult = document.getElementById('result');
+
+const elProgress = document.getElementById('progress');
+const elLabel    = document.getElementById('quiz-label');
+const elQno      = document.getElementById('qno');
+const elQtext    = document.getElementById('qtext');
+const elOptions  = document.getElementById('options');
+
+function startQuiz(){
+  elIntro.style.display = 'none';
+  elResult.style.display = 'none';
+  elQuiz.style.display = 'block';
+  elQuiz.classList.add('in');
+
+  qi = 0;
+  AXES.forEach(k => axesScore[k] = 0);
+
+  // build progress
+  elProgress.innerHTML = '';
   for(let i=0;i<questions.length;i++){
-    const seg = document.createElement('div');
-    seg.className = 'progress-seg';
-    pb.appendChild(seg);
+    const d = document.createElement('div');
+    d.className = 'seg';
+    elProgress.appendChild(d);
   }
-  qi=0; AXES.forEach(k=>axesScore[k]=0);
+
   showQuestion();
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 function updateProgress(){
-  const segs = document.querySelectorAll('.progress-seg');
-  segs.forEach((s,i)=>{
-    s.classList.remove('active','done');
-    if(i<qi) s.classList.add('done');
-    else if(i===qi) s.classList.add('active');
+  const segs = document.querySelectorAll('.seg');
+  segs.forEach((s, idx) => {
+    s.classList.remove('done','active');
+    if(idx < qi) s.classList.add('done');
+    else if(idx === qi) s.classList.add('active');
   });
-  document.getElementById('quiz-label').textContent = `Question ${ROMAN[qi]} of ${ROMAN[questions.length-1]}`;
-  document.getElementById('question-num').textContent = `— ${ROMAN[qi]} —`;
+
+  elLabel.textContent = `Question ${ROMAN[qi]} of ${ROMAN[questions.length-1]}`;
+  elQno.textContent = `— ${ROMAN[qi]} —`;
 }
 
 function showQuestion(){
   updateProgress();
   const q = questions[qi];
-  const qt = document.getElementById('question-text');
-  qt.style.opacity='0'; qt.textContent = q.text;
-  setTimeout(()=>{qt.style.transition='opacity 0.5s'; qt.style.opacity='1';}, 20);
 
-  const c = document.getElementById('options-container');
-  c.innerHTML = '';
-  q.options.forEach((opt,i)=>{
+  elQtext.textContent = q.text;
+
+  elOptions.innerHTML = '';
+  q.options.forEach((opt) => {
     const btn = document.createElement('button');
-    btn.className = 'option-btn';
-    btn.style.opacity='0'; btn.style.transform='translateY(12px)';
-    btn.innerHTML = `<span class="option-idx">${LABELS[i]}.</span><span>${opt.text}</span>`;
+    btn.className = 'opt';
+    btn.type = 'button';
+    btn.innerHTML = `<span class="bullet"></span><span class="txt">${opt.text}</span>`;
     btn.onclick = () => pick(opt.add, btn);
-    c.appendChild(btn);
-    setTimeout(()=>{
-      btn.style.transition='opacity 0.45s ease, transform 0.45s ease, all 0.3s ease';
-      btn.style.opacity='1'; btn.style.transform='translateY(0)';
-    }, 80+i*90);
+    elOptions.appendChild(btn);
   });
 }
 
 function addAxisScores(obj){
   for(const k in obj){
-    if(!Object.prototype.hasOwnProperty.call(axesScore,k)) continue;
-    axesScore[k]+=obj[k];
+    if(Object.prototype.hasOwnProperty.call(axesScore, k)){
+      axesScore[k] += obj[k];
+    }
   }
 }
 
 function pick(addObj, btn){
-  document.querySelectorAll('.option-btn').forEach(b=>{
-    b.style.pointerEvents='none'; b.style.opacity='0.4';
-  });
-  btn.classList.add('selected'); btn.style.opacity='1';
+  // lock
+  document.querySelectorAll('.opt').forEach(b => b.disabled = true);
+  btn.classList.add('selected');
   addAxisScores(addObj);
-  setTimeout(()=>{ qi++; qi<questions.length ? showQuestion() : showResult(); }, 400);
+
+  setTimeout(()=>{
+    qi++;
+    if(qi < questions.length) showQuestion();
+    else showResult();
+  }, 260);
 }
 
-/* ══ RESULT LOGIC ══ */
+/* ========= RESULT LOGIC ========= */
 function determineResultKey(){
   const {dom,sub,control,manip,chaos,devotion} = axesScore;
   const diff = dom-sub;
-  const stance = diff>=2?"dom":diff<=-2?"sub":"switch";
-  const secondary = [{k:"control",v:control},{k:"manip",v:manip},{k:"chaos",v:chaos},{k:"devotion",v:devotion}]
-    .sort((a,b)=>b.v-a.v)[0].k;
-  const veryChaos=chaos>=7, veryControl=control>=7, veryManip=manip>=7, veryDevotion=devotion>=7;
+  const stance = diff>=2 ? "dom" : diff<=-2 ? "sub" : "switch";
+  const secondary = [
+    {k:"control",v:control},{k:"manip",v:manip},{k:"chaos",v:chaos},{k:"devotion",v:devotion}
+  ].sort((a,b)=>b.v-a.v)[0].k;
 
-  if(veryChaos&&sub>=dom)  return "病態攻 × 斯德哥爾摩受";
-  if(veryChaos&&dom>sub)   return "無情獸群攻 × 自毀抹布受";
-  if(veryManip||(secondary==="manip"&&manip>=5)) return "腹黑勢利攻 × 卑劣淫蕩受";
-  if(veryControl||(secondary==="control"&&control>=5)){
-    if(stance==="sub"||devotion>=6) return "佔有囚禁攻 × 自願沉淪受";
+  const veryChaos = chaos>=7, veryControl=control>=7, veryManip=manip>=7, veryDevotion=devotion>=7;
+
+  if(veryChaos && sub>=dom)  return "病態攻 × 斯德哥爾摩受";
+  if(veryChaos && dom>sub)   return "無情獸群攻 × 自毀抹布受";
+  if(veryManip || (secondary==="manip" && manip>=5)) return "腹黑勢利攻 × 卑劣淫蕩受";
+  if(veryControl || (secondary==="control" && control>=5)){
+    if(stance==="sub" || devotion>=6) return "佔有囚禁攻 × 自願沉淪受";
     if(chaos>=5) return "黑化掠奪攻 × 清冷自持受";
     return "陰鬱偏執攻 × 陽光直男受";
   }
-  if(veryDevotion||(secondary==="devotion"&&devotion>=5)){
+  if(veryDevotion || (secondary==="devotion" && devotion>=5)){
     if(stance==="dom") return "二哈黑龍攻 × 人妻王子受";
     return "佔有囚禁攻 × 自願沉淪受";
   }
-  if(stance==="dom"){ return chaos>=5?"暴力黑獅攻 × 冰山白神攻":"陰鬱偏執攻 × 陽光直男受"; }
-  if(stance==="sub"){ return control>=4?"偏執瘋子攻 × 廢物美人受":"放蕩影子攻 × 禁慾學者受"; }
-  return chaos>=5?"暴力黑獅攻 × 冰山白神攻":"放蕩影子攻 × 禁慾學者受";
+  if(stance==="dom") return chaos>=5 ? "暴力黑獅攻 × 冰山白神攻" : "陰鬱偏執攻 × 陽光直男受";
+  if(stance==="sub") return control>=4 ? "偏執瘋子攻 × 廢物美人受" : "放蕩影子攻 × 禁慾學者受";
+  return chaos>=5 ? "暴力黑獅攻 × 冰山白神攻" : "放蕩影子攻 × 禁慾學者受";
 }
 
 function showResult(){
-  document.getElementById('quiz-screen').classList.add('hidden');
-  const rs = document.getElementById('result-screen');
-  rs.classList.remove('hidden'); rs.classList.add('animate-in');
+  elQuiz.style.display = 'none';
+  elIntro.style.display = 'none';
+  elResult.style.display = 'block';
+  elResult.classList.add('in');
 
   const key = determineResultKey();
-  const r   = resultsData[key];
-  document.getElementById('final-result-img').src = r.image;
+  const r = resultsData[key];
 
-  const parts = key.split(' × ');
-  document.getElementById('result-content').innerHTML = `
-    <div class="soul-eyebrow">✦ Soul Archetype Revealed ✦</div>
-    <div class="soul-name">【${r.soulName}】</div>
-    <div class="soul-desc">${r.soulDesc}</div>
+  document.getElementById('result-img').src = r.image;
+  document.getElementById('r-name').textContent = `【${r.soulName}】`;
+  document.getElementById('r-desc').textContent = r.soulDesc;
+  document.getElementById('r-quote').textContent = r.quote;
+  document.getElementById('r-guide').textContent = r.guide;
 
-    <div class="compound-bar">
-      <div class="compound-tag">Compound</div>
-      <div class="compound-val">
-        ${parts[0]}<span class="compound-sep">×</span>${parts[1]||''}
-      </div>
+  // seals
+  const seals = document.getElementById('seals');
+  seals.innerHTML = `
+    <div class="seal" style="--fill:${r.dangerFill}">
+      <div class="lab">危險指數</div>
+      <div class="val">${r.danger}</div>
     </div>
-
-    <div class="seals-row">
-      <div class="seal danger" style="--fill:${r.dangerFill}">
-        <div class="seal-label">危險指數</div>
-        <div class="seal-value">${r.danger}</div>
-      </div>
-      <div class="seal attr" style="--fill:${r.attrFill}">
-        <div class="seal-label">${r.attr}</div>
-        <div class="seal-value">${r.attrVal}</div>
-      </div>
-      <div class="seal escape">
-        <div class="seal-label">逃脫機率</div>
-        <div class="seal-value">${r.escape}</div>
-      </div>
+    <div class="seal" style="--fill:${r.attrFill}">
+      <div class="lab">${r.attr}</div>
+      <div class="val">${r.attrVal}</div>
     </div>
-
-    <div class="quote-block">
-      <div class="quote-label">✦ 專屬台詞</div>
-      <div class="quote-text">${r.quote}</div>
-    </div>
-
-    <div class="guide-block">
-      <div class="guide-text">${r.guide}</div>
-      <div class="cta-label">✦ Fate Compound · 宿命調配</div>
-      <a href="${r.link}" target="_blank" class="cta-btn">
-        ▷ 解鎖你的故事樣本：${r.bookName}
-      </a>
+    <div class="seal" style="--fill:30%">
+      <div class="lab">逃脫機率</div>
+      <div class="val">${r.escape}</div>
     </div>
   `;
 
-  // Trigger fill animation
-  setTimeout(()=>{
-    document.querySelectorAll('.seal').forEach(s=>{
-      s.style.setProperty('--fill', s.style.getPropertyValue('--fill')||'60%');
-    });
-  }, 100);
+  // CTA
+  const cta = document.getElementById('r-cta');
+  cta.innerHTML = `
+    <a href="${r.link}" target="_blank" rel="noopener">
+      ▷ 解鎖你的故事樣本：${r.bookName}
+    </a>
+  `;
 
+  // stats
   sendStats(key);
+
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 function sendStats(key){
+  const stats = document.getElementById('stats');
   if(GAS_URL==="在此貼上你的_GAS_網址"){
-    document.getElementById('stats-content').innerHTML =
-      '<span style="color:rgba(184,154,82,0.5);margin-right:8px;">✦</span>尚未串接資料庫，僅顯示本地結果。';
+    stats.textContent = "✦ 尚未串接資料庫，僅顯示本地結果。";
     return;
   }
   fetch(`${GAS_URL}?result=${encodeURIComponent(key)}`)
     .then(r=>r.json())
     .then(data=>{
       if(data.status==="success"){
-        const uc=data.stats[key]||1;
-        const pct=((uc/data.total)*100).toFixed(1);
-        document.getElementById('stats-content').innerHTML=`
-          <span style="color:rgba(184,154,82,0.5);margin-right:8px;">✦</span>
-          目前共有 <strong>${data.total}</strong> 個靈魂墜入深淵。
-          與你同類的人約佔 <strong style="color:var(--gold-glow)">${pct}%</strong>。
-        `;
+        const uc = data.stats[key] || 1;
+        const pct = ((uc/data.total)*100).toFixed(1);
+        stats.innerHTML = `✦ 目前共有 <strong>${data.total}</strong> 個靈魂墜入深淵。與你同類的人約佔 <strong>${pct}%</strong>。`;
+      } else {
+        stats.textContent = "✦ 數據讀取失敗，但深淵已記住你的選擇。";
       }
     })
     .catch(()=>{
-      document.getElementById('stats-content').innerHTML=
-        '<span style="color:var(--mist);">數據讀取失敗，但深淵已記住你的選擇。</span>';
+      stats.textContent = "✦ 數據讀取失敗，但深淵已記住你的選擇。";
     });
+}
+
+/* ========= UTIL ========= */
+function copyResult(){
+  const name = document.getElementById('r-name').textContent || '';
+  const desc = document.getElementById('r-desc').textContent || '';
+  const quote = document.getElementById('r-quote').textContent || '';
+  const text = `${name}\n${desc}\n\n「${quote}」`;
+  navigator.clipboard.writeText(text).then(()=>{
+    alert('已複製結果文字');
+  }).catch(()=>{
+    alert('複製失敗，請手動複製');
+  });
 }
 </script>
 </body>
