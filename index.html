@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>深淵迴響｜黑暗特質心理測驗</title>
+    <title>故事另有結局｜黑暗特質心理測驗</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&family=Cinzel:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
@@ -103,56 +103,54 @@
         @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
         .top-bar-label {
             font-family: var(--mono);
-            font-size: 0.78rem; letter-spacing: 3px;
+            font-size: 0.88rem; letter-spacing: 3px;
             color: var(--muted);
         }
         .top-bar-line { flex:1; height:1px; background: linear-gradient(90deg, rgba(79,172,254,0.18), transparent); }
 
-        /* ══ COVER IMAGE — vertical portrait fix ══ */
+        /* ══ COVER IMAGE — landscape 16:9, full bleed ══ */
         .cover-wrap {
             position: relative;
-            margin-bottom: 30px;
-            border-radius: 2px;
+            /* Pull out of card-inner padding to bleed edge-to-edge */
+            margin: -38px -44px 36px -44px;
             overflow: hidden;
-            /* Force portrait: 4:5 ratio shows top portion of tall image */
-            aspect-ratio: 4 / 5;
-            max-height: 520px;
+            aspect-ratio: 16 / 9;
         }
         .cover-img {
             width: 100%; height: 100%;
             object-fit: cover;
-            object-position: top center;
+            object-position: 50% 50%;
             display: block;
-            filter: brightness(0.92) saturate(1.15) contrast(1.05);
-            transition: transform 0.6s ease;
+            filter: brightness(0.88) saturate(1.2) contrast(1.05);
+            transition: transform 0.7s ease;
         }
-        .cover-wrap:hover .cover-img { transform: scale(1.02); }
+        .cover-wrap:hover .cover-img { transform: scale(1.03); }
 
         /* Bottom gradient fade */
         .cover-wrap::after {
             content: '';
             position: absolute; inset: 0;
             background:
-                linear-gradient(to bottom, rgba(2,8,16,0.15) 0%, transparent 30%, transparent 55%, rgba(2,8,16,0.85) 100%),
-                linear-gradient(to right, rgba(2,8,16,0.3) 0%, transparent 20%, transparent 80%, rgba(2,8,16,0.3) 100%);
+                linear-gradient(to bottom, rgba(2,8,16,0.05) 0%, transparent 25%, transparent 50%, rgba(2,8,16,0.9) 100%),
+                linear-gradient(to right, rgba(2,8,16,0.25) 0%, transparent 15%, transparent 85%, rgba(2,8,16,0.25) 100%);
             pointer-events: none;
         }
         .cover-tag {
-            position: absolute; bottom: 20px; left: 0; z-index: 2;
-            background: rgba(6,16,36,0.75);
+            position: absolute; bottom: 22px; left: 0; z-index: 2;
+            background: rgba(6,16,36,0.78);
             border: 1px solid rgba(79,172,254,0.45);
             border-left: none;
             color: var(--blue);
             font-family: var(--mono);
-            font-size: 0.75rem; letter-spacing: 4px;
-            padding: 6px 16px 6px 20px;
-            backdrop-filter: blur(8px);
+            font-size: 0.8rem; letter-spacing: 4px;
+            padding: 8px 20px 8px 22px;
+            backdrop-filter: blur(10px);
         }
         .cover-tag::before {
             content: '';
             position: absolute; left: 0; top: 0; bottom: 0;
             width: 3px; background: var(--blue);
-            box-shadow: 0 0 8px var(--blue);
+            box-shadow: 0 0 10px var(--blue);
         }
 
         /* Result image — same portrait ratio */
@@ -181,8 +179,8 @@
         /* ══ TITLES ══ */
         h1 {
             font-family: 'Cinzel', serif;
-            font-size: 2.1rem; font-weight: 700;
-            letter-spacing: 8px;
+            font-size: 2.6rem; font-weight: 700;
+            letter-spacing: 10px;
             color: #fff;
             text-shadow: 0 0 25px rgba(79,172,254,0.7), 0 0 60px rgba(79,172,254,0.2);
             margin-bottom: 22px;
@@ -192,7 +190,7 @@
         /* ══ BODY TEXT ══ */
         p.intro {
             color: #a8c8e8;
-            font-size: 1rem; line-height: 2;
+            font-size: 1.1rem; line-height: 2.1;
             margin-bottom: 14px;
             font-weight: 300;
         }
@@ -216,7 +214,7 @@
             color: var(--blue);
             border: 1px solid rgba(79,172,254,0.45);
             font-family: 'Cinzel', serif;
-            font-size: 0.95rem; letter-spacing: 5px;
+            font-size: 1.05rem; letter-spacing: 5px;
             cursor: pointer;
             transition: all 0.4s ease;
             overflow: hidden;
@@ -244,7 +242,7 @@
             background: transparent; color: var(--dim);
             border: 1px solid rgba(74,106,138,0.3);
             font-family: var(--mono);
-            font-size: 0.82rem; letter-spacing: 3px;
+            font-size: 0.9rem; letter-spacing: 3px;
             cursor: pointer; transition: all 0.3s;
         }
         .restart-btn:hover { color: var(--muted); border-color: var(--muted); }
@@ -268,22 +266,22 @@
 
         .question-num {
             font-family: var(--mono);
-            font-size: 0.85rem; letter-spacing: 4px;
+            font-size: 1rem; letter-spacing: 4px;
             color: var(--blue); margin-bottom: 12px;
             text-align: center;
         }
         #question-text {
-            font-size: 1.08rem; line-height: 1.85;
+            font-size: 1.18rem; line-height: 1.9;
             color: var(--text); font-weight: 400;
             margin-bottom: 26px;
-            padding: 14px 16px;
+            padding: 16px 18px;
             border-left: 2px solid rgba(79,172,254,0.5);
             background: rgba(79,172,254,0.03);
         }
 
         .option-btn {
             display: flex; align-items: flex-start; gap: 14px;
-            width: 100%; padding: 15px 18px;
+            width: 100%; padding: 17px 20px;
             margin: 9px 0;
             background: rgba(3,10,24,0.7);
             color: #a8c4e0;
@@ -292,11 +290,11 @@
             cursor: pointer; transition: all 0.28s ease;
             text-align: left;
             font-family: 'Noto Serif TC', serif;
-            font-size: 0.96rem; line-height: 1.65;
+            font-size: 1.05rem; line-height: 1.7;
             position: relative; overflow: hidden;
         }
         .option-idx {
-            font-family: var(--mono); font-size: 0.85rem;
+            font-family: var(--mono); font-size: 0.95rem;
             color: var(--dim); flex-shrink: 0; padding-top: 2px;
             transition: color 0.28s;
         }
@@ -310,27 +308,27 @@
         /* Lab header */
         .lab-header {
             font-family: var(--mono);
-            font-size: 0.78rem; letter-spacing: 4px;
+            font-size: 0.9rem; letter-spacing: 4px;
             color: var(--teal);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             display: flex; align-items: center; gap: 8px;
         }
         .lab-header::before {
-            content: '⬡'; font-size: 0.95rem; color: var(--teal);
+            content: '⬡'; font-size: 1.05rem; color: var(--teal);
         }
 
         .result-soul-name {
             font-family: 'Cinzel', serif;
-            font-size: 1.75rem; font-weight: 700;
+            font-size: 2rem; font-weight: 700;
             color: var(--cyan);
             text-shadow: 0 0 25px rgba(0,242,254,0.5), 0 0 50px rgba(0,242,254,0.15);
             letter-spacing: 3px; line-height: 1.2;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         .result-soul-desc {
-            color: #a0c4e0; font-size: 0.98rem;
-            font-style: italic; line-height: 1.7;
-            padding: 10px 14px;
+            color: #a0c4e0; font-size: 1.08rem;
+            font-style: italic; line-height: 1.75;
+            padding: 12px 16px;
             border-left: 2px solid rgba(0,212,170,0.4);
             background: rgba(0,212,170,0.04);
             margin-bottom: 28px;
@@ -347,14 +345,14 @@
         .formula-label {
             background: rgba(79,172,254,0.1);
             border-right: 1px solid rgba(79,172,254,0.15);
-            padding: 10px 14px;
-            font-family: var(--mono); font-size: 0.75rem;
+            padding: 12px 16px;
+            font-family: var(--mono); font-size: 0.85rem;
             letter-spacing: 2px; color: var(--muted);
             flex-shrink: 0;
         }
         .formula-value {
-            padding: 10px 16px;
-            font-family: var(--mono); font-size: 0.85rem;
+            padding: 12px 18px;
+            font-family: var(--mono); font-size: 0.95rem;
             color: var(--blue); letter-spacing: 2px;
             flex: 1;
         }
@@ -407,13 +405,13 @@
         @keyframes bubble { 0%,100%{bottom:6px;opacity:0.6;} 50%{bottom:12px;opacity:0.9;} }
 
         .vial-label {
-            font-family: var(--mono); font-size: 0.68rem;
+            font-family: var(--mono); font-size: 0.78rem;
             letter-spacing: 2px; color: var(--dim);
             margin-bottom: 8px; text-transform: uppercase;
             position: relative; z-index: 1;
         }
         .vial-value {
-            font-family: var(--mono); font-size: 0.95rem;
+            font-family: var(--mono); font-size: 1.05rem;
             letter-spacing: 1px;
             position: relative; z-index: 1;
         }
@@ -435,17 +433,17 @@
             position: absolute; top: -9px; left: 14px;
             background: var(--deep);
             padding: 0 8px;
-            font-family: var(--mono); font-size: 0.68rem;
+            font-family: var(--mono); font-size: 0.78rem;
             letter-spacing: 3px; color: var(--teal);
         }
         .analysis-label {
-            font-family: var(--mono); font-size: 0.75rem;
+            font-family: var(--mono); font-size: 0.85rem;
             letter-spacing: 3px; color: var(--teal);
-            margin-bottom: 10px; opacity: 0.8;
+            margin-bottom: 12px; opacity: 0.9;
         }
         .analysis-text {
-            color: #daeeff; font-size: 1rem;
-            line-height: 1.85; font-style: italic;
+            color: #daeeff; font-size: 1.1rem;
+            line-height: 1.9; font-style: italic;
         }
         /* Typewriter cursor blink */
         .analysis-text::after {
@@ -470,12 +468,12 @@
             position: absolute; top: -9px; left: 14px;
             background: var(--deep);
             padding: 0 8px;
-            font-family: var(--mono); font-size: 0.68rem;
+            font-family: var(--mono); font-size: 0.78rem;
             letter-spacing: 3px; color: var(--muted);
         }
         .reaction-guide {
-            color: #b0cfec; font-size: 0.96rem;
-            line-height: 1.85; margin-bottom: 18px;
+            color: #b0cfec; font-size: 1.05rem;
+            line-height: 1.9; margin-bottom: 20px;
         }
 
         /* CTA button — styled like a sealed specimen container */
@@ -488,7 +486,7 @@
             color: var(--blue);
             text-decoration: none;
             font-family: var(--mono);
-            font-size: 0.9rem; letter-spacing: 3px;
+            font-size: 1rem; letter-spacing: 3px;
             text-align: center;
             transition: all 0.35s ease;
             position: relative; overflow: hidden;
@@ -502,8 +500,8 @@
         }
         .specimen-btn:hover { color: #fff; border-color: var(--blue); --hover-w: 100%; box-shadow: 0 0 30px rgba(79,172,254,0.2); }
         .specimen-btn-label {
-            font-size: 0.75rem; letter-spacing: 2px;
-            color: var(--dim); margin-bottom: 4px;
+            font-size: 0.85rem; letter-spacing: 2px;
+            color: var(--dim); margin-bottom: 6px;
             font-family: var(--mono);
         }
 
@@ -511,7 +509,7 @@
         .stats-footer {
             margin-top: 26px; padding: 16px 0 0;
             border-top: 1px solid rgba(79,172,254,0.08);
-            font-family: var(--mono); font-size: 0.9rem;
+            font-family: var(--mono); font-size: 0.98rem;
             color: var(--muted); line-height: 1.7;
         }
         .stats-footer strong { color: var(--text); }
@@ -542,10 +540,10 @@
 
         /* Mobile */
         @media (max-width: 500px) {
-            .card-inner { padding: 28px 24px 40px; }
-            h1 { font-size: 1.6rem; letter-spacing: 5px; }
+            .card-inner { padding: 28px 22px 40px; }
+            .cover-wrap { margin: -28px -22px 28px -22px; aspect-ratio: 4/3; }
+            h1 { font-size: 1.7rem; letter-spacing: 5px; }
             .vials-row { grid-template-columns: 1fr; }
-            .cover-wrap { aspect-ratio: 3/4; }
         }
     </style>
 </head>
@@ -644,35 +642,39 @@ let pts = [];
 function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
 window.addEventListener('resize', resize); resize();
 class P {
-    constructor() { this.reset(true); }
-    reset(rand) {
-        this.x = Math.random() * canvas.width;
-        this.y = rand ? Math.random() * canvas.height : canvas.height + 4;
-        this.r = Math.random() * 1.3 + 0.2;
-        this.vy = Math.random() * 0.5 + 0.15;
-        this.vx = (Math.random() - 0.5) * 0.15;
-        this.a = Math.random() * 0.5 + 0.05;
-        this.t = Math.random() * Math.PI * 2;
-        this.col = Math.random() > 0.85 ? '#00d4aa' : (Math.random() > 0.7 ? '#00f2fe' : '#4facfe');
-    }
-    update() {
-        this.y -= this.vy; this.x += this.vx;
-        this.t += 0.018;
-        if (this.y < -4 || this.x < -4 || this.x > canvas.width+4) this.reset(false);
-    }
-    draw() {
-        ctx.globalAlpha = this.a * (0.75 + 0.25 * Math.sin(this.t));
-        ctx.fillStyle = this.col;
-        ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI*2); ctx.fill();
-    }
+  constructor() { this.reset(true); }
+  reset(rand) {
+    this.x = Math.random() * canvas.width;
+    this.y = rand ? Math.random() * canvas.height : canvas.height + 4;
+    this.r = Math.random() * 1.3 + 0.2;
+    this.vy = Math.random() * 0.5 + 0.15;
+    this.vx = (Math.random() - 0.5) * 0.15;
+    this.a = Math.random() * 0.5 + 0.05;
+    this.t = Math.random() * Math.PI * 2;
+    this.col = Math.random() > 0.85 ? '#00d4aa' : (Math.random() > 0.7 ? '#00f2fe' : '#4facfe');
+  }
+  update() {
+    this.y -= this.vy; this.x += this.vx;
+    this.t += 0.018;
+    if (this.y < -4 || this.x < -4 || this.x > canvas.width + 4) this.reset(false);
+  }
+  draw() {
+    ctx.globalAlpha = this.a * (0.75 + 0.25 * Math.sin(this.t));
+    ctx.fillStyle = this.col;
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); ctx.fill();
+  }
 }
-function init() { pts = []; const n = (canvas.width * canvas.height) / 6500; for(let i=0;i<n;i++) pts.push(new P()); }
+function init() {
+  pts = [];
+  const n = (canvas.width * canvas.height) / 6500;
+  for (let i = 0; i < n; i++) pts.push(new P());
+}
 function loop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.globalAlpha = 1;
-    pts.forEach(p => { p.update(); p.draw(); });
-    ctx.globalAlpha = 1;
-    requestAnimationFrame(loop);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.globalAlpha = 1;
+  pts.forEach(p => { p.update(); p.draw(); });
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(loop);
 }
 init(); loop();
 window.addEventListener('resize', init);
@@ -680,285 +682,428 @@ window.addEventListener('resize', init);
 /* ══ DATA ══ */
 const GAS_URL = "在此貼上你的_GAS_網址";
 
+/**
+ * 軸線說明（你不用顯示給玩家，只是內部計分）
+ * dom       支配/主導
+ * sub       臣服/受控
+ * control   控制/圈養/囚禁傾向
+ * manip     算計/利益/操控
+ * chaos     暴力/自毀/破壞（含「兩敗俱傷」「把人弄壞」）
+ * devotion  依附/忠誠/把對方當唯一
+ */
+const AXES = ["dom","sub","control","manip","chaos","devotion"];
+
 const resultsData = {
-    "陰鬱偏執攻 × 陽光直男受": {
-        image: "https://framerusercontent.com/images/Vv3w38hhKWgg2M57VkjWv4OOro.png",
-        soulName: "陽光直男受", soulDesc: "你越是向著光，他越想將你拉入深淵。",
-        danger: "▮▮▮▮▮", dangerFill:"100%", attr: "寵溺指數", attrVal: "▮▮▮▮▯", attrFill:"80%", escape: "0%",
-        quote: "你對每個人都這麼笑嗎？沒關係……我會把你藏起來，以後你只能對我一個人笑。",
-        guide: "你的光芒是他唯一的救贖，卻也是逼瘋他的毒藥。想知道你們將如何在這場偏執的愛中互相折磨與救贖？",
-        bookName: "填入小說書名1", link: "https://early-marketplaces-521584.framer.app/"
-    },
-    "放蕩影子攻 × 禁慾學者受": {
-        image: "https://framerusercontent.com/images/uQPprKfZezv518Mf1QK2enDGzTI.png",
-        soulName: "禁慾學者受", soulDesc: "當極致的理智遇上純粹的慾望，是誰先跌落神壇？",
-        danger: "▮▮▮▮▯", dangerFill:"80%", attr: "誘惑指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "10%",
-        quote: "你的心跳得這麼快，難道學術理論裡沒有教你怎麼拒絕我嗎？",
-        guide: "你引以為傲的自制力，在他眼中只是不堪一擊的薄紙。準備好迎接理智全面崩盤的快感了嗎？",
-        bookName: "填入小說書名2", link: "https://early-marketplaces-521584.framer.app/"
-    },
-    "偏執瘋子攻 × 廢物美人受": {
-        image: "https://framerusercontent.com/images/mPnc8okKQMo048aJiOXOZhtdIw.png",
-        soulName: "廢物美人受", soulDesc: "只要你乖乖當個漂亮的廢物，他願意為你發瘋毀滅世界。",
-        danger: "▮▮▮▮▮", dangerFill:"100%", attr: "圈養指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "0%",
-        quote: "外面那麼髒，你這雙漂亮的腳怎麼能沾上泥土呢？乖，待在我的懷裡就好。",
-        guide: "放棄掙扎吧，被一頭瘋狂的野獸無條件寵愛與圈養，其實也是一種極致的幸福。",
-        bookName: "填入小說書名3", link: "https://early-marketplaces-521584.framer.app/"
-    },
-    "暴力黑獅攻 × 冰山白神受": {
-        image: "https://framerusercontent.com/images/qyOKXEbm56dRn3orHnQgjQYhkTU.png",
-        soulName: "冰山白神受", soulDesc: "野蠻與高潔的碰撞，撕裂你的冰冷偽裝，逼你染上紅塵的溫度。",
-        danger: "▮▮▮▮▮", dangerFill:"100%", attr: "征服指數", attrVal: "▮▮▮▮▯", attrFill:"80%", escape: "5%",
-        quote: "再高冷的眼神又怎樣？到了我的地盤，就算是神，也得乖乖給我低頭。",
-        guide: "絕對的力量面前，所有的反抗都是徒勞。看傲骨寸寸碎裂，化為臣服的喘息。",
-        bookName: "填入小說書名4", link: "https://early-marketplaces-521584.framer.app/"
-    },
-    "腹黑勢利攻 × 卑劣淫蕩受": {
-        image: "https://framerusercontent.com/images/ZgfhchUbaHJuXY9V0Xipa3jxU.png",
-        soulName: "卑劣淫蕩受", soulDesc: "全員惡人！互相利用卻又食髓知味，在泥沼裡交換最骯髒的吻。",
-        danger: "▮▮▮▮▯", dangerFill:"80%", attr: "慾望指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "20%",
-        quote: "別裝出那副清高的樣子了。你跟我一樣爛透了，拿走你想要的，然後用你自己來償還。",
-        guide: "沒有底線的成人遊戲，精於算計的獵手遇上甘願以身作餌的狐狸，誰會先動真心？",
-        bookName: "填入小說書名5", link: "https://early-marketplaces-521584.framer.app/"
-    },
-    "無情獸群攻 × 自毀抹布受": {
-        image: "https://framerusercontent.com/images/R3kL5fcWaRHwCnZReWKeVt7i7M.png",
-        soulName: "自毀抹布受", soulDesc: "連你自己都放棄了自己，卻被一群沒有人性的野獸視若珍寶。",
-        danger: "▮▮▮▮▮", dangerFill:"100%", attr: "佔有指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "0%",
-        quote: "想死？在我們沒有允許之前，你的每一滴血、每一絲呼吸，都只能屬於我們。",
-        guide: "最極致的毀滅帶來最深沉的愛意。在鮮血與獠牙的包圍下，迎來暴力的救贖。",
-        bookName: "填入小說書名6", link: "https://early-marketplaces-521584.framer.app/"
-    },
-    "佔有囚禁攻 × 自願沉淪受": {
-        image: "https://framerusercontent.com/images/Pe3rzvy6YA1yz40oDkWncUEV70.png",
-        soulName: "自願沉淪受", soulDesc: "這座名為愛的牢籠，是你主動選擇的安身之所。",
-        danger: "▮▮▮▮▯", dangerFill:"80%", attr: "偏執指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "0%",
-        quote: "既然這個世界讓你這麼累，不如，就由我來成為你的世界吧。",
-        guide: "當極致的控制慾，遇上渴望被完全接納的靈魂。推開那扇半掩的門，享受沉淪。",
-        bookName: "填入小說書名7", link: "https://early-marketplaces-521584.framer.app/"
-    },
-    "二哈黑龍攻 × 人妻王子受": {
-        image: "https://framerusercontent.com/images/twm18KyCeDGaCdGedaOUI1aLXp4.png",
-        soulName: "人妻王子受", soulDesc: "外表毀天滅地，回家卻只會對著你搖尾巴的巨型猛獸。",
-        danger: "▮▮▯▯▯", dangerFill:"40%", attr: "忠犬指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "90%",
-        quote: "老婆！我今天把那群討厭的傢伙都燒成灰了，我可以要一個親親當獎勵嗎？",
-        guide: "掌握絕對武力的巨龍，唯一的弱點就是你。來體驗把恐怖魔王當大型犬養的快樂。",
-        bookName: "填入小說書名8", link: "https://early-marketplaces-521584.framer.app/"
-    },
-    "黑化掠奪攻 × 清冷自持受": {
-        image: "https://framerusercontent.com/images/m56Q5hEDF1BiFypFDftnukMnhWM.png",
-        soulName: "清冷自持受", soulDesc: "曾經的溫柔化為禁錮的鎖鏈，冷傲如你，該如何面對這場掠奪？",
-        danger: "▮▮▮▮▮", dangerFill:"100%", attr: "黑化指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "1%",
-        quote: "你總是這麼冷靜，冷靜得讓人……忍不住想看看你崩潰求饒的樣子。",
-        guide: "安全感被徹底撕碎，原本熟悉的溫柔面具下，藏著無可救藥的掠奪慾。",
-        bookName: "填入小說書名9", link: "https://early-marketplaces-521584.framer.app/"
-    },
-    "病態攻 × 斯德哥爾摩受": {
-        image: "https://framerusercontent.com/images/lKXEUNx6ZWifVuXPqi879aZzi4.png",
-        soulName: "斯德哥爾摩受", soulDesc: "愛與痛的邊界已經模糊，你終於分不清，是想逃還是不想離開。",
-        danger: "▮▮▮▮▮", dangerFill:"100%", attr: "瘋狂指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "0%",
-        quote: "弄疼你了嗎？忍著。因為只有痛，才能讓你永遠記住你是屬於誰的。",
-        guide: "當理智全面崩盤，痛覺化為最深沉的愛意。這場名為愛的無期徒刑，你準備好服刑了嗎？",
-        bookName: "填入小說書名10", link: "https://early-marketplaces-521584.framer.app/"
-    }
+  "陰鬱偏執攻 × 陽光直男受": {
+    image: "https://framerusercontent.com/images/H47mPAUXZNOJzQgxVcCZFiJP4.png",
+    soulName: "陽光直男受", soulDesc: "你越是向著光，他越想將你拉入深淵。",
+    danger: "▮▮▮▮▮", dangerFill:"100%", attr: "寵溺指數", attrVal: "▮▮▮▮▯", attrFill:"80%", escape: "0%",
+    quote: "你對每個人都這麼笑嗎？沒關係……我會把你藏起來，以後你只能對我一個人笑。",
+    guide: "你的光芒是他唯一的救贖，卻也是逼瘋他的毒藥。想知道你們將如何在這場偏執的愛中互相折磨與救贖？",
+    bookName: "《寶石、烏鴉和水瓶》", link: "https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%90%9B%E7%BE%8A"
+  },
+  "放蕩影子攻 × 禁慾學者受": {
+    image: "https://framerusercontent.com/images/uQPprKfZezv518Mf1QK2enDGzTI.png",
+    soulName: "禁慾學者受", soulDesc: "當極致的理智遇上純粹的慾望，是誰先跌落神壇？",
+    danger: "▮▮▮▮▯", dangerFill:"80%", attr: "誘惑指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "10%",
+    quote: "你的心跳得這麼快，難道學術理論裡沒有教你怎麼拒絕我嗎？",
+    guide: "你引以為傲的自制力，在他眼中只是不堪一擊的薄紙。準備好迎接理智全面崩盤的快感了嗎？",
+    bookName: "《影子吻了我》", link: "https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E7%9B%B8%E5%B0%8D%E4%B9%8B%E4%B8%8B"
+  },
+  "偏執瘋子攻 × 廢物美人受": {
+    image: "https://framerusercontent.com/images/K60BMuPYxaec4ZvETplOuAZcbw.png",
+    soulName: "廢物美人受", soulDesc: "只要你乖乖當個漂亮的廢物，他願意為你發瘋毀滅世界。",
+    danger: "▮▮▮▮▮", dangerFill:"100%", attr: "圈養指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "0%",
+    quote: "外面那麼髒，你這雙漂亮的腳怎麼能沾上泥土呢？乖，待在我的懷裡就好。",
+    guide: "放棄掙扎吧，被一頭瘋狂的野獸無條件寵愛與圈養，其實也是一種極致的幸福。",
+    bookName: "《溫先生他一絲不掛》", link: "https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E7%81%AB%E7%99%BB"
+  },
+  "暴力黑獅攻 × 冰山白神攻": {
+    image: "https://framerusercontent.com/images/tU3tsyKjf8sMxVq6UnyJDCSi4c.png",
+    soulName: "冰山白神攻", soulDesc: "野蠻與高潔的碰撞，撕裂你的冰冷偽裝，逼你染上紅塵的溫度。",
+    danger: "▮▮▮▮▮", dangerFill:"100%", attr: "征服指數", attrVal: "▮▮▮▮▯", attrFill:"80%", escape: "5%",
+    quote: "再高冷的眼神又怎樣？到了我的地盤，就算是神，也得乖乖給我低頭。",
+    guide: "絕對的力量面前，所有的反抗都是徒勞。看傲骨寸寸碎裂，化為臣服的喘息。",
+    bookName: "《咬了神一口》", link: "https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%85%8C%E7%8F%BE%E8%97%8D"
+  },
+  "腹黑勢利攻 × 卑劣淫蕩受": {
+    image: "https://framerusercontent.com/images/ZgfhchUbaHJuXY9V0Xipa3jxU.png",
+    soulName: "卑劣淫蕩受", soulDesc: "全員惡人！互相利用卻又食髓知味，在泥沼裡交換最骯髒的吻。",
+    danger: "▮▮▮▮▯", dangerFill:"80%", attr: "慾望指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "20%",
+    quote: "別裝出那副清高的樣子了。你跟我一樣爛透了，拿走你想要的，然後用你自己來償還。",
+    guide: "沒有底線的成人遊戲，精於算計的獵手遇上甘願以身作餌的狐狸，誰會先動真心？",
+    bookName: "《消失的終點線》", link: "https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E8%91%A6%E5%AF%B6%E5%AF%B6"
+  },
+  "無情獸群攻 × 自毀抹布受": {
+    image: "https://framerusercontent.com/images/bSRzaW69l34wXcEwgq07OfluB5s.png",
+    soulName: "自毀抹布受", soulDesc: "連你自己都放棄了自己，卻被一群沒有人性的野獸視若珍寶。",
+    danger: "▮▮▮▮▮", dangerFill:"100%", attr: "佔有指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "0%",
+    quote: "想死？在我們沒有允許之前，你的每一滴血、每一絲呼吸，都只能屬於我們。",
+    guide: "最極致的毀滅帶來最深沉的愛意。在鮮血與獠牙的包圍下，迎來暴力的救贖。",
+    bookName: "《兩兄弟》", link: "https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E3%80%8A%E5%85%A9%E5%85%84%E5%BC%9F%E3%80%8B"
+  },
+  "佔有囚禁攻 × 自願沉淪受": {
+    image: "https://framerusercontent.com/images/l5SjfsnGDqcuNrQYZbAKTQvJij4.png",
+    soulName: "自願沉淪受", soulDesc: "這座名為愛的牢籠，是你主動選擇的安身之所。",
+    danger: "▮▮▮▮▯", dangerFill:"80%", attr: "偏執指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "0%",
+    quote: "既然這個世界讓你這麼累，不如，就由我來成為你的世界吧。",
+    guide: "當極致的控制慾，遇上渴望被完全接納的靈魂。推開那扇半掩的門，享受沉淪。",
+    bookName: "《糖裹屋》", link: "https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E8%98%87%E6%9C%B5%E6%8B%89"
+  },
+  "二哈黑龍攻 × 人妻王子受": {
+    image: "https://framerusercontent.com/images/GpHyYzlSiHtit6kGXfSSACkqf0.png",
+    soulName: "人妻王子受", soulDesc: "外表毀天滅地，回家卻只會對著你搖尾巴的巨型猛獸。",
+    danger: "▮▮▯▯▯", dangerFill:"40%", attr: "忠犬指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "90%",
+    quote: "我今天把那群討厭的傢伙都燒成灰了，我可以要一個親親當獎勵嗎？",
+    guide: "掌握絕對武力的巨龍，唯一的弱點就是你。來體驗把恐怖魔王當大型犬養的快樂。",
+    bookName: "《沉睡荊棘》", link: "https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%96%B5%E8%8A%AD"
+  },
+  "黑化掠奪攻 × 清冷自持受": {
+    image: "https://framerusercontent.com/images/m56Q5hEDF1BiFypFDftnukMnhWM.png",
+    soulName: "清冷自持受", soulDesc: "曾經的溫柔化為禁錮的鎖鏈，冷傲如你，該如何面對這場掠奪？",
+    danger: "▮▮▮▮▮", dangerFill:"100%", attr: "黑化指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "1%",
+    quote: "你總是這麼冷靜，冷靜得讓人……忍不住想看看你崩潰求饒的樣子。",
+    guide: "安全感被徹底撕碎，原本熟悉的溫柔面具下，藏著無可救藥的掠奪慾。",
+    bookName: "《灰燼》", link: "https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E6%82%A0%E7%84%B6"
+  },
+  "病態攻 × 斯德哥爾摩受": {
+    image: "https://framerusercontent.com/images/nRtAWmBjy7p9qD7Whz9VxlL0myQ.png",
+    soulName: "斯德哥爾摩受", soulDesc: "愛與痛的邊界已經模糊，你終於分不清，是想逃還是不想離開。",
+    danger: "▮▮▮▮▮", dangerFill:"100%", attr: "瘋狂指數", attrVal: "▮▮▮▮▮", attrFill:"100%", escape: "0%",
+    quote: "弄疼你了嗎？忍著。因為只有痛，才能讓你永遠記住你是屬於誰的。",
+    guide: "當理智全面崩盤，痛覺化為最深沉的愛意。這場名為愛的無期徒刑，你準備好服刑了嗎？",
+    bookName: "《哈梅爾的吹笛手》", link: "https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E4%B9%9D"
+  }
 };
 
+/* ══ QUIZ QUESTIONS (8) ══ */
 const questions = [
-    {
-        text: "Q1. 凌晨三點，你在一個完全陌生的昏暗房間醒來。你的第一個念頭是：",
-        options: [
-            { text: "尋找防身物品並冷靜觀察逃生路線。", scores: ["陰鬱偏執攻 × 陽光直男受","暴力黑獅攻 × 冰山白神受","黑化掠奪攻 × 清冷自持受"] },
-            { text: "冷笑一聲，想想怎麼利用這個處境替自己撈點好處。", scores: ["腹黑勢利攻 × 卑劣淫蕩受","二哈黑龍攻 × 人妻王子受"] },
-            { text: "湧起一股絕望與自毀的衝動，隨便吧。", scores: ["無情獸群攻 × 自毀抹布受","病態攻 × 斯德哥爾摩受"] },
-            { text: "感到一絲近乎解脫的平靜，索性待在原地。", scores: ["放蕩影子攻 × 禁慾學者受","偏執瘋子攻 × 廢物美人受","佔有囚禁攻 × 自願沉淪受"] }
-        ]
-    },
-    {
-        text: "Q2. 一個氣場壓迫的男人走進來，將一個盒子扔在你面前。你希望裡面裝著什麼？",
-        options: [
-            { text: "一把槍。他要你證明自己的生存價值。", scores: ["暴力黑獅攻 × 冰山白神受","無情獸群攻 × 自毀抹布受"] },
-            { text: "一份寫滿你所有把柄與秘密的威脅檔案。", scores: ["放蕩影子攻 × 禁慾學者受","黑化掠奪攻 × 清冷自持受","陰鬱偏執攻 × 陽光直男受"] },
-            { text: "一張無上限黑卡和一份賣身契約。", scores: ["腹黑勢利攻 × 卑劣淫蕩受","佔有囚禁攻 × 自願沉淪受","二哈黑龍攻 × 人妻王子受"] },
-            { text: "滿滿一盒他親手為你做的、卻帶點血腥味的點心。", scores: ["病態攻 × 斯德哥爾摩受","偏執瘋子攻 × 廢物美人受"] }
-        ]
-    },
-    {
-        text: "Q3. 他步步逼近，用力捏住你的下巴迫使你抬頭。你如何回應？",
-        options: [
-            { text: "毫不退縮地瞪回去，充滿挑釁。", scores: ["陰鬱偏執攻 × 陽光直男受","暴力黑獅攻 × 冰山白神受","二哈黑龍攻 × 人妻王子受"] },
-            { text: "眼神閃躲，因為恐懼而微微發抖。", scores: ["偏執瘋子攻 × 廢物美人受","無情獸群攻 × 自毀抹布受"] },
-            { text: "順勢蹭了蹭他的掌心，露出極具暗示性的笑。", scores: ["腹黑勢利攻 × 卑劣淫蕩受","佔有囚禁攻 × 自願沉淪受","病態攻 × 斯德哥爾摩受"] },
-            { text: "面無表情地看著他，試圖用冷漠刺傷他。", scores: ["放蕩影子攻 × 禁慾學者受","黑化掠奪攻 × 清冷自持受"] }
-        ]
-    },
-    {
-        text: "Q4. 他在你耳邊低語了一句話，讓你背脊發麻。他說的是：",
-        options: [
-            { text: "「逃吧，被我抓到的話，你就別想再看到太陽。」", scores: ["陰鬱偏執攻 × 陽光直男受","黑化掠奪攻 × 清冷自持受","暴力黑獅攻 × 冰山白神受"] },
-            { text: "「承認吧，你的身體早就比你的理智更誠實了。」", scores: ["放蕩影子攻 × 禁慾學者受","腹黑勢利攻 × 卑劣淫蕩受"] },
-            { text: "「什麼都不用做，我會為你殺光外面所有人。」", scores: ["偏執瘋子攻 × 廢物美人受","二哈黑龍攻 × 人妻王子受","佔有囚禁攻 × 自願沉淪受"] },
-            { text: "「痛嗎？忍著。這樣你才會永遠記住你是誰的。」", scores: ["病態攻 × 斯德哥爾摩受","無情獸群攻 × 自毀抹布受"] }
-        ]
-    },
-    {
-        text: "Q5. 如果這是一場註定無法逃脫的遊戲，你渴望的結局是：",
-        options: [
-            { text: "兩敗俱傷，在毀滅與血泊中交換最後一個吻。", scores: ["無情獸群攻 × 自毀抹布受","暴力黑獅攻 × 冰山白神受","黑化掠奪攻 × 清冷自持受"] },
-            { text: "互相利用，在慾望與利益的泥沼裡一起沉淪。", scores: ["腹黑勢利攻 × 卑劣淫蕩受","放蕩影子攻 × 禁慾學者受"] },
-            { text: "你徹底被折斷羽翼，成為他專屬的金絲雀。", scores: ["陰鬱偏執攻 × 陽光直男受","偏執瘋子攻 × 廢物美人受","佔有囚禁攻 × 自願沉淪受"] },
-            { text: "痛與愛混淆，你心甘情願為他戴上鎖鏈。", scores: ["病態攻 × 斯德哥爾摩受","二哈黑龍攻 × 人妻王子受"] }
-        ]
-    }
+  {
+    text: "Q1. 凌晨三點，你在陌生的昏暗房間醒來。你第一個念頭是：",
+    options: [
+      { text: "先找能用的東西。要是他敢再靠近，我會讓他付出代價。", add: { dom:2, control:1, chaos:1 } },
+      { text: "先弄清楚規則，再決定要不要翻桌。", add: { manip:2, control:1 } },
+      { text: "門半掩？那就先不走。反正我想看看他想把我玩到哪裡。", add: { sub:1, devotion:1, chaos:1 } },
+      { text: "無所謂。想弄壞我就弄壞吧，最好一次到位。", add: { sub:2, chaos:2 } },
+    ]
+  },
+  {
+    text: "Q2. 那男人出現，氣場壓得你喘不過氣。他把盒子丟到你腳邊。你最希望裡面是：",
+    options: [
+      { text: "一副手銬或項圈。不是因為怕，而是我想看誰先失控。", add: { control:2, dom:1, sub:1 } },
+      { text: "一份寫滿把柄的檔案。很好，這樣我也能反過來掐住他。", add: { manip:2, control:1, dom:1 } },
+      { text: "一把刀或槍。我要的是生死局，刺激到見血那種。", add: { chaos:2, dom:1 } },
+      { text: "一張黑卡和一張『條款』。我想知道我的身價能賣到哪裡。", add: { manip:2, sub:1 } },
+    ]
+  },
+  {
+    text: "Q3. 他捏住你的下巴逼你抬頭。你會：",
+    options: [
+      { text: "盯回去，甚至笑一下。你以為你在審我？", add: { dom:2, manip:1 } },
+      { text: "故意轉開視線，讓他更想把我掰回來。", add: { control:1, sub:1, manip:1 } },
+      { text: "順勢蹭他掌心，讓他知道我不是被迫，是我在挑逗他。", add: { sub:1, dom:1, devotion:1 } },
+      { text: "顫一下也不遮掩。讓他看清我會被他弄到崩壞。", add: { sub:2, chaos:1 } },
+    ]
+  },
+  {
+    text: "Q4. 他低聲說：「逃吧，被我抓到就別想再看見太陽。」你的反應是：",
+    options: [
+      { text: "我會逃，但不是為了自由，是為了讓他追到發瘋。", add: { control:2, sub:1, chaos:1 } },
+      { text: "我不逃。我會讓他知道『囚禁』要怎麼玩才算正確。", add: { dom:2, control:2 } },
+      { text: "我會把路封死。你想抓我？那就永遠抓著。", add: { devotion:2, control:1, sub:1 } },
+      { text: "很好。把我抓回去的時候，記得弄疼一點。", add: { chaos:2, sub:2 } },
+    ]
+  },
+  {
+    text: "Q5. 你更上癮的，是哪種『黑暗特質』？",
+    options: [
+      { text: "偏執：他只對我一個人失去理智。", add: { devotion:2, control:1 } },
+      { text: "掠奪：他把我的自持一層層剝掉，直到我求饒。", add: { control:2, chaos:1, dom:1 } },
+      { text: "算計：我們互相利用，互相上癮，誰先動心誰就輸。", add: { manip:2, dom:1 } },
+      { text: "病態：痛和愛混在一起，我分不清我想逃還是想留。", add: { chaos:2, sub:1, devotion:1 } },
+    ]
+  },
+  {
+    text: "Q6. 當你想要一個人，你更可能怎麼下手？",
+    options: [
+      { text: "直接逼近，讓他沒得退。我要的是他當場承認。", add: { dom:2, control:1 } },
+      { text: "慢慢設局，讓他以為是自己先主動。", add: { manip:2, control:1 } },
+      { text: "我會把自己變成『他拒絕不了的習慣』，然後再收網。", add: { devotion:2, manip:1 } },
+      { text: "我會把界線推到極限。要嘛一起爽，要嘛一起毀。", add: { chaos:2, dom:1 } },
+    ]
+  },
+  {
+    text: "Q7. 你看到心裡那個人對別人笑，你第一個念頭是：",
+    options: [
+      { text: "把他拉回來，當著對方的面吻到他說不出話。", add: { dom:2, control:1, chaos:1 } },
+      { text: "先記住那個人。之後再慢慢『處理』掉。", add: { manip:2, chaos:1 } },
+      { text: "裝作沒事，但我會讓他回家後付出代價。", add: { control:2, devotion:1 } },
+      { text: "我不配。那就讓我自己沉下去，不要打擾他。", add: { sub:2, chaos:1 } },
+    ]
+  },
+  {
+    text: "Q8. 如果你們的結局註定不健康，你最想要的收尾是：",
+    options: [
+      { text: "他跪著求我別走，我踩著他的自尊讓他只剩我。", add: { dom:2, chaos:1 } },
+      { text: "我被圈養到習慣，最後連門開著都不想走。", add: { sub:2, devotion:2, control:1 } },
+      { text: "我們在利益與慾望的泥沼裡互相勒住脖子，一起笑著沉。", add: { manip:2, chaos:1, dom:1 } },
+      { text: "兩敗俱傷。血跟吻混在一起，誰也別想乾淨退場。", add: { chaos:2, devotion:1 } },
+    ]
+  }
 ];
 
 const LABELS = ['A', 'B', 'C', 'D'];
-let qi = 0, sc = {};
 
+/* ══ STATE ══ */
+let qi = 0;
+let axesScore = {};
+AXES.forEach(k => axesScore[k] = 0);
+
+/* ══ UI FLOW ══ */
 function startQuiz() {
-    document.getElementById('intro-screen').classList.add('hidden');
-    const qs = document.getElementById('quiz-screen');
-    qs.classList.remove('hidden');
-    qs.classList.add('animate-in');
-    showQuestion();
+  document.getElementById('intro-screen').classList.add('hidden');
+  const qs = document.getElementById('quiz-screen');
+  qs.classList.remove('hidden');
+  qs.classList.add('animate-in');
+
+  // dynamic progress segments for 8 questions
+  const pb = document.getElementById('progress-bar');
+  pb.innerHTML = '';
+  for (let i = 0; i < questions.length; i++) {
+    const seg = document.createElement('div');
+    seg.className = 'progress-seg';
+    pb.appendChild(seg);
+  }
+
+  qi = 0;
+  AXES.forEach(k => axesScore[k] = 0);
+
+  showQuestion();
 }
 
 function updateProgress() {
-    const segs = document.querySelectorAll('.progress-seg');
-    segs.forEach((s,i) => {
-        s.classList.remove('active','done');
-        if (i < qi) s.classList.add('done');
-        else if (i === qi) s.classList.add('active');
-    });
-    document.getElementById('quiz-label').textContent = `QUESTION ${qi+1} / ${questions.length}`;
-    document.getElementById('question-num').textContent = `Q · ${String(qi+1).padStart(2,'0')}`;
+  const segs = document.querySelectorAll('.progress-seg');
+  segs.forEach((s, i) => {
+    s.classList.remove('active','done');
+    if (i < qi) s.classList.add('done');
+    else if (i === qi) s.classList.add('active');
+  });
+  document.getElementById('quiz-label').textContent = `QUESTION ${qi + 1} / ${questions.length}`;
+  document.getElementById('question-num').textContent = `Q · ${String(qi + 1).padStart(2, '0')}`;
 }
 
 function showQuestion() {
-    updateProgress();
-    const q = questions[qi];
-    const qt = document.getElementById('question-text');
-    qt.style.opacity = '0';
-    qt.textContent = q.text;
-    setTimeout(()=>{ qt.style.transition='opacity 0.4s'; qt.style.opacity='1'; }, 20);
+  updateProgress();
+  const q = questions[qi];
 
-    const c = document.getElementById('options-container');
-    c.innerHTML = '';
-    q.options.forEach((opt, i) => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        btn.style.opacity = '0';
-        btn.style.transform = 'translateY(14px)';
-        btn.innerHTML = `<span class="option-idx">[${LABELS[i]}]</span><span>${opt.text}</span>`;
-        btn.onclick = () => pick(opt.scores, btn);
-        c.appendChild(btn);
-        setTimeout(() => {
-            btn.style.transition = 'opacity 0.38s ease, transform 0.38s ease, background 0.28s, color 0.28s, border-color 0.28s';
-            btn.style.opacity = '1';
-            btn.style.transform = 'translateY(0)';
-        }, 60 + i * 80);
-    });
+  const qt = document.getElementById('question-text');
+  qt.style.opacity = '0';
+  qt.textContent = q.text;
+  setTimeout(() => { qt.style.transition='opacity 0.4s'; qt.style.opacity='1'; }, 20);
+
+  const c = document.getElementById('options-container');
+  c.innerHTML = '';
+
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.style.opacity = '0';
+    btn.style.transform = 'translateY(14px)';
+    btn.innerHTML = `<span class="option-idx">[${LABELS[i]}]</span><span>${opt.text}</span>`;
+    btn.onclick = () => pick(opt.add, btn);
+    c.appendChild(btn);
+
+    setTimeout(() => {
+      btn.style.transition = 'opacity 0.38s ease, transform 0.38s ease, background 0.28s, color 0.28s, border-color 0.28s';
+      btn.style.opacity = '1';
+      btn.style.transform = 'translateY(0)';
+    }, 60 + i * 80);
+  });
 }
 
-function pick(scArr, btn) {
-    document.querySelectorAll('.option-btn').forEach(b => { b.style.pointerEvents='none'; b.style.opacity='0.5'; });
-    btn.classList.add('selected');
-    btn.style.opacity = '1';
-    scArr.forEach(k => { sc[k] = (sc[k]||0)+1; });
-    setTimeout(() => {
-        qi++;
-        if (qi < questions.length) showQuestion();
-        else showResult();
-    }, 350);
+function addAxisScores(addObj) {
+  for (const k in addObj) {
+    if (!Object.prototype.hasOwnProperty.call(axesScore, k)) continue;
+    axesScore[k] += addObj[k];
+  }
+}
+
+function pick(addObj, btn) {
+  document.querySelectorAll('.option-btn').forEach(b => {
+    b.style.pointerEvents='none';
+    b.style.opacity='0.5';
+  });
+  btn.classList.add('selected');
+  btn.style.opacity = '1';
+
+  addAxisScores(addObj);
+
+  setTimeout(() => {
+    qi++;
+    if (qi < questions.length) showQuestion();
+    else showResult();
+  }, 350);
+}
+
+/* ══ RESULT LOGIC ══ */
+function topAxes(n=2) {
+  return Object.entries(axesScore)
+    .sort((a,b) => b[1]-a[1])
+    .slice(0,n)
+    .map(([k,v]) => ({ k, v }));
+}
+
+function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+
+function determineResultKey() {
+  const dom = axesScore.dom;
+  const sub = axesScore.sub;
+  const control = axesScore.control;
+  const manip = axesScore.manip;
+  const chaos = axesScore.chaos;
+  const devotion = axesScore.devotion;
+
+  const diff = dom - sub;
+
+  // 主傾向（攻/受/雙向）
+  const stance = diff >= 2 ? "dom" : diff <= -2 ? "sub" : "switch";
+
+  // 次傾向：取 control/manip/chaos/devotion 最高者
+  const secondary = [
+    { k:"control", v: control },
+    { k:"manip", v: manip },
+    { k:"chaos", v: chaos },
+    { k:"devotion", v: devotion },
+  ].sort((a,b)=>b.v-a.v)[0].k;
+
+  // 強烈特徵判斷（讓某些結果更容易命中）
+  const veryChaos = chaos >= 7;
+  const veryControl = control >= 7;
+  const veryManip = manip >= 7;
+  const veryDevotion = devotion >= 7;
+
+  // 1) 極端病態/自毀優先（不管攻受都能落到這裡）
+  if (veryChaos && sub >= dom) return "病態攻 × 斯德哥爾摩受";
+  if (veryChaos && dom > sub) return "無情獸群攻 × 自毀抹布受";
+
+  // 2) 算計利益流
+  if (veryManip || (secondary === "manip" && manip >= 5)) return "腹黑勢利攻 × 卑劣淫蕩受";
+
+  // 3) 囚禁控制流
+  if (veryControl || (secondary === "control" && control >= 5)) {
+    if (stance === "sub" || devotion >= 6) return "佔有囚禁攻 × 自願沉淪受";
+    // 偏攻且控制高：更掠奪/黑化
+    if (chaos >= 5) return "黑化掠奪攻 × 清冷自持受";
+    return "陰鬱偏執攻 × 陽光直男受";
+  }
+
+  // 4) 依附忠犬流（相對甜但仍黑暗）
+  if (veryDevotion || (secondary === "devotion" && devotion >= 5)) {
+    // 依附高、攻向：忠犬魔王
+    if (stance === "dom") return "二哈黑龍攻 × 人妻王子受";
+    // 依附高、受向：更像自願沉淪
+    return "佔有囚禁攻 × 自願沉淪受";
+  }
+
+  // 5) 最後用 stance + 風味補齊（避免剩下都落同一組）
+  if (stance === "dom") {
+    if (chaos >= 5) return "暴力黑獅攻 × 冰山白神攻";
+    return "陰鬱偏執攻 × 陽光直男受";
+  }
+  if (stance === "sub") {
+    if (control >= 4) return "偏執瘋子攻 × 廢物美人受";
+    return "放蕩影子攻 × 禁慾學者受";
+  }
+  // switch
+  if (chaos >= 5) return "暴力黑獅攻 × 冰山白神攻";
+  return "放蕩影子攻 × 禁慾學者受";
 }
 
 function showResult() {
-    document.getElementById('quiz-screen').classList.add('hidden');
-    const rs = document.getElementById('result-screen');
-    rs.classList.remove('hidden');
-    rs.classList.add('animate-in');
+  document.getElementById('quiz-screen').classList.add('hidden');
+  const rs = document.getElementById('result-screen');
+  rs.classList.remove('hidden');
+  rs.classList.add('animate-in');
 
-    const max = Math.max(...Object.values(sc));
-    const tops = Object.keys(sc).filter(k => sc[k]===max);
-    const key = tops[Math.floor(Math.random()*tops.length)];
-    const r = resultsData[key];
+  const key = determineResultKey();
+  const r = resultsData[key];
 
-    document.getElementById('final-result-img').src = r.image;
+  document.getElementById('final-result-img').src = r.image;
 
-    // Build compound formula string from key
-    const parts = key.split(' × ');
+  const parts = key.split(' × ');
 
-    document.getElementById('result-content').innerHTML = `
-        <div class="lab-header">SOUL SPECIMEN IDENTIFIED</div>
-        <div class="result-soul-name">【${r.soulName}】</div>
-        <div class="result-soul-desc">${r.soulDesc}</div>
+  document.getElementById('result-content').innerHTML = `
+    <div class="lab-header">SOUL SPECIMEN IDENTIFIED</div>
+    <div class="result-soul-name">【${r.soulName}】</div>
+    <div class="result-soul-desc">${r.soulDesc}</div>
 
-        <div class="formula-bar">
-            <div class="formula-label">COMPOUND</div>
-            <div class="formula-value">${parts[0]} <span style="color:rgba(79,172,254,0.3);padding:0 6px;">⊗</span> ${parts[1]||''}</div>
-        </div>
+    <div class="formula-bar">
+      <div class="formula-label">COMPOUND</div>
+      <div class="formula-value">${parts[0]} <span style="color:rgba(79,172,254,0.3);padding:0 6px;">⊗</span> ${parts[1]||''}</div>
+    </div>
 
-        <div class="vials-row">
-            <div class="vial danger" style="--fill:${r.dangerFill}">
-                <div class="vial-label">危險指數</div>
-                <div class="vial-value">${r.danger}</div>
-            </div>
-            <div class="vial attr" style="--fill:${r.attrFill}">
-                <div class="vial-label">${r.attr}</div>
-                <div class="vial-value">${r.attrVal}</div>
-            </div>
-            <div class="vial escape">
-                <div class="vial-label">逃脫機率</div>
-                <div class="vial-value">${r.escape}</div>
-            </div>
-        </div>
+    <div class="vials-row">
+      <div class="vial danger" style="--fill:${r.dangerFill}">
+        <div class="vial-label">危險指數</div>
+        <div class="vial-value">${r.danger}</div>
+      </div>
+      <div class="vial attr" style="--fill:${r.attrFill}">
+        <div class="vial-label">${r.attr}</div>
+        <div class="vial-value">${r.attrVal}</div>
+      </div>
+      <div class="vial escape">
+        <div class="vial-label">逃脫機率</div>
+        <div class="vial-value">${r.escape}</div>
+      </div>
+    </div>
 
-        <div class="analysis-block">
-            <div class="analysis-label">SUBJECT QUOTE · 專屬台詞</div>
-            <div class="analysis-text">「${r.quote}」</div>
-        </div>
+    <div class="analysis-block">
+      <div class="analysis-label">SUBJECT QUOTE · 專屬台詞</div>
+      <div class="analysis-text">「${r.quote}」</div>
+    </div>
 
-        <div class="reaction-block">
-            <div class="reaction-guide">${r.guide}</div>
-            <div class="specimen-btn-label">FATE COMPOUND · 宿命調配</div>
-            <a href="${r.link}" target="_blank" class="specimen-btn">
-                ▷ 解鎖你的故事樣本：《${r.bookName}》
-            </a>
-        </div>
-    `;
+    <div class="reaction-block">
+      <div class="reaction-guide">${r.guide}</div>
+      <div class="specimen-btn-label">FATE COMPOUND · 宿命調配</div>
+      <a href="${r.link}" target="_blank" class="specimen-btn">
+        ▷ 解鎖你的故事樣本：《${r.bookName}》
+      </a>
+    </div>
+  `;
 
-    // Trigger vial fill animation after paint
-    setTimeout(() => {
-        document.querySelectorAll('.vial').forEach(v => {
-            v.style.setProperty('--fill', v.style.getPropertyValue('--fill') || '60%');
-        });
-    }, 100);
+  // vials fill animation after paint
+  setTimeout(() => {
+    document.querySelectorAll('.vial').forEach(v => {
+      v.style.setProperty('--fill', v.style.getPropertyValue('--fill') || '60%');
+    });
+  }, 100);
 
-    sendStats(key);
+  sendStats(key);
 }
 
 function sendStats(key) {
-    if (GAS_URL === "在此貼上你的_GAS_網址") {
-        document.getElementById('stats-content').innerHTML =
-            '<span style="color:var(--teal);margin-right:6px;">◈</span> 尚未串接資料庫，僅顯示本地結果。';
-        return;
-    }
-    fetch(`${GAS_URL}?result=${encodeURIComponent(key)}`)
-        .then(r => r.json())
-        .then(data => {
-            if (data.status === "success") {
-                const uc = data.stats[key]||1;
-                const pct = ((uc/data.total)*100).toFixed(1);
-                document.getElementById('stats-content').innerHTML = `
-                    <span style="color:var(--teal);margin-right:6px;">◈</span>
-                    目前共有 <strong>${data.total}</strong> 個靈魂墜入深淵。
-                    與你同類的人約佔 <strong style="color:var(--cyan)">${pct}%</strong>。
-                `;
-            }
-        })
-        .catch(() => {
-            document.getElementById('stats-content').innerHTML =
-                '<span style="color:var(--dim);">數據讀取失敗，但深淵已記住你的選擇。</span>';
-        });
+  if (GAS_URL === "在此貼上你的_GAS_網址") {
+    document.getElementById('stats-content').innerHTML =
+      '<span style="color:var(--teal);margin-right:6px;">◈</span> 尚未串接資料庫，僅顯示本地結果。';
+    return;
+  }
+  fetch(`${GAS_URL}?result=${encodeURIComponent(key)}`)
+    .then(r => r.json())
+    .then(data => {
+      if (data.status === "success") {
+        const uc = data.stats[key] || 1;
+        const pct = ((uc / data.total) * 100).toFixed(1);
+        document.getElementById('stats-content').innerHTML = `
+          <span style="color:var(--teal);margin-right:6px;">◈</span>
+          目前共有 <strong>${data.total}</strong> 個靈魂墜入深淵。
+          與你同類的人約佔 <strong style="color:var(--cyan)">${pct}%</strong>。
+        `;
+      }
+    })
+    .catch(() => {
+      document.getElementById('stats-content').innerHTML =
+        '<span style="color:var(--dim);">數據讀取失敗，但深淵已記住你的選擇。</span>';
+    });
 }
 </script>
 </body>
