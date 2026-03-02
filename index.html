@@ -116,7 +116,30 @@ body {
 .orn-br::after { bottom:-4px; right:-4px; }
 
 .card-inner { padding: 0 0 56px; }
-.card-content { padding: 36px 48px 0; }
+.card-content {
+  position: relative;
+}
+
+.card-content::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 40px;
+  bottom: 40px;
+  width: 1px;
+  background: rgba(255,255,255,0.15);
+}
+
+.card-content::after {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: 200px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffffff;
+}
 
 /* ══ TITLE BANNER ══ */
 .banner-wrap {
@@ -225,7 +248,7 @@ h1.gothic-title {
 }
 .title-en {
   font-family: var(--display);
-  font-size: 0.72rem; letter-spacing: 6px;
+  font-size: 1.3rem; letter-spacing: 2px;
   color: var(--mist); opacity: 0.7;
   text-align: center;
   text-transform: uppercase;
