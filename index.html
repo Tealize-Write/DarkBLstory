@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深淵迴響｜黑暗特質心理測驗</title>
+    <style>
+        body { 
+            margin: 0; 
+            background-color: #030a16; 
+            color: #cce5ff; 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; text-align: center; 
+        }
+
+        #particle-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+
+        #app { 
+            max-width: 600px; width: 90%; padding: 30px; margin: 30px 0;
+            background: rgba(10, 25, 47, 0.7); 
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(79, 172, 254, 0.3); 
+            box-shadow: 0 0 30px rgba(0, 195, 255, 0.15); 
+            border-radius: 12px; 
+            position: relative;
+        }
+
+        h1 { color: #4facfe; text-shadow: 0 0 10px rgba(79, 172, 254, 0.5); letter-spacing: 2px;}
+        p { line-height: 1.7; font-size: 1.05rem; color: #a0c4ff; }
+        
+        .cover-img, .result-img {
+            width: 100%; max-height: 250px; object-fit: cover; border-radius: 8px; margin-bottom: 20px;
+            border: 1px solid rgba(79, 172, 254, 0.4); box-shadow: 0 0 15px rgba(0, 195, 255, 0.2);
+        }
+
+        .option-btn { 
+            display: block; width: 100%; padding: 16px; margin: 12px 0; 
+            background: rgba(3, 16, 36, 0.8); color: #cce5ff; 
+            border: 1px solid rgba(79, 172, 254, 0.3); border-radius: 6px; 
+            cursor: pointer; transition: all 0.3s ease; text-align: left; font-size: 1rem; line-height: 1.4;
+        }
+        .option-btn:hover { 
+            background: rgba(79, 172, 254, 0.2); color: #fff; border-color: #4facfe; 
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.4); transform: translateY(-2px);
+        }
+
+        .start-btn { 
+            padding: 12px 35px; font-size: 1.1rem; letter-spacing: 1px;
+            background: linear-gradient(135deg, #00c6ff, #0072ff); color: white; 
+            border: none; cursor: pointer; border-radius: 30px; margin-top: 20px; 
+            box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4); transition: all 0.3s ease;
+        }
+        .start-btn:hover { box-shadow: 0 6px 20px rgba(0, 114, 255, 0.6); transform: scale(1.05); }
+        .hidden { display: none; }
+        
+        /* ⬇️ 新增的結果頁排版樣式 ⬇️ */
+        .result-box { margin-top: 15px; }
+        .result-title { color: #00f2fe; font-size: 1.3rem; margin-bottom: 5px; text-align: left; }
+        .result-desc { color: #d4d4d4; text-align: left; margin-top: 0; margin-bottom: 20px; }
+        
+        .result-stats {
+            background: rgba(0, 0, 0, 0.5); padding: 15px 20px; border-radius: 8px; 
+            text-align: left; font-family: monospace; font-size: 1.1rem; line-height: 1.8;
+            border: 1px solid rgba(79, 172, 254, 0.2); margin-bottom: 20px;
+        }
+        
+        .result-quote {
+            text-align: left; border-left: 4px solid #4facfe; padding-left: 15px; 
+            background: rgba(79, 172, 254, 0.05); padding-top: 10px; padding-bottom: 10px;
+            border-radius: 0 8px 8px 0; margin-bottom: 25px;
+        }
+        .quote-title { color: #4facfe; font-weight: bold; margin-bottom: 8px; font-size: 0.95rem; }
+        .quote-text { color: #e6f2ff; font-style: italic; letter-spacing: 0.5px; }
+
+        .result-guide { text-align: left; padding-top: 15px; border-top: 1px dashed rgba(79, 172, 254, 0.3); }
+        .guide-title { color: #4facfe; font-weight: bold; margin-bottom: 10px; }
+        .guide-text { color: #a0c4ff; margin-bottom: 15px; font-size: 0.95rem; }
+        .novel-link-btn {
+            display: inline-block; width: 100%; box-sizing: border-box; text-align: center;
+            background: rgba(0, 114, 255, 0.2); color: #4facfe; border: 1px solid #4facfe;
+            padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; 
+            transition: all 0.3s ease; letter-spacing: 1px;
+        }
+        .novel-link-btn:hover { background: rgba(0, 114, 255, 0.5); color: #fff; box-shadow: 0 0 15px rgba(0, 114, 255, 0.5); }
+
+        .stats { margin-top: 30px; font-size: 0.95rem; color: #4facfe; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<div id="app">
+    <div id="intro-screen">
+        <img class="cover-img" src="https://framerusercontent.com/images/Kmj3VVRqy65C2TU6XyrVhgahlM.png" alt="深淵迴響封面圖">
+        <h1>【深淵迴響】</h1>
+        <p>每個人心裡都有一個不能說出口的偏好。<br>有人嚮往溫柔，有人沉迷失控。<br>有人渴望被征服，有人其實想反過來掌控。</p>
+        <p>這是一場關於「權力、依賴、慾望與選擇」的深層測試。<br>請用直覺回答。別想太多。</p>
+        <button class="start-btn" onclick="startQuiz()">墜入深淵</button>
+    </div>
+
+    <div id="quiz-screen" class="hidden">
+        <h2 id="question-text" style="font-size: 1.2rem; margin-bottom: 25px; line-height:1.5;">載入中...</h2>
+        <div id="options-container"></div>
+    </div>
+
+    <div id="result-screen" class="hidden">
+        <img id="final-result-img" class="result-img" src="" alt="專屬結果圖">
+        <div class="result-box" id="result-content"></div>
+        <div class="stats" id="stats-content">📊 讀取深淵迴響數據中...</div>
+        <button class="start-btn" onclick="location.reload()" style="background: transparent; border: 1px solid #4facfe; color: #4facfe; box-shadow: none;">重新探索</button>
+    </div>
+</div>
+
+<script>
+    // 背景特效 (不變)
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let particlesArray = [];
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+    class Particle {
+        constructor() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 2 + 0.5; this.speedY = Math.random() * 1 + 0.5; this.opacity = Math.random() * 0.5 + 0.1; }
+        update() { this.y -= this.speedY; if (this.y < 0) { this.y = canvas.height; this.x = Math.random() * canvas.width; } }
+        draw() { ctx.fillStyle = `rgba(79, 172, 254, ${this.opacity})`; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+    }
+    function initParticles() { particlesArray = []; let numberOfParticles = (canvas.width * canvas.height) / 9000; for (let i = 0; i < numberOfParticles; i++) { particlesArray.push(new Particle()); } }
+    function animateParticles() { ctx.clearRect(0, 0, canvas.width, canvas.height); for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); particlesArray[i].draw(); } requestAnimationFrame(animateParticles); }
+    initParticles(); animateParticles();
+
+    // --------------------------------------------------
+    // 資料庫設定
+    // --------------------------------------------------
+    const GAS_URL = "在此貼上你的_GAS_網址"; 
+
+    // 🔥 10 種屬性的完整文案設定區 🔥
+    const resultsData = {
+        "陰鬱偏執攻 × 陽光直男受": { 
+            image: "https://framerusercontent.com/images/Vv3w38hhKWgg2M57VkjWv4OOro.png",
+            soulName: "陽光直男受",
+            soulDesc: "你越是向著光，他越想將你拉入深淵。",
+            danger: "▮▮▮▮▮ (5/5)", attrName: "寵溺指數", attrValue: "▮▮▮▮▯ (4/5)", escape: "0%",
+            quote: "你對每個人都這麼笑嗎？沒關係……我會把你藏起來，以後你只能對我一個人笑。",
+            guide: "你的光芒是他唯一的救贖，卻也是逼瘋他的毒藥。想知道你們將如何在這場偏執的愛中互相折磨與救贖？",
+            bookName: "填入小說書名1", link: "https://你的小說網址.com"
+        },
+        "放蕩影子攻 × 禁慾學者受": { 
+            image: "https://framerusercontent.com/images/uQPprKfZezv518Mf1QK2enDGzTI.png",
+            soulName: "禁慾學者受",
+            soulDesc: "當極致的理智遇上純粹的慾望，是誰先跌落神壇？",
+            danger: "▮▮▮▮▯ (4/5)", attrName: "誘惑指數", attrValue: "▮▮▮▮▮ (5/5)", escape: "10%",
+            quote: "你的心跳得這麼快，難道學術理論裡沒有教你怎麼拒絕我嗎？",
+            guide: "你引以為傲的自制力，在他眼中只是不堪一擊的薄紙。準備好迎接理智全面崩盤的快感了嗎？",
+            bookName: "填入小說書名2", link: "https://你的小說網址.com"
+        },
+        "偏執瘋子攻 × 廢物美人受": { 
+            image: "https://framerusercontent.com/images/mPnc8okKQMo048aJiOXOZhtdIw.png",
+            soulName: "廢物美人受",
+            soulDesc: "只要你乖乖當個漂亮的廢物，他願意為你發瘋毀滅世界。",
+            danger: "▮▮▮▮▮ (5/5)", attrName: "圈養指數", attrValue: "▮▮▮▮▮ (5/5)", escape: "0%",
+            quote: "外面那麼髒，你這雙漂亮的腳怎麼能沾上泥土呢？乖，待在我的懷裡就好。",
+            guide: "放棄掙扎吧，被一頭瘋狂的野獸無條件寵愛與圈養，其實也是一種極致的幸福。",
+            bookName: "填入小說書名3", link: "https://你的小說網址.com"
+        },
+        "暴力黑獅攻 × 冰山白神受": { 
+            image: "https://framerusercontent.com/images/qyOKXEbm56dRn3orHnQgjQYhkTU.png",
+            soulName: "冰山白神受",
+            soulDesc: "野蠻與高潔的碰撞，撕裂你的冰冷偽裝，逼你染上紅塵的溫度。",
+            danger: "▮▮▮▮▮ (5/5)", attrName: "征服指數", attrValue: "▮▮▮▮▯ (4/5)", escape: "5%",
+            quote: "再高冷的眼神又怎樣？到了我的地盤，就算是神，也得乖乖給我低頭。",
+            guide: "絕對的力量面前，所有的反抗都是徒勞。看傲骨寸寸碎裂，化為臣服的喘息。",
+            bookName: "填入小說書名4", link: "https://你的小說網址.com"
+        },
+        "腹黑勢利攻 × 卑劣淫蕩受": { 
+            image: "https://framerusercontent.com/images/ZgfhchUbaHJuXY9V0Xipa3jxU.png",
+            soulName: "卑劣淫蕩受",
+            soulDesc: "全員惡人！互相利用卻又食髓知味，在泥沼裡交換最骯髒的吻。",
+            danger: "▮▮▮▮▯ (4/5)", attrName: "慾望指數", attrValue: "▮▮▮▮▮ (5/5)", escape: "20% (但你根本不想逃)",
+            quote: "別裝出那副清高的樣子了。你跟我一樣爛透了，拿走你想要的，然後用你自己來償還。",
+            guide: "沒有底線的成人遊戲，精於算計的獵手遇上甘願以身作餌的狐狸，誰會先動真心？",
+            bookName: "填入小說書名5", link: "https://你的小說網址.com"
+        },
+        "無情獸群攻 × 自毀抹布受": { 
+            image: "https://framerusercontent.com/images/R3kL5fcWaRHwCnZReWKeVt7i7M.png",
+            soulName: "自毀抹布受",
+            soulDesc: "連你自己都放棄了自己，卻被一群沒有人性的野獸視若珍寶。",
+            danger: "▮▮▮▮▮ (MAX)", attrName: "佔有指數", attrValue: "▮▮▮▮▮ (MAX)", escape: "0%",
+            quote: "想死？在我們沒有允許之前，你的每一滴血、每一絲呼吸，都只能屬於我們。",
+            guide: "最極致的毀滅帶來最深沉的愛意。在鮮血與獠牙的包圍下，迎來暴力的救贖。",
+            bookName: "填入小說書名6", link: "https://你的小說網址.com"
+        },
+        "佔有囚禁攻 × 自願沉淪受": { 
+            image: "https://framerusercontent.com/images/Pe3rzvy6YA1yz40oDkWncUEV70.png",
+            soulName: "自願沉淪受",
+            soulDesc: "這座名為愛的牢籠，是你主動選擇的安身之所。",
+            danger: "▮▮▮▮▯ (4/5)", attrName: "偏執指數", attrValue: "▮▮▮▮▮ (5/5)", escape: "0%",
+            quote: "既然這個世界讓你這麼累，不如，就由我來成為你的世界吧。",
+            guide: "當極致的控制慾，遇上渴望被完全接納的靈魂。推開那扇半掩的門，享受沉淪。",
+            bookName: "填入小說書名7", link: "https://你的小說網址.com"
+        },
+        "二哈黑龍攻 × 人妻王子受": { 
+            image: "https://framerusercontent.com/images/twm18KyCeDGaCdGedaOUI1aLXp4.png",
+            soulName: "人妻王子受",
+            soulDesc: "外表毀天滅地，回家卻只會對著你搖尾巴的巨型猛獸。",
+            danger: "▮▮▯▯▯ (2/5)", attrName: "忠犬指數", attrValue: "▮▮▮▮▮ (MAX)", escape: "90% (但他會哭著找你)",
+            quote: "老婆！我今天把那群討厭的傢伙都燒成灰了，我可以要一個親親當獎勵嗎？",
+            guide: "掌握絕對武力的巨龍，唯一的弱點就是你。來體驗把恐怖魔王當大型犬養的快樂。",
+            bookName: "填入小說書名8", link: "https://你的小說網址.com"
+        },
+        "黑化掠奪攻 × 清冷自持受": { 
+            image: "https://framerusercontent.com/images/m56Q5hEDF1BiFypFDftnukMnhWM.png",
+            soulName: "清冷自持受",
+            soulDesc: "曾經的溫柔化為禁錮的鎖鏈，冷傲如你，該如何面對這場掠奪？",
+            danger: "▮▮▮▮▮ (5/5)", attrName: "黑化指數", attrValue: "▮▮▮▮▮ (5/5)", escape: "1%",
+            quote: "你總是這麼冷靜，冷靜得讓人……忍不住想看看你崩潰求饒的樣子。",
+            guide: "安全感被徹底撕碎，原本熟悉的溫柔面具下，藏著無可救藥的掠奪慾。",
+            bookName: "填入小說書名9", link: "https://你的小說網址.com"
+        },
+        "病態攻 × 斯德哥爾摩受": { 
+            image: "https://framerusercontent.com/images/lKXEUNx6ZWifVuXPqi879aZzi4.png",
+            soulName: "斯德哥爾摩受",
+            soulDesc: "愛與痛的邊界已經模糊，你終於分不清，是想逃還是不想離開。",
+            danger: "▮▮▮▮▮ (5/5)", attrName: "瘋狂指數", attrValue: "▮▮▮▮▮ (5/5)", escape: "0%",
+            quote: "弄疼你了嗎？忍著。因為只有痛，才能讓你永遠記住你是屬於誰的。",
+            guide: "當理智全面崩盤，痛覺化為最深沉的愛意。這場名為愛的無期徒刑，你準備好服刑了嗎？",
+            bookName: "填入小說書名10", link: "https://你的小說網址.com"
+        }
+    };
+
+    // 題目資料 (分數已平均分配)
+    const questions = [
+        {
+            text: "Q1. 凌晨三點，你在一個完全陌生的昏暗房間醒來。你的第一個念頭是：",
+            options: [
+                { text: "尋找防身物品並冷靜觀察逃生路線。", scores: ["陰鬱偏執攻 × 陽光直男受", "暴力黑獅攻 × 冰山白神受", "黑化掠奪攻 × 清冷自持受"] },
+                { text: "冷笑一聲，想想怎麼利用這個處境替自己撈點好處。", scores: ["腹黑勢利攻 × 卑劣淫蕩受", "二哈黑龍攻 × 人妻王子受"] },
+                { text: "湧起一股絕望與自毀的衝動，隨便吧。", scores: ["無情獸群攻 × 自毀抹布受", "病態攻 × 斯德哥爾摩受"] },
+                { text: "感到一絲近乎解脫的平靜，索性待在原地。", scores: ["放蕩影子攻 × 禁慾學者受", "偏執瘋子攻 × 廢物美人受", "佔有囚禁攻 × 自願沉淪受"] }
+            ]
+        },
+        {
+            text: "Q2. 一個氣場壓迫的男人走進來，將一個盒子扔在你面前。你希望裡面裝著什麼？",
+            options: [
+                { text: "一把槍。他要你證明自己的生存價值。", scores: ["暴力黑獅攻 × 冰山白神受", "無情獸群攻 × 自毀抹布受"] },
+                { text: "一份寫滿你所有把柄與秘密的威脅檔案。", scores: ["放蕩影子攻 × 禁慾學者受", "黑化掠奪攻 × 清冷自持受", "陰鬱偏執攻 × 陽光直男受"] },
+                { text: "一張無上限黑卡和一份賣身契約。", scores: ["腹黑勢利攻 × 卑劣淫蕩受", "佔有囚禁攻 × 自願沉淪受", "二哈黑龍攻 × 人妻王子受"] },
+                { text: "滿滿一盒他親手為你做的、卻帶點血腥味的點心。", scores: ["病態攻 × 斯德哥爾摩受", "偏執瘋子攻 × 廢物美人受"] }
+            ]
+        },
+        {
+            text: "Q3. 他步步逼近，用力捏住你的下巴迫使你抬頭。你如何回應？",
+            options: [
+                { text: "毫不退縮地瞪回去，充滿挑釁。", scores: ["陰鬱偏執攻 × 陽光直男受", "暴力黑獅攻 × 冰山白神受", "二哈黑龍攻 × 人妻王子受"] },
+                { text: "眼神閃躲，因為恐懼而微微發抖。", scores: ["偏執瘋子攻 × 廢物美人受", "無情獸群攻 × 自毀抹布受"] },
+                { text: "順勢蹭了蹭他的掌心，露出極具暗示性的笑。", scores: ["腹黑勢利攻 × 卑劣淫蕩受", "佔有囚禁攻 × 自願沉淪受", "病態攻 × 斯德哥爾摩受"] },
+                { text: "面無表情地看著他，試圖用冷漠刺傷他。", scores: ["放蕩影子攻 × 禁慾學者受", "黑化掠奪攻 × 清冷自持受"] }
+            ]
+        },
+        {
+            text: "Q4. 他在你耳邊低語了一句話，讓你背脊發麻。他說的是：",
+            options: [
+                { text: "「逃吧，被我抓到的話，你就別想再看到太陽。」", scores: ["陰鬱偏執攻 × 陽光直男受", "黑化掠奪攻 × 清冷自持受", "暴力黑獅攻 × 冰山白神受"] },
+                { text: "「承認吧，你的身體早就比你的理智更誠實了。」", scores: ["放蕩影子攻 × 禁慾學者受", "腹黑勢利攻 × 卑劣淫蕩受"] },
+                { text: "「什麼都不用做，我會為你殺光外面所有人。」", scores: ["偏執瘋子攻 × 廢物美人受", "二哈黑龍攻 × 人妻王子受", "佔有囚禁攻 × 自願沉淪受"] },
+                { text: "「痛嗎？忍著。這樣你才會永遠記住你是誰的。」", scores: ["病態攻 × 斯德哥爾摩受", "無情獸群攻 × 自毀抹布受"] }
+            ]
+        },
+        {
+            text: "Q5. 如果這是一場註定無法逃脫的遊戲，你渴望的結局是：",
+            options: [
+                { text: "兩敗俱傷，在毀滅與血泊中交換最後一個吻。", scores: ["無情獸群攻 × 自毀抹布受", "暴力黑獅攻 × 冰山白神受", "黑化掠奪攻 × 清冷自持受"] },
+                { text: "互相利用，在慾望與利益的泥沼裡一起沉淪。", scores: ["腹黑勢利攻 × 卑劣淫蕩受", "放蕩影子攻 × 禁慾學者受"] },
+                { text: "你徹底被折斷羽翼，成為他專屬的金絲雀。", scores: ["陰鬱偏執攻 × 陽光直男受", "偏執瘋子攻 × 廢物美人受", "佔有囚禁攻 × 自願沉淪受"] },
+                { text: "痛與愛混淆，你心甘情願為他戴上鎖鏈。", scores: ["病態攻 × 斯德哥爾摩受", "二哈黑龍攻 × 人妻王子受"] }
+            ]
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let userScores = {};
+
+    function startQuiz() {
+        document.getElementById('intro-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        showQuestion();
+    }
+
+    function showQuestion() {
+        const q = questions[currentQuestionIndex];
+        document.getElementById('question-text').innerText = q.text;
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = ''; 
+        
+        q.options.forEach(option => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = option.text;
+            btn.onclick = () => selectOption(option.scores);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function selectOption(scoresArray) {
+        scoresArray.forEach(key => {
+            if (!userScores[key]) userScores[key] = 0;
+            userScores[key]++;
+        });
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            showQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('result-screen').classList.remove('hidden');
+
+        // 找出最高分的選項 (同分隨機)
+        let maxScore = Math.max(...Object.values(userScores));
+        let topKeys = Object.keys(userScores).filter(k => userScores[k] === maxScore);
+        let finalResultKey = topKeys[Math.floor(Math.random() * topKeys.length)];
+        let result = resultsData[finalResultKey];
+
+        // 圖片替換
+        document.getElementById('final-result-img').src = result.image;
+
+        // 🚀 動態生成排版內容 🚀
+        document.getElementById('result-content').innerHTML = `
+            <div class="result-title">你的靈魂屬性：【${result.soulName}】</div>
+            <p class="result-desc">—— ${result.soulDesc}</p>
+            
+            <div class="result-stats">
+                <div>危險指數： ${result.danger}</div>
+                <div>${result.attrName}： ${result.attrValue}</div>
+                <div>逃脫機率： ${result.escape}</div>
+            </div>
+
+            <div class="result-quote">
+                <div class="quote-title">💬 專屬台詞：</div>
+                <div class="quote-text">「${result.quote}」</div>
+            </div>
+
+            <div class="result-guide">
+                <div class="guide-title">📖 宿命指引（導流入口）：</div>
+                <div class="guide-text">${result.guide}</div>
+                <a href="${result.link}" target="_blank" class="novel-link-btn">👉 點此閱讀專屬你的故事：《${result.bookName}》</a>
+            </div>
+        `;
+
+        sendToGoogleSheets(finalResultKey);
+    }
+
+    function sendToGoogleSheets(resultKey) {
+        if (GAS_URL === "在此貼上你的_GAS_網址") {
+            document.getElementById('stats-content').innerHTML = "⚠️ 尚未串接資料庫，僅顯示本地結果。";
+            return;
+        }
+
+        fetch(`${GAS_URL}?result=${encodeURIComponent(resultKey)}`)
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === "success") {
+                    let userCount = data.stats[resultKey] || 1;
+                    let percentage = ((userCount / data.total) * 100).toFixed(1);
+                    document.getElementById('stats-content').innerHTML = `
+                        <p style="color: #a0c4ff; margin:0 0 5px 0;">目前共有 <strong style="color: #fff; font-size:1.2em;">${data.total}</strong> 個靈魂墜入深淵。</p>
+                        <p style="color: #a0c4ff; margin:0;">與你一樣對 <strong>${resultKey}</strong> 上癮的人約佔 <strong style="color: #00f2fe; font-size:1.2em;">${percentage}%</strong>。</p>
+                    `;
+                }
+            })
+            .catch(error => {
+                document.getElementById('stats-content').innerHTML = "數據讀取失敗，但深淵已記住你的選擇。";
+            });
+    }
+</script>
+
+</body>
+</html>
