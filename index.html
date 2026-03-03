@@ -492,6 +492,33 @@ body{
   40%    { filter:drop-shadow(0 0 8px rgba(255,255,255,.9)); color:#fff;       }
 }
 
+/* BGM 提示文字 */
+#audio-hint{
+  position:fixed;
+  z-index:260;
+  pointer-events:none;
+  font-family:var(--display);
+  font-style:italic;
+  font-size:12px;
+  letter-spacing:4px;
+  color:#fff;
+  /* 黑底 */
+  background:rgba(0,0,0,.72);
+  padding:7px 14px;
+  /* 白色文字光暈 */
+  text-shadow:
+    0 0 8px rgba(255,255,255,1),
+    0 0 18px rgba(255,255,255,.6);
+  white-space:nowrap;
+  opacity:0;
+  transform:translateX(8px);
+  transition:opacity .45s ease, transform .45s ease;
+}
+#audio-hint.show{
+  opacity:1;
+  transform:translateX(0);
+}
+
 
 /* ══ MOBILE ══ */
 @media(max-width:768px){
@@ -500,7 +527,9 @@ body{
   .title-deco-left{left:0;height:160px;}
   .title-deco-right{right:-16px;height:140px;}
   .title-wrap{padding:20px 0;}
-  .art-layer{opacity:.28;}
+  .art-layer{ opacity:1; transition:opacity .6s ease; }
+  /* .art-layer.dim 由 JS 在提示消失後加上 */
+  .art-layer.dim{ opacity:.28; }
   .btn-row{flex-direction:column;width:100%;}
   .btn{width:100%;}
   .seal{grid-template-columns:64px 1fr 44px;gap:8px;padding:13px 12px;}
@@ -603,6 +632,9 @@ body{
 
     </div>
   </button>
+
+  <!-- BGM 提示文字（nudge 時短暫出現） -->
+  <div id="audio-hint" aria-hidden="true">建議開啟BGM體驗更佳</div>
 
 </div><!-- /art-layer -->
 
@@ -1255,11 +1287,32 @@ function sendStats(code){
       });
   }
 
-  // nudge：進頁面 1.2 秒後，音符閃白光吸引注意
+  // nudge：進頁面 1.2 秒後，音符閃白光 + 提示文字出現
   window.addEventListener('load', ()=>{
     setTimeout(()=>{
+      const hint     = document.getElementById('audio-hint');
+      const artLayer = document.querySelector('.art-layer');
+      const isMobile = window.innerWidth <= 768;
+
+      // 定位提示文字：按鈕左側，往下多偏 14px
+      if(hint){
+        const btnRect = btn.getBoundingClientRect();
+        hint.style.top   = Math.round(btnRect.top + btnRect.height/2 - 8 + 14) + 'px';
+        hint.style.right = Math.round(window.innerWidth - btnRect.left + 10) + 'px';
+        hint.classList.add('show');
+      }
+
+      // 音符同步發白光（不管靜音/播放狀態都閃一次）
       btn.classList.add('nudge');
+
+      // 提示消失
       setTimeout(()=>{ btn.classList.remove('nudge'); }, 1600);
+      setTimeout(()=>{
+        if(hint) hint.classList.remove('show');
+        // 手機：提示消失後才壓暗裝飾圖案
+        if(isMobile && artLayer) artLayer.classList.add('dim');
+      }, 3200);
+
     }, 1200);
   });
 
