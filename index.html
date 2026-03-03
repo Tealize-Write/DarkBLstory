@@ -443,35 +443,40 @@ body{
 }
 
 /* ══ AUDIO TOGGLE（嵌入右上月亮圓心） ══ */
-/*
-  右上羅盤是 `translate(220,220) scale(-1,-1)` 鏡像。
-  原本月亮圓心在 (60,160)，鏡像後 → (220-60, 220-160) = (160, 60)。
-  art-tr 是 220×220，貼 top:0 right:0。
-  所以圓心在視窗座標：top = 60px，right = 220-160 = 60px。
-  按鈕本身 28×28，置中對齊圓心：top = 60-14 = 46px，right = 60-14 = 46px。
-*/
 #audio-btn{
-  position:absolute;
-  top:46px;
-  right:46px;
+  position:fixed;   /* JS 動態設 top/right，不用 absolute */
+  top:0; right:0;   /* 初始佔位，JS 載入後覆蓋 */
   z-index:220;
   pointer-events:auto;
   background:transparent;
   border:none;
-  width:28px;height:28px;
+  width:36px;height:36px;
   padding:0;
   cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
   color:var(--ink);
+  /* 初始隱藏，等 JS 定位後顯示，避免閃爍 */
+  visibility:hidden;
+}
+/* wrapper：relative 容器，兩個 svg 絕對疊在同一位置 */
+.audio-icon-wrap{
+  position:relative;
+  width:26px;height:26px;
 }
 #audio-btn svg{
-  width:16px;height:16px;
+  position:absolute;
+  top:0; left:0;
+  width:26px;height:26px;
   display:block;
-  transition:opacity .25s ease;
+  transition:opacity .15s ease;
 }
-#audio-btn.muted svg{ opacity:.28; }
 
-/* 聲波跳動 */
+/* 兩圖示切換：opacity 疊加，不佔流 */
+.icon-bars  { opacity:1; }
+.icon-note  { opacity:0; }
+#audio-btn.muted .icon-bars { opacity:0; }
+#audio-btn.muted .icon-note { opacity:1; }
+
+/* 聲波跳動（僅播放中） */
 #audio-btn:not(.muted) .bar1{ animation:barPulse 1.1s ease-in-out infinite; }
 #audio-btn:not(.muted) .bar2{ animation:barPulse 1.1s ease-in-out .18s infinite; }
 #audio-btn:not(.muted) .bar3{ animation:barPulse 1.1s ease-in-out .36s infinite; }
@@ -479,60 +484,12 @@ body{
   0%,100%{ transform:scaleY(1);  }
   50%    { transform:scaleY(1.8);}
 }
-.mute-slash{ display:none; }
-#audio-btn.muted .mute-slash{ display:block; }
 
-/* Hover tooltip：往左滑出 */
-#audio-btn::after{
-  content:attr(data-tip);
-  position:absolute;
-  top:50%;right:calc(100% + 10px);
-  transform:translateY(-50%) translateX(5px);
-  font-family:var(--display);
-  font-style:italic;
-  font-size:10px;
-  letter-spacing:4px;
-  color:rgba(255,255,255,.78);
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .2s ease, transform .2s ease;
-  white-space:nowrap;
-}
-#audio-btn:hover::after,
-#audio-btn:focus-visible::after{
-  opacity:1;
-  transform:translateY(-50%) translateX(0);
-}
-
-/* nudge 閃光 */
-#audio-btn.nudge{ animation:nudgeGlow 1.4s ease 1; }
+/* nudge：進頁面時音符閃白光 */
+#audio-btn.nudge{ animation:nudgeGlow 1.6s ease 1; }
 @keyframes nudgeGlow{
-  0%,100%{ filter:none; }
-  40%    { filter:drop-shadow(0 0 6px rgba(255,255,255,.6)); }
-}
-
-/* BGM 提示文字：發光白字 */
-#audio-hint{
-  position:fixed;
-  top:96px;
-  right:80px;
-  z-index:210;
-  font-family:var(--serif);
-  font-size:13px;
-  letter-spacing:2.8px;
-  color:rgba(255,255,255,.78);
-  background:rgba(0,0,0,.55);
-  border:1px solid rgba(255,255,255,.22);
-  padding:12px 16px;
-  opacity:0;
-  transform:translateY(-6px);
-  transition:opacity .35s ease, transform .35s ease;
-  pointer-events:none;
-  backdrop-filter: blur(2px);
-}
-#audio-hint.show{
-  opacity:1;
-  transform:translateY(0);
+  0%,100%{ filter:none;                                      color:var(--ink); }
+  40%    { filter:drop-shadow(0 0 8px rgba(255,255,255,.9)); color:#fff;       }
 }
 
 
@@ -549,28 +506,9 @@ body{
   .seal{grid-template-columns:64px 1fr 44px;gap:8px;padding:13px 12px;}
   .seal .lab{font-size:10px;}
   .seal .val{font-size:11px;}
-  #audio-btn{ top:46px; right:46px; }
-  #audio-hint{ top:52px; right:80px; font-size:9px; }
-}
-/* ══ MUSIC CREDIT (non-intrusive corner note) ══ */
-#music-credit{
-  position:fixed;
-  right:18px;
-  bottom:18px;
-  z-index:60;
-  pointer-events:none; /* 不干擾點擊作答 */
-  font-family:var(--display);
-  font-style:italic;
-  font-size:11px;
-  letter-spacing:2px;
-  line-height:1.7;
-  color:rgba(255,255,255,.95);
-  text-align:right;
-  max-width:260px;
-  text-shadow:0 0 12px rgba(0,0,0,.9);
-}
-@media(max-width:768px){
-  #music-credit{ left:12px; bottom:12px; font-size:9px; }
+  /* 手機縮小羅盤裝飾，不影響按鈕定位（由 JS 處理） */
+  .art-tr{ width:160px; height:160px; }
+  .art-bl{ width:160px; height:160px; }
 }
 </style>
 </head>
@@ -644,26 +582,29 @@ body{
           type="button"
           aria-hidden="false"
           aria-label="切換音樂"
-          data-tip="BGM"
           onclick="toggleAudio()">
-    <svg viewBox="0 0 18 18" fill="none">
-      <!-- 三條聲波豎線 -->
-      <rect class="bar1" x="2"  y="7"  width="2.2" height="5.5" rx=".6" fill="currentColor" style="transform-origin:3.1px 12.5px"/>
-      <rect class="bar2" x="7.9" y="4" width="2.2" height="8.5" rx=".6" fill="currentColor" style="transform-origin:9px 12.5px"/>
-      <rect class="bar3" x="13.8" y="7" width="2.2" height="5.5" rx=".6" fill="currentColor" style="transform-origin:14.9px 12.5px"/>
-      <!-- 靜音斜線 -->
-      <line class="mute-slash" x1="1" y1="1" x2="17" y2="17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-    </svg>
+    <div class="audio-icon-wrap">
+
+      <!-- 播放中：三條跳動豎線 -->
+      <svg class="icon-bars" viewBox="0 0 18 18" fill="none">
+        <rect class="bar1" x="2"   y="7"   width="2.2" height="5.5" rx=".6" fill="currentColor" style="transform-origin:3.1px 12.5px"/>
+        <rect class="bar2" x="7.9" y="4"   width="2.2" height="8.5" rx=".6" fill="currentColor" style="transform-origin:9px 12.5px"/>
+        <rect class="bar3" x="13.8" y="7"  width="2.2" height="5.5" rx=".6" fill="currentColor" style="transform-origin:14.9px 12.5px"/>
+      </svg>
+
+      <!-- 靜音：四分音符（圓頭＋桿＋旗）＋斜線 -->
+      <svg class="icon-note" viewBox="0 0 18 18" fill="none">
+        <ellipse cx="6.5" cy="14" rx="3" ry="2.2" transform="rotate(-15 6.5 14)" fill="currentColor"/>
+        <line x1="9.3" y1="13" x2="9.3" y2="3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M9.3,3.5 C12.5,4.8 13.2,7.5 11,9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <!-- 靜音斜線 -->
+        <line x1="2" y1="16" x2="16" y2="2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+
+    </div>
   </button>
 
 </div><!-- /art-layer -->
-
-<!-- BGM 提示文字（載入後短暫出現） -->
-<div id="audio-hint" aria-hidden="true">建議開啟BGM體驗更佳</div>
-
-<!-- 音樂來源（不干擾作答的角落） -->
-<div id="music-credit" aria-hidden="true">音樂<br/>Music by Dvir Silverstone from Pixabay</div>
-
 
 <!-- ══ APP ══ -->
 <div id="app">
@@ -1256,9 +1197,35 @@ function sendStats(code){
 (function(){
   const bgm  = document.getElementById('bgm');
   const btn  = document.getElementById('audio-btn');
-  const hint = document.getElementById('audio-hint');
 
   bgm.volume = 0.45;
+
+  // ── 動態定位：art-tr 永遠是 top:0 right:0，直接讀 offsetWidth ──
+  // symbol viewBox 220×220，原始月亮圓心在 (60,160)
+  // 鏡像後在 art-tr 座標：cx = 220-60 = 160，cy = 220-160 = 60
+  // art-tr 貼視窗右上，所以：
+  //   top  = art-tr.offsetHeight * (60/220)
+  //   right = art-tr.offsetWidth * (60/220)   ← 從右邊數 (220-160)/220 = 60/220
+  function positionBtn(){
+    const artTr = document.querySelector('.art-tr');
+    if(!artTr) return;
+    const W  = artTr.offsetWidth;
+    const H  = artTr.offsetHeight;
+    const cy = H * (55/220);
+    const cr = W * (54/220);   // 調小 → 往右
+    const hw = btn.offsetWidth  / 2;
+    const hh = btn.offsetHeight / 2;
+    btn.style.top        = Math.round(cy - hh) + 'px';
+    btn.style.right      = Math.round(cr - hw) + 'px';
+    btn.style.left       = '';
+    btn.style.visibility = 'visible';
+  }
+
+  // 頁面載入 + resize 都重新定位
+  window.addEventListener('load',   positionBtn);
+  window.addEventListener('resize', positionBtn);
+  // 也在 DOMContentLoaded 先跑一次（圖形已在 DOM 中）
+  document.addEventListener('DOMContentLoaded', positionBtn);
 
   // 同步按鈕狀態到實際播放狀態
   function syncBtn(){
@@ -1272,13 +1239,11 @@ function sendStats(code){
   }
 
   // 嘗試播放，靜默失敗（autoplay policy）
-  // 若成功 → 按鈕顯示播放中；若被擋 → 按鈕顯示靜音，等第一次互動
   const playPromise = bgm.play();
   if(playPromise !== undefined){
     playPromise
       .then(()=>{ syncBtn(); })
       .catch(()=>{
-        // autoplay 被瀏覽器封鎖，等第一次用戶互動
         btn.classList.add('muted');
         const resumeOnInteract = ()=>{
           bgm.play().then(()=>{ syncBtn(); });
@@ -1290,13 +1255,11 @@ function sendStats(code){
       });
   }
 
-  // nudge + hint：1.2 秒後提示一次
+  // nudge：進頁面 1.2 秒後，音符閃白光吸引注意
   window.addEventListener('load', ()=>{
     setTimeout(()=>{
       btn.classList.add('nudge');
-      if(hint){ hint.classList.add('show'); }
-      setTimeout(()=>{ if(hint) hint.classList.remove('show'); }, 4200);
-      setTimeout(()=>{ btn.classList.remove('nudge'); }, 1400);
+      setTimeout(()=>{ btn.classList.remove('nudge'); }, 1600);
     }, 1200);
   });
 
