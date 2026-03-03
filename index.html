@@ -153,6 +153,18 @@ body{
 }
 .btn.mini:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);}
 
+/* ══ SKIP BUTTON ══ */
+.skip-btn{
+  background:transparent;border:none;
+  color:var(--muted);
+  font-family:var(--display);font-style:italic;
+  font-size:12px;letter-spacing:3px;
+  cursor:pointer;padding:4px 0;
+  transition:color .2s ease;
+  user-select:none;
+}
+.skip-btn:hover{color:var(--ink);}
+
 /* ══ QUIZ ══ */
 .meta{
   margin-top:24px;
@@ -520,12 +532,12 @@ body{
         <line x1="0" y1="170" x2="80" y2="170" stroke="#fff" stroke-width="1"/>
       </svg>
       <div class="h1">How will<br>the story end<br>this time?</div>
-      <svg class="title-deco-right" viewBox="0 0 140 200">
+      <svg class="title-deco-right" viewBox="0 0 140 210">
         <path d="M90,30 Q90,60 55,60 Q90,60 90,90 Q90,60 125,60 Q90,60 90,30" fill="#fff"/>
         <line x1="0" y1="60" x2="140" y2="60" stroke="#fff" stroke-width="1"/>
-        <line x1="115" y1="60" x2="115" y2="180" stroke="#fff" stroke-width="1.2"/>
-        <circle cx="115" cy="188" r="3" fill="none" stroke="#fff"/>
-        <circle cx="115" cy="198" r="3" fill="none" stroke="#fff"/>
+        <line x1="115" y1="60" x2="115" y2="185" stroke="#fff" stroke-width="1.2"/>
+        <circle cx="115" cy="191" r="4" fill="none" stroke="#fff" stroke-width="1"/>
+        <circle cx="115" cy="204" r="4" fill="none" stroke="#fff" stroke-width="1"/>
       </svg>
     </div>
 
@@ -565,6 +577,12 @@ body{
     <div class="qno" id="qno">— I —</div>
     <div class="qtext" id="qtext"></div>
     <div class="options" id="options"></div>
+    <!-- Skip 按鈕：打字機進行中才顯示 -->
+    <div id="skip-wrap" style="text-align:right;margin-top:16px;display:none;">
+      <button class="skip-btn" type="button" id="skip-btn" onclick="skipTypewriter()">
+        skip ››
+      </button>
+    </div>
   </section>
 
   <!-- ── RESULT ── -->
@@ -859,30 +877,68 @@ function updateProgress(){
   document.getElementById('qno').textContent=`— ${ROMAN[qi]} —`;
 }
 
-function showQuestion(){
-  updateProgress();
-  const q=questions[qi];
+/* ════════════════════════════════
+   TYPEWRITER
+════════════════════════════════ */
+let _twTimer = null;   // 目前打字機 interval
+let _twDone  = false;  // 是否已完成
 
-  // qtext 打字機效果
-  const el=document.getElementById('qtext');
-  el.style.animation='none';
-  el.offsetHeight;
-  el.style.animation='fadeUp .5s ease both';
-  el.textContent=q.text;
+// 立即結束打字機，直接顯示全部
+function skipTypewriter(){
+  if(_twTimer){ clearInterval(_twTimer); _twTimer=null; }
+  _finishTypewriter();
+}
 
-  const opts=document.getElementById('options');
+// 打字機完成後的共同收尾
+function _finishTypewriter(){
+  _twDone = true;
+  // 隱藏 skip 按鈕
+  document.getElementById('skip-wrap').style.display='none';
+
+  // 顯示題目完整文字
+  const el = document.getElementById('qtext');
+  const q  = questions[qi];
+  el.textContent = q.text;
+
+  // 顯示所有選項（依序淡入）
+  const opts = document.getElementById('options');
   opts.innerHTML='';
-
-  // 選項：依序延遲淡入（模擬打字出現）
   q.options.forEach((opt,i)=>{
     const btn=document.createElement('button');
     btn.className='opt';btn.type='button';
     btn.innerHTML=`<span class="bullet"></span><span class="txt">${opt.text}</span>`;
     btn.onclick=()=>pick(opt.add,btn);
     opts.appendChild(btn);
-    // 依序觸發，間隔 120ms
-    setTimeout(()=>btn.classList.add('visible'), 80+i*140);
+    setTimeout(()=>btn.classList.add('visible'), 60+i*130);
   });
+}
+
+function showQuestion(){
+  updateProgress();
+  _twDone  = false;
+  if(_twTimer){ clearInterval(_twTimer); _twTimer=null; }
+
+  const q   = questions[qi];
+  const el  = document.getElementById('qtext');
+  const skipWrap = document.getElementById('skip-wrap');
+
+  // 清空選項、顯示 skip
+  document.getElementById('options').innerHTML='';
+  el.textContent='';
+  skipWrap.style.display='block';
+
+  // 逐字打字機
+  const chars = q.text.split('');
+  let idx = 0;
+  _twTimer = setInterval(()=>{
+    if(idx < chars.length){
+      el.textContent += chars[idx];
+      idx++;
+    } else {
+      clearInterval(_twTimer); _twTimer=null;
+      _finishTypewriter();
+    }
+  }, 38); // 每字間隔 38ms，約 1 秒打 26 字
 }
 
 function addAxisScores(obj){
@@ -891,6 +947,8 @@ function addAxisScores(obj){
 }
 
 function pick(addObj,btn){
+  // 清掉任何殘留打字機
+  if(_twTimer){ clearInterval(_twTimer); _twTimer=null; }
   document.querySelectorAll('.opt').forEach(b=>b.disabled=true);
   btn.classList.add('selected');
   addAxisScores(addObj);
