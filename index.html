@@ -225,55 +225,130 @@ body{
   to{opacity:1;transform:translateY(0);}
 }
 
+/* ══ BACK BUTTON (quiz left-top) ══ */
+.back-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;border:none;
+  color:var(--muted);cursor:pointer;
+  font-family:var(--display);font-style:italic;
+  font-size:13px;letter-spacing:2px;
+  padding:0;margin-bottom:24px;
+  transition:color .2s ease;
+}
+.back-btn:hover{color:var(--ink);}
+.back-btn svg{
+  width:18px;height:18px;
+  transition:transform .2s ease;
+}
+.back-btn:hover svg{transform:translateX(-3px);}
+
 /* ══ RESULT ══ */
-/* 結果圖：白底、上圓角、原色 */
+/* 上方：圖＋基本資訊並排 */
+.result-hero{
+  display:grid;
+  grid-template-columns:160px 1fr;
+  gap:20px;
+  align-items:start;
+  margin-top:16px;
+}
 .result-img-wrap{
-  margin-top:24px;
-  border-radius:44px 44px 0 0;
+  border-radius:16px 16px 0 0;
   overflow:hidden;
   background:#fff;
+  flex-shrink:0;
+  /* 固定寬高比 1000:1343 ≈ 3:4 讓圖片永遠顯示完整 */
+  aspect-ratio:3/4;
 }
 .result-img{
-  width:100%;height:auto;display:block;
+  width:100%;height:100%;display:block;
+  object-fit:cover;
+  object-position:top center;
   filter:none;background:#fff;
 }
+.result-hero-info{
+  padding-top:2px;
+}
 
-.result-body{margin-top:36px;text-align:center;}
+.result-body{margin-top:24px;text-align:center;}
 .r-eyebrow{
   font-family:var(--display);font-style:italic;
-  letter-spacing:4px;color:var(--ink-weak);
-  font-size:12px;text-transform:uppercase;
+  letter-spacing:4px;color:var(--muted);
+  font-size:11px;text-transform:uppercase;
 }
 .r-name{
-  margin-top:14px;
+  margin-top:10px;
   font-family:var(--serif);font-weight:400;
-  font-size:34px;letter-spacing:4px;
+  font-size:22px;letter-spacing:2px;
+  text-align:left;line-height:1.4;
 }
 .r-compound{
-  margin-top:8px;
+  margin-top:6px;
   font-family:var(--display);font-style:italic;
-  font-size:13px;letter-spacing:2px;color:var(--muted);
+  font-size:11px;letter-spacing:2px;color:var(--muted);
+  text-align:left;
 }
 .r-desc{
-  margin-top:14px;line-height:2;
-  color:var(--ink-weak);font-size:15px;letter-spacing:2px;
+  margin-top:12px;line-height:2;
+  color:var(--ink-weak);font-size:13px;letter-spacing:.5px;
+  text-align:left;
 }
 
-/* 三欄指標，共用邊框網格 */
+/* ══ GOTHIC SEALS ══ */
 .seals{
-  margin-top:36px;
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:1px;background:var(--line);
+  margin-top:24px;
+  display:flex;flex-direction:column;gap:0;
   border:1px solid var(--line);
 }
-.seal{background:var(--bg);padding:22px 12px;text-align:center;}
+.seal{
+  padding:15px 18px;
+  border-bottom:1px solid var(--line);
+  display:grid;
+  grid-template-columns:72px 1fr 52px;
+  align-items:center;gap:14px;
+}
+.seal:last-child{border-bottom:none;}
 .seal .lab{
   font-family:var(--display);font-style:italic;
-  letter-spacing:2px;color:var(--muted);font-size:12px;
+  letter-spacing:1.5px;color:var(--muted);font-size:11px;
+  white-space:nowrap;
 }
+/* 刻度尺 */
+.seal-ruler{
+  position:relative;height:14px;
+  display:flex;align-items:center;
+}
+.seal-ruler-track{
+  position:absolute;left:0;right:0;height:1px;
+  background:rgba(255,255,255,.12);
+}
+.seal-ruler-ticks{
+  position:absolute;left:0;right:0;
+  display:flex;justify-content:space-between;
+}
+.seal-ruler-ticks span{
+  display:block;width:1px;height:5px;
+  background:rgba(255,255,255,.2);
+}
+.seal-ruler-fill{
+  position:absolute;left:0;height:1px;
+  background:var(--ink);
+  transition:width 1.3s cubic-bezier(.22,1,.36,1);
+  width:0;
+}
+.seal-ruler-pointer{
+  position:absolute;top:50%;
+  width:7px;height:7px;
+  border:1px solid var(--ink);
+  transform:translateY(-50%) rotate(45deg);
+  background:var(--bg);
+  transition:left 1.3s cubic-bezier(.22,1,.36,1);
+  left:0;
+}
+/* 右側數值：純文字，不重複 ▮ */
 .seal .val{
-  margin-top:10px;font-family:var(--serif);
-  color:var(--ink);letter-spacing:2px;font-size:14px;
+  font-family:var(--display);font-style:italic;
+  color:var(--ink);letter-spacing:1px;font-size:12px;
+  text-align:right;white-space:nowrap;
 }
 
 /* 台詞 / 預言 block */
@@ -330,6 +405,28 @@ body{
 /* ══ UTILS ══ */
 .hidden{display:none!important;}
 
+/* ══ 中間尺寸：兩欄開始擠時提早換單欄 ══ */
+@media(max-width:560px){
+  .result-hero{
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+  /* 手機單欄：圖片全寬，保持正確比例 */
+  .result-img-wrap{
+    width:100%;
+    max-width:100%;
+    border-radius:16px 16px 0 0;
+    /* 保持原圖 1000×1343 的比例完整顯示 */
+    aspect-ratio:1000/1343;
+  }
+  .result-img{
+    object-fit:contain;
+    object-position:top center;
+  }
+  .r-name{font-size:20px;}
+  .r-desc{font-size:13px;}
+}
+
 /* ══ MOBILE ══ */
 @media(max-width:768px){
   :root{--content-pad:22px;}
@@ -337,10 +434,12 @@ body{
   .title-deco-left{left:0;height:160px;}
   .title-deco-right{right:-16px;height:140px;}
   .title-wrap{padding:20px 0;}
-  .seals{grid-template-columns:1fr;}
   .art-layer{opacity:.28;}
   .btn-row{flex-direction:column;width:100%;}
   .btn{width:100%;}
+  .seal{grid-template-columns:64px 1fr 44px;gap:8px;padding:13px 12px;}
+  .seal .lab{font-size:10px;}
+  .seal .val{font-size:11px;}
 }
 </style>
 </head>
@@ -454,6 +553,14 @@ body{
 
   <!-- ── QUIZ ── -->
   <section id="quiz" class="section hidden">
+    <!-- 左上返回箭頭 -->
+    <button class="back-btn" type="button" onclick="confirmRestart()" aria-label="重新開始">
+      <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2">
+        <polyline points="11,3 5,9 11,15"/>
+        <line x1="5" y1="9" x2="16" y2="9"/>
+      </svg>
+      重新開始
+    </button>
     <div class="meta">
       <div id="quiz-label">Question I of VIII</div>
       <div>Choose by instinct</div>
@@ -462,24 +569,25 @@ body{
     <div class="qno" id="qno">— I —</div>
     <div class="qtext" id="qtext"></div>
     <div class="options" id="options"></div>
-    <!-- 重新開始移到底部，遠離選項 -->
-    <div style="margin-top:80px;text-align:center;">
-      <button class="btn mini" type="button" onclick="confirmRestart()">重新開始</button>
-    </div>
   </section>
 
   <!-- ── RESULT ── -->
   <section id="result" class="section hidden">
 
-    <div class="result-img-wrap in">
-      <img id="result-img" class="result-img" src="" alt="結果圖"/>
+    <!-- 上半：圖＋基本資訊並排 -->
+    <div class="result-hero in">
+      <div class="result-img-wrap">
+        <img id="result-img" class="result-img" src="" alt="結果圖"/>
+      </div>
+      <div class="result-hero-info">
+        <div class="r-eyebrow">Soul Specimen Revealed</div>
+        <div class="r-name" id="r-name"></div>
+        <div class="r-compound" id="r-compound"></div>
+        <div class="r-desc" id="r-desc"></div>
+      </div>
     </div>
 
     <div class="result-body in" style="animation-delay:.2s;">
-      <div class="r-eyebrow">Soul Specimen Revealed</div>
-      <div class="r-name" id="r-name"></div>
-      <div class="r-compound" id="r-compound"></div>
-      <div class="r-desc" id="r-desc"></div>
 
       <div class="seals" id="seals"></div>
 
@@ -542,8 +650,8 @@ const resultsData = {
     image:"https://framerusercontent.com/images/H47mPAUXZNOJzQgxVcCZFiJP4.png",
     soulName:"陽光直男受",
     soulDesc:"你越是向著光，他越想將你拉入深淵。",
-    danger:"▮▮▮▮▮", dangerFill:"100%",
-    attr:"寵溺指數", attrVal:"▮▮▮▮▯", attrFill:"80%",
+    danger:"極高", dangerFill:"100%",
+    attr:"寵溺指數", attrVal:"Max", attrFill:"80%",
     escape:"0%",
     quote:"你對每個人都這麼笑嗎？沒關係……我會把你藏起來，以後你只能對我一個人笑。",
     guide:"你的光芒是他唯一的救贖，卻也是逼瘋他的毒藥。想知道你們將如何在這場偏執的愛中互相折磨與救贖？",
@@ -554,8 +662,8 @@ const resultsData = {
     image:"https://framerusercontent.com/images/uQPprKfZezv518Mf1QK2enDGzTI.png",
     soulName:"禁慾學者受",
     soulDesc:"當極致的理智遇上純粹的慾望，是誰先跌落神壇？",
-    danger:"▮▮▮▮▯", dangerFill:"80%",
-    attr:"誘惑指數", attrVal:"▮▮▮▮▮", attrFill:"100%",
+    danger:"高", dangerFill:"80%",
+    attr:"誘惑指數", attrVal:"Max", attrFill:"100%",
     escape:"10%",
     quote:"你的心跳得這麼快，難道學術理論裡沒有教你怎麼拒絕我嗎？",
     guide:"你引以為傲的自制力，在他眼中只是不堪一擊的薄紙。準備好迎接理智全面崩盤的快感了嗎？",
@@ -566,8 +674,8 @@ const resultsData = {
     image:"https://framerusercontent.com/images/K60BMuPYxaec4ZvETplOuAZcbw.png",
     soulName:"廢物美人受",
     soulDesc:"只要你乖乖當個漂亮的廢物，他願意為你發瘋毀滅世界。",
-    danger:"▮▮▮▮▮", dangerFill:"100%",
-    attr:"圈養指數", attrVal:"▮▮▮▮▮", attrFill:"100%",
+    danger:"極高", dangerFill:"100%",
+    attr:"圈養指數", attrVal:"Max", attrFill:"100%",
     escape:"0%",
     quote:"外面那麼髒，你這雙漂亮的腳怎麼能沾上泥土呢？乖，待在我的懷裡就好。",
     guide:"放棄掙扎吧，被一頭瘋狂的野獸無條件寵愛與圈養，其實也是一種極致的幸福。",
@@ -578,8 +686,8 @@ const resultsData = {
     image:"https://framerusercontent.com/images/tU3tsyKjf8sMxVq6UnyJDCSi4c.png",
     soulName:"冰山白神攻",
     soulDesc:"野蠻與高潔的碰撞，撕裂你的冰冷偽裝，逼你染上紅塵的溫度。",
-    danger:"▮▮▮▮▮", dangerFill:"100%",
-    attr:"征服指數", attrVal:"▮▮▮▮▯", attrFill:"80%",
+    danger:"極高", dangerFill:"100%",
+    attr:"征服指數", attrVal:"高", attrFill:"80%",
     escape:"5%",
     quote:"再高冷的眼神又怎樣？到了我的地盤，就算是神，也得乖乖給我低頭。",
     guide:"絕對的力量面前，所有的反抗都是徒勞。看傲骨寸寸碎裂，化為臣服的喘息。",
@@ -590,8 +698,8 @@ const resultsData = {
     image:"https://framerusercontent.com/images/ZgfhchUbaHJuXY9V0Xipa3jxU.png",
     soulName:"卑劣淫蕩受",
     soulDesc:"全員惡人！互相利用卻又食髓知味，在泥沼裡交換最骯髒的吻。",
-    danger:"▮▮▮▮▯", dangerFill:"80%",
-    attr:"慾望指數", attrVal:"▮▮▮▮▮", attrFill:"100%",
+    danger:"高", dangerFill:"80%",
+    attr:"慾望指數", attrVal:"Max", attrFill:"100%",
     escape:"20%",
     quote:"別裝出那副清高的樣子了。你跟我一樣爛透了，拿走你想要的，然後用你自己來償還。",
     guide:"沒有底線的成人遊戲，精於算計的獵手遇上甘願以身作餌的狐狸，誰會先動真心？",
@@ -602,8 +710,8 @@ const resultsData = {
     image:"https://framerusercontent.com/images/bSRzaW69l34wXcEwgq07OfluB5s.png",
     soulName:"自毀抹布受",
     soulDesc:"連你自己都放棄了自己，卻被一群沒有人性的野獸視若珍寶。",
-    danger:"▮▮▮▮▮", dangerFill:"100%",
-    attr:"佔有指數", attrVal:"▮▮▮▮▮", attrFill:"100%",
+    danger:"極高", dangerFill:"100%",
+    attr:"佔有指數", attrVal:"Max", attrFill:"100%",
     escape:"0%",
     quote:"想死？在我們沒有允許之前，你的每一滴血、每一絲呼吸，都只能屬於我們。",
     guide:"最極致的毀滅帶來最深沉的愛意。在鮮血與獠牙的包圍下，迎來暴力的救贖。",
@@ -614,8 +722,8 @@ const resultsData = {
     image:"https://framerusercontent.com/images/l5SjfsnGDqcuNrQYZbAKTQvJij4.png",
     soulName:"自願沉淪受",
     soulDesc:"這座名為愛的牢籠，是你主動選擇的安身之所。",
-    danger:"▮▮▮▮▯", dangerFill:"80%",
-    attr:"偏執指數", attrVal:"▮▮▮▮▮", attrFill:"100%",
+    danger:"高", dangerFill:"80%",
+    attr:"偏執指數", attrVal:"Max", attrFill:"100%",
     escape:"0%",
     quote:"既然這個世界讓你這麼累，不如，就由我來成為你的世界吧。",
     guide:"當極致的控制慾，遇上渴望被完全接納的靈魂。推開那扇半掩的門，享受沉淪。",
@@ -626,8 +734,8 @@ const resultsData = {
     image:"https://framerusercontent.com/images/GpHyYzlSiHtit6kGXfSSACkqf0.png",
     soulName:"人妻王子受",
     soulDesc:"外表毀天滅地，回家卻只會對著你搖尾巴的巨型猛獸。",
-    danger:"▮▮▯▯▯", dangerFill:"40%",
-    attr:"忠犬指數", attrVal:"▮▮▮▮▮", attrFill:"100%",
+    danger:"低", dangerFill:"40%",
+    attr:"忠犬指數", attrVal:"Max", attrFill:"100%",
     escape:"90%",
     quote:"我今天把那群討厭的傢伙都燒成灰了，我可以要一個親親當獎勵嗎？",
     guide:"掌握絕對武力的巨龍，唯一的弱點就是你。來體驗把恐怖魔王當大型犬養的快樂。",
@@ -638,8 +746,8 @@ const resultsData = {
     image:"https://framerusercontent.com/images/m56Q5hEDF1BiFypFDftnukMnhWM.png",
     soulName:"清冷自持受",
     soulDesc:"曾經的溫柔化為禁錮的鎖鏈，冷傲如你，該如何面對這場掠奪？",
-    danger:"▮▮▮▮▮", dangerFill:"100%",
-    attr:"黑化指數", attrVal:"▮▮▮▮▮", attrFill:"100%",
+    danger:"極高", dangerFill:"100%",
+    attr:"黑化指數", attrVal:"Max", attrFill:"100%",
     escape:"1%",
     quote:"你總是這麼冷靜，冷靜得讓人……忍不住想看看你崩潰求饒的樣子。",
     guide:"安全感被徹底撕碎，原本熟悉的溫柔面具下，藏著無可救藥的掠奪慾。",
@@ -650,8 +758,8 @@ const resultsData = {
     image:"https://framerusercontent.com/images/nRtAWmBjy7p9qD7Whz9VxlL0myQ.png",
     soulName:"斯德哥爾摩受",
     soulDesc:"愛與痛的邊界已經模糊，你終於分不清，是想逃還是不想離開。",
-    danger:"▮▮▮▮▮", dangerFill:"100%",
-    attr:"瘋狂指數", attrVal:"▮▮▮▮▮", attrFill:"100%",
+    danger:"極高", dangerFill:"100%",
+    attr:"瘋狂指數", attrVal:"Max", attrFill:"100%",
     escape:"0%",
     quote:"弄疼你了嗎？忍著。因為只有痛，才能讓你永遠記住你是屬於誰的。",
     guide:"當理智全面崩盤，痛覺化為最深沉的愛意。這場名為愛的無期徒刑，你準備好服刑了嗎？",
@@ -661,7 +769,7 @@ const resultsData = {
 };
 
 /* ════════════════════════════════
-   QUESTIONS
+   QUESTIONS（文字依附檔1）
 ════════════════════════════════ */
 const questions=[
   {text:"凌晨三點，你在陌生的昏暗房間醒來。你第一個念頭是：",options:[
@@ -854,17 +962,49 @@ function showResult(){
   document.getElementById('r-quote').textContent=r.quote;
   document.getElementById('r-guide').textContent=r.guide;
 
+  // Gothic ruler seals
+  const TICK_COUNT = 10;
+  function buildRuler(fillPct){
+    // fillPct can be "100%" or "80%" etc.
+    const numStr = String(fillPct).replace('%','').trim();
+    const pct = Math.min(100, Math.max(0, parseFloat(numStr)||0));
+    const ticks = Array.from({length:TICK_COUNT+1},()=>`<span></span>`).join('');
+    return `<div class="seal-ruler">
+      <div class="seal-ruler-track"></div>
+      <div class="seal-ruler-ticks">${ticks}</div>
+      <div class="seal-ruler-fill" data-fill="${pct}%"></div>
+      <div class="seal-ruler-pointer" data-fill="${pct}%"></div>
+    </div>`;
+  }
+
   document.getElementById('seals').innerHTML=`
     <div class="seal">
-      <div class="lab">危險指數</div><div class="val">${r.danger}</div>
+      <div class="lab">危險指數</div>
+      ${buildRuler(r.dangerFill)}
+      <div class="val">${r.danger}</div>
     </div>
     <div class="seal">
-      <div class="lab">${r.attr}</div><div class="val">${r.attrVal}</div>
+      <div class="lab">${r.attr}</div>
+      ${buildRuler(r.attrFill)}
+      <div class="val">${r.attrVal}</div>
     </div>
     <div class="seal">
-      <div class="lab">逃脫機率</div><div class="val">${r.escape}</div>
+      <div class="lab">逃脫機率</div>
+      ${buildRuler(r.escape)}
+      <div class="val">${r.escape}</div>
     </div>
   `;
+
+  // Animate rulers after render
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      document.querySelectorAll('.seal-ruler-fill, .seal-ruler-pointer').forEach(el=>{
+        const f = el.dataset.fill;
+        if(el.classList.contains('seal-ruler-fill')) el.style.width = f;
+        if(el.classList.contains('seal-ruler-pointer')) el.style.left = `calc(${f} - 4px)`;
+      });
+    });
+  });
 
   const cta=document.getElementById('r-cta');
   cta.innerHTML=`<a href="${escapeAttr(r.link)}" target="_blank" rel="noopener noreferrer">
