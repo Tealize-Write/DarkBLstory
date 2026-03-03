@@ -758,8 +758,7 @@ body{
 /* ════════════════════════════════
    CONFIG
 ════════════════════════════════ */
-const GAS_URL   = "在此貼上你的_GAS_網址";
-const GAS_TOKEN = "在此貼上你的TOKEN";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbw9_PkjEU5h46a77SILoy51G1cicDcNQrkHPdgSemyxEaftPzRQzZYrvmcPXCEuKoWY4w/exec";
 
 /* ════════════════════════════════
    AXES
@@ -1196,7 +1195,7 @@ function showResult(){
 }
 
 /* ════════════════════════════════
-   STATS（POST + token）
+   STATS（POST）
 ════════════════════════════════ */
 function sendStats(code){
   const stats=document.getElementById('stats');
@@ -1206,7 +1205,7 @@ function sendStats(code){
   fetch(GAS_URL,{
     method:'POST',
     headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
-    body:`result=${encodeURIComponent(code)}&t=${encodeURIComponent(GAS_TOKEN||"")}`
+    body:`result=${encodeURIComponent(code)}`
   })
   .then(r=>r.json())
   .then(data=>{
