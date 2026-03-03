@@ -42,7 +42,7 @@ body{
 .art-tl svg{width:100%;height:100%;}
 .art-bl{position:absolute;bottom:0;left:0;width:220px;height:220px;}
 .art-bl svg{width:100%;height:100%;}
-.art-tr{position:absolute;top:0;right:0;width:150px;height:350px;}
+.art-tr{position:absolute;top:0;right:0;width:220px;height:220px;}
 .art-tr svg{width:100%;height:100%;}
 
 /* ══ APP LAYOUT ══ */
@@ -448,22 +448,9 @@ body{
 <!-- ══ ART DECO OVERLAYS ══ -->
 <div class="art-layer" aria-hidden="true">
 
-  <!-- 左上：射線扇形 -->
-  <div class="art-tl">
-    <svg viewBox="0 0 180 180">
-      <path d="M0,0 L160,0 A160,160 0 0,1 0,160 Z" fill="none" stroke="#fff" stroke-width="1.2"/>
-      <path d="M0,0 L35,0 A35,35 0 0,1 0,35 Z" fill="#fff"/>
-      <path d="M33,10 L150,25 M28,18 L140,55 M20,26 L95,120 M10,32 L45,150 M22,24 L115,85" stroke="#fff" stroke-width=".9"/>
-      <line x1="160" y1="20" x2="180" y2="20" stroke="#fff" stroke-width="1.2"/>
-      <line x1="160" y1="40" x2="180" y2="40" stroke="#fff" stroke-width="1.2"/>
-      <polygon points="170,26 172,28 175,30 172,32 170,34 168,32 165,30 168,28" fill="#fff"/>
-      <line x1="20" y1="160" x2="20" y2="180" stroke="#fff" stroke-width="1.2"/>
-      <line x1="40" y1="160" x2="40" y2="180" stroke="#fff" stroke-width="1.2"/>
-      <polygon points="26,170 28,172 30,175 32,172 34,170 32,168 30,165 28,168" fill="#fff"/>
-    </svg>
-  </div>
+  <!-- 左上：移除 -->
 
-  <!-- 左下：月相羅盤 -->
+  <!-- 左下：月相羅盤（保持原版） -->
   <div class="art-bl">
     <svg viewBox="0 0 220 220">
       <circle cx="60" cy="160" r="38" fill="none" stroke="#fff" stroke-width="2"/>
@@ -483,21 +470,30 @@ body{
     </svg>
   </div>
 
-  <!-- 右上：鐘擺 + 星 -->
+  <!-- 右上：月相羅盤鏡像（水平翻轉 + 垂直翻轉，對稱左下） -->
   <div class="art-tr">
-    <svg viewBox="0 0 150 350">
-      <circle cx="40" cy="40" r="10" fill="#fff"/>
-      <path d="M60,0 A60,60 0 0,0 0,60" fill="none" stroke="#fff" stroke-width="1.5"/>
-      <line x1="0" y1="60" x2="0" y2="350" stroke="#fff" stroke-width="1"/>
-      <line x1="60" y1="0" x2="150" y2="0" stroke="#fff" stroke-width="1"/>
-      <line x1="90" y1="60" x2="90" y2="180" stroke="#fff" stroke-width="1.5"/>
-      <line x1="84" y1="70" x2="96" y2="70" stroke="#fff" stroke-width="2"/>
-      <line x1="87" y1="65" x2="93" y2="65" stroke="#fff" stroke-width="2"/>
-      <path d="M85,170 C85,185 90,190 90,190 C90,190 95,185 95,170 Z" fill="#fff"/>
-      <circle cx="90" cy="162" r="3" fill="#fff"/>
-      <polygon points="90,210 93,230 110,230 96,242 102,260 90,248 78,260 84,242 70,230 87,230" fill="#fff"/>
-      <circle cx="90" cy="275" r="2" fill="#fff"/>
-      <polygon points="90,285 91,290 95,292 91,294 90,300 89,294 85,292 89,290" fill="#fff"/>
+    <svg viewBox="0 0 220 220">
+      <!-- 月亮主體：中心在右上 (160, 60)，水平鏡像月牙 -->
+      <circle cx="160" cy="60" r="38" fill="none" stroke="#fff" stroke-width="2"/>
+      <circle cx="160" cy="60" r="30" fill="none" stroke="#fff" stroke-width="1"/>
+      <!-- 月牙：水平翻轉（左側缺口） -->
+      <path d="M175,60 A15,15 0 1,0 145,60 A18,18 0 1,1 175,60" fill="#fff"/>
+      <!-- 頂部星形指針：朝上 -->
+      <polygon points="160,115 162,105 170,103 162,101 160,91 158,101 150,103 158,105" fill="#fff"/>
+      <circle cx="160" cy="120" r="2" fill="#fff"/>
+      <!-- 水平線往左延伸 -->
+      <line x1="0" y1="60" x2="122" y2="60" stroke="#fff" stroke-width="1.2"/>
+      <!-- 垂直線往上（到頂） -->
+      <line x1="160" y1="0" x2="160" y2="22" stroke="#fff" stroke-width="1.2"/>
+      <!-- 水平線上的刻度裝飾，從左到右 -->
+      <circle cx="10" cy="60" r="4" fill="#fff"/>
+      <path d="M30,56 L35,60 L30,64" fill="none" stroke="#fff" stroke-width="1.2"/>
+      <path d="M37,56 L42,60 L37,64" fill="none" stroke="#fff" stroke-width="1.2"/>
+      <line x1="60" y1="56" x2="60" y2="64" stroke="#fff" stroke-width="1.5"/>
+      <line x1="56" y1="60" x2="64" y2="60" stroke="#fff" stroke-width="1.5"/>
+      <circle cx="116" cy="60" r="3" fill="#fff"/>
+      <!-- 頂端星形小裝飾 -->
+      <polygon points="160,15 162,18 165,20 162,22 160,25 158,22 155,20 158,18" fill="#fff"/>
     </svg>
   </div>
 
