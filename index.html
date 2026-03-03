@@ -236,8 +236,8 @@ body{
 
 /* 打字機動畫：每個選項依序淡入（間隔由 JS 控制） */
 @keyframes optFadeIn{
-  from{opacity:0;transform:translateY(6px);}
-  to{opacity:1;transform:translateY(0);}
+  from{opacity:0;transform:translateY(6px);filter:blur(.8px);}
+  to{opacity:1;transform:translateY(0);filter:blur(0);}
 }
 
 /* ══ BACK BUTTON (quiz left-top) ══ */
@@ -312,6 +312,10 @@ body{
   margin-top:24px;
   display:flex;flex-direction:column;gap:0;
   border:1px solid var(--line);
+}
+.stats .seals{
+  border-style:dotted;
+  border-color:var(--line-strong);
 }
 .seal{
   padding:15px 18px;
@@ -582,60 +586,29 @@ body{
 
 <!-- ══ ART DECO OVERLAYS ══ -->
 <!-- aria-hidden 只加在裝飾層，按鈕單獨設定 -->
+<!-- ART DECO OVERLAYS -->
 <div class="art-layer" aria-hidden="true">
-
-  <!-- 左上：空 -->
-
-  <!-- 左下：羅盤原型 -->
-  <div class="art-bl">
-    <svg viewBox="0 0 220 220">
-      <use href="#compass"/>
-    </svg>
-  </div>
-
-  <!-- 右上：羅盤鏡像 -->
-  <div class="art-tr">
-    <svg viewBox="0 0 220 220">
-      <use href="#compass" transform="translate(220,220) scale(-1,-1)"/>
-    </svg>
-  </div>
-
-  <!--
-    音樂鍵：嵌在右上羅盤水平線末端
-    羅盤線端在 art-tr 座標系 (10, 60)
-    art-tr 是 220px 方塊貼 top:0 right:0
-    → 視窗座標 top≈60px, right≈10px，微調讓符印對齊線端圓點
-  -->
-  <button id="audio-btn"
-          type="button"
-          aria-hidden="false"
-          aria-label="切換音樂"
-          onclick="toggleAudio()">
-    <div class="audio-icon-wrap">
-
-      <!-- 播放中：三條跳動豎線 -->
-      <svg class="icon-bars" viewBox="0 0 18 18" fill="none">
-        <rect class="bar1" x="2"   y="7"   width="2.2" height="5.5" rx=".6" fill="currentColor" style="transform-origin:3.1px 12.5px"/>
-        <rect class="bar2" x="7.9" y="4"   width="2.2" height="8.5" rx=".6" fill="currentColor" style="transform-origin:9px 12.5px"/>
-        <rect class="bar3" x="13.8" y="7"  width="2.2" height="5.5" rx=".6" fill="currentColor" style="transform-origin:14.9px 12.5px"/>
-      </svg>
-
-      <!-- 靜音：四分音符（圓頭＋桿＋旗）＋斜線 -->
-      <svg class="icon-note" viewBox="0 0 18 18" fill="none">
-        <ellipse cx="6.5" cy="14" rx="3" ry="2.2" transform="rotate(-15 6.5 14)" fill="currentColor"/>
-        <line x1="9.3" y1="13" x2="9.3" y2="3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        <path d="M9.3,3.5 C12.5,4.8 13.2,7.5 11,9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-        <!-- 靜音斜線 -->
-        <line x1="2" y1="16" x2="16" y2="2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-      </svg>
-
-    </div>
-  </button>
-
-  <!-- BGM 提示文字（nudge 時短暫出現） -->
-  <div id="audio-hint" aria-hidden="true">建議開啟BGM體驗更佳</div>
-
+  <div class="art-bl"><svg viewBox="0 0 220 220"><use href="#compass"/></svg></div>
+  <div class="art-tr"><svg viewBox="0 0 220 220"><use href="#compass" transform="translate(220,220) scale(-1,-1)"/></svg></div>
 </div><!-- /art-layer -->
+
+<!-- AUDIO CONTROLS (outside art-layer) -->
+<button id="audio-btn" type="button" aria-label="切換音樂" onclick="toggleAudio()">
+  <div class="audio-icon-wrap">
+    <svg class="icon-bars" viewBox="0 0 18 18" fill="none">
+      <rect class="bar1" x="2" y="7" width="2.2" height="5.5" rx=".6" fill="currentColor" style="transform-origin:3.1px 12.5px"/>
+      <rect class="bar2" x="7.9" y="4" width="2.2" height="8.5" rx=".6" fill="currentColor" style="transform-origin:9px 12.5px"/>
+      <rect class="bar3" x="13.8" y="7" width="2.2" height="5.5" rx=".6" fill="currentColor" style="transform-origin:14.9px 12.5px"/>
+    </svg>
+    <svg class="icon-note" viewBox="0 0 18 18" fill="none">
+      <ellipse cx="6.5" cy="14" rx="3" ry="2.2" transform="rotate(-15 6.5 14)" fill="currentColor"/>
+      <line x1="9.3" y1="13" x2="9.3" y2="3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M9.3,3.5 C12.5,4.8 13.2,7.5 11,9.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="2" y1="16" x2="16" y2="2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+  </div>
+</button>
+<div id="audio-hint" aria-hidden="true">建議開啟BGM體驗更佳</div>
 
 <!-- ══ APP ══ -->
 <div id="app">
@@ -742,7 +715,11 @@ body{
         <div class="cta" id="r-cta"></div>
       </div>
 
-      <div class="stats" id="stats">✦ 正在讀取深淵數據⋯</div>
+      <div class="stats" id="stats">
+        <div id="my-axes"></div>
+        <div id="pop-chart"></div>
+        <div id="pop-line" style="margin-top:12px;">✦ 正在讀取深淵數據⋯</div>
+      </div>
 
       <div class="btn-row" style="margin-top:40px;">
         <button class="btn" type="button" onclick="location.reload()">Re-Enter the Abyss</button>
@@ -769,14 +746,14 @@ const AXES = ["dom","sub","control","manip","chaos","devotion"];
    RESULT META (短代碼 → 顯示名)
 ════════════════════════════════ */
 const RESULT_META = {
-  SICK_STOCKHOLM:     {label:"病態攻 × 斯德哥爾摩受"},
+  SICK_STOCKHOLM:     {label:"病態攻 × 斯德哥爾摩受", short:"SICK STOCKHOLM"},
   PACK_RAGDOLL:       {label:"無情獸群攻 × 自毀抹布受"},
   SCHEMER_SHAME:      {label:"腹黑勢利攻 × 卑劣淫蕩受"},
   CAGE_WILLING:       {label:"佔有囚禁攻 × 自願沉淪受"},
   DARK_RAVISH:        {label:"黑化掠奪攻 × 清冷自持受"},
-  GLOOM_STRAIGHT:     {label:"陰鬱偏執攻 × 陽光直男受"},
-  GOOF_DRAGON_PRINCE: {label:"二哈黑龍攻 × 人妻王子受"},
-  LION_GOD:           {label:"暴力黑獅攻 × 冰山白神攻"},
+  GLOOM_STRAIGHT:     {label:"陰鬱偏執攻 × 陽光直男受", short:"GLOOM STRAIGHT"},
+  GOOF_DRAGON_PRINCE: {label:"二哈黑龍攻 × 人妻王子受", short:"GOOF DRAGON"},
+  LION_GOD:           {label:"暴力黑獅攻 × 冰山白神攻", short:"LION GOD"},
   MAD_BEAUTY:         {label:"偏執瘋子攻 × 廢物美人受"},
   SHADOW_SCHOLAR:     {label:"放蕩影子攻 × 禁慾學者受"},
 };
@@ -968,6 +945,7 @@ const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X'];
 ════════════════════════════════ */
 let qi=0;
 let axesScore={};
+let _lastResultCode=null;
 AXES.forEach(k=>axesScore[k]=0);
 
 const elIntro  = document.getElementById('intro');
@@ -1114,6 +1092,79 @@ function determineResultCode(){
   return chaos>=5?"LION_GOD":"SHADOW_SCHOLAR";
 }
 
+/* ════════════════════════════════
+   SHARED RULER UTILITIES
+════════════════════════════════ */
+const TICK_COUNT = 10;
+
+function buildRuler(fillPct){
+  const numStr = String(fillPct).replace('%','').trim();
+  const pct = Math.min(100, Math.max(0, parseFloat(numStr)||0));
+  const ticks = Array.from({length:TICK_COUNT+1},()=>'<span></span>').join('');
+  return '<div class="seal-ruler">'
+    + '<div class="seal-ruler-track"></div>'
+    + '<div class="seal-ruler-ticks">' + ticks + '</div>'
+    + '<div class="seal-ruler-fill" data-fill="' + pct + '%"></div>'
+    + '<div class="seal-ruler-pointer" data-fill="' + pct + '%"></div>'
+    + '</div>';
+}
+
+function animateRulers(root){
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    root.querySelectorAll('.seal-ruler-fill, .seal-ruler-pointer').forEach(el=>{
+      const f = el.dataset.fill;
+      if(el.classList.contains('seal-ruler-fill')) el.style.width = f;
+      if(el.classList.contains('seal-ruler-pointer')) el.style.left = 'calc(' + f + ' - 4px)';
+    });
+  }));
+}
+
+/* ════════════════════════════════
+   AXIS MAX（動態計算各軸理論上限）
+════════════════════════════════ */
+function calcAxisMax(){
+  const max={};
+  AXES.forEach(a=>max[a]=0);
+  questions.forEach(q=>{
+    AXES.forEach(a=>{
+      let best=0;
+      q.options.forEach(o=>{ best=Math.max(best,Number((o.add&&o.add[a])||0)); });
+      max[a]+=best;
+    });
+  });
+  return max;
+}
+
+/* ════════════════════════════════
+   MY TOP AXES
+════════════════════════════════ */
+function renderMyTopAxes(){
+  const el = document.getElementById('my-axes');
+  if(!el) return;
+  const axisMax = calcAxisMax();
+  const axisLabel = {
+    dom:'DOMINANCE', sub:'SUBMISSION', control:'CONTROL',
+    manip:'SCHEME', chaos:'CHAOS', devotion:'DEVOTION'
+  };
+  const top3 = Object.entries(axesScore).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  const rows = top3.map(([k,v])=>{
+    const pct = axisMax[k] ? Math.round((v/axisMax[k])*100) : 0;
+    return '<div class="seal">'
+      + '<div class="lab">' + (axisLabel[k]||k) + '</div>'
+      + buildRuler(pct+'%')
+      + '<div class="val">' + v + '</div>'
+      + '</div>';
+  }).join('');
+  el.innerHTML = '<div style="opacity:.9;letter-spacing:2px;font-style:italic;font-size:12px;margin-bottom:4px;">'
+    + '✦ 你本次的深淵指紋（三大主軸）'
+    + '</div>'
+    + '<div class="seals">' + rows + '</div>';
+  animateRulers(el);
+}
+
+/* ════════════════════════════════
+   SHOW RESULT
+════════════════════════════════ */
 function showResult(){
   elQuiz.classList.add('hidden');
   elIntro.classList.add('hidden');
@@ -1121,75 +1172,34 @@ function showResult(){
   elResult.classList.remove('in');
   void elResult.offsetWidth;
   elResult.classList.add('in');
-
   const code=determineResultCode();
+  _lastResultCode=code;
   const r=resultsData[code];
-
   if(!r){
-    document.getElementById('stats').textContent="✦ 深淵暫時找不到你的檔案（結果資料缺漏）。";
-    console.error("Missing resultsData for code:",code);
+    document.getElementById('pop-line').textContent='✦ 深淵暫時找不到你的檔案（結果資料缺漏）。';
+    console.error('Missing resultsData for code:',code);
     return;
   }
-
   const label=(RESULT_META[code]&&RESULT_META[code].label)||code;
   const parts=label.split(' × ');
-
   document.getElementById('result-img').src=r.image;
-  document.getElementById('r-name').textContent=`【${r.soulName}】`;
-  document.getElementById('r-compound').textContent=`${parts[0]}  ×  ${parts[1]||''}`;
+  document.getElementById('r-name').textContent='「'+r.soulName+'」';
+  document.getElementById('r-compound').textContent=parts[0]+'  ×  '+(parts[1]||'');
   document.getElementById('r-desc').textContent=r.soulDesc;
   document.getElementById('r-quote').textContent=r.quote;
   document.getElementById('r-guide').textContent=r.guide;
-
-  // Gothic ruler seals
-  const TICK_COUNT = 10;
-  function buildRuler(fillPct){
-    // fillPct can be "100%" or "80%" etc.
-    const numStr = String(fillPct).replace('%','').trim();
-    const pct = Math.min(100, Math.max(0, parseFloat(numStr)||0));
-    const ticks = Array.from({length:TICK_COUNT+1},()=>`<span></span>`).join('');
-    return `<div class="seal-ruler">
-      <div class="seal-ruler-track"></div>
-      <div class="seal-ruler-ticks">${ticks}</div>
-      <div class="seal-ruler-fill" data-fill="${pct}%"></div>
-      <div class="seal-ruler-pointer" data-fill="${pct}%"></div>
-    </div>`;
-  }
-
-  document.getElementById('seals').innerHTML=`
-    <div class="seal">
-      <div class="lab">危險指數</div>
-      ${buildRuler(r.dangerFill)}
-      <div class="val">${r.danger}</div>
-    </div>
-    <div class="seal">
-      <div class="lab">${r.attr}</div>
-      ${buildRuler(r.attrFill)}
-      <div class="val">${r.attrVal}</div>
-    </div>
-    <div class="seal">
-      <div class="lab">逃脫機率</div>
-      ${buildRuler(r.escape)}
-      <div class="val">${r.escape}</div>
-    </div>
-  `;
-
-  // Animate rulers after render
-  requestAnimationFrame(()=>{
-    requestAnimationFrame(()=>{
-      document.querySelectorAll('.seal-ruler-fill, .seal-ruler-pointer').forEach(el=>{
-        const f = el.dataset.fill;
-        if(el.classList.contains('seal-ruler-fill')) el.style.width = f;
-        if(el.classList.contains('seal-ruler-pointer')) el.style.left = `calc(${f} - 4px)`;
-      });
-    });
-  });
-
+  document.getElementById('seals').innerHTML=
+    '<div class="seal"><div class="lab">危險指數</div>'
+    +buildRuler(r.dangerFill)+'<div class="val">'+r.danger+'</div></div>'
+    +'<div class="seal"><div class="lab">'+r.attr+'</div>'
+    +buildRuler(r.attrFill)+'<div class="val">'+r.attrVal+'</div></div>'
+    +'<div class="seal"><div class="lab">逃脱機率</div>'
+    +buildRuler(r.escape)+'<div class="val">'+r.escape+'</div></div>';
+  animateRulers(document);
   const cta=document.getElementById('r-cta');
-  cta.innerHTML=`<a href="${escapeAttr(r.link)}" target="_blank" rel="noopener noreferrer">
-    <span>解鎖你的故事樣本：${r.bookName}</span>
-  </a>`;
-
+  cta.innerHTML='<a href="'+escapeAttr(r.link)+'" target="_blank" rel="noopener noreferrer">'
+    +'<span>解鎖你的故事樣本：'+r.bookName+'</span></a>';
+  renderMyTopAxes();
   sendStats(code);
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -1198,27 +1208,50 @@ function showResult(){
    STATS（POST）
 ════════════════════════════════ */
 function sendStats(code){
-  const stats=document.getElementById('stats');
+  const line  = document.getElementById('pop-line');
+  const chart = document.getElementById('pop-chart');
   if(GAS_URL==="在此貼上你的_GAS_網址"){
-    stats.textContent="✦ 尚未串接資料庫，僅顯示本地結果。";return;
+    line.textContent="✦ 尚未串接資料庫，僅顯示本地結果。";return;
   }
   fetch(GAS_URL,{
     method:'POST',
     headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
-    body:`result=${encodeURIComponent(code)}`
+    body:'result='+encodeURIComponent(code)
   })
   .then(r=>r.json())
   .then(data=>{
     if(data&&data.status==="success"){
-      const total=Number(data.total)||0;
-      const uc=Number((data.stats&&data.stats[code])||0)||0;
-      const pct=total>0?Number(((uc/total)*100).toFixed(1)):0;
-      stats.innerHTML=`✦ 目前共有 <strong>${total}</strong> 個靈魂墜入深淵。與你同類的人約佔 <strong>${pct}%</strong>。`;
+      const total  = Number(data.total)||0;
+      const counts = data.stats||{};
+      const myCount= Number(counts[code]||0);
+      const myPct  = total>0?Number(((myCount/total)*100).toFixed(1)):0;
+      line.innerHTML='✦ 目前共有 <strong>'+total+'</strong> 個靈魂墮入深淵。與你同類約佔 <strong>'+myPct+'%</strong>。';
+      const items = Object.entries(counts)
+        .map(([k,v])=>({k,v:Number(v)||0}))
+        .sort((a,b)=>b.v-a.v).slice(0,5);
+      const rows = items.map(({k,v})=>{
+        const pct   = total>0?(v/total)*100:0;
+        const label = (RESULT_META[k]&&RESULT_META[k].label)||k;
+        const short = (RESULT_META[k]&&RESULT_META[k].short) || k.replace(/_/g,' ');
+        const isMe  = k===code;
+        return '<div class="seal" style="'+(isMe?'border-color:rgba(255,255,255,.65);':'')+'">'
+          +'<div class="lab">'+(isMe?'✦ ':'')+short+'</div>'
+          +buildRuler(pct.toFixed(1)+'%')
+          +'<div class="val">'+pct.toFixed(1)+'%</div></div>';
+      }).join('');
+      chart.innerHTML='<div style="opacity:.9;letter-spacing:2px;font-style:italic;font-size:12px;margin-bottom:4px;margin-top:14px;">'
+        +'✦ 全站分佈（Top 5 結局樣本）'
+        +'</div><div class="seals">'+rows+'</div>';
+      animateRulers(chart);
     } else {
-      stats.textContent="✦ 數據讀取失敗，但深淵已記住你的選擇。";
+      line.textContent="✦ 數據讀取失敗，但深淵已記住你的選擇。";
+      chart.innerHTML="";
     }
   })
-  .catch(()=>{stats.textContent="✦ 數據讀取失敗，但深淵已記住你的選擇。";});
+  .catch(()=>{
+    line.textContent="✦ 數據讀取失敗，但深淵已記住你的選擇。";
+    chart.innerHTML="";
+  });
 }
 
 /* ════════════════════════════════
@@ -1243,8 +1276,8 @@ function sendStats(code){
     const H  = artTr.offsetHeight;
     const cy = H * (55/220);
     const cr = W * (54/220);   // 調小 → 往右
-    const hw = btn.offsetWidth  / 2;
-    const hh = btn.offsetHeight / 2;
+    const hw = (btn.offsetWidth  || 36) / 2;
+    const hh = (btn.offsetHeight || 36) / 2;
     btn.style.top        = Math.round(cy - hh) + 'px';
     btn.style.right      = Math.round(cr - hw) + 'px';
     btn.style.left       = '';
@@ -1326,11 +1359,12 @@ function sendStats(code){
 
 // XSS 防護：逸出 href 屬性
 function escapeAttr(str){
-  return str.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  const s = String(str ?? '');
+  return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
 function copyResult(){
-  const code=determineResultCode();
+  const code=_lastResultCode||determineResultCode();
   const label=(RESULT_META[code]&&RESULT_META[code].label)||code;
   const name=document.getElementById('r-name').textContent||'';
   const desc=document.getElementById('r-desc').textContent||'';
