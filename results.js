@@ -1,0 +1,280 @@
+/* ── RESULT META ── */
+const RESULT_META = {
+  /* 攻方 11 */
+  A_CONTROL_1: { label:"陰鬱偏執攻",     short:"A · CTRL I"   },
+  A_CONTROL_2: { label:"黑化掠奪攻",     short:"A · CTRL II"  },
+  A_CONTROL_3: { label:"冰山白神攻",     short:"A · CTRL III" },
+  A_SCHEME_1:  { label:"腹黑勢利攻",     short:"A · SCH I"    },
+  A_SCHEME_2:  { label:"放蕩影子攻",     short:"A · SCH II"   },
+  A_SCHEME_3:  { label:"偏執瘋子攻",     short:"A · SCH III"  },
+  A_CHAOS_1:   { label:"無情獸群攻",     short:"A · CHS I"    },
+  A_CHAOS_2:   { label:"暴力黑獅攻",     short:"A · CHS II"   },
+  A_DEVOTION_1:{ label:"二哈黑龍攻",     short:"A · DEV I"    },
+  A_DEVOTION_2:{ label:"佔有囚禁攻",     short:"A · DEV II"   },
+  A_DEVOTION_3:{ label:"病態攻",         short:"A · DEV III"  },
+  /* 受方 9 */
+  R_CONTROL_1: { label:"陽光直男受",     short:"R · CTRL I"   },
+  R_CONTROL_2: { label:"清冷自持受",     short:"R · CTRL II"  },
+  R_CONTROL_3: { label:"禁慾學者受",     short:"R · CTRL III" },
+  R_SCHEME_1:  { label:"卑劣淫蕩受",     short:"R · SCH I"    },
+  R_SCHEME_2:  { label:"廢物美人受",     short:"R · SCH II"   },
+  R_CHAOS_1:   { label:"斯德哥爾摩受",   short:"R · CHS I"    },
+  R_CHAOS_2:   { label:"自毀抹布受",     short:"R · CHS II"   },
+  R_DEVOTION_1:{ label:"自願沈淪受",     short:"R · DEV I"    },
+  R_DEVOTION_2:{ label:"人妻王子受",     short:"R · DEV II"   },
+};
+
+/* ════════════════════════════════
+   RESULTS DATA
+════════════════════════════════ */
+
+/* ── RESULTS DATA ── */
+const resultsData = {
+  /* ═══ 攻方 11 ═══ */
+  A_CONTROL_1:{
+    image:"https://framerusercontent.com/images/H47mPAUXZNOJzQgxVcCZFiJP4.png",
+    soulName:"陰鬱偏執攻",
+    soulDesc:"你不用動手，一個眼神就能讓人忘記自己叫什麼名字。",
+    danger:"中", dangerFill:"60%",
+    attr:"支配指數", attrVal:"高", attrFill:"80%",
+    escape:"30%",
+    quote:"你只需要按我說的做。解釋是多餘的，服從才是正確答案。",
+    guide:"冷靜、精準、無需大聲——你用規則本身支配對方的每一個呼吸。想看低溫如何將人徹底融化？",
+    bookName:"《寶石、烏鴉和水瓶》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%90%9"
+  },
+  A_CONTROL_2:{
+    image:"https://framerusercontent.com/images/m56Q5hEDF1BiFypFDftnukMnhWM.png",
+    soulName:"黑化掠奪攻",
+    soulDesc:"你懂得如何設計規則，讓對方在不知不覺中依賴你制定的秩序。",
+    danger:"高", dangerFill:"80%",
+    attr:"規訓指數", attrVal:"高", attrFill:"80%",
+    escape:"20%",
+    quote:"再試一次。這次，把姿勢擺好。",
+    guide:"你的愛是一套精密的系統——獎懲清晰、邊界分明，卻讓人沉迷到無法出走。",
+    bookName:"《灰燼》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E6%82%A"
+  },
+  A_CONTROL_3:{
+    image:"https://framerusercontent.com/images/tU3tsyKjf8sMxVq6UnyJDCSi4c.png",
+    soulName:"冰山白神攻",
+    soulDesc:"控制是本能，不是手段。你不佔有——你成為對方的全部座標。",
+    danger:"極高", dangerFill:"100%",
+    attr:"支配指數", attrVal:"Max", attrFill:"100%",
+    escape:"5%",
+    quote:"你不需要知道理由。你只需要知道，離開我之後，你什麼都不是。",
+    guide:"絕對的掌控帶來絕對的依存。在這段關係裡，誰才是真正的囚徒？",
+    bookName:"《咬了神一口》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%85%8"
+  },
+  A_SCHEME_1:{
+    image:"https://framerusercontent.com/images/ZgfhchUbaHJuXY9V0Xipa3jxU.png",
+    soulName:"腹黑勢利攻",
+    soulDesc:"你笑起來像春風，轉身已在對方心裡種下一片無法拔除的荊棘。",
+    danger:"中", dangerFill:"60%",
+    attr:"心機指數", attrVal:"高", attrFill:"75%",
+    escape:"35%",
+    quote:"你以為這是你的選擇嗎？每一步，都是我替你鋪的路。",
+    guide:"溫柔才是最危險的武器。被溫柔算計的人，往往到最後都感謝那把刀。",
+    bookName:"《消失的終點線》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E8%91%A"
+  },
+  A_SCHEME_2:{
+    image:"https://framerusercontent.com/images/uQPprKfZezv518Mf1QK2enDGzTI.png",
+    soulName:"放蕩影子攻",
+    soulDesc:"每一場對話都是獵場，你永遠比對方多算三步。",
+    danger:"高", dangerFill:"80%",
+    attr:"心機指數", attrVal:"Max", attrFill:"100%",
+    escape:"15%",
+    quote:"別想著反悔。你已經簽了，用你自己的心跳作的保。",
+    guide:"你用話語設陷，用沉默收網。遇上同樣聰明的獵物，這場博弈將如何收場？",
+    bookName:"《影子吻了我》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E7%9B%B"
+  },
+  A_SCHEME_3:{
+    image:"https://framerusercontent.com/images/K60BMuPYxaec4ZvETplOuAZcbw.png",
+    soulName:"偏執瘋子攻",
+    soulDesc:"你玩的不只是人心，是整個局——而對方不過是最後一枚棋子。",
+    danger:"極高", dangerFill:"100%",
+    attr:"黑化指數", attrVal:"Max", attrFill:"100%",
+    escape:"5%",
+    quote:"你以為自己是唯一看穿我的人？那正是我需要你的原因。",
+    guide:"全員惡人的棋局，誰先動真感情誰就輸了——可惜你早已落入他的局中局。",
+    bookName:"《溫先生他一絲不掛》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E7%81%A"
+  },
+  A_CHAOS_1:{
+    image:"https://framerusercontent.com/images/bSRzaW69l34wXcEwgq07OfluB5s.png",
+    soulName:"無情獸群攻",
+    soulDesc:"你不懂什麼叫做「適可而止」，你只知道你想要的，你就必須拿到。",
+    danger:"極高", dangerFill:"100%",
+    attr:"破壞指數", attrVal:"Max", attrFill:"100%",
+    escape:"5%",
+    quote:"讓開。或者跟我走。你只有這兩個選擇。",
+    guide:"在秩序的廢墟裡，暴烈的愛意反而是最誠實的語言。準備好被掠奪了嗎？",
+    bookName:"《兩兄弟》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E3%80%8"
+  },
+  A_CHAOS_2:{
+    image:"https://framerusercontent.com/images/tU3tsyKjf8sMxVq6UnyJDCSi4c.png",
+    soulName:"暴力黑獅攻",
+    soulDesc:"你愛一個人的方式，是把整個世界和他一起燒個乾淨。",
+    danger:"極高", dangerFill:"100%",
+    attr:"失控指數", attrVal:"Max", attrFill:"100%",
+    escape:"3%",
+    quote:"管他什麼後果。你在這裡，這就夠了。",
+    guide:"當愛意失去邊界，毀滅本身就成了一種羅曼蒂克。你們將在灰燼中找到彼此。",
+    bookName:"《咬了神一口》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%85%8"
+  },
+  A_DEVOTION_1:{
+    image:"https://framerusercontent.com/images/GpHyYzlSiHtit6kGXfSSACkqf0.png",
+    soulName:"二哈黑龍攻",
+    soulDesc:"你的保護就像一個圓，把對方困在正中央——而你守著唯一的出口。",
+    danger:"高", dangerFill:"80%",
+    attr:"護食指數", attrVal:"高", attrFill:"80%",
+    escape:"20%",
+    quote:"你受傷了嗎？給我看。以後不准再讓別人靠近到能傷害你的距離。",
+    guide:"偏執的守護有時比傷害更令人窒息。你用愛築牆，卻從未問過對方願不願意住進來。",
+    bookName:"《沉睡荊棘》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%96%B"
+  },
+  A_DEVOTION_2:{
+    image:"https://framerusercontent.com/images/l5SjfsnGDqcuNrQYZbAKTQvJij4.png",
+    soulName:"佔有囚禁攻",
+    soulDesc:"你說愛他，卻無法容忍他的視線落在任何其他地方。",
+    danger:"高", dangerFill:"80%",
+    attr:"佔有指數", attrVal:"Max", attrFill:"100%",
+    escape:"15%",
+    quote:"你今天跟誰說話了？說來聽聽。我就只是想知道。",
+    guide:"佔有是你的愛語，嫉妒是你的情話。這段關係的甜蜜與窒息，從來只有一線之隔。",
+    bookName:"《糖裹屋》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E8%98%8"
+  },
+  A_DEVOTION_3:{
+    image:"https://framerusercontent.com/images/nRtAWmBjy7p9qD7Whz9VxlL0myQ.png",
+    soulName:"病態攻",
+    soulDesc:"在你的宇宙裡，其他一切已經蒸發——只剩下他，和你無處安放的執念。",
+    danger:"極高", dangerFill:"100%",
+    attr:"執念指數", attrVal:"Max", attrFill:"100%",
+    escape:"0%",
+    quote:"這個世界上只要還有你，我就不需要其他任何東西。包括理智。",
+    guide:"當愛意成為信仰，你便走向了那條無法回頭的路。他是你的終點，也是你的萬劫不復。",
+    bookName:"《哈梅爾的吹笛手》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E4%B9%9"
+  },
+  /* ═══ 受方 9 ═══ */
+  R_CONTROL_1:{
+    image:"https://framerusercontent.com/images/H47mPAUXZNOJzQgxVcCZFiJP4.png",
+    soulName:"陽光直男受",
+    soulDesc:"嘴上說著不要，身體已經記住了他的溫度。",
+    danger:"中", dangerFill:"55%",
+    attr:"嘴硬指數", attrVal:"高", attrFill:"80%",
+    escape:"40%",
+    quote:"誰說我在意你了？只是……只是你站在那裡礙眼，我才多看了幾眼。",
+    guide:"你用強硬的外殼包裹最柔軟的心。他偏偏最擅長一層一層地剝開你。",
+    bookName:"《寶石、烏鴉和水瓶》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%90%9"
+  },
+  R_CONTROL_2:{
+    image:"https://framerusercontent.com/images/m56Q5hEDF1BiFypFDftnukMnhWM.png",
+    soulName:"清冷自持受",
+    soulDesc:"你不是輸了，你只是選擇了讓他贏這一次。",
+    danger:"高", dangerFill:"80%",
+    attr:"反骨指數", attrVal:"高", attrFill:"80%",
+    escape:"25%",
+    quote:"你以為馴服了我？有意思。那就讓你再得意一會兒。",
+    guide:"你的臣服不是軟弱，是最精密的計算。等他以為大局已定，你再反咬一口。",
+    bookName:"《灰燼》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E6%82%A"
+  },
+  R_CONTROL_3:{
+    image:"https://framerusercontent.com/images/uQPprKfZezv518Mf1QK2enDGzTI.png",
+    soulName:"禁慾學者受",
+    soulDesc:"你們都爛透了，所以才能好好在泥沼裡相愛。",
+    danger:"高", dangerFill:"80%",
+    attr:"共謀指數", attrVal:"Max", attrFill:"100%",
+    escape:"15%",
+    quote:"你犯的那些罪，我都記得。所以你也別想甩掉我。",
+    guide:"你不是受害者，你是他最完美的共謀。這段關係的危險，恰恰在於你們如此相配。",
+    bookName:"《影子吻了我》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E7%9B%B"
+  },
+  R_SCHEME_1:{
+    image:"https://framerusercontent.com/images/ZgfhchUbaHJuXY9V0Xipa3jxU.png",
+    soulName:"卑劣淫蕩受",
+    soulDesc:"你明明是餌，卻把獵手釣成了俘虜。",
+    danger:"高", dangerFill:"80%",
+    attr:"媚惑指數", attrVal:"Max", attrFill:"100%",
+    escape:"20%",
+    quote:"你以為是你抓住了我？那就讓你這樣以為下去吧。",
+    guide:"你以脆弱為武器，以柔順為陷阱。沒有人比你更清楚：最好的獵場，就是獵人的懷抱。",
+    bookName:"《消失的終點線》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E8%91%A"
+  },
+  R_SCHEME_2:{
+    image:"https://framerusercontent.com/images/K60BMuPYxaec4ZvETplOuAZcbw.png",
+    soulName:"廢物美人受",
+    soulDesc:"你好像在順從，其實是你在引導他，走向你早就設好的終點。",
+    danger:"高", dangerFill:"75%",
+    attr:"誘導指數", attrVal:"Max", attrFill:"100%",
+    escape:"20%",
+    quote:"我沒有反抗。我只是……在等你做出我想要的選擇。",
+    guide:"最高明的受，是讓攻以為自己主導了一切。你笑著臣服，卻是整場戲的編劇。",
+    bookName:"《溫先生他一絲不掛》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E7%81%A"
+  },
+  R_CHAOS_1:{
+    image:"https://framerusercontent.com/images/nRtAWmBjy7p9qD7Whz9VxlL0myQ.png",
+    soulName:"斯德哥爾摩受",
+    soulDesc:"你說不清楚這算不算愛，但你知道少了那份刺痛，你會更難受。",
+    danger:"極高", dangerFill:"100%",
+    attr:"受虐指數", attrVal:"Max", attrFill:"100%",
+    escape:"0%",
+    quote:"再用力一點也沒關係。我想記住這個感覺。",
+    guide:"當痛覺與愛意的神經徹底纏繞在一起，你還能分清楚，你是在享受還是在沉溺？",
+    bookName:"《哈梅爾的吹笛手》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E4%B9%9"
+  },
+  R_CHAOS_2:{
+    image:"https://framerusercontent.com/images/bSRzaW69l34wXcEwgq07OfluB5s.png",
+    soulName:"自毀抹布受",
+    soulDesc:"你知道這會傷害彼此，卻還是義無反顧地撞上去。",
+    danger:"極高", dangerFill:"100%",
+    attr:"同歸指數", attrVal:"Max", attrFill:"100%",
+    escape:"2%",
+    quote:"你傷了我，我也傷了你。那我們就扯平了，對不對？",
+    guide:"沒有人是無辜的，也沒有人想離開。在這場相互傷害的戀愛裡，毀滅即是浪漫。",
+    bookName:"《兩兄弟》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E3%80%8"
+  },
+  R_DEVOTION_1:{
+    image:"https://framerusercontent.com/images/l5SjfsnGDqcuNrQYZbAKTQvJij4.png",
+    soulName:"自願沈淪受",
+    soulDesc:"你親手把鑰匙交給他，然後請求他把門鎖上。",
+    danger:"高", dangerFill:"80%",
+    attr:"沉溺指數", attrVal:"Max", attrFill:"100%",
+    escape:"0%",
+    quote:"只要是你給的，就算是鎖鏈，我也覺得是禮物。",
+    guide:"你渴望被完全擁有，渴望有人替你做所有的決定。這座牢籠是你選擇的天堂。",
+    bookName:"《糖裹屋》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E8%98%8"
+  },
+  R_DEVOTION_2:{
+    image:"https://framerusercontent.com/images/GpHyYzlSiHtit6kGXfSSACkqf0.png",
+    soulName:"人妻王子受",
+    soulDesc:"曾經試圖掙脫，後來你才發現，你根本捨不得。",
+    danger:"高", dangerFill:"80%",
+    attr:"依存指數", attrVal:"Max", attrFill:"100%",
+    escape:"5%",
+    quote:"……算了，你追來了又怎樣。我本來也沒有跑很快。",
+    guide:"抵抗是個謊言，你早就知道結局。最後一次出逃，不過是為了讓他再追你一次。",
+    bookName:"《沉睡荊棘》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%96%B"
+  }
+};
+/* ════════════════════════════════
+   QUESTIONS
+════════════════════════════════ */
+
+

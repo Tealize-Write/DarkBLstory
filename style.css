@@ -1,0 +1,535 @@
+:root{
+  --bg:#000;
+  --ink:#fff;
+  --ink-weak:#a0a0a0;
+  --line:rgba(255,255,255,.22);
+  --line-strong:rgba(255,255,255,.65);
+  --muted:rgba(255,255,255,.42);
+  --serif:'Noto Serif TC',serif;
+  --display:'Noto Serif TC',serif;
+  --content-pad:48px;
+  --maxw:720px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--serif);
+  min-height:100vh;
+  overflow-x:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ══ FIXED ART DECO OVERLAYS ══ */
+.art-layer{
+  position:fixed;inset:0;
+  pointer-events:none;z-index:50;
+  /* 統一用 currentColor 控色，改這裡就全改 */
+  color:var(--ink);
+}
+.art-layer svg{ overflow:visible; }
+.art-tl{position:absolute;top:0;left:0;width:180px;height:180px;}
+.art-tl svg{width:100%;height:100%;}
+.art-bl{position:absolute;bottom:0;left:0;width:220px;height:220px;}
+.art-bl svg{width:100%;height:100%;}
+.art-tr{position:absolute;top:0;right:0;width:220px;height:220px;}
+.art-tr svg{width:100%;height:100%;}
+
+/* ══ APP LAYOUT ══ */
+#app{
+  width:100%;max-width:var(--maxw);
+  padding:80px 24px 120px;
+  position:relative;z-index:10;
+}
+.section{
+  position:relative;
+  padding:0 var(--content-pad) 64px;
+}
+
+/* ══ TITLE AREA ══ */
+.title-wrap{
+  position:relative;
+  margin-top:60px;margin-bottom:40px;
+  padding:40px 0;
+  display:flex;justify-content:center;
+}
+.h1{
+  font-family:var(--display);
+  font-style:normal;font-weight:700;
+  letter-spacing:1px;font-size:56px;line-height:1.1;font-weight:700;
+  color:transparent;
+  -webkit-text-stroke:1px var(--ink);
+  text-align:left;position:relative;z-index:2;
+}
+.subtitle{
+  margin-top:16px;
+  font-family:var(--serif);font-weight:500;
+  font-size:20px;letter-spacing:6px;
+  text-align:center;
+}
+.lead{
+  margin-top:32px;
+  color:var(--ink-weak);line-height:2.4;
+  font-size:15px;font-weight:500;letter-spacing:1.5px;text-align:center;
+}
+.lead strong{color:var(--ink);font-weight:700;}
+.lead+.lead{margin-top:20px;}
+
+/* Title SVG decorations */
+.title-deco-left{
+  position:absolute;left:-20px;top:0;
+  width:80px;height:220px;pointer-events:none;
+}
+.title-deco-right{
+  position:absolute;right:-80px;top:10px;
+  width:140px;height:200px;pointer-events:none;
+}
+
+/* ══ BANNER (全寬，黑白) ══ */
+.banner-wrap{
+  margin:0 calc(-1 * var(--content-pad));
+  position:relative;overflow:hidden;
+  aspect-ratio:2400/900;
+}
+.banner-wrap img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  display:block;
+  filter:brightness(.78) saturate(0) contrast(1.05);
+}
+.banner-wrap::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,.9) 100%);
+}
+.banner-caption{
+  position:absolute;bottom:18px;right:20px;z-index:2;
+  font-family:var(--display);font-style:italic;
+  font-size:10px;letter-spacing:5px;color:rgba(255,255,255,.78);
+  text-transform:uppercase;
+}
+
+/* ══ DIVIDER ══ */
+.rule{
+  margin:38px auto;height:1px;width:40%;
+  background:var(--line);position:relative;
+}
+.rule::after{
+  content:"✦";
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  color:var(--ink);font-size:11px;
+  background:var(--bg);padding:0 14px;
+}
+
+/* ══ BUTTONS ══ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;
+  border:1px solid var(--ink);
+  background:var(--bg);color:var(--ink);
+  padding:18px 42px;
+  font-family:var(--serif);letter-spacing:4px;font-size:14px;
+  cursor:pointer;transition:all .25s ease;
+  text-decoration:none;user-select:none;
+  text-transform:uppercase;
+}
+.btn:hover{background:var(--ink);color:var(--bg);}
+.btn-row{
+  display:flex;gap:16px;align-items:center;
+  justify-content:center;margin-top:32px;flex-wrap:wrap;
+}
+.btn.mini{
+  padding:11px 24px;font-size:13px;letter-spacing:3px;
+  border-color:var(--line-strong);color:var(--ink-weak);
+}
+.btn.mini:hover{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+
+/* ══ SKIP BUTTON ══ */
+.skip-btn{
+  background:transparent;border:none;
+  color:rgba(255,255,255,.78);
+  font-family:var(--display);font-style:italic;
+  font-size:12px;letter-spacing:3px;
+  cursor:pointer;padding:4px 0;
+  transition:color .2s ease;
+  user-select:none;
+}
+.skip-btn:hover{color:var(--ink);}
+
+/* ══ QUIZ ══ */
+.meta{
+  margin-top:24px;
+  display:flex;align-items:center;justify-content:space-between;
+  color:rgba(255,255,255,.78);
+  font-family:var(--display);font-style:italic;letter-spacing:2px;
+  border-bottom:1px solid var(--line);padding-bottom:12px;
+}
+.progress{display:flex;gap:4px;margin-top:2px;}
+.seg{
+  flex:1;height:1px;
+  background:transparent;
+  border-top:1px dashed var(--line);
+  position:relative;
+}
+.seg.done{border-top-style:solid;border-color:var(--ink);}
+.seg.active{border-top-style:solid;border-color:var(--ink-weak);}
+
+.qno{
+  margin-top:60px;
+  font-family:var(--display);font-style:italic;
+  letter-spacing:6px;color:var(--ink-weak);font-size:18px;text-align:center;
+}
+.qtext{
+  margin-top:20px;
+  font-size:20px;line-height:1.85;letter-spacing:1px;
+  font-family:var(--serif);letter-spacing:2px;
+  text-align:center;font-weight:500;
+  min-height:60px;
+}
+
+/* ── 選項：打字機風格，無框線 ── */
+.options{
+  margin-top:48px;
+  /* 無頂部border，無框框 */
+}
+.opt{
+  width:100%;background:transparent;border:none;
+  color:var(--ink-weak);text-align:left;
+  padding:16px 0;cursor:pointer;
+  transition:color .2s ease, padding-left .2s ease;
+  display:flex;gap:20px;align-items:flex-start;
+  /* 打字機：預設隱藏，JS控制顯現 */
+  opacity:0;
+}
+.opt.visible{
+  animation:optFadeIn .3s ease forwards;
+}
+.opt:hover{color:var(--ink);padding-left:10px;}
+.opt:disabled{cursor:default;opacity:.28!important;pointer-events:none;}
+.opt.selected{color:var(--ink);}
+
+/* 菱形 bullet */
+.bullet{
+  width:7px;height:7px;
+  border:1px solid var(--line-strong);
+  margin-top:10px;flex:0 0 auto;
+  transform:rotate(45deg);
+  transition:all .2s ease;
+}
+.opt:hover .bullet,.opt.selected .bullet{
+  background:var(--ink);border-color:var(--ink);
+  transform:rotate(45deg) scale(1.25);
+}
+.opt .txt{line-height:1.9;font-size:16px;letter-spacing:1px;}
+
+/* 打字機動畫：每個選項依序淡入（間隔由 JS 控制） */
+@keyframes optFadeIn{
+  from{opacity:0;transform:translateY(6px);filter:blur(.8px);}
+  to{opacity:1;transform:translateY(0);filter:blur(0);}
+}
+
+/* ══ BACK BUTTON (quiz left-top) ══ */
+.back-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;border:none;
+  color:rgba(255,255,255,.78);cursor:pointer;
+  font-family:var(--display);font-style:italic;
+  font-size:13px;letter-spacing:2px;
+  padding:0;margin-bottom:24px;
+  transition:color .2s ease;
+}
+.back-btn:hover{color:var(--ink);}
+.back-btn svg{
+  width:18px;height:18px;
+  transition:transform .2s ease;
+}
+.back-btn:hover svg{transform:translateX(-3px);}
+
+/* ══ RESULT ══ */
+/* 上方：圖＋基本資訊並排 */
+.result-hero{
+  display:grid;
+  grid-template-columns:160px 1fr;
+  gap:20px;
+  align-items:start;
+  margin-top:16px;
+}
+.result-img-wrap{
+  border-radius:60px;
+  overflow:hidden;
+  background:#fff;
+  flex-shrink:0;
+  aspect-ratio:3/4;
+}
+.result-img{
+  width:100%;height:100%;display:block;
+  object-fit:cover;
+  object-position:top center;
+  filter:none;background:#fff;
+}
+.result-hero-info{
+  padding-top:2px;
+}
+
+.result-body{margin-top:24px;text-align:center;}
+.r-eyebrow{
+  font-family:var(--display);font-style:italic;
+  letter-spacing:4px;color:rgba(255,255,255,.78);
+  font-size:11px;text-transform:uppercase;
+}
+.r-name{
+  margin-top:10px;
+  font-family:var(--serif);font-weight:700;
+  font-size:24px;letter-spacing:1px;
+  text-align:left;line-height:1.4;
+}
+.r-compound{
+  margin-top:6px;
+  font-family:var(--display);font-style:italic;
+  font-size:11px;letter-spacing:2px;color:rgba(255,255,255,.78);
+  text-align:left;
+}
+.r-desc{
+  margin-top:12px;line-height:2;
+  color:var(--ink-weak);font-size:18px;letter-spacing:.5px;
+  text-align:left;
+}
+
+/* ══ GOTHIC SEALS ══ */
+.seals{
+  margin-top:24px;
+  display:flex;flex-direction:column;gap:0;
+  border:1px solid var(--line);
+}
+.stats .seals{
+  border-style:dotted;
+  border-color:var(--line-strong);
+}
+.seal{
+  padding:15px 18px;
+  border-bottom:1px solid var(--line);
+  display:grid;
+  grid-template-columns:72px 1fr 52px;
+  align-items:center;gap:14px;
+}
+.seal:last-child{border-bottom:none;}
+.seal .lab{
+  font-family:var(--display);font-style:italic;
+  letter-spacing:1.5px;color:rgba(255,255,255,.78);font-size:11px;
+  white-space:nowrap;
+}
+/* 刻度尺 */
+.seal-ruler{
+  position:relative;height:14px;
+  display:flex;align-items:center;
+}
+.seal-ruler-track{
+  position:absolute;left:0;right:0;height:1px;
+  background:rgba(255,255,255,.12);
+}
+.seal-ruler-ticks{
+  position:absolute;left:0;right:0;
+  display:flex;justify-content:space-between;
+}
+.seal-ruler-ticks span{
+  display:block;width:1px;height:5px;
+  background:rgba(255,255,255,.2);
+}
+.seal-ruler-fill{
+  position:absolute;left:0;height:1px;
+  background:var(--ink);
+  transition:width 1.3s cubic-bezier(.22,1,.36,1);
+  width:0;
+}
+.seal-ruler-pointer{
+  position:absolute;top:50%;
+  width:7px;height:7px;
+  border:1px solid var(--ink);
+  transform:translateY(-50%) rotate(45deg);
+  background:var(--bg);
+  transition:left 1.3s cubic-bezier(.22,1,.36,1);
+  left:0;
+}
+/* 右側數值：純文字，不重複 ▮ */
+.seal .val{
+  font-family:var(--display);font-style:italic;
+  color:var(--ink);letter-spacing:1px;font-size:12px;
+  text-align:right;white-space:nowrap;
+}
+
+/* 台詞 / 預言 block */
+.block{
+  margin-top:28px;border:1px solid var(--line);
+  padding:28px 22px;position:relative;text-align:left;
+}
+.block::before{
+  content:"✦";
+  position:absolute;top:-8px;left:22px;
+  background:var(--bg);padding:0 8px;
+  font-size:10px;color:var(--ink);
+}
+.block .lab{
+  font-family:var(--display);font-style:italic;
+  letter-spacing:3px;color:rgba(255,255,255,.78);
+  font-size:12px;text-transform:uppercase;margin-bottom:14px;
+}
+.block .txt{
+  line-height:2.4;color:var(--ink);
+  font-size:15px;letter-spacing:1.5px;font-weight:500;
+}
+.block .txt.muted{color:var(--ink-weak);}
+
+/* CTA link */
+.cta{margin-top:28px;}
+.cta a{
+  display:flex;align-items:center;justify-content:space-between;
+  border:1px solid var(--ink);color:var(--ink);
+  padding:18px 22px;text-decoration:none;
+  letter-spacing:2px;font-size:14px;
+  transition:all .25s ease;text-transform:uppercase;
+}
+.cta a::after{content:"→";transition:transform .25s ease;}
+.cta a:hover{background:var(--ink);color:var(--bg);}
+.cta a:hover::after{transform:translateX(5px);}
+
+/* Stats */
+.stats{
+  margin-top:44px;padding-top:22px;
+  border-top:1px dotted var(--line-strong);
+  color:rgba(255,255,255,.78);line-height:2;
+  font-size:13px;letter-spacing:1.5px;text-align:center;
+}
+.stats strong{color:var(--ink);font-weight:700;}
+
+/* ══ ANIMATIONS ══ */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(18px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.in{animation:fadeUp .7s cubic-bezier(.2,.8,.2,1) both;}
+
+/* ══ UTILS ══ */
+.hidden{display:none!important;}
+
+/* ══ 中間尺寸：兩欄開始擠時提早換單欄 ══ */
+@media(max-width:560px){
+  .result-hero{
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+  /* 手機單欄：圖片全寬，保持正確比例 */
+  .result-img-wrap{
+    width:100%;
+    max-width:100%;
+    border-radius:60px;
+    /* 保持原圖 1000×1343 的比例完整顯示 */
+    aspect-ratio:1000/1343;
+  }
+  .result-img{
+    object-fit:contain;
+    object-position:top center;
+  }
+  .r-name{font-size:22px;}
+  .r-desc{font-size:16px;}
+}
+
+/* ══ AUDIO TOGGLE（嵌入右上月亮圓心） ══ */
+#audio-btn{
+  position:fixed;   /* JS 動態設 top/right，不用 absolute */
+  top:0; right:0;   /* 初始佔位，JS 載入後覆蓋 */
+  z-index:220;
+  pointer-events:auto;
+  background:transparent;
+  border:none;
+  width:36px;height:36px;
+  padding:0;
+  cursor:pointer;
+  color:var(--ink);
+  /* 初始隱藏，等 JS 定位後顯示，避免閃爍 */
+  visibility:hidden;
+}
+/* wrapper：relative 容器，兩個 svg 絕對疊在同一位置 */
+.audio-icon-wrap{
+  position:relative;
+  width:26px;height:26px;
+}
+#audio-btn svg{
+  position:absolute;
+  top:0; left:0;
+  width:26px;height:26px;
+  display:block;
+  transition:opacity .15s ease;
+}
+
+/* 兩圖示切換：opacity 疊加，不佔流 */
+.icon-bars  { opacity:1; }
+.icon-note  { opacity:0; }
+#audio-btn.muted .icon-bars { opacity:0; }
+#audio-btn.muted .icon-note { opacity:1; }
+
+/* 聲波跳動（僅播放中） */
+#audio-btn:not(.muted) .bar1{ animation:barPulse 1.1s ease-in-out infinite; }
+#audio-btn:not(.muted) .bar2{ animation:barPulse 1.1s ease-in-out .18s infinite; }
+#audio-btn:not(.muted) .bar3{ animation:barPulse 1.1s ease-in-out .36s infinite; }
+@keyframes barPulse{
+  0%,100%{ transform:scaleY(1);  }
+  50%    { transform:scaleY(1.8);}
+}
+
+/* nudge：進頁面時音符閃白光 */
+#audio-btn.nudge{ animation:nudgeGlow 1.6s ease 1; }
+@keyframes nudgeGlow{
+  0%,100%{ filter:none;                                      color:var(--ink); }
+  40%    { filter:drop-shadow(0 0 8px rgba(255,255,255,.9)); color:#fff;       }
+}
+
+/* BGM 提示文字 */
+#audio-hint{
+  position:fixed;
+  z-index:260;
+  pointer-events:none;
+  font-family:var(--display);
+  font-style:italic;
+  font-size:12px;
+  letter-spacing:4px;
+  color:#fff;
+  /* 黑底 */
+  background:rgba(0,0,0,.72);
+  padding:7px 14px;
+  /* 白色文字光暈 */
+  text-shadow:
+    0 0 8px rgba(255,255,255,1),
+    0 0 18px rgba(255,255,255,.6);
+  white-space:nowrap;
+  opacity:0;
+  transform:translateX(8px);
+  transition:opacity .45s ease, transform .45s ease;
+}
+#audio-hint.show{
+  opacity:1;
+  transform:translateX(0);
+}
+
+
+/* ══ MOBILE ══ */
+@media(max-width:768px){
+  :root{--content-pad:22px;}
+  .h1{font-size:38px;text-align:center;}
+  .title-deco-left{left:0;height:160px;}
+  .title-deco-right{right:-16px;height:140px;}
+  .title-wrap{padding:20px 0;}
+  .art-layer{ opacity:1; transition:opacity .6s ease; }
+  /* .art-layer.dim 由 JS 在提示消失後加上 */
+  .art-layer.dim{ opacity:.28; }
+  .btn-row{flex-direction:column;width:100%;}
+  .btn{width:100%;}
+  .seal{grid-template-columns:64px 1fr 44px;gap:8px;padding:13px 12px;}
+  .seal .lab{font-size:10px;}
+  .seal .val{font-size:11px;}
+  /* 手機縮小羅盤裝飾，不影響按鈕定位（由 JS 處理） */
+  .art-tr{ width:160px; height:160px; }
+  .art-bl{ width:160px; height:160px; }
+}
