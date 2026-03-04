@@ -69,7 +69,7 @@ body{
 .h1{
   font-family:var(--display);
   font-style:normal;font-weight:700;
-  letter-spacing:1px;font-size:56px;line-height:1.1;font-weight:700;
+  font-size:30px;line-height:1.1;font-weight:700;
   color:transparent;
   -webkit-text-stroke:1px var(--ink);
   text-align:left;position:relative;z-index:2;
@@ -174,6 +174,7 @@ body{
   display:flex;align-items:center;justify-content:space-between;
   color:rgba(255,255,255,.78);
   font-family:var(--display);font-style:italic;letter-spacing:2px;
+  font-size:10px;
   border-bottom:1px solid var(--line);padding-bottom:12px;
 }
 .progress{display:flex;gap:4px;margin-top:2px;}
@@ -193,7 +194,7 @@ body{
 }
 .qtext{
   margin-top:20px;
-  font-size:20px;line-height:1.85;letter-spacing:1px;
+  font-size:18px;line-height:1.85;letter-spacing:1px;
   font-family:var(--serif);letter-spacing:2px;
   text-align:center;font-weight:500;
   min-height:60px;
@@ -232,7 +233,7 @@ body{
   background:var(--ink);border-color:var(--ink);
   transform:rotate(45deg) scale(1.25);
 }
-.opt .txt{line-height:1.9;font-size:16px;letter-spacing:1px;}
+.opt .txt{line-height:1.9;font-size:18px;letter-spacing:1px;}
 
 /* 打字機動畫：每個選項依序淡入（間隔由 JS 控制） */
 @keyframes optFadeIn{
@@ -441,8 +442,10 @@ body{
     object-fit:contain;
     object-position:top center;
   }
-  .r-name{font-size:22px;}
-  .r-desc{font-size:16px;}
+  .r-name{font-size:18px;}
+  .r-desc{font-size:14px;}
+  .qtext{font-size:14px;}
+  .opt .txt{font-size:14px;}
 }
 
 /* ══ AUDIO TOGGLE（嵌入右上月亮圓心） ══ */
@@ -526,7 +529,7 @@ body{
 /* ══ MOBILE ══ */
 @media(max-width:768px){
   :root{--content-pad:22px;}
-  .h1{font-size:38px;text-align:center;}
+  .h1{font-size:18px;text-align:center;}
   .title-deco-left{left:0;height:160px;}
   .title-deco-right{right:-16px;height:140px;}
   .title-wrap{padding:20px 0;}
@@ -669,7 +672,7 @@ body{
       重新開始
     </button>
     <div class="meta">
-      <div id="quiz-label">Question I of VIII</div>
+      <div id="quiz-label">Question I of XII</div>
       <div>Choose by instinct</div>
     </div>
     <div class="progress" id="progress"></div>
@@ -735,7 +738,8 @@ body{
 /* ════════════════════════════════
    CONFIG
 ════════════════════════════════ */
-const GAS_URL = "https://script.google.com/macros/s/AKfycbw9_PkjEU5h46a77SILoy51G1cicDcNQrkHPdgSemyxEaftPzRQzZYrvmcPXCEuKoWY4w/exec";
+const GAS_URL   = "https://script.google.com/macros/s/AKfycbw9_PkjEU5h46a77SILoy51G1cicDcNQrkHPdgSemyxEaftPzRQzZYrvmcPXCEuKoWY4w/exec";
+const GAS_TOKEN = "在此填入你的TOKEN";
 
 /* ════════════════════════════════
    AXES
@@ -743,34 +747,35 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbw9_PkjEU5h46a77SILoy51
 const AXES = ["dom","sub","control","manip","chaos","devotion"];
 
 /* ════════════════════════════════
-   RESULT META (短代碼 → 顯示名)
+   RESULT META（短代碼 → 顯示名）
 ════════════════════════════════ */
 const RESULT_META = {
-  /* ── 攻方 11 ── */
-  A_CONTROL_1: { label:"控場系攻｜低溫支配",    short:"A · CTRL I"   },
-  A_CONTROL_2: { label:"控場系攻｜規訓專家",    short:"A · CTRL II"  },
-  A_CONTROL_3: { label:"控場系攻｜絕對支配",    short:"A · CTRL III" },
-  A_SCHEME_1:  { label:"算計系攻｜溫柔設局",    short:"A · SCH I"    },
-  A_SCHEME_2:  { label:"算計系攻｜獵手談判",    short:"A · SCH II"   },
-  A_SCHEME_3:  { label:"算計系攻｜黑金操盤",    short:"A · SCH III"  },
-  A_CHAOS_1:   { label:"失控系攻｜暴烈掠奪",    short:"A · CHS I"    },
-  A_CHAOS_2:   { label:"失控系攻｜焚城式戀愛",  short:"A · CHS II"   },
-  A_DEVOTION_1:{ label:"護食系攻｜偏執守護",    short:"A · DEV I"    },
-  A_DEVOTION_2:{ label:"護食系攻｜佔有成癮",    short:"A · DEV II"   },
-  A_DEVOTION_3:{ label:"護食系攻｜世界只剩你",  short:"A · DEV III"  },
-  /* ── 受方 9 ── */
-  R_CONTROL_1: { label:"控場系受｜嘴硬心軟",    short:"R · CTRL I"   },
-  R_CONTROL_2: { label:"控場系受｜反咬馴獸",    short:"R · CTRL II"  },
-  R_CONTROL_3: { label:"控場系受｜誘導型臣服",  short:"R · CTRL III" },
-  R_SCHEME_1:  { label:"算計系受｜狐狸餌",      short:"R · SCH I"    },
-  R_SCHEME_2:  { label:"算計系受｜共犯沉淪",    short:"R · SCH II"   },
-  R_CHAOS_1:   { label:"失控系受｜疼痛成癮",    short:"R · CHS I"    },
-  R_CHAOS_2:   { label:"失控系受｜兩敗俱傷",    short:"R · CHS II"   },
-  R_DEVOTION_1:{ label:"沉溺系受｜自願囚籠",    short:"R · DEV I"    },
-  R_DEVOTION_2:{ label:"沉溺系受｜不想逃了",    short:"R · DEV II"   },
+  /* 攻方 11 */
+  A_CONTROL_1: { label:"陰鬱偏執攻",     short:"A · CTRL I"   },
+  A_CONTROL_2: { label:"黑化掠奪攻",     short:"A · CTRL II"  },
+  A_CONTROL_3: { label:"冰山白神攻",     short:"A · CTRL III" },
+  A_SCHEME_1:  { label:"腹黑勢利攻",     short:"A · SCH I"    },
+  A_SCHEME_2:  { label:"放蕩影子攻",     short:"A · SCH II"   },
+  A_SCHEME_3:  { label:"偏執瘋子攻",     short:"A · SCH III"  },
+  A_CHAOS_1:   { label:"無情獸群攻",     short:"A · CHS I"    },
+  A_CHAOS_2:   { label:"暴力黑獅攻",     short:"A · CHS II"   },
+  A_DEVOTION_1:{ label:"二哈黑龍攻",     short:"A · DEV I"    },
+  A_DEVOTION_2:{ label:"佔有囚禁攻",     short:"A · DEV II"   },
+  A_DEVOTION_3:{ label:"病態攻",         short:"A · DEV III"  },
+  /* 受方 9 */
+  R_CONTROL_1: { label:"陽光直男受",     short:"R · CTRL I"   },
+  R_CONTROL_2: { label:"清冷自持受",     short:"R · CTRL II"  },
+  R_CONTROL_3: { label:"廢物美人受",     short:"R · CTRL III" },
+  R_SCHEME_1:  { label:"卑劣淫蕩受",     short:"R · SCH I"    },
+  R_SCHEME_2:  { label:"禁慾學者受",     short:"R · SCH II"   },
+  R_CHAOS_1:   { label:"斯德哥爾摩受",   short:"R · CHS I"    },
+  R_CHAOS_2:   { label:"自毀抹布受",     short:"R · CHS II"   },
+  R_DEVOTION_1:{ label:"自願沈淪受",     short:"R · DEV I"    },
+  R_DEVOTION_2:{ label:"人妻王子受",     short:"R · DEV II"   },
 };
+
 /* ════════════════════════════════
-   RESULTS DATA（文字依附檔1）
+   RESULTS DATA（20 筆完整版）
 ════════════════════════════════ */
 const resultsData = {
   /* ═══ 攻方 11 ═══ */
@@ -835,7 +840,7 @@ const resultsData = {
     link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E7%9B%B"
   },
   A_SCHEME_3:{
-    image:"https://framerusercontent.com/images/ZgfhchUbaHJuXY9V0Xipa3jxU.png",
+    image:"https://framerusercontent.com/images/K60BMuPYxaec4ZvETplOuAZcbw.png",
     soulName:"偏執瘋子攻",
     soulDesc:"你玩的不只是人心，是整個局——而對方不過是最後一枚棋子。",
     danger:"極高", dangerFill:"100%",
@@ -843,8 +848,8 @@ const resultsData = {
     escape:"5%",
     quote:"你以為自己是唯一看穿我的人？那正是我需要你的原因。",
     guide:"全員惡人的棋局，誰先動真感情誰就輸了——可惜你早已落入他的局中局。",
-    bookName:"《溫先生一絲不掛》",
-    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E8%91%A"
+    bookName:"《溫先生他一絲不掛》",
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E7%81%A"
   },
   A_CHAOS_1:{
     image:"https://framerusercontent.com/images/bSRzaW69l34wXcEwgq07OfluB5s.png",
@@ -981,7 +986,7 @@ const resultsData = {
   },
   R_CHAOS_2:{
     image:"https://framerusercontent.com/images/bSRzaW69l34wXcEwgq07OfluB5s.png",
-    soulName:"自毀抹布受受",
+    soulName:"自毀抹布受",
     soulDesc:"你知道這會傷害彼此，卻還是義無反顧地撞上去。",
     danger:"極高", dangerFill:"100%",
     attr:"同歸指數", attrVal:"Max", attrFill:"100%",
@@ -1020,57 +1025,104 @@ const resultsData = {
    QUESTIONS（文字依附檔1）
 ════════════════════════════════ */
 const questions=[
+  // ── 第 1 題：control vs manip ────────────────────────────────
   {text:"凌晨三點，你在陌生的昏暗房間醒來。你第一個念頭是：",options:[
-    {text:"先找能用的東西。要是他敢再靠近，我會讓他付出代價。",add:{dom:2,control:1,chaos:1}},
-    {text:"先弄清楚規則，再決定要不要翻桌。",add:{manip:2,control:1}},
-    {text:"門半掩？那就先不走。反正我想看看他想把我玩到哪裡。",add:{sub:1,devotion:1,chaos:1}},
-    {text:"無所謂。想弄壞我就弄壞吧，最好一次到位。",add:{sub:2,chaos:2}}
+    {text:"先找能用的東西。要是他敢再靠近，我會讓他付出代價。",add:{dom:1,control:2}},
+    {text:"先弄清楚規則，再決定要不要翻桌。",                   add:{dom:1,manip:2}},
+    {text:"門半掩？那就先不走。反正我想看看他想把我玩到哪裡。",add:{sub:1,control:2}},
+    {text:"無所謂。先看看他底牌，再決定怎麼讓他欠我一筆。",    add:{sub:1,manip:2}},
   ]},
+
+  // ── 第 2 題：chaos vs devotion ───────────────────────────────
   {text:"那男人出現，氣場壓得你喘不過氣。他把盒子丟到你腳邊。你最希望裡面是：",options:[
-    {text:"一副手銬或項圈。不是因為怕，而是我想看誰先失控。",add:{control:2,dom:1,sub:1}},
-    {text:"一份寫滿把柄的檔案。很好，這樣我也能反過來掐住他。",add:{manip:2,control:1,dom:1}},
-    {text:"一把刀或槍。我要的是生死局，刺激到見血那種。",add:{chaos:2,dom:1}},
-    {text:"一張黑卡和一張『條款』。我想知道我的身價能賣到哪裡。",add:{manip:2,sub:1}}
+    {text:"一把刀或槍。我要的是生死局，刺激到見血那種。",          add:{dom:1,chaos:2}},
+    {text:"一副手銬或項圈。不是因為怕，而是我想看誰先失控。",      add:{dom:1,devotion:2}},
+    {text:"一份讓我從此消失的文件。好，那就在消失之前把他燒乾淨。",add:{sub:1,chaos:2}},
+    {text:"一張黑卡和一張『條款』。我想知道我的身價能賣到哪裡。",  add:{sub:1,devotion:2}},
   ]},
+
+  // ── 第 3 題：control vs chaos ────────────────────────────────
   {text:"他捏住你的下巴逼你抬頭。你會：",options:[
-    {text:"盯回去，甚至笑一下。你以為你在審我？",add:{dom:2,manip:1}},
-    {text:"故意轉開視線，讓他更想把我掰回來。",add:{control:1,sub:1,manip:1}},
-    {text:"順勢蹭他掌心，讓他知道我不是被迫，是我在挑逗他。",add:{sub:1,dom:1,devotion:1}},
-    {text:"顫一下也不遮掩。讓他看清我會被他弄到崩壞。",add:{sub:2,chaos:1}}
+    {text:"盯回去，甚至笑一下。你以為你在審我？",            add:{dom:1,control:2}},
+    {text:"讓他看清楚我的眼神，然後讓他後悔這個動作。",      add:{dom:1,chaos:2}},
+    {text:"故意轉開視線，讓他更想把我掰回來。",              add:{sub:1,control:2}},
+    {text:"顫一下也不遮掩。讓他看清我會被他弄到崩壞。",      add:{sub:1,chaos:2}},
   ]},
+
+  // ── 第 4 題：manip vs devotion ───────────────────────────────
   {text:"他低聲說：「逃吧，被我抓到就別想再看見太陽。」你的反應是：",options:[
-    {text:"我會逃，但不是為了自由，是為了讓他追到發瘋。",add:{control:2,sub:1,chaos:1}},
-    {text:"我不逃。我會讓他知道『囚禁』要怎麼玩才算正確。",add:{dom:2,control:2}},
-    {text:"我會把路封死。你想抓我？那就永遠抓著。",add:{devotion:2,control:1,sub:1}},
-    {text:"很好。把我抓回去的時候，記得弄疼一點。",add:{chaos:2,sub:2}}
+    {text:"我會逃，但不是為了自由，是為了讓他追到發瘋。",  add:{dom:1,manip:2}},
+    {text:"不逃。先把出口全封死，讓他追不到也甩不掉。",    add:{dom:1,devotion:2}},
+    {text:"逃一半。我想看看他瘋起來的樣子。",              add:{sub:1,manip:2}},
+    {text:"很好。把我抓回去的時候，記得弄疼一點。",        add:{sub:1,devotion:2}},
   ]},
+
+  // ── 第 5 題：control vs devotion ────────────────────────────
   {text:"你更上癮的，是哪種黑暗特質？",options:[
-    {text:"偏執：他只對我一個人失去理智。",add:{devotion:2,control:1}},
-    {text:"掠奪：他把我的自持一層層剝掉，直到我求饒。",add:{control:2,chaos:1,dom:1}},
-    {text:"算計：我們互相利用，互相上癮，誰先動心誰就輸。",add:{manip:2,dom:1}},
-    {text:"病態：痛和愛混在一起，我分不清我想逃還是想留。",add:{chaos:2,sub:1,devotion:1}}
+    {text:"掠奪：他把我的自持一層層剝掉，直到我求饒。",          add:{dom:1,control:2}},
+    {text:"偏執：他只對我一個人失去理智。",                      add:{dom:1,devotion:2}},
+    {text:"算計：我們互相利用，互相上癮，誰先動心誰就輸。",      add:{sub:1,control:2}},
+    {text:"病態：痛和愛混在一起，我分不清我想逃還是想留。",      add:{sub:1,devotion:2}},
   ]},
+
+  // ── 第 6 題：manip vs chaos ──────────────────────────────────
   {text:"當你想要一個人，你更可能怎麼下手？",options:[
-    {text:"直接逼近，讓他沒得退。我要的是他當場承認。",add:{dom:2,control:1}},
-    {text:"慢慢設局，讓他以為是自己先主動。",add:{manip:2,control:1}},
-    {text:"我會把自己變成他拒絕不了的習慣，然後再收網。",add:{devotion:2,manip:1}},
-    {text:"我會把界線推到極限。要嘛一起爽，要嘛一起毀。",add:{chaos:2,dom:1}}
+    {text:"慢慢設局，讓他以為是自己先主動。",              add:{dom:1,manip:2}},
+    {text:"直接逼近，讓他沒得退。我要的是他當場承認。",    add:{dom:1,chaos:2}},
+    {text:"把自己變成他拒絕不了的習慣，然後再收網。",      add:{sub:1,manip:2}},
+    {text:"把界線推到極限。要嘛一起爽，要嘛一起毀。",      add:{sub:1,chaos:2}},
   ]},
+
+  // ── 第 7 題：control vs manip（決勝輪）────────────────────────
   {text:"你看到心裡那個人對別人笑，你第一個念頭是：",options:[
-    {text:"把他拉回來，當著對方的面吻到他說不出話。",add:{dom:2,control:1,chaos:1}},
-    {text:"先記住那個人。之後再慢慢『處理』掉。",add:{manip:2,chaos:1}},
-    {text:"裝作沒事，但我會讓他回家後付出代價。",add:{control:2,devotion:1}},
-    {text:"我不配。那就讓我自己沉下去，不要打擾他。",add:{sub:2,chaos:1}}
+    {text:"把他拉回來，當著對方的面讓他只看得到我。",        add:{dom:1,control:2}},
+    {text:"先記住那個人。之後再慢慢『處理』掉。",            add:{dom:1,manip:2}},
+    {text:"裝作沒事，但我會讓他回家後付出代價。",            add:{sub:1,control:2}},
+    {text:"我不配。那就讓我自己沉下去，不要打擾他。",        add:{sub:1,manip:2}},
   ]},
+
+  // ── 第 8 題：chaos vs devotion（決勝輪）──────────────────────
   {text:"如果你們的結局註定不健康，你最想要的收尾是：",options:[
-    {text:"他跪著求我別走，我踩著他的自尊讓他只剩我。",add:{dom:2,chaos:1}},
-    {text:"我被圈養到習慣，最後連門開著都不想走。",add:{sub:2,devotion:2,control:1}},
-    {text:"在利益與慾望的泥沼裡互相勒住脖子，一起笑著沉。",add:{manip:2,chaos:1,dom:1}},
-    {text:"兩敗俱傷。血跟吻混在一起，誰也別想乾淨退場。",add:{chaos:2,devotion:1}}
-  ]}
+    {text:"他跪著求我別走，我踩著他的自尊讓他只剩我。",            add:{dom:1,chaos:2}},
+    {text:"我把他鎖進我的世界，讓他習慣得再也不想出來。",          add:{dom:1,devotion:2}},
+    {text:"兩敗俱傷。血跟吻混在一起，誰也別想乾淨退場。",          add:{sub:1,chaos:2}},
+    {text:"我被圈養到習慣，最後連門開著都不想走。",                add:{sub:1,devotion:2}},
+  ]},
+
+  // ── 第 9 題：control vs chaos ────────────────────────────────
+  {text:"你被他單獨困在一個地方，出口只有一道他守著的門。你怎麼辦？",options:[
+    {text:"不動聲色等機會，時機到了一次翻盤。",              add:{dom:1,control:2}},
+    {text:"把局面攪爛，讓他比我更先失去判斷力。",            add:{dom:1,chaos:2}},
+    {text:"讓他以為我投降了，再從他的弱點破局。",            add:{sub:1,control:2}},
+    {text:"乾脆不走。讓他來說要把我怎樣。",                  add:{sub:1,chaos:2}},
+  ]},
+
+  // ── 第 10 題：manip vs devotion ─────────────────────────────
+  {text:"他對你說：「你是我見過最難對付的人。」你怎麼解讀這句話？",options:[
+    {text:"那是恭維。下一步就是讓他說出『你贏了』。",        add:{dom:1,manip:2}},
+    {text:"那是宣戰。很好，我也一直在等他認真。",            add:{dom:1,devotion:2}},
+    {text:"那是破口。他對我上心了，我要好好用這一點。",      add:{sub:1,manip:2}},
+    {text:"那是告白。他說不出口愛，只能用這種方式靠近我。",  add:{sub:1,devotion:2}},
+  ]},
+
+  // ── 第 11 題：control vs devotion ───────────────────────────
+  {text:"他在你最脆弱的時候出現，你心裡第一個反應是：",options:[
+    {text:"危險。不能讓他看見這個樣子，要立刻重新站起來。",  add:{dom:1,control:2}},
+    {text:"終於。我等這個人來看見我等很久了。",              add:{dom:1,devotion:2}},
+    {text:"這是機會。讓他以為他救了我，然後我把他留住。",    add:{sub:1,control:2}},
+    {text:"算了。讓他看。反正崩掉的部分我一個人撐不住了。",  add:{sub:1,devotion:2}},
+  ]},
+
+  // ── 第 12 題：manip vs chaos（最終決勝）──────────────────────
+  {text:"在這段關係裡，你最無法接受的是：",options:[
+    {text:"被看穿。對方比我更清楚我的底牌。",                add:{dom:1,manip:2}},
+    {text:"被掌控。對方讓我覺得自己只是棋子。",              add:{dom:1,chaos:2}},
+    {text:"被遺棄。對方在最需要我的時候選擇消失。",          add:{sub:1,manip:2}},
+    {text:"被冷靜對待。對方對我始終理智，就是不失控。",      add:{sub:1,chaos:2}},
+  ]},
 ];
 
-const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X'];
+const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
 
 /* ════════════════════════════════
    STATE
@@ -1200,60 +1252,73 @@ function confirmRestart(){
    RESULT LOGIC（短代碼）
 ════════════════════════════════ */
 function determineResultCode(){
-  return determineResultCodeV2();
-}
-
-function determineResultCodeV2(){
   const { dom, sub, control, manip, chaos, devotion } = axesScore;
 
-  // ── Step A: role (A=攻 / R=受) ──
-  const roleScore = dom - sub;
-  let role;
-  if (roleScore >= 1) role = "A";
-  else if (roleScore <= -1) role = "R";
-  else {
-    // 互：用口味偏好歸類
-    const aBias = control + manip;   // 攻向：掌控／算計
-    const rBias = devotion + chaos;  // 受向：沉溺／失控
-    role = (aBias >= rBias) ? "A" : "R";
-  }
+  // 1) 角色：同分時隨機（12題架構已保證 dom/sub 平衡，不再硬偏攻）
+  let role = (dom > sub) ? "A" : (sub > dom ? "R" : (Math.random() < 0.5 ? "A" : "R"));
 
-  // ── Step B: flavor ──
-  const flavorList = [
-    { k:"CONTROL",  v:control  },
-    { k:"SCHEME",   v:manip    },
-    { k:"CHAOS",    v:chaos    },
-    { k:"DEVOTION", v:devotion },
-  ].sort((a,b)=> b.v - a.v);
+  // 2) core 軸（四大，取最高）
+  const core = [
+    ["CONTROL",  control],
+    ["SCHEME",   manip],
+    ["CHAOS",    chaos],
+    ["DEVOTION", devotion],
+  ].sort((a,b) => b[1] - a[1]);
 
-  let flavor = flavorList[0].k;
-  // 平手處理
-  if (flavorList.length > 1 && flavorList[0].v === flavorList[1].v) {
-    const tied = flavorList.filter(x => x.v === flavorList[0].v).map(x=>x.k);
-    if (role === "A") {
-      flavor = tied.includes("CONTROL") ? "CONTROL"
-             : tied.includes("SCHEME")  ? "SCHEME"  : tied[0];
-    } else {
-      flavor = tied.includes("DEVOTION") ? "DEVOTION"
-             : tied.includes("CHAOS")    ? "CHAOS"   : tied[0];
+  const core1    = core[0][0];
+  const core2    = core[1][0];
+  const core1Val = core[0][1];
+
+  // 3) 強度分段（12 題下 core 最大 12）
+  //    0-4: LOW  5-8: MID  9-12: HIGH
+  const tier = (core1Val >= 9) ? "HIGH" : (core1Val >= 5 ? "MID" : "LOW");
+
+  return mapToResult(role, core1, core2, tier);
+}
+
+function mapToResult(role, core1, core2, tier){
+  const tIdx = (tier === "HIGH") ? 2 : (tier === "MID" ? 1 : 0);
+
+  // ── A side (11) ──────────────────────────────
+  if(role === "A"){
+    if(core1 === "CONTROL"){
+      if(tIdx === 2) return "A_CONTROL_3";
+      if(tIdx === 1) return (core2 === "SCHEME"   ? "A_CONTROL_2" : "A_CONTROL_1");
+      return (core2 === "DEVOTION" ? "A_CONTROL_1" : "A_CONTROL_2");
     }
+    if(core1 === "SCHEME"){
+      if(tIdx === 2) return "A_SCHEME_3";
+      if(tIdx === 1) return (core2 === "CONTROL"  ? "A_SCHEME_1" : "A_SCHEME_2");
+      return (core2 === "CHAOS"    ? "A_SCHEME_2" : "A_SCHEME_1");
+    }
+    if(core1 === "CHAOS"){
+      if(tIdx === 2) return "A_CHAOS_2";
+      return (core2 === "SCHEME"   ? "A_CHAOS_1"  : "A_CHAOS_2");
+    }
+    if(core1 === "DEVOTION"){
+      if(tIdx === 2) return (core2 === "SCHEME"   ? "A_DEVOTION_3" : "A_DEVOTION_2");
+      if(tIdx === 1) return "A_DEVOTION_2";
+      return "A_DEVOTION_1";
+    }
+    return "A_CONTROL_1";
   }
 
-  // ── Step C: tier (1~3) ──
-  const MAX_PER_AXIS = 16; // 8題 × 最多 +2
-  const flavorScore = (
-    flavor === "CONTROL"  ? control  :
-    flavor === "SCHEME"   ? manip    :
-    flavor === "CHAOS"    ? chaos    : devotion
-  );
-  const pct = flavorScore / MAX_PER_AXIS;
-  let tier = (pct >= 0.70) ? 3 : (pct >= 0.42) ? 2 : 1;
-
-  // ── 限制：確保 11攻/9受 格局 ──
-  if (role === "A" && flavor === "CHAOS")   tier = Math.min(tier, 2);
-  if (role === "R" && flavor !== "CONTROL") tier = Math.min(tier, 2);
-
-  return `${role}_${flavor}_${tier}`;
+  // ── R side (9) ───────────────────────────────
+  if(core1 === "CONTROL"){
+    if(tIdx === 2) return "R_CONTROL_2";
+    if(tIdx === 1) return (core2 === "CHAOS"    ? "R_CONTROL_3" : "R_CONTROL_1");
+    return (core2 === "DEVOTION"  ? "R_CONTROL_1" : "R_CONTROL_3");
+  }
+  if(core1 === "SCHEME"){
+    return (core2 === "CHAOS" || tIdx === 2) ? "R_SCHEME_1" : "R_SCHEME_2";
+  }
+  if(core1 === "CHAOS"){
+    return (core2 === "DEVOTION" || tIdx === 2) ? "R_CHAOS_1" : "R_CHAOS_2";
+  }
+  if(core1 === "DEVOTION"){
+    return (core2 === "CONTROL"  || tIdx === 2) ? "R_DEVOTION_2" : "R_DEVOTION_1";
+  }
+  return "R_CONTROL_1";
 }
 /* ════════════════════════════════
    SHARED RULER UTILITIES
@@ -1372,48 +1437,74 @@ function showResult(){
 function sendStats(code){
   const line  = document.getElementById('pop-line');
   const chart = document.getElementById('pop-chart');
-  if(GAS_URL==="在此貼上你的_GAS_網址"){
-    line.textContent="✦ 尚未串接資料庫，僅顯示本地結果。";return;
+
+  if(!GAS_URL || GAS_URL.includes("在此貼上")){
+    line.textContent="✦ 尚未串接資料庫，僅顯示本地結果。";
+    return;
   }
-  fetch(GAS_URL,{
-    method:'POST',
-    headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
-    body:'result='+encodeURIComponent(code)
+
+  fetch(GAS_URL, {
+    method: "POST",
+    body: JSON.stringify({ token: GAS_TOKEN, resultCode: code }),
   })
-  .then(r=>r.json())
-  .then(data=>{
-    if(data&&data.status==="success"){
-      const total  = Number(data.total)||0;
-      const counts = data.stats||{};
-      const myCount= Number(counts[code]||0);
-      const myPct  = total>0?Number(((myCount/total)*100).toFixed(1)):0;
-      line.innerHTML='✦ 目前共有 <strong>'+total+'</strong> 個靈魂墮入深淵。與你同類約佔 <strong>'+myPct+'%</strong>。';
-      const items = Object.entries(counts)
-        .map(([k,v])=>({k,v:Number(v)||0}))
-        .sort((a,b)=>b.v-a.v).slice(0,5);
-      const rows = items.map(({k,v})=>{
-        const pct   = total>0?(v/total)*100:0;
-        const label = (RESULT_META[k]&&RESULT_META[k].label)||k;
-        const short = (RESULT_META[k]&&RESULT_META[k].short) || k.replace(/_/g,' ');
-        const isMe  = k===code;
-        return '<div class="seal" style="'+(isMe?'border-color:rgba(255,255,255,.65);':'')+'">'
-          +'<div class="lab">'+(isMe?'✦ ':'')+short+'</div>'
-          +buildRuler(pct.toFixed(1)+'%')
-          +'<div class="val">'+pct.toFixed(1)+'%</div></div>';
-      }).join('');
-      chart.innerHTML='<div style="opacity:.9;letter-spacing:2px;font-style:italic;font-size:12px;margin-bottom:4px;margin-top:14px;">'
-        +'✦ 全站分佈（Top 5 結局樣本）'
-        +'</div><div class="seals">'+rows+'</div>';
-      animateRulers(chart);
-    } else {
-      line.textContent="✦ 數據讀取失敗，但深淵已記住你的選擇。";
-      chart.innerHTML="";
-    }
+  .then(r => r.json())
+  .then(data => {
+    if(!data || !data.ok) throw new Error(data && data.error ? data.error : "unknown");
+    renderStats(data, code);
   })
   .catch(()=>{
     line.textContent="✦ 數據讀取失敗，但深淵已記住你的選擇。";
     chart.innerHTML="";
   });
+}
+
+function renderStats(data, code){
+  const line  = document.getElementById('pop-line');
+  const chart = document.getElementById('pop-chart');
+
+  const total = Number(data.total)||0;
+
+  // 攻受統計（用 soulName 為主鍵）
+  const counts = data.countsByKeyword || data.counts || {};
+
+  const myKeyword = (resultsData[code] && resultsData[code].soulName) || code;
+  const myCount   = Number(counts[myKeyword]||0);
+  const myPct     = total > 0 ? Number(((myCount/total)*100).toFixed(1)) : 0;
+
+  // 攻受比例行
+  const rc    = data.roleCounts || {};
+  const aNum  = Number(rc.A||0);
+  const rNum  = Number(rc.R||0);
+  const aPct  = total > 0 ? Math.round(aNum*1000/total)/10 : 0;
+  const rPct  = total > 0 ? Math.round(rNum*1000/total)/10 : 0;
+
+  line.innerHTML =
+    '✦ 目前共有 <strong>'+total+'</strong> 個靈魂墮入深淵。'
+    +'與你同類（'+myKeyword+'）約佔 <strong>'+myPct+'%</strong>。'
+    +'<span style="opacity:.6;font-size:.85em;margin-left:10px;">'
+    +'攻 '+aPct+'%　受 '+rPct+'%</span>';
+
+  // Top 5 by keyword
+  const items = Object.entries(counts)
+    .map(([k,v])=>({k,v:Number(v)||0}))
+    .sort((a,b)=>b.v-a.v)
+    .slice(0,5);
+
+  const rows = items.map(({k,v})=>{
+    const pct  = total>0?(v/total)*100:0;
+    const isMe = (k===myKeyword);
+    return '<div class="seal" style="'+(isMe?'border-color:rgba(255,255,255,.65);':'')+'">'
+      +'<div class="lab">'+(isMe?'✦ ':'')+k+'</div>'
+      +buildRuler(pct.toFixed(1)+'%')
+      +'<div class="val">'+pct.toFixed(1)+'%</div></div>';
+  }).join('');
+
+  chart.innerHTML=
+    '<div style="opacity:.9;letter-spacing:2px;font-style:italic;font-size:12px;margin-bottom:4px;margin-top:14px;">'
+    +'✦ 全站分佈（Top 5 結局樣本）'
+    +'</div><div class="seals">'+rows+'</div>';
+
+  animateRulers(chart);
 }
 
 /* ════════════════════════════════
