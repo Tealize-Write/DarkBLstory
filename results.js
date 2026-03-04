@@ -32,7 +32,7 @@ const RESULT_META = {
 const resultsData = {
   /* ═══ 攻方 11 ═══ */
   A_CONTROL_1:{
-    image:"260205.jpg",,
+    image:"crow.jpg",
     soulName:"陰鬱偏執攻",
     soulDesc:"坦白與曖昧的遊戲間，你更傾向默默成為他的水和氧氣。",
     danger:"中", dangerFill:"60%",
