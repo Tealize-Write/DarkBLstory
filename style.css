@@ -258,7 +258,7 @@ body{
   margin-top:16px;
 }
 .result-img-wrap{
-  border-radius:60px;
+  border-radius:20px;
   overflow:hidden;
   background:#fff;
   flex-shrink:0;
