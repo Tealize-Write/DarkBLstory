@@ -1,4 +1,15 @@
 /* ── STATS ── */
+
+// ── 行為追蹤 (背景靜默發送) ──
+function trackUserAction(code, actionType) {
+  if (!GAS_URL || GAS_URL.includes("在此貼上")) return;
+  fetch(GAS_URL, {
+    method: "POST",
+    body: JSON.stringify({ token: GAS_TOKEN, resultCode: code, action: actionType }),
+  }).catch(() => { /* 靜默失敗 */ });
+}
+
+// ── 測驗結果統計 ──
 function sendStats(code){
   const line  = document.getElementById('pop-line');
   const chart = document.getElementById('pop-chart');
@@ -10,7 +21,7 @@ function sendStats(code){
 
   fetch(GAS_URL, {
     method: "POST",
-    body: JSON.stringify({ token: GAS_TOKEN, resultCode: code }),
+    body: JSON.stringify({ token: GAS_TOKEN, resultCode: code }), // 預設沒有 action，後端視為 result
   })
   .then(r => r.json())
   .then(data => {
@@ -29,12 +40,24 @@ function renderStats(data, code){
 
   const total = Number(data.total)||0;
 
-  // 攻受統計（用 soulName 為主鍵）
+  // 攻受統計
   const counts = data.countsByKeyword || data.counts || {};
-
   const myKeyword = (resultsData[code] && resultsData[code].soulName) || code;
   const myCount   = Number(counts[myKeyword]||0);
   const myPct     = total > 0 ? Number(((myCount/total)*100).toFixed(1)) : 0;
+
+  // 計算趣味數據：稀有度排行與最稀有樣本
+  const sortedItems = Object.entries(counts)
+    .map(([k,v])=>({k,v:Number(v)||0}))
+    .sort((a,b)=>b.v-a.v); // 數量由多到少排序
+  
+  // 找出玩家的排名
+  const myRank = sortedItems.findIndex(item => item.k === myKeyword) + 1;
+  const totalTypes = Object.keys(counts).length || 20; // 總共有幾種結果
+  
+  // 找出最稀有的樣本 (倒數第一名，且數量大於0)
+  const rarestItem = sortedItems.filter(i => i.v > 0).pop() || {k: "未知", v: 0};
+  const rarestPct  = total > 0 ? ((rarestItem.v/total)*100).toFixed(1) : 0;
 
   // 攻受比例行
   const rc    = data.roleCounts || {};
@@ -43,17 +66,16 @@ function renderStats(data, code){
   const aPct  = total > 0 ? Math.round(aNum*1000/total)/10 : 0;
   const rPct  = total > 0 ? Math.round(rNum*1000/total)/10 : 0;
 
+  // 更新文案，加入稀有度與攻受比
   line.innerHTML =
-    '✦ 目前共有 <strong>'+total+'</strong> 個靈魂墮入深淵。'
-    +'與你同類（'+myKeyword+'）約佔 <strong>'+myPct+'%</strong>。'
-    +'<span style="opacity:.6;font-size:.85em;margin-left:10px;">'
-    +'攻 '+aPct+'%　受 '+rPct+'%</span>';
+    '✦ 目前共有 <strong>'+total+'</strong> 個靈魂墮入深淵。<br/>'
+    +'✦ 你的類型（'+myKeyword+'）約佔 <strong>'+myPct+'%</strong>，稀有度排名第 <strong>'+myRank+'</strong> / '+totalTypes+'。<br/>'
+    +'✦ 最稀有的極端樣本為「'+rarestItem.k+'」 (僅 '+rarestPct+'%)。<br/>'
+    +'<span style="opacity:.6;font-size:.85em;display:inline-block;margin-top:6px;">'
+    +'(深淵陣營：攻 '+aPct+'% ｜ 受 '+rPct+'%)</span>';
 
-  // Top 5 by keyword
-  const items = Object.entries(counts)
-    .map(([k,v])=>({k,v:Number(v)||0}))
-    .sort((a,b)=>b.v-a.v)
-    .slice(0,5);
+  // Top 5 by keyword (長條圖保持不變)
+  const items = sortedItems.slice(0,5);
 
   const rows = items.map(({k,v})=>{
     const pct  = total>0?(v/total)*100:0;
@@ -66,7 +88,7 @@ function renderStats(data, code){
 
   chart.innerHTML=
     '<div style="opacity:.9;letter-spacing:2px;font-style:italic;font-size:12px;margin-bottom:4px;margin-top:14px;">'
-    +'✦ 全站分佈（Top 5 結局樣本）'
+    +'✦ 全站最高頻樣本 (Top 5)'
     +'</div><div class="seals">'+rows+'</div>';
 
   animateRulers(chart);

@@ -196,7 +196,8 @@ function showResult(){
     +buildRuler(r.escape)+'<div class="val">'+r.escape+'</div></div>';
   animateRulers(document);
   const cta=document.getElementById('r-cta');
-  cta.innerHTML='<a href="'+escapeAttr(r.link)+'" target="_blank" rel="noopener noreferrer">'
+  // 加上 onclick="trackBookClick('代碼')" 來觸發背景追蹤
+  cta.innerHTML='<a href="'+escapeAttr(r.link)+'" target="_blank" rel="noopener noreferrer" onclick="trackBookClick(\''+code+'\')">'
     +'<span>解鎖你的故事樣本：'+r.bookName+'</span></a>';
   renderMyTopAxes();
   sendStats(code);
@@ -213,14 +214,67 @@ function escapeAttr(str){
   return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
-function copyResult(){
-  const code=_lastResultCode||determineResultCode();
-  const label=(RESULT_META[code]&&RESULT_META[code].label)||code;
-  const name=document.getElementById('r-name').textContent||'';
-  const desc=document.getElementById('r-desc').textContent||'';
-  const quote=document.getElementById('r-quote').textContent||'';
-  const text=`${name}\n類型：${label}\n${desc}\n\n「${quote}」`;
-  navigator.clipboard.writeText(text)
-    .then(()=>alert('已成功複製結果，快去和朋友分享你的黑暗特質吧！'))
-    .catch(()=>alert('複製失敗，請手動複製'));
+/* ════════════════════════════════
+   產生結果圖片與分享 (取代原本的 copyResult)
+════════════════════════════════ */
+async function shareResultAsImage() {
+  const code = _lastResultCode || determineResultCode();
+  const btn = document.querySelector('.btn.mini');
+  const originalText = btn.textContent;
+  
+  // 1. 發送追蹤紀錄給後端
+  trackUserAction(code, "share_image");
+
+  // 2. 按鈕狀態提示 (避免使用者狂按)
+  btn.textContent = "生成專屬圖像中...";
+  btn.disabled = true;
+
+  try {
+    // 3. 鎖定要截圖的範圍 (這裡抓整個 result 區塊)
+    const targetElement = document.getElementById('result');
+    
+    // 4. 使用 html2canvas 繪製圖片
+    const canvas = await html2canvas(targetElement, {
+      scale: 2,           // 提高解析度 (Retina 畫質)
+      backgroundColor: "#000000", // 確保背景是黑色的
+      useCORS: true,      // 允許載入外部圖片 (你的 Framer 圖片)
+      logging: false
+    });
+
+    // 5. 將 Canvas 轉為檔案 Blob
+    canvas.toBlob(async (blob) => {
+      const file = new File([blob], 'dark_trait_result.png', { type: 'image/png' });
+      const shareData = {
+        title: '故事另有結局｜黑暗特質心理測驗',
+        text: '來看看你的故事結局是什麼？測驗網址：(這裡換成你未來的GitHub Pages網址)',
+        files: [file]
+      };
+
+      // 6. 判斷是否支援手機原生的分享功能 (IG, Line 等)
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share(shareData);
+        } catch (e) {
+          console.log("使用者取消分享");
+        }
+      } else {
+        // 若為電腦版或不支援，則自動下載圖片
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'dark_trait_result.png';
+        a.click();
+        alert("已為您下載結果圖，快去加上測驗網址分享到 IG 吧！");
+      }
+      
+      // 復原按鈕
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }, 'image/png');
+
+  } catch (error) {
+    console.error("圖片生成失敗:", error);
+    alert("圖片生成失敗，請稍後再試。");
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
 }
