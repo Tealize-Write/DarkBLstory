@@ -141,8 +141,9 @@ function renderMyTopAxes(){
   if(!el) return;
   const axisMax = calcAxisMax();
   const axisLabel = {
-    dom:'DOMINANCE', sub:'SUBMISSION', control:'CONTROL',
-    manip:'SCHEME', chaos:'CHAOS', devotion:'DEVOTION'
+    dom:'攻向', sub:'受向', 
+    opt:'樂觀', crp:'沉淪', frc:'強勢', sed:'引誘', cmp:'共犯',
+    grd:'守護', obs:'執著', pos:'佔有', lsc:'失控', slc:'自制'
   };
   const top3 = Object.entries(axesScore).sort((a,b)=>b[1]-a[1]).slice(0,3);
   const rows = top3.map(([k,v])=>{

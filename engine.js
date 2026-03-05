@@ -1,6 +1,12 @@
 /* ── ENGINE ── */
 
-// ── State
+// 1. 定義所有的屬性：直接使用攻受(dom, sub)與 10 項細分特質
+const AXES = [
+  'dom', 'sub',
+  'opt', 'crp', 'frc', 'sed', 'cmp', 
+  'grd', 'obs', 'pos', 'lsc', 'slc'
+];
+
 /* ════════════════════════════════
    STATE
 ════════════════════════════════ */
@@ -20,80 +26,66 @@ const elProgress = document.getElementById('progress');
 
 // ── Score
 function addAxisScores(obj){
-  for(const k in obj)
-    if(Object.prototype.hasOwnProperty.call(axesScore,k)) axesScore[k]+=obj[k];
+  for(const k in obj) {
+    if(Object.prototype.hasOwnProperty.call(axesScore,k)) {
+      axesScore[k]+=obj[k];
+    }
+  }
 }
 
 // ── Result logic
 function determineResultCode(){
-  const { dom, sub, control, manip, chaos, devotion } = axesScore;
+  // 1) 角色：比較 dom (攻) 與 sub (受)
+  let role = (axesScore.dom > axesScore.sub) ? "A" : (axesScore.sub > axesScore.dom ? "R" : (Math.random() < 0.5 ? "A" : "R"));
 
-  // 1) 角色：同分時隨機（12題架構已保證 dom/sub 平衡，不再硬偏攻）
-  let role = (dom > sub) ? "A" : (sub > dom ? "R" : (Math.random() < 0.5 ? "A" : "R"));
+  // 2) 找出 10 項特質中分數最高的一項
+  const traits = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
+  
+  // 排序找出最高分的特質
+  const sortedTraits = traits.map(t => ({ trait: t, score: axesScore[t] }))
+                             .sort((a, b) => b.score - a.score);
+  
+  const topTrait = sortedTraits[0].trait;
 
-  // 2) core 軸（四大，取最高）
-  const core = [
-    ["CONTROL",  control],
-    ["SCHEME",   manip],
-    ["CHAOS",    chaos],
-    ["DEVOTION", devotion],
-  ].sort((a,b) => b[1] - a[1]);
-
-  const core1    = core[0][0];
-  const core2    = core[1][0];
-  const core1Val = core[0][1];
-
-  // 3) 強度分段（12 題下 core 最大 12）
-  //    0-4: LOW  5-8: MID  9-12: HIGH
-  const tier = (core1Val >= 9) ? "HIGH" : (core1Val >= 5 ? "MID" : "LOW");
-
-  return mapToResult(role, core1, core2, tier);
+  return mapToResult(role, topTrait);
 }
 
-function mapToResult(role, core1, core2, tier){
-  const tIdx = (tier === "HIGH") ? 2 : (tier === "MID" ? 1 : 0);
-
-  // ── A side (11) ──────────────────────────────
+function mapToResult(role, topTrait){
+  // ── A side (攻方) ──
   if(role === "A"){
-    if(core1 === "CONTROL"){
-      if(tIdx === 2) return "A_CONTROL_3";
-      if(tIdx === 1) return (core2 === "SCHEME"   ? "A_CONTROL_2" : "A_CONTROL_1");
-      return (core2 === "DEVOTION" ? "A_CONTROL_1" : "A_CONTROL_2");
+    switch(topTrait) {
+      case 'opt': return "A_DEVOTION_1"; // 樂觀：二哈黑龍攻
+      case 'crp': return "A_CHAOS_1";    // 沉淪：無情獸群攻
+      case 'frc': return "A_DEVOTION_2"; // 強勢：佔有囚禁攻
+      case 'sed': return "A_CHAOS_2";    // 引誘：暴力黑獅攻
+      case 'cmp': return "A_SCHEME_1";   // 共犯：腹黑勢利攻
+      case 'grd': return "A_SCHEME_3";   // 守護：偏執瘋子攻
+      case 'obs': return "A_CONTROL_1";  // 執著：陰鬱偏執攻
+      case 'pos': return "A_SCHEME_2";   // 佔有：放蕩影子攻
+      case 'lsc': return "A_CONTROL_2";  // 失控：黑化掠奪攻
+      case 'slc': return "A_DEVOTION_3"; // 自制：病態攻
+      default: return "A_CONTROL_1";
     }
-    if(core1 === "SCHEME"){
-      if(tIdx === 2) return "A_SCHEME_3";
-      if(tIdx === 1) return (core2 === "CONTROL"  ? "A_SCHEME_1" : "A_SCHEME_2");
-      return (core2 === "CHAOS"    ? "A_SCHEME_2" : "A_SCHEME_1");
-    }
-    if(core1 === "CHAOS"){
-      if(tIdx === 2) return "A_CHAOS_2";
-      return (core2 === "SCHEME"   ? "A_CHAOS_1"  : "A_CHAOS_2");
-    }
-    if(core1 === "DEVOTION"){
-      if(tIdx === 2) return (core2 === "SCHEME"   ? "A_DEVOTION_3" : "A_DEVOTION_2");
-      if(tIdx === 1) return "A_DEVOTION_2";
-      return "A_DEVOTION_1";
-    }
-    return "A_CONTROL_1";
   }
 
-  // ── R side (9) ───────────────────────────────
-  if(core1 === "CONTROL"){
-    if(tIdx === 2) return "R_CONTROL_2";
-    if(tIdx === 1) return (core2 === "CHAOS"    ? "R_CONTROL_3" : "R_CONTROL_1");
-    return (core2 === "DEVOTION"  ? "R_CONTROL_1" : "R_CONTROL_3");
+  // ── R side (受方) ──
+  if(role === "R"){
+    switch(topTrait) {
+      case 'opt': return "R_CONTROL_1";  // 樂觀：陽光直男受
+      case 'crp': return "R_DEVOTION_1"; // 沉淪：自願沈淪受
+      case 'frc': return "A_CONTROL_3";  // 強勢：冰山白神攻 (受方測出強勢，反向分配給神攻)
+      case 'sed': return "R_SCHEME_1";   // 引誘：卑劣淫蕩受
+      case 'cmp': return "R_CHAOS_2";    // 共犯：自毀抹布受
+      case 'grd': return "R_DEVOTION_2"; // 守護：人妻王子受
+      case 'obs': return "R_SCHEME_2";   // 執著：廢物美人受
+      case 'pos': return "R_CONTROL_2";  // 佔有：清冷自持受
+      case 'lsc': return "R_CHAOS_1";    // 失控：斯德哥爾摩受
+      case 'slc': return "R_CONTROL_3";  // 自制：禁慾學者受
+      default: return "R_CONTROL_1";
+    }
   }
-  if(core1 === "SCHEME"){
-    return (core2 === "CHAOS" || tIdx === 2) ? "R_SCHEME_1" : "R_SCHEME_2";
-  }
-  if(core1 === "CHAOS"){
-    return (core2 === "DEVOTION" || tIdx === 2) ? "R_CHAOS_1" : "R_CHAOS_2";
-  }
-  if(core1 === "DEVOTION"){
-    return (core2 === "CONTROL"  || tIdx === 2) ? "R_DEVOTION_2" : "R_DEVOTION_1";
-  }
-  return "R_CONTROL_1";
 }
+
 /* ════════════════════════════════
    SHARED RULER UTILITIES
 ════════════════════════════════ */
@@ -114,11 +106,9 @@ function calcAxisMax(){
 }
 
 /* ════════════════════════════════
-   MY TOP AXES
+   GLOBAL EXPORTS
 ════════════════════════════════ */
-
-// ── Window exports
 window.startQuiz      = startQuiz;
 window.confirmRestart = confirmRestart;
 window.skipTypewriter = skipTypewriter;
-window.copyResult     = copyResult;
+window.copyResult     = typeof copyResult === 'function' ? copyResult : function(){};

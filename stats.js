@@ -1,11 +1,19 @@
-/* ── STATS ── */
+// 產生或讀取專屬裝置 ID
+function getClientId() {
+  let cid = localStorage.getItem('abyss_client_id');
+  if (!cid) {
+    cid = 'uid_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    localStorage.setItem('abyss_client_id', cid);
+  }
+  return cid;
+}
 
 // ── 行為追蹤 (背景靜默發送) ──
 function trackUserAction(code, actionType) {
   if (!GAS_URL || GAS_URL.includes("在此貼上")) return;
   fetch(GAS_URL, {
     method: "POST",
-    body: JSON.stringify({ token: GAS_TOKEN, resultCode: code, action: actionType }),
+    body: JSON.stringify({ token: GAS_TOKEN, resultCode: code, action: actionType, clientId: getClientId() }),
   }).catch(() => { /* 靜默失敗 */ });
 }
 
@@ -21,7 +29,7 @@ function sendStats(code){
 
   fetch(GAS_URL, {
     method: "POST",
-    body: JSON.stringify({ token: GAS_TOKEN, resultCode: code }), // 預設沒有 action，後端視為 result
+    body: JSON.stringify({ token: GAS_TOKEN, resultCode: code, clientId: getClientId() }), 
   })
   .then(r => r.json())
   .then(data => {
