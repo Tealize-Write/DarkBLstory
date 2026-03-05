@@ -131,6 +131,29 @@ function confirmRestart(){
   }
 }
 
+
+/* ════════════════════════════════
+   CP 配對區塊
+════════════════════════════════ */
+function renderCpBlock(code){
+  const r   = resultsData[code];
+  const el  = document.getElementById('r-cp');
+  if(!el) return;
+  if(!r || !r.cp1){ el.innerHTML=''; return; }
+
+  const mbtiLine = r.mbti
+    ? `<div class="cp-mbti"><span class="cp-label">MBTI</span><strong>${r.mbti}</strong></div>`
+    : '';
+
+  const cp2Html = (r.cp2||[]).map(n=>`<span class="cp-alt">${n}</span>`)
+                              .join('<span class="cp-sep">・</span>');
+
+  el.innerHTML =
+    mbtiLine
+    + `<div class="cp-row cp-main"><span class="cp-label">王道 CP</span><span class="cp-name">${r.cp1}</span></div>`
+    + `<div class="cp-row cp-subs"><span class="cp-label">次　選</span><span>${cp2Html}</span></div>`;
+}
+
 /* ════════════════════════════════
    TOP AXES
 ════════════════════════════════ */
@@ -211,6 +234,7 @@ function showResult(){
   // 加上 onclick="trackBookClick('代碼')" 來觸發背景追蹤
   cta.innerHTML='<a href="'+escapeAttr(r.link)+'" target="_blank" rel="noopener noreferrer" onclick="trackBookClick(\''+code+'\')">'
     +'<span>解鎖你的故事樣本：'+r.bookName+'</span></a>';
+  renderCpBlock(code);
   renderMyTopAxes();
   sendStats(code);
   window.scrollTo({top:0,behavior:'smooth'});
@@ -221,6 +245,14 @@ function showResult(){
 ════════════════════════════════ */
 
 // ── Utils
+
+// ── 書籍點擊追蹤
+function trackBookClick(code){
+  trackUserAction(code, "book_click");
+}
+window.trackBookClick    = trackBookClick;
+window.shareResultAsImage = shareResultAsImage;
+
 function escapeAttr(str){
   const s = String(str ?? '');
   return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
@@ -232,60 +264,87 @@ function escapeAttr(str){
 async function shareResultAsImage() {
   const code = _lastResultCode || determineResultCode();
   const btn = document.querySelector('.btn.mini');
+  const btnRow = document.querySelector('#result .btn-row'); // 抓取底部按鈕區塊
+  const targetElement = document.getElementById('result');
   const originalText = btn.textContent;
-  
+
   // 1. 發送追蹤紀錄給後端
   trackUserAction(code, "share_image");
 
-  // 2. 按鈕狀態提示 (避免使用者狂按)
+  // 2. 按鈕狀態提示，避免使用者重複狂點
   btn.textContent = "生成專屬圖像中...";
   btn.disabled = true;
 
+  // 3. 核心修復：暫時隱藏按鈕區塊，避免按鈕被截進去
+  if(btnRow) btnRow.style.display = 'none';
+
   try {
-    // 3. 鎖定要截圖的範圍 (這裡抓整個 result 區塊)
-    const targetElement = document.getElementById('result');
-    
-    // 4. 使用 html2canvas 繪製圖片
+    // 4. 核心修復：暫時將畫面滾動到最上方，保證 html2canvas 絕不截斷畫面
+    const originalScrollY = window.scrollY;
+    window.scrollTo(0, 0);
+
+    // 5. 繪製圖片
     const canvas = await html2canvas(targetElement, {
-      scale: 2,           // 提高解析度 (Retina 畫質)
-      backgroundColor: "#000000", // 確保背景是黑色的
-      useCORS: true,      // 允許載入外部圖片 (你的 Framer 圖片)
-      logging: false
+      scale: window.devicePixelRatio || 2, // 自動適配手機視網膜螢幕，更清晰
+      backgroundColor: "#000000",
+      useCORS: true,
+      allowTaint: false,
+      logging: false,
+      windowHeight: targetElement.scrollHeight // 強制讀取完整高度
     });
 
-    // 5. 將 Canvas 轉為檔案 Blob
-    canvas.toBlob(async (blob) => {
-      const file = new File([blob], 'dark_trait_result.png', { type: 'image/png' });
-      const shareData = {
-        title: '故事另有結局｜黑暗特質心理測驗',
-        text: '來看看你的故事結局是什麼？測驗網址：(這裡換成你未來的GitHub Pages網址)',
-        files: [file]
-      };
+    // 繪製完成後，立刻恢復原始畫面狀態
+    window.scrollTo(0, originalScrollY);
+    if(btnRow) btnRow.style.display = 'flex';
+    btn.textContent = originalText;
+    btn.disabled = false;
 
-      // 6. 判斷是否支援手機原生的分享功能 (IG, Line 等)
+    // 6. 將 Canvas 轉為 Blob 準備分享/下載
+    canvas.toBlob(async (blob) => {
+      if (!blob) throw new Error("Blob conversion failed");
+
+      const file = new File([blob], 'dark_trait_result.png', { type: 'image/png' });
+      let shared = false;
+
+      // 判斷手機瀏覽器是否支援直接「呼叫原生分享面板 (IG/Line等)」
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         try {
-          await navigator.share(shareData);
+          await navigator.share({
+            title: '故事另有結局｜黑暗特質心理測驗',
+            text: '來看看你的故事結局是什麼？',
+            files: [file]
+          });
+          shared = true;
         } catch (e) {
-          console.log("使用者取消分享");
+          console.log("分享被取消或瀏覽器安全阻擋");
         }
-      } else {
-        // 若為電腦版或不支援，則自動下載圖片
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'dark_trait_result.png';
-        a.click();
-        alert("已為您下載結果圖，快去加上測驗網址分享到 IG 吧！");
       }
-      
-      // 復原按鈕
-      btn.textContent = originalText;
-      btn.disabled = false;
+
+      // 如果原生分享失敗（電腦版、Line內部瀏覽器、或被安全機制擋下），無縫切換為「自動下載」
+      if (!shared) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'dark_trait_result.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        // 針對 iOS  Safari 偶爾連下載都不給的狀況，給予友善提示
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS) {
+           alert("已嘗試為您下載圖片！\n（若沒有自動儲存，建議使用 Safari 開啟，或直接用手機截圖分享）");
+        }
+      }
+
     }, 'image/png');
 
   } catch (error) {
     console.error("圖片生成失敗:", error);
     alert("圖片生成失敗，請稍後再試。");
+    // 確保出錯時也能恢復按鈕
+    if(btnRow) btnRow.style.display = 'flex';
     btn.textContent = originalText;
     btn.disabled = false;
   }

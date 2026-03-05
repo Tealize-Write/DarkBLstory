@@ -404,6 +404,47 @@ body{
 }
 .stats strong{color:var(--ink);font-weight:700;}
 
+
+/* ══ CP 配對區塊 ══ */
+.cp-block{
+  /* 空時不顯示邊框 */
+  min-height:0;
+}
+.cp-block:empty{ display:none; }
+.cp-mbti{
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--display);font-style:italic;
+  font-size:13px;letter-spacing:2px;color:rgba(255,255,255,.78);
+}
+.cp-mbti strong{
+  color:var(--ink);font-size:15px;letter-spacing:3px;
+}
+.cp-row{
+  display:flex;align-items:baseline;gap:14px;
+  margin-bottom:10px;
+  font-family:var(--serif);
+}
+.cp-row:last-child{margin-bottom:0;}
+.cp-label{
+  font-family:var(--display);font-style:italic;
+  font-size:11px;letter-spacing:2px;
+  color:rgba(255,255,255,.55);
+  white-space:nowrap;min-width:46px;
+}
+.cp-name{
+  font-size:16px;font-weight:700;
+  letter-spacing:2px;color:var(--ink);
+}
+.cp-alt{
+  font-size:13px;letter-spacing:1px;
+  color:rgba(255,255,255,.75);
+}
+.cp-sep{
+  font-size:11px;color:rgba(255,255,255,.3);
+  margin:0 2px;
+}
+
 /* ══ ANIMATIONS ══ */
 @keyframes fadeUp{
   from{opacity:0;transform:translateY(18px);}

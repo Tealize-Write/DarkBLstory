@@ -43,7 +43,10 @@ const resultsData = {
     quote:"「連死也無法將我們分離。」",
     guide:"烏鴉銜石頭丟入水瓶中——你愛的是他，還是追逐他的刺激感？",
     bookName:"《寶石、烏鴉和水瓶》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/君羊"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%90%9",
+      mbti: "",
+    cp1: "陽光直男受",
+    cp2: ["自願沈淪受", "卑劣淫蕩受"],
   },
   A_CONTROL_2:{
     image:"https://framerusercontent.com/images/m56Q5hEDF1BiFypFDftnukMnhWM.png",
@@ -55,7 +58,10 @@ const resultsData = {
     quote:"再試一次。這次，把姿勢擺好。",
     guide:"你的愛是一套精密的系統——獎懲清晰、邊界分明，卻讓人沉迷到無法出走。",
     bookName:"《灰燼》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/悠然"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E6%82%A",
+      mbti: "",
+    cp1: "清冷自持受",
+    cp2: ["卑劣淫蕩受", "自毀抹布受"],
   },
   A_CONTROL_3:{
     image:"https://framerusercontent.com/images/tU3tsyKjf8sMxVq6UnyJDCSi4c.png",
@@ -67,7 +73,10 @@ const resultsData = {
     quote:"想走？留下代價。",
     guide:"絕對的掌控帶來絕對的依存。在這段關係裡，誰才是真正的囚徒？",
     bookName:"《咬了神一口》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/兌現藍"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%85%8",
+      mbti: "",
+    cp1: "暴力黑獅攻",
+    cp2: ["斯德哥爾摩受", "自願沈淪受"],
   },
   A_SCHEME_1:{
     image:"https://framerusercontent.com/images/ZgfhchUbaHJuXY9V0Xipa3jxU.png",
@@ -79,7 +88,10 @@ const resultsData = {
     quote:"你以為這是你的選擇嗎？每一步，都是我替你鋪的路。",
     guide:"溫柔才是最危險的武器。被溫柔算計的人，往往到最後都感謝那把刀。",
     bookName:"《消失的終點線》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/葦寶寶"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E8%91%A",
+      mbti: "",
+    cp1: "卑劣淫蕩受",
+    cp2: ["清冷自持受", "廢物美人受"],
   },
   A_SCHEME_2:{
     image:"https://framerusercontent.com/images/uQPprKfZezv518Mf1QK2enDGzTI.png",
@@ -91,7 +103,10 @@ const resultsData = {
     quote:"別想著反悔。你已經簽了，用你自己的心跳作的保。",
     guide:"你用話語設陷，用沉默收網。遇上同樣聰明的獵物，這場博弈將如何收場？",
     bookName:"《影子吻了我》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/相對之下"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E7%9B%B",
+      mbti: "",
+    cp1: "禁慾學者受",
+    cp2: ["自毀抹布受", "斯德哥爾摩受"],
   },
   A_SCHEME_3:{
     image:"https://framerusercontent.com/images/K60BMuPYxaec4ZvETplOuAZcbw.png",
@@ -103,7 +118,10 @@ const resultsData = {
     quote:"你以為自己是唯一看穿我的人？那正是我需要你的原因。",
     guide:"全員惡人的棋局，誰先動真感情誰就輸了——可惜你早已落入他的局中局。",
     bookName:"《溫先生他一絲不掛》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/火登"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E7%81%A",
+      mbti: "",
+    cp1: "廢物美人受",
+    cp2: ["自毀抹布受", "自願沈淪受"],
   },
   A_CHAOS_1:{
     image:"https://framerusercontent.com/images/bSRzaW69l34wXcEwgq07OfluB5s.png",
@@ -115,7 +133,10 @@ const resultsData = {
     quote:"讓開。或者跟我走。你只有這兩個選擇。",
     guide:"在秩序的廢墟裡，暴烈的愛意反而是最誠實的語言。準備好被掠奪了嗎？",
     bookName:"《兩兄弟》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/《兩兄弟》"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E3%80%8",
+      mbti: "",
+    cp1: "自毀抹布受",
+    cp2: ["斯德哥爾摩受", "卑劣淫蕩受"],
   },
   A_CHAOS_2:{
     image:"https://framerusercontent.com/images/tU3tsyKjf8sMxVq6UnyJDCSi4c.png",
@@ -127,7 +148,10 @@ const resultsData = {
     quote:"管他什麼後果。你在這裡，這就夠了。",
     guide:"當愛意失去邊界，毀滅本身就成了一種羅曼蒂克。你們將在灰燼中找到彼此。",
     bookName:"《咬了神一口》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/兌現藍"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%85%8",
+      mbti: "",
+    cp1: "冰山白神攻",
+    cp2: ["清冷自持受", "斯德哥爾摩受"],
   },
   A_DEVOTION_1:{
     image:"https://framerusercontent.com/images/GpHyYzlSiHtit6kGXfSSACkqf0.png",
@@ -139,7 +163,10 @@ const resultsData = {
     quote:"你受傷了嗎？給我看。以後不准再讓別人靠近到能傷害你的距離。",
     guide:"偏執的守護有時比傷害更令人窒息。你用愛築牆，卻從未問過對方願不願意住進來。",
     bookName:"《沉睡荊棘》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/喵芭"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%96%B",
+      mbti: "",
+    cp1: "人妻王子受",
+    cp2: ["卑劣淫蕩受", "自毀抹布受"],
   },
   A_DEVOTION_2:{
     image:"https://framerusercontent.com/images/l5SjfsnGDqcuNrQYZbAKTQvJij4.png",
@@ -151,7 +178,10 @@ const resultsData = {
     quote:"你今天跟誰說話了？說來聽聽。我就只是想知道。",
     guide:"佔有是你的愛語，嫉妒是你的情話。這段關係的甜蜜與窒息，從來只有一線之隔。",
     bookName:"《糖裹屋》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/蘇朵拉"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E8%98%8",
+      mbti: "",
+    cp1: "自願沈淪受",
+    cp2: ["人妻王子受", "廢物美人受"],
   },
   A_DEVOTION_3:{
     image:"https://framerusercontent.com/images/nRtAWmBjy7p9qD7Whz9VxlL0myQ.png",
@@ -163,7 +193,10 @@ const resultsData = {
     quote:"這個世界上只要還有你，我就不需要其他任何東西。包括理智。",
     guide:"當愛意成為信仰，你便走向了那條無法回頭的路。他是你的終點，也是你的萬劫不復。",
     bookName:"《哈梅爾的吹笛手》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/九"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E4%B9%9",
+      mbti: "",
+    cp1: "斯德哥爾摩受",
+    cp2: ["自願沈淪受", "自毀抹布受"],
   },
   /* ═══ 受方 9 ═══ */
   R_CONTROL_1:{
@@ -176,7 +209,10 @@ const resultsData = {
     quote:"靠，老兄，你真他媽是個怪咖——好啦，別那個臉，要不要跟我回家吃飯？",
     guide:"棒球、蘇打水和一汪湖水，這座小鎮所有的夏天都裝到你的身上，不分一點給別人。",
     bookName:"《寶石、烏鴉和水瓶》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/君羊"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%90%9",
+      mbti: "",
+    cp1: "陰鬱偏執攻",
+    cp2: ["二哈黑龍攻", "腹黑勢利攻"],
   },
   R_CONTROL_2:{
     image:"https://framerusercontent.com/images/m56Q5hEDF1BiFypFDftnukMnhWM.png",
@@ -188,7 +224,10 @@ const resultsData = {
     quote:"你以為馴服了我？有意思。那就讓你再得意一會兒。",
     guide:"你的臣服不是軟弱，是最精密的計算。等他以為大局已定，你再反咬一口。",
     bookName:"《灰燼》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/悠然"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E6%82%A",
+      mbti: "",
+    cp1: "黑化掠奪攻",
+    cp2: ["腹黑勢利攻", "放蕩影子攻"],
   },
   R_CONTROL_3:{
     image:"https://framerusercontent.com/images/uQPprKfZezv518Mf1QK2enDGzTI.png",
@@ -200,7 +239,10 @@ const resultsData = {
     quote:"你犯的那些罪，我都記得。所以你也別想甩掉我。",
     guide:"你不是受害者，你是他最完美的共謀。這段關係的危險，恰恰在於你們如此相配。",
     bookName:"《影子吻了我》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/相對之下"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E7%9B%B",
+      mbti: "",
+    cp1: "放蕩影子攻",
+    cp2: ["病態攻", "陰鬱偏執攻"],
   },
   R_SCHEME_1:{
     image:"https://framerusercontent.com/images/ZgfhchUbaHJuXY9V0Xipa3jxU.png",
@@ -212,7 +254,10 @@ const resultsData = {
     quote:"你以為是你抓住了我？那就讓你這樣以為下去吧。",
     guide:"你以脆弱為武器，以柔順為陷阱。沒有人比你更清楚：最好的獵場，就是獵人的懷抱。",
     bookName:"《消失的終點線》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/葦寶寶"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E8%91%A",
+      mbti: "",
+    cp1: "腹黑勢利攻",
+    cp2: ["黑化掠奪攻", "二哈黑龍攻"],
   },
   R_SCHEME_2:{
     image:"https://framerusercontent.com/images/K60BMuPYxaec4ZvETplOuAZcbw.png",
@@ -224,7 +269,10 @@ const resultsData = {
     quote:"我沒有反抗。我只是……在等你做出我想要的選擇。",
     guide:"最高明的受，是讓攻以為自己主導了一切。你笑著臣服，卻是整場戲的編劇。",
     bookName:"《溫先生他一絲不掛》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/火登"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E7%81%A",
+      mbti: "",
+    cp1: "偏執瘋子攻",
+    cp2: ["佔有囚禁攻", "腹黑勢利攻"],
   },
   R_CHAOS_1:{
     image:"https://framerusercontent.com/images/nRtAWmBjy7p9qD7Whz9VxlL0myQ.png",
@@ -236,7 +284,10 @@ const resultsData = {
     quote:"再用力一點也沒關係。我想記住這個感覺。",
     guide:"當痛覺與愛意的神經徹底纏繞在一起，你還能分清楚，你是在享受還是在沉溺？",
     bookName:"《哈梅爾的吹笛手》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/九"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E4%B9%9",
+      mbti: "",
+    cp1: "病態攻",
+    cp2: ["放蕩影子攻", "冰山白神攻"],
   },
   R_CHAOS_2:{
     image:"https://framerusercontent.com/images/bSRzaW69l34wXcEwgq07OfluB5s.png",
@@ -248,7 +299,10 @@ const resultsData = {
     quote:"你傷了我，我也傷了你。那我們就扯平了，對不對？",
     guide:"沒有人是無辜的，也沒有人想離開。在這場相互傷害的戀愛裡，毀滅即是浪漫。",
     bookName:"《兩兄弟》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/《兩兄弟》"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E3%80%8",
+      mbti: "",
+    cp1: "無情獸群攻",
+    cp2: ["偏執瘋子攻", "放蕩影子攻"],
   },
   R_DEVOTION_1:{
     image:"https://framerusercontent.com/images/l5SjfsnGDqcuNrQYZbAKTQvJij4.png",
@@ -260,7 +314,10 @@ const resultsData = {
     quote:"只要是你給的，就算是鎖鏈，我也覺得是禮物。",
     guide:"你渴望被完全擁有，渴望有人替你做所有的決定。這座牢籠是你選擇的天堂。",
     bookName:"《糖裹屋》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/蘇朵拉"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E8%98%8",
+      mbti: "",
+    cp1: "佔有囚禁攻",
+    cp2: ["陰鬱偏執攻", "偏執瘋子攻"],
   },
   R_DEVOTION_2:{
     image:"https://framerusercontent.com/images/GpHyYzlSiHtit6kGXfSSACkqf0.png",
@@ -272,7 +329,10 @@ const resultsData = {
     quote:"……算了，你追來了又怎樣。我本來也沒有跑很快。",
     guide:"抵抗是個謊言，你早就知道結局。最後一次出逃，不過是為了讓他再追你一次。",
     bookName:"《沉睡荊棘》",
-    link:"https://early-marketplaces-521584.framer.app/作品試閱/喵芭"
+    link:"https://early-marketplaces-521584.framer.app/%E4%BD%9C%E5%93%81%E8%A9%A6%E9%96%B1/%E5%96%B",
+      mbti: "",
+    cp1: "二哈黑龍攻",
+    cp2: ["佔有囚禁攻", "無情獸群攻"],
   }
 };
 /* ════════════════════════════════

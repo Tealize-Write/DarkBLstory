@@ -111,4 +111,4 @@ function calcAxisMax(){
 window.startQuiz      = startQuiz;
 window.confirmRestart = confirmRestart;
 window.skipTypewriter = skipTypewriter;
-window.copyResult     = typeof copyResult === 'function' ? copyResult : function(){};
+window.shareResultAsImage = typeof shareResultAsImage === 'function' ? shareResultAsImage : function(){};
