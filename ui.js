@@ -140,12 +140,22 @@ function renderMyTopAxes(){
   const el = document.getElementById('my-axes');
   if(!el) return;
   const axisMax = calcAxisMax();
+  
+  // 只列出 10 個核心特質對應的中文
   const axisLabel = {
-    dom:'攻向', sub:'受向', 
     opt:'樂觀', crp:'沉淪', frc:'強勢', sed:'引誘', cmp:'共犯',
     grd:'守護', obs:'執著', pos:'佔有', lsc:'失控', slc:'自制'
   };
-  const top3 = Object.entries(axesScore).sort((a,b)=>b[1]-a[1]).slice(0,3);
+
+  // 定義要篩選的 10 個特質（排除 dom 和 sub）
+  const validTraits = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
+
+  // 先過濾出 10 個特質，再依分數由高到低排序，最後取出前三名
+  const top3 = Object.entries(axesScore)
+    .filter(([k, v]) => validTraits.includes(k))
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,3);
+
   const rows = top3.map(([k,v])=>{
     const pct = axisMax[k] ? Math.round((v/axisMax[k])*100) : 0;
     return '<div class="seal">'
@@ -154,8 +164,9 @@ function renderMyTopAxes(){
       + '<div class="val">' + v + '</div>'
       + '</div>';
   }).join('');
+
   el.innerHTML = '<div style="opacity:.9;letter-spacing:2px;font-style:italic;font-size:12px;margin-bottom:4px;">'
-    + '✦ 你本次的深淵指紋（三大主軸）'
+    + '✦ 你本次的深淵指紋（核心特質）'
     + '</div>'
     + '<div class="seals">' + rows + '</div>';
   animateRulers(el);

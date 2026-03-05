@@ -61,7 +61,7 @@ function renderStats(data, code){
   
   // 找出玩家的排名
   const myRank = sortedItems.findIndex(item => item.k === myKeyword) + 1;
-  const totalTypes = Object.keys(counts).length || 20; // 總共有幾種結果
+  const totalTypes = 20; // 總共有 20 種結果
   
   // 找出最稀有的樣本 (倒數第一名，且數量大於0)
   const rarestItem = sortedItems.filter(i => i.v > 0).pop() || {k: "未知", v: 0};
@@ -74,14 +74,14 @@ function renderStats(data, code){
   const aPct  = total > 0 ? Math.round(aNum*1000/total)/10 : 0;
   const rPct  = total > 0 ? Math.round(rNum*1000/total)/10 : 0;
 
-  // 更新文案，加入稀有度與攻受比
+  // 更新文案，將「稀有度排名」改為「全站人數排名」
   line.innerHTML =
     '✦ 目前共有 <strong>'+total+'</strong> 個靈魂墮入深淵。<br/>'
-    +'✦ 你的類型（'+myKeyword+'）約佔 <strong>'+myPct+'%</strong>，稀有度排名第 <strong>'+myRank+'</strong> / '+totalTypes+'。<br/>'
+    +'✦ 你的類型（'+myKeyword+'）約佔 <strong>'+myPct+'%</strong>，全站人數排名第 <strong>'+myRank+'</strong> / '+totalTypes+'。<br/>'
     +'✦ 最稀有的極端樣本為「'+rarestItem.k+'」 (僅 '+rarestPct+'%)。<br/>'
     +'<span style="opacity:.6;font-size:.85em;display:inline-block;margin-top:6px;">'
     +'(深淵陣營：攻 '+aPct+'% ｜ 受 '+rPct+'%)</span>';
-
+	
   // Top 5 by keyword (長條圖保持不變)
   const items = sortedItems.slice(0,5);
 
