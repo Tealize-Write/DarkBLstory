@@ -12,6 +12,7 @@ const AXES = [
 ════════════════════════════════ */
 let qi=0;
 let axesScore={};
+let answerHistory=[]; // 每題記錄玩家選了哪一個 option index
 let _lastResultCode=null;
 AXES.forEach(k=>axesScore[k]=0);
 
@@ -33,24 +34,102 @@ function addAxisScores(obj){
   }
 }
 
+const TRAITS = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
+
+// 全部回溯完仍同分時的保底順序
+const TRAIT_FALLBACK_PRIORITY = ['obs', 'lsc', 'pos', 'slc', 'cmp', 'grd', 'sed', 'frc', 'crp', 'opt'];
+
+function getAnswerAddByHistoryIndex(questionIndex){
+  const optionIndex = answerHistory[questionIndex];
+  if(optionIndex == null) return null;
+
+  const q = questions[questionIndex];
+  if(!q || !Array.isArray(q.options)) return null;
+
+  const opt = q.options[optionIndex];
+  return opt && opt.add ? opt.add : null;
+}
+
+function determineRoleDeterministic(){
+  if(axesScore.dom > axesScore.sub) return "A";
+  if(axesScore.sub > axesScore.dom) return "R";
+
+  // 平手時：從最後一題往前找，第一個能分出 dom / sub 的作答決定陣營
+  for(let i = answerHistory.length - 1; i >= 0; i--){
+    const add = getAnswerAddByHistoryIndex(i);
+    if(!add) continue;
+
+    const dom = Number(add.dom || 0);
+    const sub = Number(add.sub || 0);
+
+    if(dom > sub) return "A";
+    if(sub > dom) return "R";
+  }
+
+  // 理論上不太會發生，保底
+  return "A";
+}
+
+function breakTraitTieDeterministic(candidates){
+  // candidates: ['obs', 'lsc', ...]
+  // 規則：
+  // 1. 從最後一題往前回溯
+  // 2. 比較候選特質在該題選項中的加分
+  // 3. +2 > +1 > 0
+  // 4. 若該題仍同分，繼續往前
+  for(let i = answerHistory.length - 1; i >= 0; i--){
+    const add = getAnswerAddByHistoryIndex(i);
+    if(!add) continue;
+
+    let bestScore = -1;
+    let winners = [];
+
+    for(const trait of candidates){
+      const score = Number(add[trait] || 0);
+
+      if(score > bestScore){
+        bestScore = score;
+        winners = [trait];
+      }else if(score === bestScore){
+        winners.push(trait);
+      }
+    }
+
+    // 這一題有分出唯一勝者，而且不是全部 0
+    if(bestScore > 0 && winners.length === 1){
+      return winners[0];
+    }
+
+    // 這一題雖然有人得分，但仍並列，就繼續往前
+  }
+
+  // 全部回溯完仍同分，才用固定優先序保底
+  return TRAIT_FALLBACK_PRIORITY.find(trait => candidates.includes(trait)) || candidates[0];
+}
+
 // ── Result logic
 function determineResultCode(){
-  // 1) 角色：比較 dom (攻) 與 sub (受)
-  let role = (axesScore.dom > axesScore.sub) ? "A" : (axesScore.sub > axesScore.dom ? "R" : (Math.random() < 0.5 ? "A" : "R"));
+  // 1) 攻受判定
+  const role = determineRoleDeterministic();
 
   // 2) 找出 10 項特質中分數最高的一項
-  const traits = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
-  
-  // 排序找出最高分的特質（同分時隨機，避免永遠偏向 opt）
-  const scored = traits.map(t => ({ trait: t, score: axesScore[t] }))
-                       .sort((a, b) => b.score - a.score);
-  const maxScore = scored[0].score;
-  const topCandidates = scored.filter(t => t.score === maxScore);
-  const topTrait = topCandidates[Math.floor(Math.random() * topCandidates.length)].trait;
+  const scored = TRAITS.map(trait => ({
+    trait,
+    score: Number(axesScore[trait] || 0)
+  }));
+
+  const maxScore = Math.max(...scored.map(x => x.score));
+  const topCandidates = scored
+    .filter(x => x.score === maxScore)
+    .map(x => x.trait);
+
+  // 3) 若只有一個最高分，直接用；若有多個同分，走 deterministic tie-break
+  const topTrait = (topCandidates.length === 1)
+    ? topCandidates[0]
+    : breakTraitTieDeterministic(topCandidates);
 
   return mapToResult(role, topTrait);
 }
-
 function mapToResult(role, topTrait){
   // ── A side (攻方) ──
   if(role === "A"){

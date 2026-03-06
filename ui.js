@@ -33,7 +33,12 @@ function startQuiz(){
   elResult.classList.add('hidden');
   elQuiz.classList.remove('hidden');
   elQuiz.classList.add('in');
-  qi=0; AXES.forEach(k=>axesScore[k]=0);
+
+  qi = 0;
+  answerHistory = [];
+  axesScore = {};
+  AXES.forEach(k => axesScore[k] = 0);
+
   elProgress.innerHTML='';
   for(let i=0;i<questions.length;i++){
     const d=document.createElement('div');d.className='seg';elProgress.appendChild(d);
@@ -82,7 +87,7 @@ function _finishTypewriter(){
     const btn=document.createElement('button');
     btn.className='opt';btn.type='button';
     btn.innerHTML=`<span class="bullet"></span><span class="txt">${opt.text}</span>`;
-    btn.onclick=()=>pick(opt.add,btn);
+    btn.onclick = () => pick(i, opt.add, btn);
     opts.appendChild(btn);
     setTimeout(()=>btn.classList.add('visible'), 60+i*130);
   });
@@ -117,13 +122,19 @@ function showQuestion(){
 }
 
 // ── Pick / Restart
-function pick(addObj,btn){
+function pick(optionIndex, addObj, btn){
   // 清掉任何殘留打字機
   if(_twTimer){ clearInterval(_twTimer); _twTimer=null; }
-  document.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+  document.querySelectorAll('.opt').forEach(b => b.disabled = true);
   btn.classList.add('selected');
+
+  answerHistory[qi] = optionIndex;
   addAxisScores(addObj);
-  setTimeout(()=>{ qi++; qi<questions.length?showQuestion():showResult(); },380);
+
+  setTimeout(() => {
+    qi++;
+    qi < questions.length ? showQuestion() : showResult();
+  }, 380);
 }
 function confirmRestart(){
   if(confirm('確定要重新開始？目前進度將清除。')){
