@@ -149,7 +149,8 @@ function renderCpBlock(code){
                               .join('<span class="cp-sep">・</span>');
 
   el.innerHTML =
-    mbtiLine
+    `<div class="lab">靈魂配對</div>`
+    + mbtiLine
     + `<div class="cp-row cp-main"><span class="cp-label">王道 CP</span><span class="cp-name">${r.cp1}</span></div>`
     + `<div class="cp-row cp-subs"><span class="cp-label">次　選</span><span>${cp2Html}</span></div>`;
 }

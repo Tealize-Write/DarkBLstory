@@ -41,11 +41,12 @@ function determineResultCode(){
   // 2) 找出 10 項特質中分數最高的一項
   const traits = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
   
-  // 排序找出最高分的特質
-  const sortedTraits = traits.map(t => ({ trait: t, score: axesScore[t] }))
-                             .sort((a, b) => b.score - a.score);
-  
-  const topTrait = sortedTraits[0].trait;
+  // 排序找出最高分的特質（同分時隨機，避免永遠偏向 opt）
+  const scored = traits.map(t => ({ trait: t, score: axesScore[t] }))
+                       .sort((a, b) => b.score - a.score);
+  const maxScore = scored[0].score;
+  const topCandidates = scored.filter(t => t.score === maxScore);
+  const topTrait = topCandidates[Math.floor(Math.random() * topCandidates.length)].trait;
 
   return mapToResult(role, topTrait);
 }
