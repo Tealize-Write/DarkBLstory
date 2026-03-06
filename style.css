@@ -258,7 +258,7 @@ body{
   margin-top:16px;
 }
 .result-img-wrap{
-  border-radius:60px;
+  border-radius:12px;
   overflow:hidden;
   background:#fff;
   flex-shrink:0;
@@ -465,7 +465,7 @@ body{
   .result-img-wrap{
     width:100%;
     max-width:100%;
-    border-radius:60px;
+    border-radius:12px;
     /* 保持原圖 1000×1343 的比例完整顯示 */
     aspect-ratio:1000/1343;
   }
