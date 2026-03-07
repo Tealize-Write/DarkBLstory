@@ -9,24 +9,13 @@ function getClientId() {
 }
 
 // ── 行為追蹤 (背景靜默發送) ──
-// fetch keepalive：頁面跳轉時（book_click）也保證送出
-// GAS 對 sendBeacon+JSON 解析不穩定，統一用 fetch keepalive
+// ── 行為追蹤 (背景靜默發送) ──
 function trackUserAction(code, actionType) {
   if (!GAS_URL || GAS_URL.includes("在此貼上")) return;
-  const payload = JSON.stringify({
-    token: GAS_TOKEN,
-    resultCode: code,
-    action: actionType,
-    clientId: getClientId()
-  });
-  // GAS 對 sendBeacon + application/json 的解析不穩定
-  // 統一改用 fetch keepalive，在頁面跳轉時也能可靠送出
   fetch(GAS_URL, {
-    method  : "POST",
-    keepalive: true,
-    headers : { "Content-Type": "application/json" },
-    body    : payload,
-  }).catch(() => {});
+    method: "POST",
+    body: JSON.stringify({ token: GAS_TOKEN, resultCode: code, action: actionType, clientId: getClientId() }),
+  }).catch(() => { /* 靜默失敗 */ });
 }
 
 // ── 測驗結果統計 ──

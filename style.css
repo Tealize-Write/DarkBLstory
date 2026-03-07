@@ -577,3 +577,42 @@ body{
     font-size:12px;
     letter-spacing:1px;
 }
+
+/* ════════════════════════════════
+   截圖模式：強化文字對比
+   .capturing 由 js 在 html2canvas 前加入，截完後移除
+════════════════════════════════ */
+#result.capturing,
+#result.capturing .r-eyebrow,
+#result.capturing .r-compound,
+#result.capturing .r-name,
+#result.capturing .r-desc,
+#result.capturing .block .txt,
+#result.capturing .block .txt.muted,
+#result.capturing .block .lab,
+#result.capturing .seal .lab,
+#result.capturing .stats,
+#result.capturing .stats strong,
+#result.capturing .cp-label,
+#result.capturing .cp-name,
+#result.capturing .cp-alt,
+#result.capturing .cp-mbti,
+#result.capturing .cta a,
+#result.capturing .val,
+#result.capturing #pop-line,
+#result.capturing #pop-line span {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+#result.capturing .block .txt.muted {
+  color: rgba(255,255,255,.85) !important;
+}
+#result.capturing .r-desc {
+  color: rgba(255,255,255,.92) !important;
+}
+#result.capturing .seal-ruler-track {
+  background: rgba(255,255,255,.18) !important;
+}
+#result.capturing .seal-ruler-fill {
+  background: rgba(255,255,255,.9) !important;
+}

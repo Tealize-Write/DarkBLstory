@@ -295,6 +295,8 @@ async function shareResultAsImage() {
     el.style.transform = 'translateY(0)';
     el.style.filter    = 'none';
   });
+  // 截圖模式：強化文字顏色
+  targetEl.classList.add('capturing');
 
   // Fix 3：在底部插入網址戳記
   const stamp = document.createElement('div');
@@ -317,7 +319,7 @@ async function shareResultAsImage() {
   let canvas = null;
   try {
     canvas = await html2canvas(targetEl, {
-      scale          : Math.min(window.devicePixelRatio || 2, 2),
+      scale          : 3,
       backgroundColor: '#0a0a0a',
       useCORS        : true,
       allowTaint     : false,
@@ -344,6 +346,7 @@ async function shareResultAsImage() {
   });
   const stampEl = document.getElementById('_share_stamp');
   if(stampEl) stampEl.remove();
+  targetEl.classList.remove('capturing');
   if(btnRow) btnRow.style.display = 'flex';
   btn.textContent = originalText;
   btn.disabled    = false;
