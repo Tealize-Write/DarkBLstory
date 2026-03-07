@@ -152,7 +152,7 @@ function mapToResult(role, topTrait){
   if(role === "R"){
     switch(topTrait) {
       case 'opt': return "R_CONTROL_1";  // 樂觀：陽光直男受
-      case 'crp': return "R_DEVOTION_1"; // 沉淪：自願沈淪受
+      case 'crp': return "R_DEVOTION_1"; // 沉淪：自願沉淪受
       case 'frc': return "A_CONTROL_3";  // 強勢：冰山白神攻 (受方測出強勢，反向分配給神攻)
       case 'sed': return "R_SCHEME_1";   // 引誘：卑劣淫蕩受
       case 'cmp': return "R_CHAOS_2";    // 共犯：自毀抹布受
