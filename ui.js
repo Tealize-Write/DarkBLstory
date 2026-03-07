@@ -350,15 +350,17 @@ async function shareResultAsImage() {
 
   if(!canvas) return;
 
-  // 分享 / 下載
+  // 分享 / 複製 / 下載
   canvas.toBlob(async (blob) => {
     if(!blob){ alert("圖片轉檔失敗"); return; }
 
-    const file = new File([blob], 'dark_trait_result.png', { type: 'image/png' });
-    let shared = false;
+    const file    = new File([blob], 'dark_trait_result.png', { type: 'image/png' });
+    // pointer:coarse = 觸控裝置（手機/平板），桌機是 pointer:fine
+    const isTouchDevice = window.matchMedia('(pointer:coarse)').matches;
+    const isMobile = isTouchDevice && navigator.canShare && navigator.canShare({ files: [file] });
 
-    // 手機/平板原生分享（IG / Line）
-    if(navigator.canShare && navigator.canShare({ files: [file] })) {
+    // ── 手機/平板：呼叫原生分享面板（IG / Line）──
+    if(isMobile) {
       try {
         await navigator.share({
           title: '故事另有結局｜黑暗特質心理測驗',
@@ -366,23 +368,47 @@ async function shareResultAsImage() {
           url  : SITE_URL,
           files: [file],
         });
-        shared = true;
-      } catch(e) { /* 使用者取消，fall through */ }
+      } catch(e) { /* 使用者取消 */ }
+      return;
     }
 
-    // 電腦版 / 不支援原生分享 → 直接下載
-    if(!shared) {
-      const url = URL.createObjectURL(blob);
-      const a   = document.createElement('a');
-      a.href     = url;
-      a.download = 'dark_trait_result.png';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    // ── 電腦版：先下載，同時嘗試複製到剪貼簿 ──
+    // 下載作為主要保底，clipboard 成功時額外提示可直接貼上
+    const objUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href     = objUrl;
+    a.download = 'dark_trait_result.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(objUrl), 1000);
 
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      if(isIOS) alert("已嘗試儲存圖片！\n若沒有自動存入，建議用 Safari 開啟或直接截圖。");
+    // 同時嘗試複製到剪貼簿（成功就額外顯示提示）
+    if(navigator.clipboard && navigator.clipboard.write) {
+      try {
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+        const miniBtn = document.querySelector('.btn.mini');
+        if(miniBtn){
+          const prev = miniBtn.textContent;
+          miniBtn.textContent = '✦ 已下載＋複製到剪貼簿！';
+          setTimeout(() => { miniBtn.textContent = prev; }, 2500);
+        }
+      } catch(e) {
+        // 剪貼簿被擋沒關係，下載已完成
+        const miniBtn = document.querySelector('.btn.mini');
+        if(miniBtn){
+          const prev = miniBtn.textContent;
+          miniBtn.textContent = '✦ 圖片已下載！';
+          setTimeout(() => { miniBtn.textContent = prev; }, 2500);
+        }
+      }
+    } else {
+      const miniBtn = document.querySelector('.btn.mini');
+      if(miniBtn){
+        const prev = miniBtn.textContent;
+        miniBtn.textContent = '✦ 圖片已下載！';
+        setTimeout(() => { miniBtn.textContent = prev; }, 2500);
+      }
     }
   }, 'image/png');
 }

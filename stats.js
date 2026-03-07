@@ -9,8 +9,8 @@ function getClientId() {
 }
 
 // ── 行為追蹤 (背景靜默發送) ──
-// sendBeacon：頁面跳轉時（book_click）也保證送出
-// fallback fetch keepalive：sendBeacon 不支援時使用
+// fetch keepalive：頁面跳轉時（book_click）也保證送出
+// GAS 對 sendBeacon+JSON 解析不穩定，統一用 fetch keepalive
 function trackUserAction(code, actionType) {
   if (!GAS_URL || GAS_URL.includes("在此貼上")) return;
   const payload = JSON.stringify({
@@ -19,11 +19,14 @@ function trackUserAction(code, actionType) {
     action: actionType,
     clientId: getClientId()
   });
-  if (navigator.sendBeacon) {
-    navigator.sendBeacon(GAS_URL, new Blob([payload], { type: 'application/json' }));
-  } else {
-    fetch(GAS_URL, { method: "POST", keepalive: true, body: payload }).catch(() => {});
-  }
+  // GAS 對 sendBeacon + application/json 的解析不穩定
+  // 統一改用 fetch keepalive，在頁面跳轉時也能可靠送出
+  fetch(GAS_URL, {
+    method  : "POST",
+    keepalive: true,
+    headers : { "Content-Type": "application/json" },
+    body    : payload,
+  }).catch(() => {});
 }
 
 // ── 測驗結果統計 ──
