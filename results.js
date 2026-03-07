@@ -59,7 +59,7 @@ const resultsData = {
     guide:"你的愛是一套精密的系統——獎懲清晰、邊界分明，卻讓人沉迷到無法出走。",
     bookName:"《灰燼》",
     link:"https://early-marketplaces-521584.framer.app/作品試閱/悠然",
-      mbti: "",
+      mbti: "INTJ",
     cp1: "清冷自持受",
     cp2: ["卑劣淫蕩受", "自毀抹布受"],
   },
@@ -89,7 +89,7 @@ const resultsData = {
     guide:"溫柔才是最危險的武器。被溫柔算計的人，往往到最後都感謝那把刀。",
     bookName:"《消失的終點線》",
     link:"https://early-marketplaces-521584.framer.app/作品試閱/葦寶寶",
-      mbti: "",
+      mbti: "INTJ",
     cp1: "卑劣淫蕩受",
     cp2: ["清冷自持受", "廢物美人受"],
   },
@@ -104,7 +104,7 @@ const resultsData = {
     guide:"你用話語設陷，用沉默收網。遇上同樣聰明的獵物，這場博弈將如何收場？",
     bookName:"《影子吻了我》",
     link:"https://early-marketplaces-521584.framer.app/作品試閱/相對之下",
-      mbti: "",
+      mbti: "ENTJ",
     cp1: "禁慾學者受",
     cp2: ["自毀抹布受", "斯德哥爾摩受"],
   },
@@ -119,7 +119,7 @@ const resultsData = {
     guide:"脫下國王的衣服，聞他後頸的味道，在他身體裡融入你的費洛蒙，國王哭了，你是那樣愉悅又幸福。",
     bookName:"《溫先生他一絲不掛》",
     link:"https://early-marketplaces-521584.framer.app/作品試閱/火登",
-      mbti: "",
+      mbti: "ISTJ",
     cp1: "廢物美人受",
     cp2: ["自毀抹布受", "自願沈淪受"],
   },
@@ -134,7 +134,7 @@ const resultsData = {
     guide:"在秩序的廢墟裡，暴烈的愛意反而是最誠實的語言。準備好被掠奪了嗎？",
     bookName:"《兩兄弟》",
     link:"https://early-marketplaces-521584.framer.app/作品試閱/《兩兄弟》",
-      mbti: "",
+      mbti: "INFJ",
     cp1: "自毀抹布受",
     cp2: ["斯德哥爾摩受", "卑劣淫蕩受"],
   },
@@ -164,7 +164,7 @@ const resultsData = {
     guide:"偏執的守護有時比傷害更令人窒息。你用愛築牆，卻從未問過對方願不願意住進來。",
     bookName:"《沉睡荊棘》",
     link:"https://early-marketplaces-521584.framer.app/作品試閱/喵芭",
-      mbti: "",
+      mbti: "ENFP",
     cp1: "人妻王子受",
     cp2: ["卑劣淫蕩受", "自毀抹布受"],
   },
@@ -179,7 +179,7 @@ const resultsData = {
     guide:"佔有是你的愛語，嫉妒是你的情話。這段關係的甜蜜與窒息，從來只有一線之隔。",
     bookName:"《糖裹屋》",
     link:"https://early-marketplaces-521584.framer.app/作品試閱/蘇朵拉",
-      mbti: "",
+      mbti: "ESTJ",
     cp1: "自願沈淪受",
     cp2: ["人妻王子受", "廢物美人受"],
   },
@@ -194,7 +194,7 @@ const resultsData = {
     guide:"當愛意成為信仰，你便走向了那條無法回頭的路。他是你的終點，也是你的萬劫不復。",
     bookName:"《哈梅爾的吹笛手》",
     link:"https://early-marketplaces-521584.framer.app/作品試閱/九",
-      mbti: "",
+      mbti: "ISTJ",
     cp1: "斯德哥爾摩受",
     cp2: ["自願沈淪受", "自毀抹布受"],
   },
@@ -270,7 +270,7 @@ const resultsData = {
     guide:"雖然國王一無是處，可他長得好看啊，漂亮的人在難受虛弱時更好看了，這樣說來，他可是有許多用處呢。",
     bookName:"《溫先生他一絲不掛》",
     link:"https://early-marketplaces-521584.framer.app/作品試閱/火登",
-      mbti: "",
+      mbti: "INFP",
     cp1: "偏執瘋子攻",
     cp2: ["佔有囚禁攻", "腹黑勢利攻"],
   },
@@ -338,4 +338,9 @@ const resultsData = {
 /* ════════════════════════════════
    QUESTIONS
 ════════════════════════════════ */
+
+
+
+
+
 
