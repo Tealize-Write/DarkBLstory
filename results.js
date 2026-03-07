@@ -282,7 +282,7 @@ const resultsData = {
     attr:"自虐指數", attrVal:"Max", attrFill:"100%",
     escape:"0%",
     quote:"最終還是搭上他伸來的手，你知道自己別無選擇。",
-    guide:”恨他，愛他，又恨著那個愛他的自己。在沒有出口的牢籠裡，拼命為自己找一個走向毀滅的理由。",
+    guide:"恨他，愛他，又恨著那個愛他的自己。在沒有出口的牢籠裡，拼命為自己找一個走向毀滅的理由。",
     bookName:"《哈梅爾的吹笛手》",
     link:"https://early-marketplaces-521584.framer.app/作品試閱/九",
       mbti: "ISFP",
