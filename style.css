@@ -573,4 +573,7 @@ body{
   /* 手機縮小羅盤裝飾，不影響按鈕定位（由 JS 處理） */
   .art-tr{ width:160px; height:160px; }
   .art-bl{ width:160px; height:160px; }
+    .meta{
+    font-size:12px;
+    letter-spacing:1px;
 }
