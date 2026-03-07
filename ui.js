@@ -201,7 +201,7 @@ function renderMyTopAxes(){
   }).join('');
 
   el.innerHTML = '<div style="opacity:.9;letter-spacing:2px;font-style:italic;font-size:12px;margin-bottom:4px;">'
-    + '✦ 你本次的深淵指紋（核心特質）'
+    + '✦ 你本次的黑暗特質）'
     + '</div>'
     + '<div class="seals">' + rows + '</div>';
   animateRulers(el);
