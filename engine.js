@@ -191,4 +191,4 @@ function calcAxisMax(){
 window.startQuiz      = startQuiz;
 window.confirmRestart = confirmRestart;
 window.skipTypewriter = skipTypewriter;
-window.shareResultAsImage = typeof shareResultAsImage === 'function' ? shareResultAsImage : function(){};
+// shareResultAsImage is defined and exported in ui.js

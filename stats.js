@@ -9,12 +9,21 @@ function getClientId() {
 }
 
 // ── 行為追蹤 (背景靜默發送) ──
+// sendBeacon：頁面跳轉時（book_click）也保證送出
+// fallback fetch keepalive：sendBeacon 不支援時使用
 function trackUserAction(code, actionType) {
   if (!GAS_URL || GAS_URL.includes("在此貼上")) return;
-  fetch(GAS_URL, {
-    method: "POST",
-    body: JSON.stringify({ token: GAS_TOKEN, resultCode: code, action: actionType, clientId: getClientId() }),
-  }).catch(() => { /* 靜默失敗 */ });
+  const payload = JSON.stringify({
+    token: GAS_TOKEN,
+    resultCode: code,
+    action: actionType,
+    clientId: getClientId()
+  });
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(GAS_URL, new Blob([payload], { type: 'application/json' }));
+  } else {
+    fetch(GAS_URL, { method: "POST", keepalive: true, body: payload }).catch(() => {});
+  }
 }
 
 // ── 測驗結果統計 ──

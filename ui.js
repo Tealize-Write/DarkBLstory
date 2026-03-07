@@ -38,6 +38,7 @@ function startQuiz(){
   answerHistory = [];
   axesScore = {};
   AXES.forEach(k => axesScore[k] = 0);
+  _lastResultCode = null;
 
   elProgress.innerHTML='';
   for(let i=0;i<questions.length;i++){
@@ -274,90 +275,114 @@ function escapeAttr(str){
    產生結果圖片與分享 (取代原本的 copyResult)
 ════════════════════════════════ */
 async function shareResultAsImage() {
-  const code = _lastResultCode || determineResultCode();
-  const btn = document.querySelector('.btn.mini');
-  const btnRow = document.querySelector('#result .btn-row'); // 抓取底部按鈕區塊
-  const targetElement = document.getElementById('result');
+  const code        = _lastResultCode || determineResultCode();
+  const btn         = document.querySelector('.btn.mini');
+  const btnRow      = document.querySelector('#result .btn-row');
+  const targetEl    = document.getElementById('result');
   const originalText = btn.textContent;
+  const SITE_URL    = 'https://tealize-write.github.io/DarkBLstory/';
 
-  // 1. 發送追蹤紀錄給後端
   trackUserAction(code, "share_image");
-
-  // 2. 按鈕狀態提示，避免使用者重複狂點
   btn.textContent = "生成專屬圖像中...";
-  btn.disabled = true;
-
-  // 3. 核心修復：暫時隱藏按鈕區塊，避免按鈕被截進去
+  btn.disabled    = true;
   if(btnRow) btnRow.style.display = 'none';
 
+  // Fix 2：凍結 .in 動畫終態，避免截圖時 opacity/transform 還在過渡中
+  const animEls = [...targetEl.querySelectorAll('.in')];
+  animEls.forEach(el => {
+    el.style.animation = 'none';
+    el.style.opacity   = '1';
+    el.style.transform = 'translateY(0)';
+    el.style.filter    = 'none';
+  });
+
+  // Fix 3：在底部插入網址戳記
+  const stamp = document.createElement('div');
+  stamp.id = '_share_stamp';
+  stamp.style.cssText =
+    'text-align:center;padding:14px 0 18px;' +
+    'font-family:Georgia,serif;font-size:13px;letter-spacing:2px;' +
+    'color:rgba(255,255,255,.5);' +
+    'border-top:1px solid rgba(255,255,255,.1);margin-top:24px;';
+  stamp.textContent = '✦  ' + SITE_URL + '  ✦';
+  targetEl.appendChild(stamp);
+
+  const originalScrollY = window.scrollY;
+  window.scrollTo(0, 0);
+
+  // Fix 4：傳入 width/height 確保完整截到整個 section（不只是視窗高度）
+  const fullH = targetEl.scrollHeight;
+  const fullW = targetEl.offsetWidth;
+
+  let canvas = null;
   try {
-    // 4. 核心修復：暫時將畫面滾動到最上方，保證 html2canvas 絕不截斷畫面
-    const originalScrollY = window.scrollY;
-    window.scrollTo(0, 0);
-
-    // 5. 繪製圖片
-    const canvas = await html2canvas(targetElement, {
-      scale: window.devicePixelRatio || 2, // 自動適配手機視網膜螢幕，更清晰
-      backgroundColor: "#000000",
-      useCORS: true,
-      allowTaint: false,
-      logging: false,
-      windowHeight: targetElement.scrollHeight // 強制讀取完整高度
+    canvas = await html2canvas(targetEl, {
+      scale          : Math.min(window.devicePixelRatio || 2, 2),
+      backgroundColor: '#0a0a0a',
+      useCORS        : true,
+      allowTaint     : false,
+      logging        : false,
+      width          : fullW,
+      height         : fullH,
+      windowWidth    : document.documentElement.offsetWidth,
+      windowHeight   : fullH,
+      scrollX        : 0,
+      scrollY        : 0,
     });
-
-    // 繪製完成後，立刻恢復原始畫面狀態
-    window.scrollTo(0, originalScrollY);
-    if(btnRow) btnRow.style.display = 'flex';
-    btn.textContent = originalText;
-    btn.disabled = false;
-
-    // 6. 將 Canvas 轉為 Blob 準備分享/下載
-    canvas.toBlob(async (blob) => {
-      if (!blob) throw new Error("Blob conversion failed");
-
-      const file = new File([blob], 'dark_trait_result.png', { type: 'image/png' });
-      let shared = false;
-
-      // 判斷手機瀏覽器是否支援直接「呼叫原生分享面板 (IG/Line等)」
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        try {
-          await navigator.share({
-            title: '故事另有結局｜黑暗特質心理測驗',
-            text: '歡迎前往黑森林，測試你的黑暗特質是什麼？https://tealize-write.github.io/DarkBLstory/',
-            files: [file]
-          });
-          shared = true;
-        } catch (e) {
-          console.log("分享被取消或瀏覽器安全阻擋");
-        }
-      }
-
-      // 如果原生分享失敗（電腦版、Line內部瀏覽器、或被安全機制擋下），無縫切換為「自動下載」
-      if (!shared) {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'dark_trait_result.png';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        
-        // 針對 iOS  Safari 偶爾連下載都不給的狀況，給予友善提示
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        if (isIOS) {
-           alert("已嘗試為您下載圖片！\n（若沒有自動儲存，建議使用 Safari 開啟，或直接用手機截圖分享）");
-        }
-      }
-
-    }, 'image/png');
-
-  } catch (error) {
-    console.error("圖片生成失敗:", error);
+  } catch(err) {
+    console.error("html2canvas 失敗:", err);
     alert("圖片生成失敗，請稍後再試。");
-    // 確保出錯時也能恢復按鈕
-    if(btnRow) btnRow.style.display = 'flex';
-    btn.textContent = originalText;
-    btn.disabled = false;
   }
+
+  // 無論成功失敗，都還原 DOM
+  window.scrollTo(0, originalScrollY);
+  animEls.forEach(el => {
+    el.style.animation = '';
+    el.style.opacity   = '';
+    el.style.transform = '';
+    el.style.filter    = '';
+  });
+  const stampEl = document.getElementById('_share_stamp');
+  if(stampEl) stampEl.remove();
+  if(btnRow) btnRow.style.display = 'flex';
+  btn.textContent = originalText;
+  btn.disabled    = false;
+
+  if(!canvas) return;
+
+  // 分享 / 下載
+  canvas.toBlob(async (blob) => {
+    if(!blob){ alert("圖片轉檔失敗"); return; }
+
+    const file = new File([blob], 'dark_trait_result.png', { type: 'image/png' });
+    let shared = false;
+
+    // 手機/平板原生分享（IG / Line）
+    if(navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({
+          title: '故事另有結局｜黑暗特質心理測驗',
+          text : '歡迎前往黑森林，測試你的黑暗特質是什麼？',
+          url  : SITE_URL,
+          files: [file],
+        });
+        shared = true;
+      } catch(e) { /* 使用者取消，fall through */ }
+    }
+
+    // 電腦版 / 不支援原生分享 → 直接下載
+    if(!shared) {
+      const url = URL.createObjectURL(blob);
+      const a   = document.createElement('a');
+      a.href     = url;
+      a.download = 'dark_trait_result.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      if(isIOS) alert("已嘗試儲存圖片！\n若沒有自動存入，建議用 Safari 開啟或直接截圖。");
+    }
+  }, 'image/png');
 }
