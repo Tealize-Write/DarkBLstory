@@ -201,7 +201,7 @@ function renderMyTopAxes(){
   }).join('');
 
   el.innerHTML = '<div style="opacity:.9;letter-spacing:2px;font-style:italic;font-size:12px;margin-bottom:4px;">'
-    + '✦ 你本次的黑暗特質）'
+    + '✦ 你本次的黑暗特質'
     + '</div>'
     + '<div class="seals">' + rows + '</div>';
   animateRulers(el);
@@ -223,7 +223,7 @@ function showResult(){
   _lastResultCode=code;
   const r=resultsData[code];
   if(!r){
-    document.getElementById('pop-line').textContent='✦ 深淵暫時找不到你的檔案（結果資料缺漏）。';
+    document.getElementById('pop-line').textContent='✦ 黑森林暫時找不到你的檔案（結果資料缺漏）。';
     console.error('Missing resultsData for code:',code);
     return;
   }
