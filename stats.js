@@ -37,7 +37,7 @@ function sendStats(code){
     renderStats(data, code);
   })
   .catch(()=>{
-    line.textContent="✦ 數據讀取失敗，但深淵已記住你的選擇。";
+    line.textContent="✦ 數據讀取失敗，但黑森林已記住你的選擇。";
     chart.innerHTML="";
   });
 }
@@ -76,11 +76,11 @@ function renderStats(data, code){
 
   // 更新文案，將「稀有度排名」改為「全站人數排名」
   line.innerHTML =
-    '✦ 目前共有 <strong>'+total+'</strong> 個靈魂墮入深淵。<br/>'
+    '✦ 目前共有 <strong>'+total+'</strong> 個靈魂墮入黑森林。<br/>'
     +'✦ 你的類型（'+myKeyword+'）約佔 <strong>'+myPct+'%</strong>，全站人數排名第 <strong>'+myRank+'</strong> / '+totalTypes+'。<br/>'
     +'✦ 最稀有的極端樣本為「'+rarestItem.k+'」 (僅 '+rarestPct+'%)。<br/>'
     +'<span style="opacity:.6;font-size:.85em;display:inline-block;margin-top:6px;">'
-    +'(深淵陣營：攻 '+aPct+'% ｜ 受 '+rPct+'%)</span>';
+    +'(黑森林陣營：攻 '+aPct+'% ｜ 受 '+rPct+'%)</span>';
 	
   // Top 5 by keyword (長條圖保持不變)
   const items = sortedItems.slice(0,5);
