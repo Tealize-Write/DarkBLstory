@@ -323,7 +323,7 @@ async function shareResultAsImage() {
         try {
           await navigator.share({
             title: '故事另有結局｜黑暗特質心理測驗',
-            text: '來看看你的故事結局是什麼？',
+            text: '歡迎前往黑森林，測試你的黑暗特質是什麼？https://tealize-write.github.io/DarkBLstory/',
             files: [file]
           });
           shared = true;
