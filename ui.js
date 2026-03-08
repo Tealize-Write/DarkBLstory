@@ -153,16 +153,11 @@ function renderCpBlock(code){
   if(!el) return;
   if(!r || !r.cp1){ el.innerHTML=''; return; }
 
-  const mbtiLine = r.mbti
-    ? `<div class="cp-mbti"><span class="cp-label">MBTI</span><strong>${r.mbti}</strong></div>`
-    : '';
-
   const cp2Html = (r.cp2||[]).map(n=>`<span class="cp-alt">${n}</span>`)
                               .join('<span class="cp-sep">・</span>');
 
   el.innerHTML =
-    mbtiLine
-    + `<div class="lab">靈魂配對</div>`
+    `<div class="lab">靈魂配對</div>`
     + `<div class="cp-row cp-main"><span class="cp-label">王道 CP</span><span class="cp-name">${r.cp1}</span></div>`
     + `<div class="cp-row cp-subs"><span class="cp-label">次　選</span><span>${cp2Html}</span></div>`;
 }
@@ -233,6 +228,8 @@ function showResult(){
   document.getElementById('r-name').textContent='「'+r.soulName+'」';
   document.getElementById('r-compound').textContent=label;
   document.getElementById('r-desc').textContent=r.soulDesc;
+  const mbtiEl = document.getElementById('r-mbti');
+  if(mbtiEl) mbtiEl.innerHTML = r.mbti ? `<span class="r-mbti-label">MBTI</span><strong>${r.mbti}</strong>` : '';
   document.getElementById('r-quote').textContent=r.quote;
   document.getElementById('r-guide').textContent=r.guide;
   document.getElementById('seals').innerHTML=
