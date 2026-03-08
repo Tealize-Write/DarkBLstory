@@ -242,11 +242,21 @@ function showResult(){
   animateRulers(document);
   const cta=document.getElementById('r-cta');
   // 加上 onclick="trackBookClick('代碼')" 來觸發背景追蹤
-  const authorLine = r.bookAuthor ? '<span class="cta-author">'+r.bookAuthor+'</span>' : '';
+  const tagsHtml = (r.bookTags||[]).map(t=>'<span class="cta-tag">'+t+'</span>').join('');
+  const fairyLine = r.bookFairy ? '<span class="cta-fairy">'+r.bookFairy+'</span>' : '';
   cta.innerHTML='<a href="'+escapeAttr(r.link)+'" target="_blank" rel="noopener noreferrer" onclick="trackBookClick(\''+code+'\')">'
-    +'<span class="cta-book">解鎖你的故事樣本</span>'
-    +'<span class="cta-title">'+r.bookName+'</span>'
-    +authorLine
+    +'<div class="cta-top">'
+    +  '<span class="cta-book">解鎖故事樣本</span>'
+    +  '<span class="cta-arrow">→</span>'
+    +'</div>'
+    +'<div class="cta-mid">'
+    +  '<span class="cta-title">'+r.bookName+'</span>'
+    +  '<span class="cta-author">'+(r.bookAuthor||'')+'</span>'
+    +'</div>'
+    +'<div class="cta-bot">'
+    +  fairyLine
+    +  '<span class="cta-tags">'+tagsHtml+'</span>'
+    +'</div>'
     +'</a>';
   renderCpBlock(code);
   renderMyTopAxes();
