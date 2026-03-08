@@ -297,6 +297,20 @@ body{
   color:var(--ink-weak);font-size:18px;letter-spacing:.5px;
   text-align:left;
 }
+.r-mbti{
+  display:flex;align-items:center;gap:10px;
+  margin-top:14px;
+  font-family:var(--display);font-style:italic;
+  font-size:13px;letter-spacing:2px;
+}
+.r-mbti-label{
+  color:rgba(255,255,255,.55);
+  font-size:11px;letter-spacing:2px;
+}
+.r-mbti strong{
+  color:var(--ink);font-size:15px;letter-spacing:3px;
+}
+
 
 /* ══ GOTHIC SEALS ══ */
 .seals{
