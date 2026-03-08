@@ -283,14 +283,14 @@ body{
 .r-name{
   margin-top:10px;
   font-family:var(--serif);font-weight:700;
-  font-size:24px;letter-spacing:1px;
+  font-size:20px;letter-spacing:1px;
   text-align:left;line-height:1.4;
 }
 .r-compound{
-  margin-top:6px;
+  margin-top:8px;
   font-family:var(--display);font-style:italic;
-  font-size:11px;letter-spacing:2px;color:rgba(255,255,255,.78);
-  text-align:left;
+  font-size:12px;letter-spacing:1.5px;color:rgba(255,255,255,.6);
+  text-align:left;line-height:1.8;
 }
 .r-desc{
   margin-top:12px;line-height:2;
@@ -403,12 +403,28 @@ body{
   display:flex;align-items:center;justify-content:space-between;
   border:1px solid var(--ink);color:var(--ink);
   padding:18px 22px;text-decoration:none;
-  letter-spacing:2px;font-size:14px;
-  transition:all .25s ease;text-transform:uppercase;
+  transition:all .25s ease;
 }
-.cta a::after{content:"→";transition:transform .25s ease;}
+.cta a::after{content:"→";transition:transform .25s ease;flex-shrink:0;margin-left:12px;}
 .cta a:hover{background:var(--ink);color:var(--bg);}
 .cta a:hover::after{transform:translateX(5px);}
+.cta-book{
+  display:block;
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-bottom:5px;
+}
+.cta a:hover .cta-book{color:rgba(0,0,0,.6);}
+.cta-title{
+  display:block;
+  font-size:15px;letter-spacing:2px;font-family:var(--serif);
+}
+.cta-author{
+  display:block;
+  font-size:11px;letter-spacing:2px;font-style:italic;
+  color:rgba(255,255,255,.55);margin-top:3px;
+}
+.cta a:hover .cta-author{color:rgba(0,0,0,.55);}
+.cta-book,.cta-title,.cta-author{flex:1;}
 
 /* Stats */
 .stats{
