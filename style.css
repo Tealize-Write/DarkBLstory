@@ -400,31 +400,57 @@ body{
 /* CTA link */
 .cta{margin-top:28px;}
 .cta a{
-  display:flex;align-items:center;justify-content:space-between;
+  display:block;
   border:1px solid var(--ink);color:var(--ink);
-  padding:18px 22px;text-decoration:none;
+  padding:20px 22px;text-decoration:none;
   transition:all .25s ease;
 }
-.cta a::after{content:"→";transition:transform .25s ease;flex-shrink:0;margin-left:12px;}
 .cta a:hover{background:var(--ink);color:var(--bg);}
-.cta a:hover::after{transform:translateX(5px);}
-.cta-book{
-  display:block;
-  font-size:10px;letter-spacing:3px;text-transform:uppercase;
-  color:rgba(255,255,255,.5);margin-bottom:5px;
+/* 頂行：標籤文字 + 箭頭 */
+.cta-top{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:10px;
 }
-.cta a:hover .cta-book{color:rgba(0,0,0,.6);}
+.cta-book{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+}
+.cta a:hover .cta-book{color:rgba(0,0,0,.5);}
+.cta-arrow{
+  font-size:14px;transition:transform .25s ease;
+}
+.cta a:hover .cta-arrow{transform:translateX(5px);}
+/* 中間行：書名 + 作者 */
+.cta-mid{
+  display:flex;align-items:baseline;gap:12px;
+  margin-bottom:12px;
+}
 .cta-title{
-  display:block;
-  font-size:15px;letter-spacing:2px;font-family:var(--serif);
+  font-size:16px;letter-spacing:2px;font-family:var(--serif);
 }
 .cta-author{
-  display:block;
-  font-size:11px;letter-spacing:2px;font-style:italic;
-  color:rgba(255,255,255,.55);margin-top:3px;
+  font-size:12px;letter-spacing:2px;font-style:italic;
+  color:rgba(255,255,255,.55);
 }
 .cta a:hover .cta-author{color:rgba(0,0,0,.55);}
-.cta-book,.cta-title,.cta-author{flex:1;}
+/* 底行：童話來源 + tags */
+.cta-bot{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.cta-fairy{
+  font-size:10px;letter-spacing:2px;font-style:italic;
+  color:rgba(255,255,255,.4);
+  padding-right:8px;border-right:1px solid rgba(255,255,255,.2);
+}
+.cta a:hover .cta-fairy{color:rgba(0,0,0,.4);border-right-color:rgba(0,0,0,.2);}
+.cta-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.cta-tag{
+  font-size:10px;letter-spacing:1.5px;
+  border:1px solid rgba(255,255,255,.25);
+  padding:2px 8px;
+  color:rgba(255,255,255,.6);
+}
+.cta a:hover .cta-tag{border-color:rgba(0,0,0,.3);color:rgba(0,0,0,.6);}
 
 /* Stats */
 .stats{
