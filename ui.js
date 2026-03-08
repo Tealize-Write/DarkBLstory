@@ -161,8 +161,8 @@ function renderCpBlock(code){
                               .join('<span class="cp-sep">・</span>');
 
   el.innerHTML =
-    `<div class="lab">靈魂配對</div>`
-    + mbtiLine
+    mbtiLine
+    + `<div class="lab">靈魂配對</div>`
     + `<div class="cp-row cp-main"><span class="cp-label">王道 CP</span><span class="cp-name">${r.cp1}</span></div>`
     + `<div class="cp-row cp-subs"><span class="cp-label">次　選</span><span>${cp2Html}</span></div>`;
 }
@@ -295,8 +295,6 @@ async function shareResultAsImage() {
     el.style.transform = 'translateY(0)';
     el.style.filter    = 'none';
   });
-  // 截圖模式：強化文字顏色
-  targetEl.classList.add('capturing');
 
   // Fix 3：在底部插入網址戳記
   const stamp = document.createElement('div');
@@ -319,7 +317,7 @@ async function shareResultAsImage() {
   let canvas = null;
   try {
     canvas = await html2canvas(targetEl, {
-      scale          : 3,
+      scale          : Math.min(window.devicePixelRatio || 2, 2),
       backgroundColor: '#0a0a0a',
       useCORS        : true,
       allowTaint     : false,
@@ -346,7 +344,6 @@ async function shareResultAsImage() {
   });
   const stampEl = document.getElementById('_share_stamp');
   if(stampEl) stampEl.remove();
-  targetEl.classList.remove('capturing');
   if(btnRow) btnRow.style.display = 'flex';
   btn.textContent = originalText;
   btn.disabled    = false;
