@@ -214,7 +214,7 @@ const resultsData = {
     cp2: ["人妻王子受", "廢物美人受"],
   },
   A_DEVOTION_3:{
-    image:"https://framerusercontent.com/images/nRtAWmBjy7p9qD7Whz9VxlL0myQ.png",
+    image:"img/A_DEVOTION_3.jpg",
     soulName:"病態攻",
     soulDesc:"愛會讓一個人卑微成為一條狗，而你是專業優雅的訓犬師。",
     danger:"極高", dangerFill:"100%",
@@ -323,7 +323,7 @@ const resultsData = {
     cp2: ["佔有囚禁攻", "腹黑勢利攻"],
   },
   R_CHAOS_1:{
-    image:"https://framerusercontent.com/images/nRtAWmBjy7p9qD7Whz9VxlL0myQ.png",
+    image:"img/R_CHAOS_1.jpg",
     soulName:"斯德哥爾摩受",
     soulDesc:"你很清楚這不是愛，但當他成為世界唯一的浮木，你只能對自己說謊。",
     danger:"極高", dangerFill:"100%",
