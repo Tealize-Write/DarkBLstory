@@ -242,8 +242,12 @@ function showResult(){
   animateRulers(document);
   const cta=document.getElementById('r-cta');
   // 加上 onclick="trackBookClick('代碼')" 來觸發背景追蹤
+  const authorLine = r.bookAuthor ? '<span class="cta-author">'+r.bookAuthor+'</span>' : '';
   cta.innerHTML='<a href="'+escapeAttr(r.link)+'" target="_blank" rel="noopener noreferrer" onclick="trackBookClick(\''+code+'\')">'
-    +'<span>解鎖你的故事樣本：'+r.bookName+'</span></a>';
+    +'<span class="cta-book">解鎖你的故事樣本</span>'
+    +'<span class="cta-title">'+r.bookName+'</span>'
+    +authorLine
+    +'</a>';
   renderCpBlock(code);
   renderMyTopAxes();
   sendStats(code);
