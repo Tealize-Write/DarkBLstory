@@ -1,28 +1,28 @@
 /* ── RESULT META ── */
 const RESULT_META = {
   /* 攻方對應 */
-  A_CONTROL_1: { label:"陰鬱偏執攻", short:"A · 執著 (OBS)" },
-  A_CONTROL_2: { label:"黑化掠奪攻", short:"A · 失控 (LSC)" },
-  A_CONTROL_3: { label:"冰山白神攻", short:"R · 強勢 (FRC)" },
-  A_SCHEME_1:  { label:"腹黑勢利攻", short:"A · 共犯 (CMP)" },
-  A_SCHEME_2:  { label:"放蕩影子攻", short:"A · 佔有 (POS)" },
-  A_SCHEME_3:  { label:"偏執瘋子攻", short:"A · 守護 (GRD)" },
-  A_CHAOS_1:   { label:"無情獸群攻", short:"A · 沉淪 (CRP)" },
-  A_CHAOS_2:   { label:"暴力黑獅攻", short:"A · 引誘 (SED)" },
-  A_DEVOTION_1:{ label:"二哈黑龍攻", short:"A · 樂觀 (OPT)" },
-  A_DEVOTION_2:{ label:"佔有囚禁攻", short:"A · 強勢 (FRC)" },
-  A_DEVOTION_3:{ label:"病態攻", short:"A · 自制 (SLC)" },
+  A_CONTROL_1: { label:"深淵凝視者・不允許你逃離的執念", short:"A · 執著 (OBS)" },
+  A_CONTROL_2: { label:"焚毀一切也要得到你的人", short:"A · 失控 (LSC)" },
+  A_CONTROL_3: { label:"神性冷光下的禁忌之心", short:"R · 強勢 (FRC)" },
+  A_SCHEME_1:  { label:"規則操盤者・勝利至上的賭徒", short:"A · 共犯 (CMP)" },
+  A_SCHEME_2:  { label:"黑暗中低語的誘惑者", short:"A · 佔有 (POS)" },
+  A_SCHEME_3:  { label:"慾望王座的暴君", short:"A · 守護 (GRD)" },
+  A_CHAOS_1:   { label:"冷血狩獵者・群狼之首", short:"A · 沉淪 (CRP)" },
+  A_CHAOS_2:   { label:"原始獸性的王者", short:"A · 引誘 (SED)" },
+  A_DEVOTION_1:{ label:"失控守護者・為愛撕裂王國的黑龍", short:"A · 樂觀 (OPT)" },
+  A_DEVOTION_2:{ label:"甜蜜牢籠的統治者", short:"A · 強勢 (FRC)" },
+  A_DEVOTION_3:{ label:"瘋狂旋律的操控者", short:"A · 自制 (SLC)" },
 
   /* 受方對應 */
-  R_CONTROL_1: { label:"陽光直男受", short:"R · 樂觀 (OPT)" },
-  R_CONTROL_2: { label:"清冷自持受", short:"R · 佔有 (POS)" },
-  R_CONTROL_3: { label:"禁慾學者受", short:"R · 自制 (SLC)" },
-  R_SCHEME_1:  { label:"卑劣淫蕩受", short:"R · 引誘 (SED)" },
-  R_SCHEME_2:  { label:"廢物美人受", short:"R · 執著 (OBS)" },
-  R_CHAOS_1:   { label:"斯德哥爾摩受", short:"R · 失控 (LSC)" },
-  R_CHAOS_2:   { label:"自毀抹布受", short:"R · 共犯 (CMP)" },
-  R_DEVOTION_1:{ label:"自願沉淪受", short:"R · 沉淪 (CRP)" },
-  R_DEVOTION_2:{ label:"人妻王子受", short:"R · 守護 (GRD)" },
+  R_CONTROL_1: { label:"唯一照亮黑暗的溫暖火種", short:"R · 樂觀 (OPT)" },
+  R_CONTROL_2: { label:"冷靜面具下的動搖靈魂", short:"R · 佔有 (POS)" },
+  R_CONTROL_3: { label:"理性崩塌前的最後防線", short:"R · 自制 (SLC)" },
+  R_SCHEME_1:  { label:"在慾望深淵中綻放的誘惑", short:"R · 引誘 (SED)" },
+  R_SCHEME_2:  { label:"被慾望寵壞的漂亮囚徒", short:"R · 執著 (OBS)" },
+  R_CHAOS_1:   { label:"被囚禁後仍選擇留下的人", short:"R · 失控 (LSC)" },
+  R_CHAOS_2:   { label:"被世界碾碎仍繼續活著的人", short:"R · 共犯 (CMP)" },
+  R_DEVOTION_1:{ label:"笑著走進深淵的共犯", short:"R · 沉淪 (CRP)" },
+  R_DEVOTION_2:{ label:"被禁慾束縛的王族之心", short:"R · 守護 (GRD)" },
 };
 
 
@@ -35,7 +35,7 @@ const resultsData = {
   /* ═══ 攻方 11 ═══ */
   A_CONTROL_1:{
     image:"img/crow.jpg",
-    soulName:"深淵凝視者・不允許你逃離的執念",
+    soulName:"陰鬱偏執攻",
     soulDesc:"坦白與曖昧的遊戲間，你更傾向默默成為他的水和氧氣。",
     danger:"中", dangerFill:"60%",
     attr:"支配指數", attrVal:"高", attrFill:"80%",
@@ -53,7 +53,7 @@ const resultsData = {
   },
   A_CONTROL_2:{
     image:"https://framerusercontent.com/images/m56Q5hEDF1BiFypFDftnukMnhWM.png",
-    soulName:"焚毀一切也要得到你的人",
+    soulName:"黑化掠奪攻",
     soulDesc:"你懂得如何設計規則，讓對方在不知不覺中依賴你制定的秩序。",
     danger:"高", dangerFill:"80%",
     attr:"規訓指數", attrVal:"高", attrFill:"80%",
@@ -71,7 +71,7 @@ const resultsData = {
   },
   A_CONTROL_3:{
     image:"https://framerusercontent.com/images/tU3tsyKjf8sMxVq6UnyJDCSi4c.png",
-    soulName:"神性冷光下的禁忌之心",
+    soulName:"冰山白神攻",
     soulDesc:"你是規則，你就是對方的世界觀。沒有人會想反抗一座冰山，除了鐵達尼號。",
     danger:"極高", dangerFill:"100%",
     attr:"支配指數", attrVal:"Max", attrFill:"100%",
@@ -89,7 +89,7 @@ const resultsData = {
   },
   A_SCHEME_1:{
     image:"https://framerusercontent.com/images/ZgfhchUbaHJuXY9V0Xipa3jxU.png",
-    soulName:"規則操盤者・勝利至上的賭徒",
+    soulName:"腹黑勢利攻",
     soulDesc:"你笑起來像春風，轉身已在對方心裡種下一片無法拔除的荊棘。",
     danger:"中", dangerFill:"60%",
     attr:"心機指數", attrVal:"高", attrFill:"75%",
@@ -107,7 +107,7 @@ const resultsData = {
   },
   A_SCHEME_2:{
     image:"https://framerusercontent.com/images/uQPprKfZezv518Mf1QK2enDGzTI.png",
-    soulName:"黑暗中低語的誘惑者",
+    soulName:"放蕩影子攻",
     soulDesc:"每一場對話都是獵場，你永遠比對方多算三步。",
     danger:"高", dangerFill:"80%",
     attr:"心機指數", attrVal:"Max", attrFill:"100%",
@@ -125,7 +125,7 @@ const resultsData = {
   },
   A_SCHEME_3:{
     image:"https://framerusercontent.com/images/K60BMuPYxaec4ZvETplOuAZcbw.png",
-    soulName:"慾望王座的暴君",
+    soulName:"偏執瘋子攻",
     soulDesc:"你深知他不應該跟你在一起，所以你脫光他、折辱他；可你又不願意他離開，所以抱他、吻他、愛他。",
     danger:"極高", dangerFill:"100%",
     attr:"黑化指數", attrVal:"Max", attrFill:"100%",
@@ -143,7 +143,7 @@ const resultsData = {
   },
   A_CHAOS_1:{
     image:"https://framerusercontent.com/images/bSRzaW69l34wXcEwgq07OfluB5s.png",
-    soulName:"冷血狩獵者・群狼之首",
+    soulName:"無情獸群攻",
     soulDesc:"你不懂什麼叫做「適可而止」，你只知道你想要的，你就必須拿到。",
     danger:"極高", dangerFill:"100%",
     attr:"破壞指數", attrVal:"Max", attrFill:"100%",
@@ -161,7 +161,7 @@ const resultsData = {
   },
   A_CHAOS_2:{
     image:"https://framerusercontent.com/images/tU3tsyKjf8sMxVq6UnyJDCSi4c.png",
-    soulName:"原始獸性的王者",
+    soulName:"暴力黑獅攻",
     soulDesc:"沒有出口就砸出出口。",
     danger:"極高", dangerFill:"100%",
     attr:"失控指數", attrVal:"Max", attrFill:"100%",
@@ -179,7 +179,7 @@ const resultsData = {
   },
   A_DEVOTION_1:{
     image:"https://framerusercontent.com/images/GpHyYzlSiHtit6kGXfSSACkqf0.png",
-    soulName:"失控守護者・為愛撕裂王國的黑龍",
+    soulName:"二哈黑龍攻",
     soulDesc:"看著是條猛龍，實則是狗！真的狗！",
     danger:"高", dangerFill:"80%",
     attr:"護食指數", attrVal:"高", attrFill:"80%",
@@ -197,7 +197,7 @@ const resultsData = {
   },
   A_DEVOTION_2:{
     image:"https://framerusercontent.com/images/l5SjfsnGDqcuNrQYZbAKTQvJij4.png",
-    soulName:"甜蜜牢籠的統治者",
+    soulName:"佔有囚禁攻",
     soulDesc:"你說愛他，於是他替你成為永世的劫，糖果很甜，你再也沒有離開的理由。",
     danger:"極高", dangerFill:"90%",
     attr:"佔有指數", attrVal:"Max", attrFill:"100%",
@@ -215,7 +215,7 @@ const resultsData = {
   },
   A_DEVOTION_3:{
     image:"https://framerusercontent.com/images/nRtAWmBjy7p9qD7Whz9VxlL0myQ.png",
-    soulName:"瘋狂旋律的操控者",
+    soulName:"病態攻",
     soulDesc:"愛會讓一個人卑微成為一條狗，而你是專業優雅的訓犬師。",
     danger:"極高", dangerFill:"100%",
     attr:"控制指數", attrVal:"Max", attrFill:"100%",
@@ -234,7 +234,7 @@ const resultsData = {
   /* ═══ 受方 9 ═══ */
   R_CONTROL_1:{
     image:"https://framerusercontent.com/images/H47mPAUXZNOJzQgxVcCZFiJP4.png",
-    soulName:"唯一照亮黑暗的溫暖火種",
+    soulName:"陽光直男受",
     soulDesc:"你往自己身上貼滿了直男的標籤，偏偏在看向他時有了一絲鬆動",
     danger:"中", dangerFill:"55%",
     attr:"嘴硬指數", attrVal:"高", attrFill:"80%",
@@ -252,7 +252,7 @@ const resultsData = {
   },
   R_CONTROL_2:{
     image:"https://framerusercontent.com/images/m56Q5hEDF1BiFypFDftnukMnhWM.png",
-    soulName:"冷靜面具下的動搖靈魂",
+    soulName:"清冷自持受",
     soulDesc:"你不是輸了，你只是選擇了讓他贏這一次。",
     danger:"高", dangerFill:"80%",
     attr:"反骨指數", attrVal:"高", attrFill:"80%",
@@ -270,7 +270,7 @@ const resultsData = {
   },
   R_CONTROL_3:{
     image:"https://framerusercontent.com/images/uQPprKfZezv518Mf1QK2enDGzTI.png",
-    soulName:"理性崩塌前的最後防線",
+    soulName:"禁慾學者受",
     soulDesc:"你們都爛透了，所以才能好好在泥沼裡相愛。",
     danger:"高", dangerFill:"80%",
     attr:"共謀指數", attrVal:"Max", attrFill:"100%",
@@ -288,7 +288,7 @@ const resultsData = {
   },
   R_SCHEME_1:{
     image:"https://framerusercontent.com/images/ZgfhchUbaHJuXY9V0Xipa3jxU.png",
-    soulName:"在慾望深淵中綻放的誘惑",
+    soulName:"卑劣淫蕩受",
     soulDesc:"你明明是餌，卻把獵手釣成了俘虜。",
     danger:"高", dangerFill:"80%",
     attr:"媚惑指數", attrVal:"Max", attrFill:"100%",
@@ -306,7 +306,7 @@ const resultsData = {
   },
   R_SCHEME_2:{
     image:"https://framerusercontent.com/images/K60BMuPYxaec4ZvETplOuAZcbw.png",
-    soulName:"被慾望寵壞的漂亮囚徒",
+    soulName:"廢物美人受",
     soulDesc:"美貌和其他優點放在一起是錦上添花，若只是空有美貌的廢物，那不過是罪孽。",
     danger:"高", dangerFill:"75%",
     attr:"誘導指數", attrVal:"Max", attrFill:"100%",
@@ -324,7 +324,7 @@ const resultsData = {
   },
   R_CHAOS_1:{
     image:"https://framerusercontent.com/images/nRtAWmBjy7p9qD7Whz9VxlL0myQ.png",
-    soulName:"被囚禁後仍選擇留下的人",
+    soulName:"斯德哥爾摩受",
     soulDesc:"你很清楚這不是愛，但當他成為世界唯一的浮木，你只能對自己說謊。",
     danger:"極高", dangerFill:"100%",
     attr:"自虐指數", attrVal:"Max", attrFill:"100%",
@@ -342,7 +342,7 @@ const resultsData = {
   },
   R_CHAOS_2:{
     image:"https://framerusercontent.com/images/bSRzaW69l34wXcEwgq07OfluB5s.png",
-    soulName:"被世界碾碎仍繼續活著的人",
+    soulName:"自毀抹布受",
     soulDesc:"你知道這會傷害彼此，卻還是義無反顧地撞上去。",
     danger:"極高", dangerFill:"100%",
     attr:"同歸指數", attrVal:"Max", attrFill:"100%",
@@ -360,7 +360,7 @@ const resultsData = {
   },
   R_DEVOTION_1:{
     image:"https://framerusercontent.com/images/l5SjfsnGDqcuNrQYZbAKTQvJij4.png",
-    soulName:"笑著走進深淵的共犯",
+    soulName:"自願沉淪受",
     soulDesc:"你曾想著離開，可是真正握著鑰匙的人，一直是你。",
     danger:"高", dangerFill:"80%",
     attr:"沉淪指數", attrVal:"Max", attrFill:"100%",
@@ -378,7 +378,7 @@ const resultsData = {
   },
   R_DEVOTION_2:{
     image:"https://framerusercontent.com/images/GpHyYzlSiHtit6kGXfSSACkqf0.png",
-    soulName:"被禁慾束縛的王族之心",
+    soulName:"人妻王子受",
     soulDesc:"滿腔保護欲，不管對方再強大，都當寶寶一樣寵。",
     danger:"高", dangerFill:"80%",
     attr:"依存指數", attrVal:"Max", attrFill:"100%",

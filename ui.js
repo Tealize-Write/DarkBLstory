@@ -225,7 +225,7 @@ function showResult(){
   }
   const label=(RESULT_META[code]&&RESULT_META[code].label)||code;
   document.getElementById('result-img').src=r.image;
-  document.getElementById('r-name').textContent='「'+r.soulName+'」';
+  document.getElementById('r-name').textContent=r.soulName;
   document.getElementById('r-compound').textContent=label;
   document.getElementById('r-desc').textContent=r.soulDesc;
   const mbtiEl = document.getElementById('r-mbti');
@@ -245,17 +245,17 @@ function showResult(){
   const tagsHtml = (r.bookTags||[]).map(t=>'<span class="cta-tag">'+t+'</span>').join('');
   const fairyLine = r.bookFairy ? '<span class="cta-fairy">'+r.bookFairy+'</span>' : '';
   cta.innerHTML='<a href="'+escapeAttr(r.link)+'" target="_blank" rel="noopener noreferrer" onclick="trackBookClick(\''+code+'\')">'
-    +'<div class="cta-top">'
-    +  '<span class="cta-book">解鎖故事樣本</span>'
-    +  '<span class="cta-arrow">→</span>'
-    +'</div>'
-    +'<div class="cta-mid">'
-    +  '<span class="cta-title">'+r.bookName+'</span>'
-    +  '<span class="cta-author">'+(r.bookAuthor||'')+'</span>'
-    +'</div>'
-    +'<div class="cta-bot">'
-    +  fairyLine
-    +  '<span class="cta-tags">'+tagsHtml+'</span>'
+    +'<img class="cta-cover" src="https://framerusercontent.com/images/mduS33yvcuc8AhTxWKgAsjOOek.jpg?width=1819&height=2551" alt=""/>'
+    +'<div class="cta-info">'
+    +  '<div class="cta-mid">'
+    +    '<span class="cta-title">'+r.bookName+'</span>'
+    +    '<span class="cta-author">'+(r.bookAuthor||'')+'</span>'
+    +  '</div>'
+    +  '<div class="cta-bot">'
+    +    fairyLine
+    +    '<span class="cta-tags">'+tagsHtml+'</span>'
+    +  '</div>'
+    +  '<span class="cta-arrow">前往閱讀 →</span>'
     +'</div>'
     +'</a>';
   renderCpBlock(code);

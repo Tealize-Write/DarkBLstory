@@ -398,59 +398,59 @@ body{
 .block .txt.muted{color:var(--ink-weak);}
 
 /* CTA link */
-.cta{margin-top:28px;}
+.cta{margin-top:14px;}
 .cta a{
+  display:flex;align-items:stretch;
+  border:1px solid rgba(255,255,255,.2);color:var(--ink);
+  text-decoration:none;overflow:hidden;height:110px;
+  transition:border-color .25s ease;
+}
+.cta a:hover{border-color:rgba(255,255,255,.5);}
+/* 封面圖 */
+.cta-cover{
+  width:78px;flex-shrink:0;
+  object-fit:cover;object-position:center top;
   display:block;
-  border:1px solid var(--ink);color:var(--ink);
-  padding:20px 22px;text-decoration:none;
-  transition:all .25s ease;
 }
-.cta a:hover{background:var(--ink);color:var(--bg);}
-/* 頂行：標籤文字 + 箭頭 */
-.cta-top{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:10px;
+/* 右側資訊欄 */
+.cta-info{
+  flex:1;padding:14px 16px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  overflow:hidden;
 }
-.cta-book{
-  font-size:10px;letter-spacing:3px;text-transform:uppercase;
-  color:rgba(255,255,255,.45);
-}
-.cta a:hover .cta-book{color:rgba(0,0,0,.5);}
-.cta-arrow{
-  font-size:14px;transition:transform .25s ease;
-}
-.cta a:hover .cta-arrow{transform:translateX(5px);}
-/* 中間行：書名 + 作者 */
+/* 書名＋作者行 */
 .cta-mid{
-  display:flex;align-items:baseline;gap:12px;
-  margin-bottom:12px;
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
 }
 .cta-title{
-  font-size:16px;letter-spacing:2px;font-family:var(--serif);
+  font-size:14px;letter-spacing:2px;font-family:var(--serif);
 }
 .cta-author{
-  font-size:12px;letter-spacing:2px;font-style:italic;
-  color:rgba(255,255,255,.55);
+  font-size:11px;letter-spacing:2px;font-style:italic;
+  color:rgba(255,255,255,.5);
 }
-.cta a:hover .cta-author{color:rgba(0,0,0,.55);}
 /* 底行：童話來源 + tags */
 .cta-bot{
-  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
 }
 .cta-fairy{
-  font-size:10px;letter-spacing:2px;font-style:italic;
-  color:rgba(255,255,255,.4);
-  padding-right:8px;border-right:1px solid rgba(255,255,255,.2);
+  font-size:10px;letter-spacing:1.5px;font-style:italic;
+  color:rgba(255,255,255,.35);
+  padding-right:7px;border-right:1px solid rgba(255,255,255,.15);
 }
-.cta a:hover .cta-fairy{color:rgba(0,0,0,.4);border-right-color:rgba(0,0,0,.2);}
-.cta-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.cta-tags{display:flex;gap:5px;flex-wrap:wrap;}
 .cta-tag{
-  font-size:10px;letter-spacing:1.5px;
-  border:1px solid rgba(255,255,255,.25);
-  padding:2px 8px;
-  color:rgba(255,255,255,.6);
+  font-size:10px;letter-spacing:1px;
+  border:1px solid rgba(255,255,255,.2);
+  padding:1px 6px;color:rgba(255,255,255,.55);
 }
-.cta a:hover .cta-tag{border-color:rgba(0,0,0,.3);color:rgba(0,0,0,.6);}
+/* 前往閱讀 */
+.cta-arrow{
+  font-size:10px;letter-spacing:2px;font-style:italic;
+  color:rgba(255,255,255,.35);font-family:var(--display);
+  align-self:flex-end;transition:color .25s, transform .25s;
+}
+.cta a:hover .cta-arrow{color:var(--ink);transform:translateX(3px);}
 
 /* Stats */
 .stats{
