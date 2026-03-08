@@ -247,7 +247,11 @@ function showResult(){
   cta.innerHTML='<a href="'+escapeAttr(r.link)+'" target="_blank" rel="noopener noreferrer" onclick="trackBookClick(\''+code+'\')">'
     +'<img class="cta-cover" src="https://framerusercontent.com/images/mduS33yvcuc8AhTxWKgAsjOOek.jpg?width=1819&height=2551" alt=""/>'
     +'<div class="cta-info">'
-    +  '<div class="cta-mid">'
+    +  '<div class="cta-meta">'
+    +    '<span class="cta-label">解鎖故事樣本</span>'
+    +    '<span class="cta-arrow">→</span>'
+    +  '</div>'
+    +  '<div class="cta-title-row">'
     +    '<span class="cta-title">'+r.bookName+'</span>'
     +    '<span class="cta-author">'+(r.bookAuthor||'')+'</span>'
     +  '</div>'
@@ -255,7 +259,6 @@ function showResult(){
     +    fairyLine
     +    '<span class="cta-tags">'+tagsHtml+'</span>'
     +  '</div>'
-    +  '<span class="cta-arrow">前往閱讀 →</span>'
     +'</div>'
     +'</a>';
   renderCpBlock(code);

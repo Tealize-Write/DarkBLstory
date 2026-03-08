@@ -252,7 +252,7 @@ body{
 /* 上方：圖＋基本資訊並排 */
 .result-hero{
   display:grid;
-  grid-template-columns:160px 1fr;
+  grid-template-columns:260px 1fr;
   gap:20px;
   align-items:start;
   margin-top:16px;
@@ -281,20 +281,20 @@ body{
   font-size:11px;text-transform:uppercase;
 }
 .r-name{
-  margin-top:10px;
-  font-family:var(--serif);font-weight:700;
-  font-size:20px;letter-spacing:1px;
-  text-align:left;line-height:1.4;
-}
-.r-compound{
   margin-top:8px;
   font-family:var(--display);font-style:italic;
-  font-size:12px;letter-spacing:1.5px;color:rgba(255,255,255,.6);
-  text-align:left;line-height:1.8;
+  font-size:12px;letter-spacing:2px;color:rgba(255,255,255,.55);
+  text-align:left;line-height:1.6;
+}
+.r-compound{
+  margin-top:6px;
+  font-family:var(--serif);font-weight:700;
+  font-size:20px;letter-spacing:1px;color:var(--ink);
+  text-align:left;line-height:1.45;
 }
 .r-desc{
   margin-top:12px;line-height:2;
-  color:var(--ink-weak);font-size:18px;letter-spacing:.5px;
+  color:var(--ink-weak);font-size:16px;letter-spacing:.5px;
   text-align:left;
 }
 .r-mbti{
@@ -397,60 +397,61 @@ body{
 }
 .block .txt.muted{color:var(--ink-weak);}
 
-/* CTA link */
-.cta{margin-top:14px;}
+/* CTA 解鎖故事樣本 */
+.cta{ margin-top:16px; }
 .cta a{
   display:flex;align-items:stretch;
-  border:1px solid rgba(255,255,255,.2);color:var(--ink);
-  text-decoration:none;overflow:hidden;height:110px;
-  transition:border-color .25s ease;
+  border:1px solid rgba(255,255,255,.18);
+  color:var(--ink);text-decoration:none;
+  overflow:hidden;
+  transition:border-color .3s ease;
 }
-.cta a:hover{border-color:rgba(255,255,255,.5);}
-/* 封面圖 */
+.cta a:hover{ border-color:rgba(255,255,255,.55); }
 .cta-cover{
-  width:78px;flex-shrink:0;
+  width:100px;flex-shrink:0;
   object-fit:cover;object-position:center top;
   display:block;
 }
-/* 右側資訊欄 */
 .cta-info{
-  flex:1;padding:14px 16px;
-  display:flex;flex-direction:column;justify-content:space-between;
-  overflow:hidden;
+  flex:1;padding:18px 20px;
+  display:flex;flex-direction:column;justify-content:space-between;gap:12px;
 }
-/* 書名＋作者行 */
-.cta-mid{
-  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+.cta-meta{
+  display:flex;justify-content:space-between;align-items:center;
+}
+.cta-label{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,.38);font-family:var(--display);font-style:italic;
+}
+.cta-arrow{
+  font-size:13px;color:rgba(255,255,255,.35);
+  transition:color .25s, transform .25s;
+}
+.cta a:hover .cta-arrow{ color:var(--ink);transform:translateX(4px); }
+.cta-title-row{
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
 }
 .cta-title{
-  font-size:14px;letter-spacing:2px;font-family:var(--serif);
+  font-size:16px;letter-spacing:2px;font-family:var(--serif);
 }
 .cta-author{
-  font-size:11px;letter-spacing:2px;font-style:italic;
-  color:rgba(255,255,255,.5);
+  font-size:12px;letter-spacing:2px;font-style:italic;
+  color:rgba(255,255,255,.48);
 }
-/* 底行：童話來源 + tags */
 .cta-bot{
-  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
 }
 .cta-fairy{
   font-size:10px;letter-spacing:1.5px;font-style:italic;
-  color:rgba(255,255,255,.35);
-  padding-right:7px;border-right:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.32);
+  padding-right:8px;border-right:1px solid rgba(255,255,255,.15);
 }
-.cta-tags{display:flex;gap:5px;flex-wrap:wrap;}
+.cta-tags{ display:flex;gap:5px;flex-wrap:wrap; }
 .cta-tag{
   font-size:10px;letter-spacing:1px;
-  border:1px solid rgba(255,255,255,.2);
-  padding:1px 6px;color:rgba(255,255,255,.55);
+  border:1px solid rgba(255,255,255,.18);
+  padding:2px 7px;color:rgba(255,255,255,.5);
 }
-/* 前往閱讀 */
-.cta-arrow{
-  font-size:10px;letter-spacing:2px;font-style:italic;
-  color:rgba(255,255,255,.35);font-family:var(--display);
-  align-self:flex-end;transition:color .25s, transform .25s;
-}
-.cta a:hover .cta-arrow{color:var(--ink);transform:translateX(3px);}
 
 /* Stats */
 .stats{
@@ -530,7 +531,8 @@ body{
     object-fit:contain;
     object-position:top center;
   }
-  .r-name{font-size:22px;}
+  .r-name{font-size:12px;}
+  .r-compound{font-size:20px;}
   .r-desc{font-size:16px;}
 }
 
