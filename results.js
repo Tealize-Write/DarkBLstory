@@ -112,7 +112,7 @@ const resultsData = {
     danger:"高", dangerFill:"80%",
     attr:"心機指數", attrVal:"Max", attrFill:"100%",
     escape:"15%",
-    quote:"「我從小就跟在你身邊。當您壓抑著您的『自我』時，我終於明白自己真正的本質。」",
+    quote:"「我從小就跟在您身邊。當您壓抑著您的『自我』時，我終於明白自己真正的本質。」",
     guide:"用話語設陷，用行動主導，強勢解開所有束縛。",
     bookName:"《影子吻了我》",
     bookAuthor:"相對之下",
