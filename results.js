@@ -5,7 +5,7 @@ const RESULT_META = {
   A_CONTROL_2: { label:"焚毀一切也要得到你的人", short:"A · 失控 (LSC)" },
   A_CONTROL_3: { label:"神性冷光下的禁忌之心", short:"R · 強勢 (FRC)" },
   A_SCHEME_1:  { label:"規則操盤者・勝利至上的賭徒", short:"A · 共犯 (CMP)" },
-  A_SCHEME_2:  { label:"黑暗中低語的誘惑者", short:"A · 佔有 (POS)" },
+  A_SCHEME_2:  { label:"黑暗中低語的引誘者", short:"A · 佔有 (POS)" },
   A_SCHEME_3:  { label:"慾望王座的暴君", short:"A · 守護 (GRD)" },
   A_CHAOS_1:   { label:"冷血狩獵者・群狼之首", short:"A · 沉淪 (CRP)" },
   A_CHAOS_2:   { label:"原始獸性的王者", short:"A · 引誘 (SED)" },
@@ -108,12 +108,12 @@ const resultsData = {
   A_SCHEME_2:{
     image:"https://framerusercontent.com/images/uQPprKfZezv518Mf1QK2enDGzTI.png",
     soulName:"放蕩影子攻",
-    soulDesc:"每一場對話都是獵場，你永遠比對方多算三步。",
+    soulDesc:"每一場對話都是獵場，你永遠比對方快三步。",
     danger:"高", dangerFill:"80%",
     attr:"心機指數", attrVal:"Max", attrFill:"100%",
     escape:"15%",
-    quote:"別想著反悔。你已經簽了，用你自己的心跳作的保。",
-    guide:"你用話語設陷，用沉默收網。遇上同樣聰明的獵物，這場博弈將如何收場？",
+    quote:"「我從小就跟在你身邊。當您壓抑著您的『自我』時，我終於明白自己真正的本質。」",
+    guide:"用話語設陷，用行動主導，強勢解開所有束縛。",
     bookName:"《影子吻了我》",
     bookAuthor:"相對之下",
     bookFairy:"影子",
@@ -214,7 +214,7 @@ const resultsData = {
     cp2: ["人妻王子受", "廢物美人受"],
   },
   A_DEVOTION_3:{
-    image:"img/A_DEVOTION_3.jpg",
+    image:"https://framerusercontent.com/images/nRtAWmBjy7p9qD7Whz9VxlL0myQ.png",
     soulName:"病態攻",
     soulDesc:"愛會讓一個人卑微成為一條狗，而你是專業優雅的訓犬師。",
     danger:"極高", dangerFill:"100%",
@@ -271,12 +271,12 @@ const resultsData = {
   R_CONTROL_3:{
     image:"https://framerusercontent.com/images/uQPprKfZezv518Mf1QK2enDGzTI.png",
     soulName:"禁慾學者受",
-    soulDesc:"你們都爛透了，所以才能好好在泥沼裡相愛。",
+    soulDesc:"你完美、自制，但影子裡面藏著不可告人的小祕密。",
     danger:"高", dangerFill:"80%",
     attr:"共謀指數", attrVal:"Max", attrFill:"100%",
     escape:"15%",
-    quote:"你犯的那些罪，我都記得。所以你也別想甩掉我。",
-    guide:"你不是受害者，你是他最完美的共謀。這段關係的危險，恰恰在於你們如此相配。",
+    quote:"我的影子，失控得連自己都不認得。",
+    guide:"走到陽光之下，燦亮的陽光籠罩你，好似終於可以不必隱藏最真實的自己。",
     bookName:"《影子吻了我》",
     bookAuthor:"相對之下",
     bookFairy:"影子",
@@ -323,7 +323,7 @@ const resultsData = {
     cp2: ["佔有囚禁攻", "腹黑勢利攻"],
   },
   R_CHAOS_1:{
-    image:"img/R_CHAOS_1.jpg",
+    image:"https://framerusercontent.com/images/nRtAWmBjy7p9qD7Whz9VxlL0myQ.png",
     soulName:"斯德哥爾摩受",
     soulDesc:"你很清楚這不是愛，但當他成為世界唯一的浮木，你只能對自己說謊。",
     danger:"極高", dangerFill:"100%",
@@ -395,3 +395,4 @@ const resultsData = {
     cp2: ["佔有囚禁攻", "無情獸群攻"],
   }
 };
+
