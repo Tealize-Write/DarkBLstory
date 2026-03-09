@@ -83,7 +83,7 @@
       setTimeout(()=>{
         if(hint) hint.classList.remove('show');
         // 手機：提示消失後才壓暗裝飾圖案
-        if(isMobile && artLayer) artLayer.classList.add('dim');
+        if(artLayer) artLayer.classList.add('dim');
       }, 3200);
 
     }, 1200);
@@ -98,4 +98,3 @@
     }
   };
 })();
-
