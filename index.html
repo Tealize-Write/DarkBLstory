@@ -27,14 +27,11 @@
 </head>
 <body>
 
-    <!-- ══ BACKGROUND AUDIO ══ -->
     <audio id="bgm" src="sonican-enchanted-fantasy-Music_by_Dvir_Silverstone_from_Pixabay.mp3" loop preload="auto" autoplay></audio>
 
-    <!-- ══ SVG SPRITE（隱藏，僅定義圖形） ══ -->
     <svg width="0" height="0" style="position:absolute" aria-hidden="true">
         <defs>
             <symbol id="compass" viewBox="0 0 220 220" overflow="visible">
-
                 <g>
                     <circle cx="60" cy="160" r="48" fill="none" stroke="currentColor" stroke-width="0.8" stroke-dasharray="2 4" />
                     <circle cx="60" cy="160" r="38" fill="none" stroke="currentColor" stroke-width="2" />
@@ -93,20 +90,14 @@
                     <polygon points="132,145 132,151 127,148" fill="currentColor" />
                     <polygon points="126,145 126,151 121,148" fill="currentColor" />
                 </g>
-
             </symbol>
         </defs>
     </svg>
 
-    <!-- ══ ART DECO OVERLAYS ══ -->
-    <!-- aria-hidden 只加在裝飾層，按鈕單獨設定 -->
-    <!-- ART DECO OVERLAYS -->
     <div class="art-layer" aria-hidden="true">
         <div class="art-bl"><svg viewBox="0 0 220 220"><use href="#compass" /></svg></div>
         <div class="art-tr"><svg viewBox="0 0 220 220"><use href="#compass" transform="translate(220,220) scale(-1,-1)" /></svg></div>
-    </div><!-- /art-layer -->
-    <!-- AUDIO CONTROLS (outside art-layer) -->
-    <button id="audio-btn" type="button" aria-label="切換音樂" onclick="toggleAudio()">
+    </div><button id="audio-btn" type="button" aria-label="切換音樂" onclick="toggleAudio()">
         <div class="audio-icon-wrap">
             <svg class="icon-bars" viewBox="0 0 18 18" fill="none">
                 <rect class="bar1" x="2" y="7" width="2.2" height="5.5" rx=".6" fill="currentColor" style="transform-origin:3.1px 12.5px" />
@@ -123,30 +114,22 @@
     </button>
     <div id="audio-hint" aria-hidden="true">建議開啟BGM體驗更佳</div>
 
-    <!-- ══ APP ══ -->
     <div id="app">
 
-        <!-- ── INTRO ── -->
         <section id="intro" class="section in">
-
-            <!-- Banner -->
             <div class="banner-wrap">
                 <img src="https://framerusercontent.com/images/U9tml45l5qnasVf4dveA1xGFc.png" alt="故事另有結局" />
                 <div class="banner-caption">different ending</div>
             </div>
 
-            <!-- Title -->
             <div class="title-wrap">
                 <svg class="title-deco-left" viewBox="0 0 80 220">
                     <circle cx="25" cy="30" r="1.5" fill="none" stroke="currentColor" stroke-width="1.2" />
                     <circle cx="25" cy="38" r="1.5" fill="none" stroke="currentColor" stroke-width="1.2" />
                     <line x1="25" y1="44" x2="25" y2="160" stroke="currentColor" stroke-width="0.8" />
-
                     <line x1="45" y1="30" x2="45" y2="155" stroke="currentColor" stroke-width="1" />
                     <circle cx="45" cy="110" r="3.5" fill="currentColor" />
-
                     <path d="M45,155 Q45,175 65,175 Q45,175 45,195 Q45,175 25,175 Q45,175 45,155 Z" fill="currentColor" />
-
                     <line x1="5" y1="175" x2="25" y2="175" stroke="currentColor" stroke-width="1" />
                     <line x1="65" y1="175" x2="80" y2="175" stroke="currentColor" stroke-width="1" />
                 </svg>
@@ -155,13 +138,10 @@
 
                 <svg class="title-deco-right" viewBox="0 0 140 220">
                     <path d="M90,30 Q90,60 120,60 Q90,60 90,90 Q90,60 60,60 Q90,60 90,30 Z" fill="currentColor" />
-
                     <line x1="0" y1="60" x2="60" y2="60" stroke="currentColor" stroke-width="1" />
                     <line x1="120" y1="60" x2="140" y2="60" stroke="currentColor" stroke-width="1" />
-
                     <line x1="90" y1="0" x2="90" y2="30" stroke="currentColor" stroke-width="1" />
                     <line x1="90" y1="90" x2="90" y2="140" stroke="currentColor" stroke-width="1" />
-
                     <line x1="120" y1="80" x2="120" y2="180" stroke="currentColor" stroke-width="0.8" />
                     <circle cx="120" cy="188" r="1.5" fill="none" stroke="currentColor" stroke-width="1.2" />
                     <circle cx="120" cy="196" r="1.5" fill="none" stroke="currentColor" stroke-width="1.2" />
@@ -186,9 +166,7 @@
             </div>
         </section>
 
-        <!-- ── QUIZ ── -->
         <section id="quiz" class="section hidden">
-            <!-- 左上返回箭頭 -->
             <button class="back-btn" type="button" onclick="confirmRestart()" aria-label="重新開始">
                 <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.2">
                     <polyline points="11,3 5,9 11,15" />
@@ -204,7 +182,6 @@
             <div class="qno" id="qno">— I —</div>
             <div class="qtext" id="qtext"></div>
             <div class="options" id="options"></div>
-            <!-- Skip 按鈕：打字機進行中才顯示 -->
             <div id="skip-wrap" style="text-align:right;margin-top:16px;display:none;">
                 <button class="skip-btn" type="button" id="skip-btn" onclick="skipTypewriter()">
                     skip ››
@@ -212,10 +189,8 @@
             </div>
         </section>
 
-        <!-- ── RESULT ── -->
         <section id="result" class="section hidden">
 
-            <!-- 上半：圖＋基本資訊並排 -->
             <div class="result-hero in">
                 <div class="result-img-wrap">
                     <img id="result-img" class="result-img" src="" alt="結果圖" />
@@ -231,7 +206,7 @@
 
             <div class="result-body in" style="animation-delay:.2s;">
 
-                <div class="seals" id="seals"></div>
+                <div class="seals tarot-frame" id="seals"></div>
 
                 <div class="block">
                     <div class="lab">專屬台詞</div>
@@ -241,17 +216,14 @@
                     <div class="txt muted" id="r-guide"></div>
                 </div>
 
-                <!-- CP 配對區塊（黑暗印痕後面） -->
                 <div class="block cp-block" id="r-cp"></div>
 
-                <!-- 解鎖故事樣本 -->
                 <div class="block">
                     <div class="lab">解鎖故事樣本</div>
                     <div class="cta" id="r-cta"></div>
                 </div>
 
                 <div class="stats" id="stats">
-                    <div id="my-axes"></div>
                     <div id="pop-chart"></div>
                     <div id="pop-line" style="margin-top:12px;">✦ 正在讀取深淵數據⋯</div>
                 </div>
@@ -264,9 +236,7 @@
 
         </section>
 
-    </div><!-- /app -->
-    <!-- ══ SCRIPTS ══ -->
-    <script defer src="./config.js"></script>
+    </div><script defer src="./config.js"></script>
     <script defer src="./results.js"></script>
     <script defer src="./questions.js"></script>
     <script defer src="./ui.js"></script>

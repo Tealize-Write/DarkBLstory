@@ -70,18 +70,14 @@ function skipTypewriter(){
   _finishTypewriter();
 }
 
-// 打字機完成後的共同收尾
 function _finishTypewriter(){
   _twDone = true;
-  // 隱藏 skip 按鈕
   document.getElementById('skip-wrap').style.display='none';
 
-  // 顯示題目完整文字
   const el = document.getElementById('qtext');
   const q  = questions[qi];
   el.textContent = q.text;
 
-  // 顯示所有選項（依序淡入）
   const opts = document.getElementById('options');
   opts.innerHTML='';
   q.options.forEach((opt,i)=>{
@@ -103,12 +99,10 @@ function showQuestion(){
   const el  = document.getElementById('qtext');
   const skipWrap = document.getElementById('skip-wrap');
 
-  // 清空選項、顯示 skip
   document.getElementById('options').innerHTML='';
   el.textContent='';
   skipWrap.style.display='block';
 
-  // 逐字打字機
   const chars = q.text.split('');
   let idx = 0;
   _twTimer = setInterval(()=>{
@@ -119,12 +113,11 @@ function showQuestion(){
       clearInterval(_twTimer); _twTimer=null;
       _finishTypewriter();
     }
-  }, 38); // 每字間隔 38ms，約 1 秒打 26 字
+  }, 38); 
 }
 
 // ── Pick / Restart
 function pick(optionIndex, addObj, btn){
-  // 清掉任何殘留打字機
   if(_twTimer){ clearInterval(_twTimer); _twTimer=null; }
   document.querySelectorAll('.opt').forEach(b => b.disabled = true);
   btn.classList.add('selected');
@@ -142,7 +135,6 @@ function confirmRestart(){
     location.reload();
   }
 }
-
 
 /* ════════════════════════════════
    CP 配對區塊
@@ -166,28 +158,21 @@ function renderCpBlock(code){
    TOP AXES
 ════════════════════════════════ */
 
-// ── Top axes
-function renderMyTopAxes(){
-  const el = document.getElementById('my-axes');
-  if(!el) return;
+function getMyTopAxesHTML() {
   const axisMax = calcAxisMax();
-  
-  // 只列出 10 個核心特質對應的中文
   const axisLabel = {
     opt:'樂觀', crp:'沉淪', frc:'強勢', sed:'引誘', cmp:'共犯',
     grd:'守護', obs:'執著', pos:'佔有', lsc:'失控', slc:'自制'
   };
 
-  // 定義要篩選的 10 個特質（排除 dom 和 sub）
   const validTraits = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
 
-  // 先過濾出 10 個特質，再依分數由高到低排序，最後取出前三名
   const top3 = Object.entries(axesScore)
     .filter(([k, v]) => validTraits.includes(k))
     .sort((a,b)=>b[1]-a[1])
     .slice(0,3);
 
-  const rows = top3.map(([k,v])=>{
+  return top3.map(([k,v])=>{
     const pct = axisMax[k] ? Math.round((v/axisMax[k])*100) : 0;
     return '<div class="seal">'
       + '<div class="lab">' + (axisLabel[k]||k) + '</div>'
@@ -195,19 +180,12 @@ function renderMyTopAxes(){
       + '<div class="val">' + v + '</div>'
       + '</div>';
   }).join('');
-
-  el.innerHTML = '<div style="opacity:.9;letter-spacing:2px;font-style:italic;font-size:12px;margin-bottom:4px;">'
-    + '✦ 你本次的黑暗特質'
-    + '</div>'
-    + '<div class="seals">' + rows + '</div>';
-  animateRulers(el);
 }
 
 /* ════════════════════════════════
    SHOW RESULT
 ════════════════════════════════ */
 
-// ── showResult
 function showResult(){
   elQuiz.classList.add('hidden');
   elIntro.classList.add('hidden');
@@ -215,33 +193,65 @@ function showResult(){
   elResult.classList.remove('in');
   void elResult.offsetWidth;
   elResult.classList.add('in');
-  const code=determineResultCode();
-  _lastResultCode=code;
-  const r=resultsData[code];
+  
+  const code = determineResultCode();
+  _lastResultCode = code;
+  const r = resultsData[code];
+  
   if(!r){
     document.getElementById('pop-line').textContent='✦ 黑森林暫時找不到你的檔案（結果資料缺漏）。';
     console.error('Missing resultsData for code:',code);
     return;
   }
-  const label=(RESULT_META[code]&&RESULT_META[code].label)||code;
-  document.getElementById('result-img').src=r.image;
-  document.getElementById('r-name').textContent=r.soulName;
-  document.getElementById('r-compound').textContent=label;
-  document.getElementById('r-desc').textContent=r.soulDesc;
+  
+  const label = (RESULT_META[code] && RESULT_META[code].label) || code;
+  document.getElementById('result-img').src = r.image;
+  document.getElementById('r-name').textContent = r.soulName;
+  document.getElementById('r-compound').textContent = label;
+  document.getElementById('r-desc').textContent = r.soulDesc;
+  
   const mbtiEl = document.getElementById('r-mbti');
   if(mbtiEl) mbtiEl.innerHTML = r.mbti ? `<span class="r-mbti-label">MBTI</span><strong>${r.mbti}</strong>` : '';
-  document.getElementById('r-quote').textContent=r.quote;
-  document.getElementById('r-guide').textContent=r.guide;
-  document.getElementById('seals').innerHTML=
-    '<div class="seal"><div class="lab">危險指數</div>'
-    +buildRuler(r.dangerFill)+'<div class="val">'+r.danger+'</div></div>'
-    +'<div class="seal"><div class="lab">'+r.attr+'</div>'
-    +buildRuler(r.attrFill)+'<div class="val">'+r.attrVal+'</div></div>'
-    +'<div class="seal"><div class="lab">逃脱機率</div>'
-    +buildRuler(r.escape)+'<div class="val">'+r.escape+'</div></div>';
-  animateRulers(document);
-  const cta=document.getElementById('r-cta');
-  // 加上 onclick="trackBookClick('代碼')" 來觸發背景追蹤
+  
+  document.getElementById('r-quote').textContent = r.quote;
+  document.getElementById('r-guide').textContent = r.guide;
+
+  /* ══ 整合塔羅牌陣數據區塊 ══ */
+  const baseStatsHTML =
+    '<div class="seal"><div class="lab">危險指數</div>'+buildRuler(r.dangerFill)+'<div class="val">'+r.danger+'</div></div>'
+    +'<div class="seal"><div class="lab">'+r.attr+'</div>'+buildRuler(r.attrFill)+'<div class="val">'+r.attrVal+'</div></div>'
+    +'<div class="seal"><div class="lab">逃脱機率</div>'+buildRuler(r.escape)+'<div class="val">'+r.escape+'</div></div>';
+
+  const topAxesHTML = getMyTopAxesHTML();
+
+  const tarotHTML = `
+    <div class="tarot-star ts-tl"></div>
+    <div class="tarot-star ts-tr"></div>
+    <div class="tarot-star ts-bl"></div>
+    <div class="tarot-star ts-br"></div>
+    
+    <div class="tarot-pendant top-pendant"></div>
+    
+    <div class="tarot-title">✦ 基礎印記 ✦</div>
+    ${baseStatsHTML}
+    
+    <div class="tarot-divider">
+        <svg viewBox="0 0 200 10" preserveAspectRatio="none">
+            <line x1="10" y1="5" x2="190" y2="5" stroke="rgba(255,255,255,0.2)" stroke-dasharray="2 4"/>
+            <polygon points="100,0 105,5 100,10 95,5" fill="rgba(255,255,255,0.6)"/>
+        </svg>
+    </div>
+    
+    <div class="tarot-title">✦ 黑暗特質 ✦</div>
+    ${topAxesHTML}
+    
+    <div class="tarot-pendant bottom-pendant"></div>
+  `;
+
+  document.getElementById('seals').innerHTML = tarotHTML;
+  animateRulers(document.getElementById('seals')); 
+
+  const cta = document.getElementById('r-cta');
   const tagsHtml = (r.bookTags||[]).map(t=>'<span class="cta-tag">'+t+'</span>').join('');
   const fairyLine = r.bookFairy ? '<span class="cta-fairy">'+r.bookFairy+'</span>' : '';
   cta.innerHTML='<a href="'+escapeAttr(r.link)+'" target="_blank" rel="noopener noreferrer" onclick="trackBookClick(\''+code+'\')">'
@@ -261,8 +271,8 @@ function showResult(){
     +  '</div>'
     +'</div>'
     +'</a>';
+    
   renderCpBlock(code);
-  renderMyTopAxes();
   sendStats(code);
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -286,7 +296,7 @@ function escapeAttr(str){
 }
 
 /* ════════════════════════════════
-   產生結果圖片與分享 (取代原本的 copyResult)
+   產生結果圖片與分享
 ════════════════════════════════ */
 async function shareResultAsImage() {
   const code        = _lastResultCode || determineResultCode();
@@ -301,7 +311,6 @@ async function shareResultAsImage() {
   btn.disabled    = true;
   if(btnRow) btnRow.style.display = 'none';
 
-  // Fix 2：凍結 .in 動畫終態，避免截圖時 opacity/transform 還在過渡中
   const animEls = [...targetEl.querySelectorAll('.in')];
   animEls.forEach(el => {
     el.style.animation = 'none';
@@ -310,7 +319,6 @@ async function shareResultAsImage() {
     el.style.filter    = 'none';
   });
 
-  // Fix 3：在底部插入網址戳記
   const stamp = document.createElement('div');
   stamp.id = '_share_stamp';
   stamp.style.cssText =
@@ -324,7 +332,6 @@ async function shareResultAsImage() {
   const originalScrollY = window.scrollY;
   window.scrollTo(0, 0);
 
-  // Fix 4：傳入 width/height 確保完整截到整個 section（不只是視窗高度）
   const fullH = targetEl.scrollHeight;
   const fullW = targetEl.offsetWidth;
 
@@ -348,7 +355,6 @@ async function shareResultAsImage() {
     alert("圖片生成失敗，請稍後再試。");
   }
 
-  // 無論成功失敗，都還原 DOM
   window.scrollTo(0, originalScrollY);
   animEls.forEach(el => {
     el.style.animation = '';
@@ -364,16 +370,13 @@ async function shareResultAsImage() {
 
   if(!canvas) return;
 
-  // 分享 / 複製 / 下載
   canvas.toBlob(async (blob) => {
     if(!blob){ alert("圖片轉檔失敗"); return; }
 
     const file    = new File([blob], 'dark_trait_result.png', { type: 'image/png' });
-    // pointer:coarse = 觸控裝置（手機/平板），桌機是 pointer:fine
     const isTouchDevice = window.matchMedia('(pointer:coarse)').matches;
     const isMobile = isTouchDevice && navigator.canShare && navigator.canShare({ files: [file] });
 
-    // ── 手機/平板：呼叫原生分享面板（IG / Line）──
     if(isMobile) {
       try {
         await navigator.share({
@@ -382,12 +385,10 @@ async function shareResultAsImage() {
           url  : SITE_URL,
           files: [file],
         });
-      } catch(e) { /* 使用者取消 */ }
+      } catch(e) { }
       return;
     }
 
-    // ── 電腦版：先下載，同時嘗試複製到剪貼簿 ──
-    // 下載作為主要保底，clipboard 成功時額外提示可直接貼上
     const objUrl = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href     = objUrl;
@@ -397,7 +398,6 @@ async function shareResultAsImage() {
     document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(objUrl), 1000);
 
-    // 同時嘗試複製到剪貼簿（成功就額外顯示提示）
     if(navigator.clipboard && navigator.clipboard.write) {
       try {
         await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
@@ -408,7 +408,6 @@ async function shareResultAsImage() {
           setTimeout(() => { miniBtn.textContent = prev; }, 2500);
         }
       } catch(e) {
-        // 剪貼簿被擋沒關係，下載已完成
         const miniBtn = document.querySelector('.btn.mini');
         if(miniBtn){
           const prev = miniBtn.textContent;
