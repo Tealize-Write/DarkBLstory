@@ -193,14 +193,35 @@ function getEmblemSVG(bookName) {
       return `<svg ${baseProps}><path d="M16 24c0-8 32-8 32 0 0 16-16 28-16 28S16 40 16 24z"/><path d="M32 16v36"/><circle cx="24" cy="28" r="3"/><circle cx="40" cy="28" r="3"/><path d="M32 16c-4-8 4-12 0-16 8 4 8 12 0 16z" fill="currentColor" stroke="none"/></svg>`;
     case '《兩兄弟》': // 心臟與劍
       return `<svg ${baseProps}><path d="M32 20c0-10-16-10-16 4 0 14 16 28 16 28s16-14 16-28c0-14-16-14-16-4z"/><line x1="12" y1="52" x2="52" y2="12"/><line x1="8" y1="56" x2="16" y2="48"/><line x1="6" y1="58" x2="12" y2="52"/></svg>`;
-    case '《沉睡荊棘》': // 蘋果與龍
-      return `<svg ${baseProps}><path d="M32 20c16 0 16 28 0 28-16 0-16-28 0-28z"/><path d="M32 20q0-10 8-12"/><path d="M48 34q8-14 12 0q-4 14-12 0z" fill="currentColor"/><path d="M16 34q-8-14-12 0q4 14 12 0z" fill="currentColor"/></svg>`;
+      
+    case '《沉睡荊棘》': // 蘋果與龍 (已進化為真實蘋果曲線加上龍翼)
+      return `<svg ${baseProps}>
+        <path d="M32 22 C38 14 48 18 48 30 C48 42 40 48 32 46 C24 48 16 42 16 30 C16 18 26 14 32 22 Z" fill="rgba(255,255,255,0.05)"/>
+        <path d="M32 22 Q32 10 38 8"/>
+        <path d="M38 8 Q46 10 44 18 Q36 16 38 8 Z" fill="currentColor"/>
+        <path d="M46 32 C 54 24, 60 28, 60 28 C 56 32, 62 36, 62 36 C 54 40, 46 38, 46 38" />
+        <path d="M18 32 C 10 24, 4 28, 4 28 C 8 32, 2 36, 2 36 C 10 40, 18 38, 18 38" />
+      </svg>`;
+      
     case '《哈梅爾的吹笛手》': // 老鼠
       return `<svg ${baseProps}><path d="M24 40q0-16 16-16q8 0 8 8v8z"/><circle cx="32" cy="24" r="6"/><circle cx="42" cy="34" r="1.5" fill="currentColor" stroke="none"/><path d="M24 40q-12 0-16 8t12 8"/><line x1="48" y1="36" x2="54" y2="34"/><line x1="48" y1="38" x2="54" y2="40"/></svg>`;
     case '《寶石、烏鴉和水瓶》': // 寶石烏鴉水瓶
       return `<svg ${baseProps}><path d="M24 36v20h16V36l-4-8h-8z"/><polygon points="32,8 38,16 32,24 26,16"/><path d="M48 20c8-4 12 4 4 8-4 4-8 0-4-8z"/><path d="M52 28l-8 8"/></svg>`;
-    case '《溫先生他一絲不掛》': // 皇冠
-      return `<svg ${baseProps}><path d="M12 44l4-24 16 12 16-12 4 24z"/><line x1="12" y1="48" x2="52" y2="48"/><circle cx="16" cy="16" r="3" fill="currentColor" stroke="none"/><circle cx="32" cy="28" r="3" fill="currentColor" stroke="none"/><circle cx="48" cy="16" r="3" fill="currentColor" stroke="none"/></svg>`;
+      
+    case '《溫先生他一絲不掛》': // 皇家帝國皇冠
+      return `<svg ${baseProps}>
+        <path d="M10 48 Q32 54 54 48 Q56 52 52 54 Q32 58 12 54 Q8 52 10 48 Z" fill="rgba(255,255,255,0.1)"/>
+        <path d="M22 51v1 M32 52v1 M42 51v1" stroke-width="1.5"/>
+        <path d="M12 48 Q32 52 52 48 V40 Q32 44 12 40 Z"/>
+        <circle cx="32" cy="45" r="2" fill="currentColor"/>
+        <circle cx="20" cy="44" r="1.5"/><circle cx="44" cy="44" r="1.5"/>
+        <path d="M14 40 Q32 20 50 40" fill="rgba(255,255,255,0.05)" stroke="currentColor" stroke-dasharray="2 3"/>
+        <path d="M12 40 C12 24 26 22 32 22 C38 22 52 24 52 40"/>
+        <path d="M22 41 C22 28 28 22 32 22 C36 22 42 28 42 41"/>
+        <circle cx="32" cy="18" r="3"/>
+        <path d="M32 15 V5 M27 9 H37"/>
+      </svg>`;
+      
     case '《影子吻了我》': // 魔法書與影子
       return `<svg ${baseProps}><path d="M32 48V24L16 16v24zM32 48V24l16-8v24z"/><path d="M32 16q0-8 8-16M32 16q0-8-8-16M16 16q-8-8-16 0M48 16q8-8 16 0"/></svg>`;
     default:
