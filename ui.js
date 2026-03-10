@@ -4,7 +4,7 @@
 function buildRuler(fillPct){
   const numStr = String(fillPct).replace('%','').trim();
   const pct = Math.min(100, Math.max(0, parseFloat(numStr)||0));
-  const ticks = Array.from({length:TICK_COUNT+1},()=>'<span></span>').join('');
+  const ticks = Array.from({length:10+1},()=>'<span></span>').join('');
   return '<div class="seal-ruler">'
     + '<div class="seal-ruler-track"></div>'
     + '<div class="seal-ruler-ticks">' + ticks + '</div>'
@@ -24,15 +24,13 @@ function animateRulers(root){
 }
 
 /* ════════════════════════════════
-   AXIS MAX（動態計算各軸理論上限）
+   FLOW
 ════════════════════════════════ */
-
-// ── Flow
 function startQuiz(){
-  elIntro.classList.add('hidden');
-  elResult.classList.add('hidden');
-  elQuiz.classList.remove('hidden');
-  elQuiz.classList.add('in');
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('quiz').classList.remove('hidden');
+  document.getElementById('quiz').classList.add('in');
 
   qi = 0;
   answerHistory = [];
@@ -40,6 +38,7 @@ function startQuiz(){
   AXES.forEach(k => axesScore[k] = 0);
   _lastResultCode = null;
 
+  const elProgress = document.getElementById('progress');
   elProgress.innerHTML='';
   for(let i=0;i<questions.length;i++){
     const d=document.createElement('div');d.className='seg';elProgress.appendChild(d);
@@ -61,10 +60,9 @@ function updateProgress(){
 /* ════════════════════════════════
    TYPEWRITER
 ════════════════════════════════ */
-let _twTimer = null;   // 目前打字機 interval
-let _twDone  = false;  // 是否已完成
+let _twTimer = null;   
+let _twDone  = false;  
 
-// ── Typewriter
 function skipTypewriter(){
   if(_twTimer){ clearInterval(_twTimer); _twTimer=null; }
   _finishTypewriter();
@@ -116,7 +114,6 @@ function showQuestion(){
   }, 38); 
 }
 
-// ── Pick / Restart
 function pick(optionIndex, addObj, btn){
   if(_twTimer){ clearInterval(_twTimer); _twTimer=null; }
   document.querySelectorAll('.opt').forEach(b => b.disabled = true);
@@ -130,6 +127,7 @@ function pick(optionIndex, addObj, btn){
     qi < questions.length ? showQuestion() : showResult();
   }, 380);
 }
+
 function confirmRestart(){
   if(confirm('確定要重新開始？目前進度將清除。')){
     location.reload();
@@ -157,16 +155,13 @@ function renderCpBlock(code){
 /* ════════════════════════════════
    TOP AXES
 ════════════════════════════════ */
-
 function getMyTopAxesHTML() {
   const axisMax = calcAxisMax();
   const axisLabel = {
     opt:'樂觀', crp:'沉淪', frc:'強勢', sed:'引誘', cmp:'共犯',
     grd:'守護', obs:'執著', pos:'佔有', lsc:'失控', slc:'自制'
   };
-
   const validTraits = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
-
   const top3 = Object.entries(axesScore)
     .filter(([k, v]) => validTraits.includes(k))
     .sort((a,b)=>b[1]-a[1])
@@ -183,12 +178,44 @@ function getMyTopAxesHTML() {
 }
 
 /* ════════════════════════════════
+   DYNAMIC EMBLEM SVGs
+════════════════════════════════ */
+function getEmblemSVG(bookName) {
+  const baseProps = 'viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  switch(bookName) {
+    case '《咬了神一口》': // 獅子與鹿
+      return `<svg ${baseProps}><path d="M32 24v-12M24 18l-4-8l-4 4M40 18l4-8l4 4"/><circle cx="32" cy="40" r="10"/><path d="M32 26v-4M22 40h-4M42 40h4M26 34l-4-4M38 34l4-4M26 46l-4 4M38 46l4 4M32 54v4"/></svg>`;
+    case '《消失的終點線》': // 兔子與烏龜
+      return `<svg ${baseProps}><path d="M26 32c0-20-6-24-6-8M38 32c0-20 6-24 6-8"/><path d="M16 48c0-16 32-16 32 0z"/><path d="M24 48v-8l8-8 8 8v8M24 40h16"/></svg>`;
+    case '《糖裹屋》': // 棒棒糖
+      return `<svg ${baseProps}><circle cx="32" cy="24" r="16"/><path d="M32 24c0-4 4-8 8-4 4 4 0 12-8 12-12 0-16-12-8-20 8-8 22 0 20 12"/><line x1="32" y1="40" x2="32" y2="60"/><polygon points="26,44 20,40 20,48" fill="currentColor"/><polygon points="38,44 44,40 44,48" fill="currentColor"/></svg>`;
+    case '《灰燼》': // 面具與火焰
+      return `<svg ${baseProps}><path d="M16 24c0-8 32-8 32 0 0 16-16 28-16 28S16 40 16 24z"/><path d="M32 16v36"/><circle cx="24" cy="28" r="3"/><circle cx="40" cy="28" r="3"/><path d="M32 16c-4-8 4-12 0-16 8 4 8 12 0 16z" fill="currentColor" stroke="none"/></svg>`;
+    case '《兩兄弟》': // 心臟與劍
+      return `<svg ${baseProps}><path d="M32 20c0-10-16-10-16 4 0 14 16 28 16 28s16-14 16-28c0-14-16-14-16-4z"/><line x1="12" y1="52" x2="52" y2="12"/><line x1="8" y1="56" x2="16" y2="48"/><line x1="6" y1="58" x2="12" y2="52"/></svg>`;
+    case '《沉睡荊棘》': // 蘋果與龍
+      return `<svg ${baseProps}><path d="M32 20c16 0 16 28 0 28-16 0-16-28 0-28z"/><path d="M32 20q0-10 8-12"/><path d="M48 34q8-14 12 0q-4 14-12 0z" fill="currentColor"/><path d="M16 34q-8-14-12 0q4 14 12 0z" fill="currentColor"/></svg>`;
+    case '《哈梅爾的吹笛手》': // 老鼠
+      return `<svg ${baseProps}><path d="M24 40q0-16 16-16q8 0 8 8v8z"/><circle cx="32" cy="24" r="6"/><circle cx="42" cy="34" r="1.5" fill="currentColor" stroke="none"/><path d="M24 40q-12 0-16 8t12 8"/><line x1="48" y1="36" x2="54" y2="34"/><line x1="48" y1="38" x2="54" y2="40"/></svg>`;
+    case '《寶石、烏鴉和水瓶》': // 寶石烏鴉水瓶
+      return `<svg ${baseProps}><path d="M24 36v20h16V36l-4-8h-8z"/><polygon points="32,8 38,16 32,24 26,16"/><path d="M48 20c8-4 12 4 4 8-4 4-8 0-4-8z"/><path d="M52 28l-8 8"/></svg>`;
+    case '《溫先生他一絲不掛》': // 皇冠
+      return `<svg ${baseProps}><path d="M12 44l4-24 16 12 16-12 4 24z"/><line x1="12" y1="48" x2="52" y2="48"/><circle cx="16" cy="16" r="3" fill="currentColor" stroke="none"/><circle cx="32" cy="28" r="3" fill="currentColor" stroke="none"/><circle cx="48" cy="16" r="3" fill="currentColor" stroke="none"/></svg>`;
+    case '《影子吻了我》': // 魔法書與影子
+      return `<svg ${baseProps}><path d="M32 48V24L16 16v24zM32 48V24l16-8v24z"/><path d="M32 16q0-8 8-16M32 16q0-8-8-16M16 16q-8-8-16 0M48 16q8-8 16 0"/></svg>`;
+    default:
+      return `<svg ${baseProps}><circle cx="32" cy="32" r="16"/><path d="M32 8v48M8 32h48M20 20l24 24M20 44l24-24"/></svg>`;
+  }
+}
+
+/* ════════════════════════════════
    SHOW RESULT
 ════════════════════════════════ */
-
 function showResult(){
+  const elQuiz = document.getElementById('quiz');
+  const elResult = document.getElementById('result');
   elQuiz.classList.add('hidden');
-  elIntro.classList.add('hidden');
+  document.getElementById('intro').classList.add('hidden');
   elResult.classList.remove('hidden');
   elResult.classList.remove('in');
   void elResult.offsetWidth;
@@ -231,6 +258,10 @@ function showResult(){
     <div class="tarot-star ts-br"></div>
     
     <div class="tarot-pendant top-pendant"></div>
+    
+    <div class="tarot-emblem">
+        ${getEmblemSVG(r.bookName)}
+    </div>
     
     <div class="tarot-title">✦ 基礎印記 ✦</div>
     ${baseStatsHTML}
@@ -278,12 +309,8 @@ function showResult(){
 }
 
 /* ════════════════════════════════
-   STATS（POST）
+   STATS & SHARE
 ════════════════════════════════ */
-
-// ── Utils
-
-// ── 書籍點擊追蹤
 function trackBookClick(code){
   trackUserAction(code, "book_click");
 }
@@ -295,9 +322,6 @@ function escapeAttr(str){
   return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
-/* ════════════════════════════════
-   產生結果圖片與分享
-════════════════════════════════ */
 async function shareResultAsImage() {
   const code        = _lastResultCode || determineResultCode();
   const btn         = document.querySelector('.btn.mini');
