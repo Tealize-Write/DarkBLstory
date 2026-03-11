@@ -313,20 +313,37 @@ function getEmblemSVG(code) {
         </g>
       </svg>`;
       
-  case 'A_DEVOTION_1': // 龍
+ case 'A_DEVOTION_1': // 龍
       return `<svg ${baseProps}>
         ${mysticCircle}
         <g stroke-width="2.5">
-          <polygon points="34,22 54,8 44,28" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round"/>
-          <polygon points="40,28 58,18 48,34" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round"/>
+          <path d="M 32 26
+                   C 22 10, 58 -5, 48 -20
+                   C 66 -5, 40 10, 44 22
+                   Q 50 14, 54 12
+                   Q 54 20, 50 26
+                   Q 58 28, 60 32
+                   Q 54 38, 48 38
+                   Q 44 46, 42 50
+                   Q 38 58, 32 60
+                   Q 26 58, 22 50
+                   Q 20 46, 16 38
+                   Q 10 38, 4 32
+                   Q 6 28, 14 26
+                   Q 10 20, 10 12
+                   Q 14 14, 20 22
+                   C 24 10, -2 -5, 16 -20
+                   C 6 -5, 42 10, 32 26 Z"
+                fill="var(--bg)" stroke="currentColor" stroke-linejoin="round"/>
 
-          <path d="M 36 20 C 26 20 16 26 12 34 L 20 34 L 16 38 L 28 36 C 26 44 18 48 14 50 L 24 48 C 30 56 38 56 46 56 L 46 48 L 54 44 L 44 38 L 52 30 L 36 20 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round" />
+          <polygon points="20,30 28,35 24,40" fill="currentColor" stroke="none"/>
+          <polygon points="44,30 36,35 40,40" fill="currentColor" stroke="none"/>
 
-          <path d="M 28 36 C 32 42 34 48 34 56" stroke-width="1.5" />
+          <polygon points="29,50 25,52 28,55" fill="currentColor" stroke="none"/>
+          <polygon points="35,50 39,52 36,55" fill="currentColor" stroke="none"/>
 
-          <polygon points="20,26 28,28 24,30" fill="currentColor" stroke="none"/>
-
-          <circle cx="16" cy="31" r="1" fill="currentColor" stroke="none" />
+          <path d="M 32 26 V 42" stroke-width="1.5"/>
+          <path d="M 28 40 L 32 46 L 36 40" stroke-width="1.5" fill="none" stroke-linecap="round"/>
         </g>
       </svg>`;
       
