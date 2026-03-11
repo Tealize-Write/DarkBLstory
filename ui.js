@@ -253,14 +253,25 @@ function getEmblemSVG(code) {
       return `<svg ${baseProps}>
         ${mysticCircle}
         <g stroke-width="2.5">
-          <path d="M 12 12 L 20 20 M 52 12 L 44 20 M 12 52 L 20 44 M 52 52 L 44 44" stroke-width="1.5" stroke-dasharray="2 3"/>
-          <path d="M 32 48 C 24 44 14 46 14 46 V 18 C 14 18 24 16 32 20 C 40 16 50 18 50 18 V 46 C 50 46 40 44 32 48 Z" />
-          <path d="M 32 20 V 48" />
-          <path d="M 18 24 C 24 22 28 24 32 26 M 46 24 C 40 22 36 24 32 26" stroke-width="1.5"/>
-          <path d="M 18 32 C 24 30 28 32 32 34 M 46 32 C 40 30 36 32 32 34" stroke-width="1.5"/>
-          <path d="M 32 48 L 36 56 L 32 54 L 28 56 Z" fill="currentColor"/>
-          ${sparkSmall}
-        </g>
+          <path d="M 16 10 V 46 C 16 53 20 54 26 54 H 44 V 10 Z" fill="var(--bg)" stroke="none" />
+          
+          <path d="M 22 10 H 16 V 46 C 16 53 20 54 26 54 H 44 V 50 H 26 C 23 50 22 48 22 46 Z" fill="var(--bg)" stroke="currentColor" />
+          
+          <rect x="22" y="10" width="22" height="36" fill="var(--bg)" stroke="currentColor" />
+          
+          <line x1="23" y1="48" x2="44" y2="48" stroke-width="1.5" />
+          
+          <path d="M 28 46 V 58 L 31 55 L 34 58 V 46 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="miter" />
+          
+          <rect x="26" y="14" width="14" height="28" stroke-width="1.5" />
+          
+          <rect x="37" y="23" width="10" height="10" fill="var(--bg)" stroke="currentColor" />
+          <rect x="41" y="26" width="3" height="4" rx="1.5" stroke-width="1.5" />
+          
+          <polygon points="33,16 41,28 33,40 25,28" fill="var(--bg)" stroke="currentColor" stroke-linejoin="miter" />
+          <polygon points="33,21 37,28 33,35 29,28" stroke-width="1.5" stroke-linejoin="miter" />
+          
+          </g>
       </svg>`;
       
     case 'A_SCHEME_3': // 眼鏡
@@ -302,16 +313,20 @@ function getEmblemSVG(code) {
         </g>
       </svg>`;
       
-    case 'A_DEVOTION_1': // 龍
+  case 'A_DEVOTION_1': // 龍
       return `<svg ${baseProps}>
         ${mysticCircle}
         <g stroke-width="2.5">
-          <path d="M 32 10 C 44 10 54 20 54 32 C 54 44 44 54 32 54" stroke-width="1.5" stroke-dasharray="2 3"/>
-          <path d="M 24 46 C 16 46 12 40 12 32 C 12 24 16 18 24 18 C 30 18 34 22 34 26 C 34 30 30 34 26 34 L 20 34" />
-          <path d="M 20 19 L 26 10 M 24 21 L 32 14" stroke-width="1.5"/>
-          <circle cx="20" cy="26" r="1.5" fill="currentColor" stroke="none"/>
-          <path d="M 24 34 C 28 40 36 42 42 36 C 48 30 46 20 38 18" />
-          <path d="M 12 32 L 8 30 M 14 40 L 10 42 M 20 45 L 18 49 M 28 46 L 28 50" stroke-width="1.5"/>
+          <polygon points="34,22 54,8 44,28" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round"/>
+          <polygon points="40,28 58,18 48,34" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round"/>
+
+          <path d="M 36 20 C 26 20 16 26 12 34 L 20 34 L 16 38 L 28 36 C 26 44 18 48 14 50 L 24 48 C 30 56 38 56 46 56 L 46 48 L 54 44 L 44 38 L 52 30 L 36 20 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round" />
+
+          <path d="M 28 36 C 32 42 34 48 34 56" stroke-width="1.5" />
+
+          <polygon points="20,26 28,28 24,30" fill="currentColor" stroke="none"/>
+
+          <circle cx="16" cy="31" r="1" fill="currentColor" stroke="none" />
         </g>
       </svg>`;
       
@@ -372,15 +387,31 @@ function getEmblemSVG(code) {
     case 'R_CONTROL_3': // 魔法書
       return `<svg ${baseProps}>
         ${mysticCircle}
-        <g stroke-width="2.5">        
-          <path d="M 32 46 C 24 42 16 44 16 44 V 20 C 16 20 24 18 32 22 C 40 18 48 20 48 20 V 44 C 48 44 40 42 32 46 Z" />
-          <line x1="32" y1="22" x2="32" y2="46" />         
-          <path d="M 20 25 C 26 23 30 25 32 27 M 44 25 C 38 23 34 25 32 27" stroke-width="1.5"/>
-          <path d="M 20 41 C 26 39 30 41 32 43 M 44 41 C 38 39 34 41 32 43" stroke-width="1.5"/>       
-          <circle cx="24" cy="33" r="3" stroke-width="1.5"/>
-          <circle cx="24" cy="33" r="1" fill="currentColor" stroke="none"/>
-          <polygon points="40,30 41,32 43,33 41,34 40,36 39,34 37,33 39,32" fill="currentColor" stroke="none"/>       
-          <circle cx="32" cy="16" r="1.5" fill="currentColor" stroke="none"/>
+        <g stroke-width="2.5">
+          <path d="M 16 40 V 46 C 16 46 24 44 32 48 C 40 44 48 46 48 46 V 40 C 48 40 40 38 32 42 C 24 38 16 40 16 40 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round"/>
+          
+          <path d="M 16 43 C 24 41 32 45 32 45 M 48 43 C 40 41 32 45 32 45" stroke-width="1.5" />
+          
+          <line x1="32" y1="42" x2="32" y2="48" />
+
+          <path d="M 38 38 V 53 L 40 50 L 42 53 V 39 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round" />
+
+          <path d="M 32 42 C 24 38 16 40 16 40 V 16 C 16 16 24 14 32 18 C 40 14 48 16 48 16 V 40 C 48 40 40 38 32 42 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round" />
+          
+          <line x1="32" y1="18" x2="32" y2="42" />         
+          
+          <path d="M 20 21 C 26 19 30 21 32 23" stroke-width="1.5"/>
+          <path d="M 20 37 C 26 35 30 37 32 39" stroke-width="1.5"/>        
+          
+          <path d="M 44 21 C 38 19 34 21 32 23" stroke-width="1.5"/>
+          <path d="M 44 37 C 38 35 34 37 32 39" stroke-width="1.5"/>        
+          
+          <circle cx="24" cy="29" r="3" stroke-width="1.5"/>
+          <circle cx="24" cy="29" r="1" fill="currentColor" stroke="none"/>
+          
+          <polygon points="40,26 41,28 43,29 41,30 40,32 39,30 37,29 39,28" fill="currentColor" stroke="none"/>        
+          
+          <circle cx="32" cy="12" r="1.5" fill="currentColor" stroke="none"/>
         </g>
       </svg>`;
       
@@ -420,9 +451,12 @@ function getEmblemSVG(code) {
       return `<svg ${baseProps}>
         ${mysticCircle}
         <g stroke-width="2.5">
-          <path d="M 12 40 L 4 42 C 6 46 12 46 16 46" />
+          <path d="M 12 40 L 9 40 C 10 44 14 44 16 46" />
+          
           <path d="M 12 40 C 16 32 26 30 36 34 C 46 38 48 46 44 48 H 16" />
+          
           <path d="M 24 34 C 20 26 28 20 32 26 C 34 30 30 34 26 36" /> 
+          
           <path d="M 44 46 C 54 46 60 40 56 34 C 52 28 48 32 50 36" />
         </g>
       </svg>`;
