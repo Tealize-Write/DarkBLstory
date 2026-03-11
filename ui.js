@@ -202,13 +202,16 @@ function getEmblemSVG(code) {
         <path d="M 32 52 L 30 56 M 38 50 L 36 54" />
       </svg>`;
       
-    case 'A_CONTROL_2': // 面具 (銳利流線的威尼斯半臉面具)
+    case 'A_CONTROL_2': // 面具
       return `<svg ${baseProps}>
-        <path d="M 12 28 C 16 12 48 12 52 28 C 54 36 44 42 32 42 C 20 42 10 36 12 28 Z" />
-        <path d="M 20 26 C 24 24 28 24 28 28 C 24 30 20 30 20 26" fill="currentColor"/>
-        <path d="M 44 26 C 40 24 36 24 36 28 C 40 30 44 30 44 26" fill="currentColor"/>
-        <path d="M 32 16 V 24 M 24 16 C 26 20 28 22 28 22 M 40 16 C 38 20 36 22 36 22" />
-        <path d="M 12 28 C 6 36 8 48 14 54 M 52 28 C 58 36 56 48 50 54" />
+        <path d="M 16 16 C 24 8 40 8 48 16" stroke-width="1" stroke-dasharray="2 3"/>
+        <path d="M 32 58 L 12 36 C 8 26 14 16 24 16 C 28 16 32 20 32 20 C 32 20 36 16 40 16 C 50 16 56 26 52 36 Z" />
+        <path d="M 20 28 Q 24 26 28 28 Q 24 30 20 28 Z" fill="currentColor"/>
+        <path d="M 44 28 Q 40 26 36 28 Q 40 30 44 28 Z" fill="currentColor"/>
+        <path d="M 24 36 Q 28 42 32 50 Q 36 42 40 36" />
+        <line x1="24" y1="36" x2="24" y2="44" stroke-width="1"/>
+        <line x1="40" y1="36" x2="40" y2="44" stroke-width="1"/>
+        <path d="M 32 22 L 34 26 L 32 30 L 30 26 Z" fill="currentColor" stroke="none"/>
       </svg>`;
       
     case 'A_CONTROL_3': // 鹿神 (正臉、帥氣對稱的鹿角與五官)
@@ -231,13 +234,15 @@ function getEmblemSVG(code) {
         <path d="M 22 46 Q 16 56 18 42" /> <path d="M 42 46 Q 48 56 46 42" />
       </svg>`;
       
-    case 'A_SCHEME_2': // 書(邊框) (純邊框、俐落的神祕魔法典籍)
+    case 'A_SCHEME_2': // 書 (邊框)
       return `<svg ${baseProps}>
-        <path d="M 12 24 L 32 32 L 52 24 V 48 L 32 56 L 12 48 Z" /> 
-        <line x1="32" y1="32" x2="32" y2="56" /> 
-        <path d="M 16 28 L 28 33 M 16 34 L 28 39 M 48 28 L 36 33 M 48 34 L 36 39" />
-        <path d="M 20 16 C 28 10 36 10 44 16" stroke-dasharray="2 4" />
-        <path d="M 20 56 C 28 62 36 62 44 56" stroke-dasharray="2 4" />
+        <path d="M 12 12 L 20 20 M 52 12 L 44 20 M 12 52 L 20 44 M 52 52 L 44 44" stroke-width="1" stroke-dasharray="2 3"/>
+        <path d="M 32 48 C 24 44 14 46 14 46 V 18 C 14 18 24 16 32 20 C 40 16 50 18 50 18 V 46 C 50 46 40 44 32 48 Z" />
+        <path d="M 32 20 V 48" />
+        <path d="M 18 24 C 24 22 28 24 32 26 M 46 24 C 40 22 36 24 32 26" stroke-width="1"/>
+        <path d="M 18 32 C 24 30 28 32 32 34 M 46 32 C 40 30 36 32 32 34" stroke-width="1"/>
+        <path d="M 32 48 L 36 56 L 32 54 L 28 56 Z" fill="currentColor"/>
+        ${sparkSmall}
       </svg>`;
       
     case 'A_SCHEME_3': // 眼鏡 (無鍊子，現代高冷禁慾的半框/眉框眼鏡)
@@ -251,13 +256,15 @@ function getEmblemSVG(code) {
         </g>
       </svg>`;
       
-    case 'A_CHAOS_1': // 劍 (華麗俐落的十字大劍)
+    case 'A_CHAOS_1': // 劍
       return `<svg ${baseProps}>
-        <path d="M 30 22 L 32 58 L 34 22 Z" /> 
-        <line x1="32" y1="22" x2="32" y2="52" /> 
-        <path d="M 16 22 C 24 18 40 18 48 22 C 44 26 20 26 16 22 Z" fill="currentColor"/> 
-        <path d="M 30 8 V 18 H 34 V 8 Z" /> 
-        <path d="M 32 8 C 36 8 36 2 32 2 C 28 2 28 8 32 8 Z" fill="currentColor"/> 
+        <circle cx="32" cy="32" r="20" stroke-width="1" stroke-dasharray="1 6"/>
+        <path d="M 28 24 L 32 56 L 36 24 Z" />
+        <line x1="32" y1="24" x2="32" y2="46" stroke-width="1"/>
+        <path d="M 16 22 L 48 22 L 44 26 L 20 26 Z" fill="currentColor"/>
+        <path d="M 16 22 Q 12 20 16 18 L 20 22 M 48 22 Q 52 20 48 18 L 44 22" />
+        <path d="M 30 22 V 12 H 34 V 22 Z" />
+        <path d="M 28 12 L 36 12 L 32 6 Z" fill="currentColor"/>
       </svg>`;
       
     case 'A_CHAOS_2': // 獅子 (全身霸氣坐姿獅，帥氣立體鬃毛)
@@ -271,21 +278,25 @@ function getEmblemSVG(code) {
         <path d="M 46 42 C 54 42 58 32 54 26 C 52 24 50 26 52 28" />
       </svg>`;
       
-    case 'A_DEVOTION_1': // 龍 (清晰的飛龍頭頸側影)
+    case 'A_DEVOTION_1': // 龍
       return `<svg ${baseProps}>
-        <path d="M 16 36 L 8 40 L 16 44 C 20 52 28 56 36 54 C 44 52 50 44 48 36 C 46 28 38 24 30 26" />
-        <path d="M 30 26 C 36 16 46 10 56 12 M 34 28 C 40 22 48 18 54 20" />
-        <path d="M 24 36 L 28 38 L 26 40 Z" fill="currentColor" stroke="none"/> 
-        <path d="M 36 54 C 36 60 44 62 52 60 M 48 36 C 54 40 60 46 62 54" />
-        <path d="M 14 38 L 16 42 M 20 39 L 22 42" /> 
+        <path d="M 32 10 C 44 10 54 20 54 32 C 54 44 44 54 32 54" stroke-width="1" stroke-dasharray="2 3"/>
+        <path d="M 24 46 C 16 46 12 40 12 32 C 12 24 16 18 24 18 C 30 18 34 22 34 26 C 34 30 30 34 26 34 L 20 34" />
+        <path d="M 20 19 L 26 10 M 24 21 L 32 14" stroke-width="1"/>
+        <circle cx="20" cy="26" r="1.5" fill="currentColor" stroke="none"/>
+        <path d="M 24 34 C 28 40 36 42 42 36 C 48 30 46 20 38 18" />
+        <path d="M 12 32 L 8 30 M 14 40 L 10 42 M 20 45 L 18 49 M 28 46 L 28 50" stroke-width="1"/>
       </svg>`;
       
-    case 'A_DEVOTION_2': // 巫師斗篷 (深邃無臉的俐落兜帽)
+    case 'A_DEVOTION_2': // 巫師斗篷
       return `<svg ${baseProps}>
-        <path d="M 32 6 C 20 6 12 18 12 32 C 12 46 8 54 8 58 H 56 C 56 54 52 46 52 32 C 52 18 44 6 32 6 Z" />
-        <path d="M 32 14 C 24 14 20 24 20 32 C 20 40 44 40 44 32 C 44 24 40 14 32 14 Z" fill="currentColor"/> 
-        <path d="M 22 42 C 18 48 16 54 16 58 M 42 42 C 46 48 48 54 48 58 M 32 42 V 58" /> 
+        <path d="M 20 54 C 20 30 44 30 44 54" stroke-width="1" stroke-dasharray="2 4"/>
+        <path d="M 32 10 C 22 10 16 22 16 34 C 16 44 12 52 10 56 H 54 C 52 52 48 44 48 34 C 48 22 42 10 32 10 Z" />
+        <path d="M 32 18 C 24 18 22 26 24 34 C 26 40 38 40 40 34 C 42 26 40 18 32 18 Z" fill="currentColor"/>
+        <path d="M 32 42 L 34 46 L 38 48 L 34 50 L 32 54 L 30 50 L 26 48 L 30 46 Z" fill="currentColor" stroke="none"/>
+        <path d="M 24 56 V 46 M 40 56 V 46 M 32 56 V 52" stroke-width="1"/>
       </svg>`;
+
       
     case 'A_DEVOTION_3': // 長笛 (極簡俐落的古典長笛)
       return `<svg ${baseProps}>
