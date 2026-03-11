@@ -181,73 +181,92 @@ function getMyTopAxesHTML() {
    DYNAMIC EMBLEM SVGs (黑暗塔羅精緻具象版)
 ════════════════════════════════ */
 function getEmblemSVG(code) {
-  // 統一使用粗線條 (stroke-width="2") 營造純粹俐落的霓虹發光感
-  const baseProps = 'viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  // 將主線條加粗至 2.5，以防被背景圓圈吃掉
+  const baseProps = 'viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"';
   
+  // 底部共通的魔法陣：雙層細虛線與實線
+  const mysticCircle = `
+    <circle cx="32" cy="32" r="30" stroke-width="0.5" stroke-dasharray="2 4"/>
+    <circle cx="32" cy="32" r="26" stroke-width="1" stroke-opacity="0.3"/>
+  `;
+
   // 保留給特定圖案使用的星芒
   const sparkSmall = `<path d="M 12 8 Q 12 12 8 12 Q 12 12 12 16 Q 12 12 16 12 Q 12 12 12 8 Z" fill="currentColor" stroke="none"/>`;
 
   switch(code) {
     /* ══ 攻方對應 ══ */
-    
-    case 'A_CONTROL_1': // 烏鴉 (完整的鳥形，停駐在枯枝上)
+    case 'A_CONTROL_1': // 烏鴉
       return `<svg ${baseProps}>
-        <path d="M 8 54 Q 32 48 56 56" />
-        <path d="M 44 51 L 50 58" />
-        <path d="M 36 26 C 42 32 44 42 36 50 L 30 60 L 26 54 C 20 46 18 36 24 28" />
-        <path d="M 36 26 C 30 20 24 20 24 28" />
-        <path d="M 26 24 L 12 26 L 24 28 Z" fill="currentColor" stroke="none"/>
-        <circle cx="28" cy="24" r="1.5" fill="currentColor" stroke="none"/>
-        <path d="M 32 32 C 40 38 40 48 32 54 M 28 36 C 34 42 34 48 28 52" />
-        <path d="M 32 52 L 30 56 M 38 50 L 36 54" />
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <path d="M 8 54 Q 32 48 56 56" />
+          <path d="M 44 51 L 50 58" />
+          <path d="M 36 26 C 42 32 44 42 36 50 L 30 60 L 26 54 C 20 46 18 36 24 28" />
+          <path d="M 36 26 C 30 20 24 20 24 28" />
+          <path d="M 26 24 L 12 26 L 24 28 Z" fill="currentColor" stroke="none"/>
+          <circle cx="28" cy="24" r="1.5" fill="currentColor" stroke="none"/>
+          <path d="M 32 32 C 40 38 40 48 32 54 M 28 36 C 34 42 34 48 28 52" />
+          <path d="M 32 52 L 30 56 M 38 50 L 36 54" />
+        </g>
       </svg>`;
       
     case 'A_CONTROL_2': // 面具
       return `<svg ${baseProps}>
-        <path d="M 16 16 C 24 8 40 8 48 16" stroke-width="1" stroke-dasharray="2 3"/>
-        <path d="M 32 58 L 12 36 C 8 26 14 16 24 16 C 28 16 32 20 32 20 C 32 20 36 16 40 16 C 50 16 56 26 52 36 Z" />
-        <path d="M 20 28 Q 24 26 28 28 Q 24 30 20 28 Z" fill="currentColor"/>
-        <path d="M 44 28 Q 40 26 36 28 Q 40 30 44 28 Z" fill="currentColor"/>
-        <path d="M 24 36 Q 28 42 32 50 Q 36 42 40 36" />
-        <line x1="24" y1="36" x2="24" y2="44" stroke-width="1"/>
-        <line x1="40" y1="36" x2="40" y2="44" stroke-width="1"/>
-        <path d="M 32 22 L 34 26 L 32 30 L 30 26 Z" fill="currentColor" stroke="none"/>
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <path d="M 12 28 C 12 16 24 18 32 24 C 40 18 52 16 52 28 C 52 40 40 38 32 44 C 24 38 12 40 12 28 Z" />
+          <path d="M 20 28 Q 24 24 28 28 Q 24 32 20 28 Z" stroke-width="1.5"/>
+          <path d="M 44 28 Q 40 24 36 28 Q 40 32 44 28 Z" stroke-width="1.5"/>
+          <path d="M 32 12 L 35 18 L 32 24 L 29 18 Z" fill="currentColor" stroke="none"/>
+          <circle cx="20" cy="28" r="1.5" fill="currentColor" stroke="none"/>
+          <circle cx="44" cy="28" r="1.5" fill="currentColor" stroke="none"/>
+        </g>
       </svg>`;
       
-    case 'A_CONTROL_3': // 鹿神 (正臉、帥氣對稱的鹿角與五官)
+    case 'A_CONTROL_3': // 鹿神
       return `<svg ${baseProps}>
-        <path d="M 26 28 L 38 28 L 34 46 Q 32 50 30 46 Z" />
-        <path d="M 30 44 H 34 L 32 48 Z" fill="currentColor" stroke="none"/> 
-        <path d="M 26 34 L 28 36 M 38 34 L 36 36" /> 
-        <path d="M 26 28 Q 12 24 10 32 Q 18 32 24 32 M 38 28 Q 52 24 54 32 Q 46 32 40 32" />
-        <path d="M 28 28 C 26 12 16 6 8 4 M 24 18 C 18 14 12 16 12 16 M 26 22 C 20 20 16 24 16 24" />
-        <path d="M 36 28 C 38 12 48 6 56 4 M 40 18 C 46 14 52 16 52 16 M 38 22 C 44 20 48 24 48 24" />
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <path d="M 26 28 L 38 28 L 34 46 Q 32 50 30 46 Z" />
+          <path d="M 30 44 H 34 L 32 48 Z" fill="currentColor" stroke="none"/> 
+          <path d="M 26 34 L 28 36 M 38 34 L 36 36" /> 
+          <path d="M 26 28 Q 12 24 10 32 Q 18 32 24 32 M 38 28 Q 52 24 54 32 Q 46 32 40 32" />
+          <path d="M 28 28 C 26 12 16 6 8 4 M 24 18 C 18 14 12 16 12 16 M 26 22 C 20 20 16 24 16 24" />
+          <path d="M 36 28 C 38 12 48 6 56 4 M 40 18 C 46 14 52 16 52 16 M 38 22 C 44 20 48 24 48 24" />
+        </g>
       </svg>`;
       
-    case 'A_SCHEME_1': // 烏龜 (具象的俯視海龜與龜殼幾何)
+    case 'A_SCHEME_1': // 烏龜
       return `<svg ${baseProps}>
-        <ellipse cx="32" cy="32" rx="14" ry="18" /> 
-        <path d="M 32 20 L 40 25 V 39 L 32 44 L 24 39 V 25 Z" />
-        <path d="M 32 14 V 20 M 40 22 L 46 18 M 40 42 L 46 46 M 32 50 V 44 M 24 42 L 18 46 M 24 22 L 18 18" />
-        <path d="M 28 12 Q 32 4 36 12 Z" />
-        <path d="M 18 24 Q 8 20 12 32" /> <path d="M 46 24 Q 56 20 52 32" />
-        <path d="M 22 46 Q 16 56 18 42" /> <path d="M 42 46 Q 48 56 46 42" />
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <ellipse cx="32" cy="32" rx="14" ry="18" /> 
+          <path d="M 32 20 L 40 25 V 39 L 32 44 L 24 39 V 25 Z" />
+          <path d="M 32 14 V 20 M 40 22 L 46 18 M 40 42 L 46 46 M 32 50 V 44 M 24 42 L 18 46 M 24 22 L 18 18" />
+          <path d="M 28 12 Q 32 4 36 12 Z" />
+          <path d="M 18 24 Q 8 20 12 32" /> <path d="M 46 24 Q 56 20 52 32" />
+          <path d="M 22 46 Q 16 56 18 42" /> <path d="M 42 46 Q 48 56 46 42" />
+        </g>
       </svg>`;
       
     case 'A_SCHEME_2': // 書 (邊框)
       return `<svg ${baseProps}>
-        <path d="M 12 12 L 20 20 M 52 12 L 44 20 M 12 52 L 20 44 M 52 52 L 44 44" stroke-width="1" stroke-dasharray="2 3"/>
-        <path d="M 32 48 C 24 44 14 46 14 46 V 18 C 14 18 24 16 32 20 C 40 16 50 18 50 18 V 46 C 50 46 40 44 32 48 Z" />
-        <path d="M 32 20 V 48" />
-        <path d="M 18 24 C 24 22 28 24 32 26 M 46 24 C 40 22 36 24 32 26" stroke-width="1"/>
-        <path d="M 18 32 C 24 30 28 32 32 34 M 46 32 C 40 30 36 32 32 34" stroke-width="1"/>
-        <path d="M 32 48 L 36 56 L 32 54 L 28 56 Z" fill="currentColor"/>
-        ${sparkSmall}
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <path d="M 12 12 L 20 20 M 52 12 L 44 20 M 12 52 L 20 44 M 52 52 L 44 44" stroke-width="1.5" stroke-dasharray="2 3"/>
+          <path d="M 32 48 C 24 44 14 46 14 46 V 18 C 14 18 24 16 32 20 C 40 16 50 18 50 18 V 46 C 50 46 40 44 32 48 Z" />
+          <path d="M 32 20 V 48" />
+          <path d="M 18 24 C 24 22 28 24 32 26 M 46 24 C 40 22 36 24 32 26" stroke-width="1.5"/>
+          <path d="M 18 32 C 24 30 28 32 32 34 M 46 32 C 40 30 36 32 32 34" stroke-width="1.5"/>
+          <path d="M 32 48 L 36 56 L 32 54 L 28 56 Z" fill="currentColor"/>
+          ${sparkSmall}
+        </g>
       </svg>`;
       
-    case 'A_SCHEME_3': // 眼鏡 (無鍊子，現代高冷禁慾的半框/眉框眼鏡)
+    case 'A_SCHEME_3': // 眼鏡
       return `<svg ${baseProps}>
-        <g transform="translate(0, 4)">
+        ${mysticCircle}
+        <g transform="translate(0, 4)" stroke-width="2.5">
           <path d="M 8 28 C 16 24 26 26 30 30 C 34 26 44 24 56 28 L 54 32 C 46 28 38 30 34 32 C 30 30 22 28 10 32 Z" fill="currentColor" stroke="none"/>
           <path d="M 10 32 C 10 44 28 44 30 30 M 54 32 C 54 44 36 44 34 30" />
           <path d="M 30 30 C 32 28 34 30 34 30" />
@@ -258,150 +277,188 @@ function getEmblemSVG(code) {
       
     case 'A_CHAOS_1': // 劍
       return `<svg ${baseProps}>
-        <circle cx="32" cy="32" r="20" stroke-width="1" stroke-dasharray="1 6"/>
-        <path d="M 28 24 L 32 56 L 36 24 Z" />
-        <line x1="32" y1="24" x2="32" y2="46" stroke-width="1"/>
-        <path d="M 16 22 L 48 22 L 44 26 L 20 26 Z" fill="currentColor"/>
-        <path d="M 16 22 Q 12 20 16 18 L 20 22 M 48 22 Q 52 20 48 18 L 44 22" />
-        <path d="M 30 22 V 12 H 34 V 22 Z" />
-        <path d="M 28 12 L 36 12 L 32 6 Z" fill="currentColor"/>
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <path d="M 32 60 L 26 24 L 32 14 L 38 24 Z" />
+          <line x1="32" y1="14" x2="32" y2="60" stroke-width="1.5"/>
+          <line x1="16" y1="24" x2="48" y2="24" />
+          <line x1="22" y1="21" x2="42" y2="21" stroke-width="1.5"/>
+          <path d="M 30 21 V 10 H 34 V 21 Z" />
+          <polygon points="32,4 35,8 32,12 29,8" fill="currentColor" stroke="none"/>
+        </g>
       </svg>`;
       
-    case 'A_CHAOS_2': // 獅子 (全身霸氣坐姿獅，帥氣立體鬃毛)
+    case 'A_CHAOS_2': // 獅子
       return `<svg ${baseProps}>
-        <path d="M 28 8 C 36 8 42 16 42 26 C 42 36 34 44 26 44 C 18 44 14 36 16 26" />
-        <path d="M 28 8 C 24 14 24 20 28 26 M 36 12 C 32 18 32 26 36 32 M 16 26 C 20 32 26 36 32 38" />
-        <path d="M 20 18 L 12 20 L 12 24 L 18 26" />
-        <path d="M 26 44 V 58 M 34 40 V 58" />
-        <path d="M 22 58 H 28 M 30 58 H 36" /> 
-        <path d="M 38 20 C 48 24 50 36 46 46 C 42 54 36 58 36 58" />
-        <path d="M 46 42 C 54 42 58 32 54 26 C 52 24 50 26 52 28" />
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <path d="M 28 8 C 36 8 42 16 42 26 C 42 36 34 44 26 44 C 18 44 14 36 16 26" />
+          <path d="M 28 8 C 24 14 24 20 28 26 M 36 12 C 32 18 32 26 36 32 M 16 26 C 20 32 26 36 32 38" />
+          <path d="M 20 18 L 12 20 L 12 24 L 18 26" />
+          <path d="M 26 44 V 58 M 34 40 V 58" />
+          <path d="M 22 58 H 28 M 30 58 H 36" /> 
+          <path d="M 38 20 C 48 24 50 36 46 46 C 42 54 36 58 36 58" />
+          <path d="M 46 42 C 54 42 58 32 54 26 C 52 24 50 26 52 28" />
+        </g>
       </svg>`;
       
     case 'A_DEVOTION_1': // 龍
       return `<svg ${baseProps}>
-        <path d="M 32 10 C 44 10 54 20 54 32 C 54 44 44 54 32 54" stroke-width="1" stroke-dasharray="2 3"/>
-        <path d="M 24 46 C 16 46 12 40 12 32 C 12 24 16 18 24 18 C 30 18 34 22 34 26 C 34 30 30 34 26 34 L 20 34" />
-        <path d="M 20 19 L 26 10 M 24 21 L 32 14" stroke-width="1"/>
-        <circle cx="20" cy="26" r="1.5" fill="currentColor" stroke="none"/>
-        <path d="M 24 34 C 28 40 36 42 42 36 C 48 30 46 20 38 18" />
-        <path d="M 12 32 L 8 30 M 14 40 L 10 42 M 20 45 L 18 49 M 28 46 L 28 50" stroke-width="1"/>
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <path d="M 32 10 C 44 10 54 20 54 32 C 54 44 44 54 32 54" stroke-width="1.5" stroke-dasharray="2 3"/>
+          <path d="M 24 46 C 16 46 12 40 12 32 C 12 24 16 18 24 18 C 30 18 34 22 34 26 C 34 30 30 34 26 34 L 20 34" />
+          <path d="M 20 19 L 26 10 M 24 21 L 32 14" stroke-width="1.5"/>
+          <circle cx="20" cy="26" r="1.5" fill="currentColor" stroke="none"/>
+          <path d="M 24 34 C 28 40 36 42 42 36 C 48 30 46 20 38 18" />
+          <path d="M 12 32 L 8 30 M 14 40 L 10 42 M 20 45 L 18 49 M 28 46 L 28 50" stroke-width="1.5"/>
+        </g>
       </svg>`;
       
     case 'A_DEVOTION_2': // 巫師斗篷
       return `<svg ${baseProps}>
-        <path d="M 20 54 C 20 30 44 30 44 54" stroke-width="1" stroke-dasharray="2 4"/>
-        <path d="M 32 10 C 22 10 16 22 16 34 C 16 44 12 52 10 56 H 54 C 52 52 48 44 48 34 C 48 22 42 10 32 10 Z" />
-        <path d="M 32 18 C 24 18 22 26 24 34 C 26 40 38 40 40 34 C 42 26 40 18 32 18 Z" fill="currentColor"/>
-        <path d="M 32 42 L 34 46 L 38 48 L 34 50 L 32 54 L 30 50 L 26 48 L 30 46 Z" fill="currentColor" stroke="none"/>
-        <path d="M 24 56 V 46 M 40 56 V 46 M 32 56 V 52" stroke-width="1"/>
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <path d="M 20 54 C 20 30 44 30 44 54" stroke-width="1.5" stroke-dasharray="2 4"/>
+          <path d="M 32 10 C 22 10 16 22 16 34 C 16 44 12 52 10 56 H 54 C 52 52 48 44 48 34 C 48 22 42 10 32 10 Z" />
+          <path d="M 32 18 C 24 18 22 26 24 34 C 26 40 38 40 40 34 C 42 26 40 18 32 18 Z" fill="currentColor"/>
+          <path d="M 32 42 L 34 46 L 38 48 L 34 50 L 32 54 L 30 50 L 26 48 L 30 46 Z" fill="currentColor" stroke="none"/>
+          <path d="M 24 56 V 46 M 40 56 V 46 M 32 56 V 52" stroke-width="1.5"/>
+        </g>
       </svg>`;
 
-      
-    case 'A_DEVOTION_3': // 長笛 (極簡俐落的古典長笛)
+    case 'A_DEVOTION_3': // 長笛
       return `<svg ${baseProps}>
-        <path d="M 10 14 L 14 10 L 54 50 L 50 54 Z" />
-        <line x1="12" y1="12" x2="52" y2="52" />
-        <path d="M 18 18 C 20 16 24 20 22 22 Z" fill="currentColor"/>
-        <circle cx="28" cy="28" r="1.5" fill="currentColor" stroke="none"/>
-        <circle cx="34" cy="34" r="1.5" fill="currentColor" stroke="none"/>
-        <circle cx="40" cy="40" r="1.5" fill="currentColor" stroke="none"/>
-        <circle cx="46" cy="46" r="1.5" fill="currentColor" stroke="none"/>
-        <path d="M 12 32 C 16 26 24 28 28 22" stroke-dasharray="2 4" />
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <line x1="12" y1="52" x2="52" y2="12" stroke-width="4" stroke-linecap="round"/>
+          <line x1="14" y1="50" x2="50" y2="14" stroke-width="1" stroke="var(--bg)"/>
+          <circle cx="24" cy="40" r="1.5" fill="var(--bg)" stroke="currentColor"/>
+          <circle cx="30" cy="34" r="1.5" fill="var(--bg)" stroke="currentColor"/>
+          <circle cx="36" cy="28" r="1.5" fill="var(--bg)" stroke="currentColor"/>
+          <circle cx="42" cy="22" r="1.5" fill="var(--bg)" stroke="currentColor"/>
+          <path d="M 46 18 L 50 14" stroke-width="3"/>
+          <circle cx="48" cy="16" r="1" fill="var(--bg)" stroke="none"/>
+        </g>
       </svg>`;
 
     /* ══ 受方對應 ══ */
     
-    case 'R_CONTROL_1': // 棒球 (明顯的雙弧線與棒球縫線)
+    case 'R_CONTROL_1': // 棒球
       return `<svg ${baseProps}>
-        <circle cx="32" cy="32" r="20" /> 
-        <path d="M 22 15 C 32 24 32 40 22 49" stroke-width="1.5"/>
-        <path d="M 42 15 C 32 24 32 40 42 49" stroke-width="1.5"/>
-        <path d="M 24 20 L 18 22 M 26 28 L 20 30 M 27 36 L 21 36 M 25 44 L 19 42" stroke-width="1.5"/>
-        <path d="M 40 20 L 46 22 M 38 28 L 44 30 M 37 36 L 43 36 M 39 44 L 45 42" stroke-width="1.5"/>
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <circle cx="32" cy="32" r="20" /> 
+          <path d="M 22 15 C 32 24 32 40 22 49" stroke-width="2"/>
+          <path d="M 42 15 C 32 24 32 40 42 49" stroke-width="2"/>
+          <path d="M 24 20 L 18 22 M 26 28 L 20 30 M 27 36 L 21 36 M 25 44 L 19 42" stroke-width="1.5"/>
+          <path d="M 40 20 L 46 22 M 38 28 L 44 30 M 37 36 L 43 36 M 39 44 L 45 42" stroke-width="1.5"/>
+        </g>
       </svg>`;
       
-    case 'R_CONTROL_2': // 酒杯 (精緻流暢的高腳杯)
+    case 'R_CONTROL_2': // 酒杯
       return `<svg ${baseProps}>
-        <path d="M 20 16 C 20 36 32 44 32 44 C 32 44 44 36 44 16" />
-        <path d="M 20 16 C 20 12 44 12 44 16 C 44 20 20 20 20 16" />
-        <path d="M 21 28 C 28 32 36 24 43 28" />
-        <path d="M 32 44 V 56" />
-        <path d="M 24 56 C 24 54 40 54 40 56 Z" fill="currentColor"/>
-        <path d="M 24 24 C 24 32 28 38 30 40" />
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <path d="M 20 16 C 20 36 32 44 32 44 C 32 44 44 36 44 16" />
+          <path d="M 20 16 C 20 12 44 12 44 16 C 44 20 20 20 20 16" />
+          <path d="M 21 28 C 28 32 36 24 43 28" />
+          <path d="M 32 44 V 56" />
+          <path d="M 24 56 C 24 54 40 54 40 56 Z" fill="currentColor"/>
+          <path d="M 24 24 C 24 32 28 38 30 40" />
+        </g>
       </svg>`;
       
-    case 'R_CONTROL_3': // 魔法書 (★ 完美保留參考圖 1 樣式，帶星芒)
+    case 'R_CONTROL_3': // 魔法書
       return `<svg ${baseProps}>
-        <path d="M 32 44 L 16 38 V 22 L 32 28 L 48 22 V 38 Z" />
-        <path d="M 16 22 Q 24 26 32 28 Q 40 26 48 22" />
-        <path d="M 16 27 Q 24 31 32 33 Q 40 31 48 27" />
-        <path d="M 16 32 Q 24 36 32 38 Q 40 36 48 32" />
-        <line x1="32" y1="28" x2="32" y2="44" />
-        <circle cx="24" cy="31" r="3" />
-        <path d="M 40 28 L 43 33 H 37 Z" />
-        <path d="M 22 14 Q 32 4 42 14" stroke-dasharray="2 4" stroke-width="1.5"/>
-        <path d="M 22 52 Q 32 62 42 52" stroke-dasharray="2 4" stroke-width="1.5"/>
-        ${sparkSmall}
+        ${mysticCircle}
+        <g stroke-width="2.5">        
+          <path d="M 32 46 C 24 42 16 44 16 44 V 20 C 16 20 24 18 32 22 C 40 18 48 20 48 20 V 44 C 48 44 40 42 32 46 Z" />
+          <line x1="32" y1="22" x2="32" y2="46" />         
+          <path d="M 20 25 C 26 23 30 25 32 27 M 44 25 C 38 23 34 25 32 27" stroke-width="1.5"/>
+          <path d="M 20 41 C 26 39 30 41 32 43 M 44 41 C 38 39 34 41 32 43" stroke-width="1.5"/>       
+          <circle cx="24" cy="33" r="3" stroke-width="1.5"/>
+          <circle cx="24" cy="33" r="1" fill="currentColor" stroke="none"/>
+          <polygon points="40,30 41,32 43,33 41,34 40,36 39,34 37,33 39,32" fill="currentColor" stroke="none"/>       
+          <circle cx="32" cy="16" r="1.5" fill="currentColor" stroke="none"/>
+        </g>
       </svg>`;
       
-    case 'R_SCHEME_1': // 兔子 (整隻完整的優雅坐姿兔，修長雙耳)
+    case 'R_SCHEME_1': // 兔子
       return `<svg ${baseProps}>
-        <path d="M 22 28 C 16 28 12 34 16 40 C 20 44 26 42 28 38" />
-        <path d="M 22 28 C 20 16 26 10 32 20 C 34 24 30 28 26 30" />
-        <path d="M 26 26 C 28 14 36 10 40 22 C 40 26 34 30 30 30" />
-        <path d="M 28 32 C 36 30 48 36 48 48 C 48 54 40 56 32 56" />
-        <path d="M 26 40 V 56 M 20 44 V 56" /> 
-        <path d="M 44 48 C 40 44 34 48 34 54" /> 
-        <circle cx="48" cy="44" r="4" fill="currentColor" stroke="none"/> 
-        <path d="M 20 32 L 22 34 L 20 34" /> 
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <path d="M 22 28 C 16 28 12 34 16 40 C 20 44 26 42 28 38" />
+          <path d="M 22 28 C 20 16 26 10 32 20 C 34 24 30 28 26 30" />
+          <path d="M 26 26 C 28 14 36 10 40 22 C 40 26 34 30 30 30" />
+          <path d="M 28 32 C 36 30 48 36 48 48 C 48 54 40 56 32 56" />
+          <path d="M 26 40 V 56 M 20 44 V 56" /> 
+          <path d="M 44 48 C 40 44 34 48 34 54" /> 
+          <circle cx="48" cy="44" r="4" fill="currentColor" stroke="none"/> 
+          <path d="M 20 32 L 22 34 L 20 34" /> 
+        </g>
       </svg>`;
       
-    case 'R_SCHEME_2': // 皇冠 (★ 完美保留參考圖 2 樣式，帶星芒)
+    case 'R_SCHEME_2': // 皇冠
       return `<svg ${baseProps}>
-        <line x1="32" y1="17" x2="32" y2="7" />
-        <line x1="28" y1="12" x2="36" y2="12" />
-        <circle cx="32" cy="20" r="3" />
-        <path d="M 18 44 C 18 20 46 20 46 44" />
-        <line x1="32" y1="23" x2="32" y2="44" />
-        <path d="M 18 44 Q 32 48 46 44" />
-        <path d="M 14 48 Q 32 52 50 48" />
-        <path d="M 24 45 C 24 28 40 28 40 45" stroke-dasharray="3 4" stroke-width="1.5"/>
-        <circle cx="24" cy="46.5" r="1.5" fill="currentColor"/>
-        <circle cx="40" cy="46.5" r="1.5" fill="currentColor"/>
+        ${mysticCircle}
+        <g stroke-width="2.5" fill="none">
+          <rect x="16" y="46" width="32" height="6" fill="currentColor" stroke="none" />
+          <path d="M 16 46 C 10 30 20 24 32 24 C 44 24 54 30 48 46" />
+          <path d="M 24 46 C 22 34 26 28 32 24" />
+          <path d="M 40 46 C 42 34 38 28 32 24" />
+          <path d="M 32 46 V 24" />
+          <path d="M 32 24 V 16 M 28 12 L 36 12 M 32 8 V 16" stroke-width="3.5"/>
+          <polygon points="32,12 28,7 36,7" fill="currentColor" stroke="none" />
+          <polygon points="32,12 28,17 36,17" fill="currentColor" stroke="none" />
+          <polygon points="32,12 27,8 27,16" fill="currentColor" stroke="none" />
+          <polygon points="32,12 37,8 37,16" fill="currentColor" stroke="none" />
+        </g>
       </svg>`;
       
-    case 'R_CHAOS_1': // 老鼠 (俐落清晰的老鼠全身側影)
+    case 'R_CHAOS_1': // 老鼠
       return `<svg ${baseProps}>
-        <path d="M 12 40 L 4 42 C 6 46 12 46 16 46" />
-        <path d="M 12 40 C 16 32 26 30 36 34 C 46 38 48 46 44 48 H 16" />
-        <path d="M 24 34 C 20 26 28 20 32 26 C 34 30 30 34 26 36" /> 
-        <path d="M 44 46 C 54 46 60 40 56 34 C 52 28 48 32 50 36" />
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <path d="M 12 40 L 4 42 C 6 46 12 46 16 46" />
+          <path d="M 12 40 C 16 32 26 30 36 34 C 46 38 48 46 44 48 H 16" />
+          <path d="M 24 34 C 20 26 28 20 32 26 C 34 30 30 34 26 36" /> 
+          <path d="M 44 46 C 54 46 60 40 56 34 C 52 28 48 32 50 36" />
+        </g>
       </svg>`;
       
-    case 'R_CHAOS_2': // 心臟(流血) (帥氣的解剖心臟)
+    case 'R_CHAOS_2': // 心臟 (流血)
       return `<svg ${baseProps}>
-        <path d="M 20 22 C 10 22 14 36 24 46 C 30 52 32 56 32 56 C 32 56 34 52 40 46 C 50 36 54 22 44 22 C 38 22 34 28 32 30 C 30 28 26 22 20 22 Z" />
-        <path d="M 28 16 C 28 8 36 8 36 16 M 24 18 V 10" /> 
-        <path d="M 32 56 L 30 60 A 2 2 0 0 0 34 60 Z" fill="currentColor" stroke="none"/>
-        <path d="M 22 50 L 20 54 A 2 2 0 0 0 24 54 Z" fill="currentColor" stroke="none"/>
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <path d="M 20 22 C 10 22 14 36 24 46 C 30 52 32 56 32 56 C 32 56 34 52 40 46 C 50 36 54 22 44 22 C 38 22 34 28 32 30 C 30 28 26 22 20 22 Z" />
+          <path d="M 28 16 C 28 8 36 8 36 16 M 24 18 V 10" /> 
+          <path d="M 32 56 L 30 60 A 2 2 0 0 0 34 60 Z" fill="currentColor" stroke="none"/>
+          <path d="M 22 50 L 20 54 A 2 2 0 0 0 24 54 Z" fill="currentColor" stroke="none"/>
+        </g>
       </svg>`;
       
-    case 'R_DEVOTION_1': // 棒棒糖 (帶有漸層半透層的童話漩渦)
+    case 'R_DEVOTION_1': // 棒棒糖
       return `<svg ${baseProps}>
-        <line x1="32" y1="44" x2="32" y2="62" stroke-width="4"/>
-        <line x1="26" y1="44" x2="38" y2="44" />
-        <path d="M32 46 C 20 40, 12 52, 26 54 L 32 46 L 38 54 C 52 52, 44 40, 32 46 Z" fill="rgba(255,255,255,0.1)"/>
-        <circle cx="32" cy="24" r="18" fill="rgba(255,255,255,0.05)"/>
-        <path d="M32 24 C 32 18, 26 18, 26 24 C 26 32, 38 32, 38 24 C 38 14, 20 14, 20 24 C 20 40, 44 40, 44 24 C 44 6, 14 6, 14 24" stroke-width="2"/>
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <line x1="32" y1="44" x2="32" y2="62" stroke-width="4"/>
+          <line x1="26" y1="44" x2="38" y2="44" />
+          <path d="M32 46 C 20 40, 12 52, 26 54 L 32 46 L 38 54 C 52 52, 44 40, 32 46 Z" fill="rgba(255,255,255,0.1)"/>
+          <circle cx="32" cy="24" r="18" fill="rgba(255,255,255,0.05)"/>
+          <path d="M32 24 C 32 18, 26 18, 26 24 C 26 32, 38 32, 38 24 C 38 14, 20 14, 20 24 C 20 40, 44 40, 44 24 C 44 6, 14 6, 14 24" stroke-width="2.5"/>
+        </g>
       </svg>`;
       
-    case 'R_DEVOTION_2': // 蘋果 (俐落蘋果與反光)
+    case 'R_DEVOTION_2': // 蘋果
       return `<svg ${baseProps}>
-        <path d="M 32 16 C 48 10 58 24 52 38 C 48 50 38 54 32 48 C 26 54 16 50 12 38 C 6 24 16 10 32 16 Z" />
-        <path d="M 32 16 C 32 8 36 6 38 4" /> 
-        <path d="M 36 12 C 46 8 52 14 46 20 C 40 20 34 16 36 12 Z" /> 
-        <path d="M 20 28 C 18 36 22 44 28 48" /> 
+        ${mysticCircle}
+        <g stroke-width="2.5">
+          <path d="M 32 16 C 48 10 58 24 52 38 C 48 50 38 54 32 48 C 26 54 16 50 12 38 C 6 24 16 10 32 16 Z" />
+          <path d="M 32 16 C 32 8 36 6 38 4" /> 
+          <path d="M 36 12 C 46 8 52 14 46 20 C 40 20 34 16 36 12 Z" /> 
+          <path d="M 20 28 C 18 36 22 44 28 48" /> 
+        </g>
       </svg>`;
       
     default:
