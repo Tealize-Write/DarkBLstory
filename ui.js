@@ -540,7 +540,7 @@ function showResult(){
     return;
   }
   
-  const label = (RESULT_META[code] && RESULT_META[code].label) || code;
+  const label = r.label || code;
   document.getElementById('result-img').src = r.image;
   document.getElementById('r-name').textContent = r.soulName;
   document.getElementById('r-compound').textContent = label;
@@ -634,15 +634,14 @@ function escapeAttr(str){
 
 async function shareResultAsImage() {
   const code        = _lastResultCode || determineResultCode();
-  const btn         = document.querySelector('.btn.mini');
+  const btn         = document.querySelector('.share-btn:not(.short-share)');
   const btnRow      = document.querySelector('#result .btn-row');
   const targetEl    = document.getElementById('result');
-  const originalText = btn.textContent;
+  const originalText = btn ? btn.textContent : '';
   const SITE_URL    = 'https://tealize-write.github.io/DarkBLstory/';
 
   trackUserAction(code, "share_image");
-  btn.textContent = "生成專屬圖像中...";
-  btn.disabled    = true;
+  if(btn){ btn.textContent = "生成專屬圖像中..."; btn.disabled = true; }
   if(btnRow) btnRow.style.display = 'none';
 
   const animEls = [...targetEl.querySelectorAll('.in')];
@@ -651,6 +650,15 @@ async function shareResultAsImage() {
     el.style.opacity   = '1';
     el.style.transform = 'translateY(0)';
     el.style.filter    = 'none';
+  });
+
+  // ── 修復 SVG emblem 內的 CSS 變數（html2canvas 無法解析 var(--bg)）
+  const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#000000';
+  const emblemEl = targetEl.querySelector('.tarot-emblem');
+  const emblemEls = emblemEl ? emblemEl.querySelectorAll('[fill="var(--bg)"], [stroke="var(--bg)"]') : [];
+  emblemEls.forEach(el => {
+    if(el.getAttribute('fill') === 'var(--bg)')   el.setAttribute('fill',   bgColor);
+    if(el.getAttribute('stroke') === 'var(--bg)') el.setAttribute('stroke', bgColor);
   });
 
   const stamp = document.createElement('div');
@@ -696,11 +704,15 @@ async function shareResultAsImage() {
     el.style.transform = '';
     el.style.filter    = '';
   });
+  // ── 還原 SVG emblem 的 fill/stroke 屬性
+  emblemEls.forEach(el => {
+    if(el.getAttribute('fill')   === bgColor) el.setAttribute('fill',   'var(--bg)');
+    if(el.getAttribute('stroke') === bgColor) el.setAttribute('stroke', 'var(--bg)');
+  });
   const stampEl = document.getElementById('_share_stamp');
   if(stampEl) stampEl.remove();
   if(btnRow) btnRow.style.display = 'flex';
-  btn.textContent = originalText;
-  btn.disabled    = false;
+  if(btn){ btn.textContent = originalText; btn.disabled = false; }
 
   if(!canvas) return;
 
@@ -735,26 +747,20 @@ async function shareResultAsImage() {
     if(navigator.clipboard && navigator.clipboard.write) {
       try {
         await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-        const miniBtn = document.querySelector('.btn.mini');
-        if(miniBtn){
-          const prev = miniBtn.textContent;
-          miniBtn.textContent = '✦ 已下載＋複製到剪貼簿！';
-          setTimeout(() => { miniBtn.textContent = prev; }, 2500);
+        if(btn){
+          btn.textContent = '✦ 已下載＋複製到剪貼簿！';
+          setTimeout(() => { btn.textContent = originalText; }, 2500);
         }
       } catch(e) {
-        const miniBtn = document.querySelector('.btn.mini');
-        if(miniBtn){
-          const prev = miniBtn.textContent;
-          miniBtn.textContent = '✦ 圖片已下載！';
-          setTimeout(() => { miniBtn.textContent = prev; }, 2500);
+        if(btn){
+          btn.textContent = '✦ 圖片已下載！';
+          setTimeout(() => { btn.textContent = originalText; }, 2500);
         }
       }
     } else {
-      const miniBtn = document.querySelector('.btn.mini');
-      if(miniBtn){
-        const prev = miniBtn.textContent;
-        miniBtn.textContent = '✦ 圖片已下載！';
-        setTimeout(() => { miniBtn.textContent = prev; }, 2500);
+      if(btn){
+        btn.textContent = '✦ 圖片已下載！';
+        setTimeout(() => { btn.textContent = originalText; }, 2500);
       }
     }
   }, 'image/png');
@@ -766,11 +772,11 @@ async function shareResultAsImage() {
 async function shareShortImage() {
   const code     = _lastResultCode || determineResultCode();
   const r        = resultsData[code];
-  const meta     = RESULT_META[code] || {};
+  const meta     = r;
   const SITE_URL = 'https://tealize-write.github.io/DarkBLstory/';
   if (!r) return;
 
-  const btn = document.querySelector('.btn.short-share');
+  const btn = document.querySelector('.share-btn.short-share');
   const origText = btn ? btn.textContent : '';
   if (btn) { btn.textContent = '生成中…'; btn.disabled = true; }
   trackUserAction(code, 'share_short');
@@ -835,26 +841,19 @@ async function shareShortImage() {
     return curY;
   }
 
-  // ── 輔助：載入圖片（fetch blob → fallback crossOrigin）
+  // ── 輔助：載入圖片，優先嘗試 crossOrigin（避免 tainted canvas）
   async function loadImg(src) {
-    try {
-      const res  = await fetch(src, { mode: 'cors' });
-      const blob = await res.blob();
-      const burl = URL.createObjectURL(blob);
-      return await new Promise((res, rej) => {
-        const img = new Image();
-        img.onload  = () => { URL.revokeObjectURL(burl); res(img); };
-        img.onerror = rej;
-        img.src = burl;
-      });
-    } catch(_) {}
-    return await new Promise((res, rej) => {
+    // 先用 crossOrigin 嘗試，若失敗再不帶 crossOrigin 重試（部分 CDN 無 CORS header）
+    const tryLoad = (useCORS) => new Promise((resolve) => {
       const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload  = () => res(img);
-      img.onerror = rej;
-      img.src = src;
+      if (useCORS) img.crossOrigin = 'anonymous';
+      img.onload  = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = src + (useCORS ? (src.includes('?') ? '&_c=1' : '?_c=1') : '');
     });
+    const imgCORS = await tryLoad(true);
+    if (imgCORS) return imgCORS;
+    return tryLoad(false); // fallback：圖片會 taint canvas，改用 toDataURL
   }
 
   // ════ 1. 全黑底 ════
@@ -977,15 +976,15 @@ async function shareShortImage() {
   // ════ 8. 輸出 ════
   const restore = () => { if (btn) { btn.textContent = origText; btn.disabled = false; } };
 
-  canvas.toBlob(async (blob) => {
-    if (!blob) { alert('圖片生成失敗'); restore(); return; }
+  const doSaveShort = (blob) => {
     const file = new File([blob], 'dark_result_short.png', { type: 'image/png' });
     const isMobile = window.matchMedia('(pointer:coarse)').matches
                   && navigator.canShare && navigator.canShare({ files: [file] });
     if (isMobile) {
-      try { await navigator.share({ files: [file], title: '我的黑暗特質', url: SITE_URL }); }
-      catch(e) {}
-      restore(); return;
+      navigator.share({ files: [file], title: '我的黑暗特質', url: SITE_URL })
+        .catch(() => {})
+        .finally(() => restore());
+      return;
     }
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -994,5 +993,31 @@ async function shareShortImage() {
     document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     if (btn) { btn.textContent = '✦ 短圖已下載！'; setTimeout(() => restore(), 2500); }
-  }, 'image/png');
+  };
+
+  try {
+    // 先嘗試 toBlob（不被 taint 時有效）
+    await new Promise((resolve, reject) => {
+      try {
+        canvas.toBlob((blob) => {
+          if (blob) { doSaveShort(blob); resolve(); }
+          else reject(new Error('toBlob returned null'));
+        }, 'image/png');
+      } catch(e) { reject(e); }
+    });
+  } catch(e) {
+    // tainted canvas fallback：用 toDataURL
+    try {
+      const dataUrl = canvas.toDataURL('image/png');
+      const arr  = dataUrl.split(',');
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8 = new Uint8Array(n);
+      while(n--){ u8[n] = bstr.charCodeAt(n); }
+      doSaveShort(new Blob([u8], { type: 'image/png' }));
+    } catch(e2) {
+      alert('無法下載，請使用截圖功能儲存！');
+      restore();
+    }
+  }
 }

@@ -196,7 +196,7 @@
                     <img id="result-img" class="result-img" src="" alt="結果圖" />
                 </div>
                 <div class="result-hero-info">
-                    <div class="r-eyebrow">揭曉黑暗特質</div>
+                    <div class="r-eyebrow">揭曉黑暗特質 ──</div>
                     <div class="r-name" id="r-name"></div>
                     <div class="r-compound" id="r-compound"></div>
                     <div class="r-desc" id="r-desc"></div>
@@ -228,10 +228,17 @@
                     <div id="pop-line" style="margin-top:12px;">✦ 正在讀取深淵數據⋯</div>
                 </div>
 
-                <div class="btn-row" style="margin-top:40px;">
-                    <button class="btn" type="button" onclick="location.reload()">回到黑森林</button>
-                    <button class="btn mini" type="button" onclick="shareResultAsImage()">儲存並分享結果</button>
-                    <button class="btn mini short-share" type="button" onclick="shareShortImage()">存短圖（4:5）</button>
+                <div class="share-divider"></div>
+                <div class="btn-row share-row" style="margin-top:24px;">
+                    <button class="btn mini share-btn" type="button" onclick="shareResultAsImage()">
+                        <span class="share-btn-icon">↓</span>儲存與分享完整結果
+                    </button>
+                    <button class="btn mini share-btn short-share" type="button" onclick="shareShortImage()">
+                        <span class="share-btn-icon">◻</span>存成 IG 圖
+                    </button>
+                </div>
+                <div class="btn-row" style="margin-top:16px;">
+                    <button class="btn back-to-forest" type="button" onclick="location.reload()">↩ 回到黑森林</button>
                 </div>
             </div>
 

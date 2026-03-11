@@ -65,7 +65,6 @@
     setTimeout(()=>{
       const hint     = document.getElementById('audio-hint');
       const artLayer = document.querySelector('.art-layer');
-      const isMobile = window.innerWidth <= 768;
 
       // 定位提示文字：按鈕左側，往下多偏 14px
       if(hint){

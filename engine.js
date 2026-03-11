@@ -71,12 +71,9 @@ function determineRoleDeterministic(){
 }
 
 function breakTraitTieDeterministic(candidates){
-  // candidates: ['obs', 'lsc', ...]
-  // 規則：
-  // 1. 從最後一題往前回溯
-  // 2. 比較候選特質在該題選項中的加分
-  // 3. +2 > +1 > 0
-  // 4. 若該題仍同分，繼續往前
+  // 複製一份候選名單，隨著回溯不斷縮小範圍
+  let currentCandidates = [...candidates]; 
+
   for(let i = answerHistory.length - 1; i >= 0; i--){
     const add = getAnswerAddByHistoryIndex(i);
     if(!add) continue;
@@ -84,7 +81,7 @@ function breakTraitTieDeterministic(candidates){
     let bestScore = -1;
     let winners = [];
 
-    for(const trait of candidates){
+    for(const trait of currentCandidates){
       const score = Number(add[trait] || 0);
 
       if(score > bestScore){
@@ -95,16 +92,18 @@ function breakTraitTieDeterministic(candidates){
       }
     }
 
-    // 這一題有分出唯一勝者，而且不是全部 0
-    if(bestScore > 0 && winners.length === 1){
-      return winners[0];
+    // 這一題有得分，且有分出勝負或縮小了範圍
+    if(bestScore > 0){
+      if(winners.length === 1){
+        return winners[0]; // 成功決出唯一勝者
+      } else {
+        currentCandidates = winners; // 依然平手，但淘汰掉分數較低的特質
+      }
     }
-
-    // 這一題雖然有人得分，但仍並列，就繼續往前
   }
 
   // 全部回溯完仍同分，才用固定優先序保底
-  return TRAIT_FALLBACK_PRIORITY.find(trait => candidates.includes(trait)) || candidates[0];
+  return TRAIT_FALLBACK_PRIORITY.find(trait => currentCandidates.includes(trait)) || currentCandidates[0];
 }
 
 // ── Result logic

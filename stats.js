@@ -9,7 +9,6 @@ function getClientId() {
 }
 
 // ── 行為追蹤 (背景靜默發送) ──
-// ── 行為追蹤 (背景靜默發送) ──
 function trackUserAction(code, actionType) {
   if (!GAS_URL || GAS_URL.includes("在此貼上")) return;
   fetch(GAS_URL, {
