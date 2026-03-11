@@ -625,6 +625,7 @@ function trackBookClick(code){
 }
 window.trackBookClick    = trackBookClick;
 window.shareResultAsImage = shareResultAsImage;
+window.shareShortImage    = shareShortImage;
 
 function escapeAttr(str){
   const s = String(str ?? '');
@@ -756,5 +757,242 @@ async function shareResultAsImage() {
         setTimeout(() => { miniBtn.textContent = prev; }, 2500);
       }
     }
+  }, 'image/png');
+}
+/* ════════════════════════════════
+   SHARE SHORT IMAGE (1080×1350, pure Canvas)
+   Layout: image top ~55% clipped + fade → black text zone → seals → quote → url
+════════════════════════════════ */
+async function shareShortImage() {
+  const code     = _lastResultCode || determineResultCode();
+  const r        = resultsData[code];
+  const meta     = RESULT_META[code] || {};
+  const SITE_URL = 'https://tealize-write.github.io/DarkBLstory/';
+  if (!r) return;
+
+  const btn = document.querySelector('.btn.short-share');
+  const origText = btn ? btn.textContent : '';
+  if (btn) { btn.textContent = '生成中…'; btn.disabled = true; }
+  trackUserAction(code, 'share_short');
+
+  const CW   = 1080;
+  const CH   = 1350;
+  const IMG_H = Math.round(CH * 0.55); // 圖片佔上方 55%
+
+  const canvas = document.createElement('canvas');
+  canvas.width  = CW;
+  canvas.height = CH;
+  const ctx = canvas.getContext('2d');
+
+  // ── 輔助：文字黑邊 shadow
+  function setShadow(blur = 6) {
+    ctx.shadowColor   = 'rgba(0,0,0,0.95)';
+    ctx.shadowBlur    = blur;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+  }
+  function clearShadow() {
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur  = 0;
+  }
+
+  // ── 輔助：菱形分隔線
+  function drawDivider(yPos) {
+    const divW = Math.round(CW * 0.55);
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+    ctx.lineWidth   = 1.5;
+    ctx.setLineDash([4, 8]);
+    ctx.beginPath();
+    ctx.moveTo((CW - divW) / 2, yPos);
+    ctx.lineTo((CW + divW) / 2, yPos);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+    const dm = 9;
+    ctx.fillStyle = 'rgba(255,255,255,0.65)';
+    ctx.beginPath();
+    ctx.moveTo(CW/2,      yPos - dm);
+    ctx.lineTo(CW/2 + dm, yPos);
+    ctx.lineTo(CW/2,      yPos + dm);
+    ctx.lineTo(CW/2 - dm, yPos);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  // ── 輔助：自動換行 fillText，回傳結束 y
+  function fillWrapped(text, startY, maxW, lineH) {
+    let line = '', curY = startY;
+    for (const ch of text) {
+      const test = line + ch;
+      if (ctx.measureText(test).width > maxW && line) {
+        ctx.fillText(line, CW / 2, curY);
+        curY += lineH;
+        line = ch;
+      } else { line = test; }
+    }
+    if (line) { ctx.fillText(line, CW / 2, curY); curY += lineH; }
+    return curY;
+  }
+
+  // ── 輔助：載入圖片（fetch blob → fallback crossOrigin）
+  async function loadImg(src) {
+    try {
+      const res  = await fetch(src, { mode: 'cors' });
+      const blob = await res.blob();
+      const burl = URL.createObjectURL(blob);
+      return await new Promise((res, rej) => {
+        const img = new Image();
+        img.onload  = () => { URL.revokeObjectURL(burl); res(img); };
+        img.onerror = rej;
+        img.src = burl;
+      });
+    } catch(_) {}
+    return await new Promise((res, rej) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload  = () => res(img);
+      img.onerror = rej;
+      img.src = src;
+    });
+  }
+
+  // ════ 1. 全黑底 ════
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(0, 0, CW, CH);
+
+  // ════ 2. 角色圖（clip 到上方 IMG_H） ════
+  try {
+    const img = await loadImg(r.image);
+    const scale = Math.max(CW / img.naturalWidth, IMG_H / img.naturalHeight);
+    const sw = img.naturalWidth  * scale;
+    const sh = img.naturalHeight * scale;
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0, 0, CW, IMG_H);
+    ctx.clip();
+    ctx.drawImage(img, (CW - sw) / 2, 0, sw, sh);
+    ctx.restore();
+  } catch(e) {
+    console.warn('圖片載入失敗', e);
+  }
+
+  // ════ 3. 圖片底部淡出漸層 ════
+  const fadeStart = IMG_H * 0.60;
+  const grad = ctx.createLinearGradient(0, fadeStart, 0, IMG_H);
+  grad.addColorStop(0, 'rgba(10,10,10,0)');
+  grad.addColorStop(1, 'rgba(10,10,10,1)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, fadeStart, CW, IMG_H - fadeStart);
+
+  // ════ 4. 文字區 ════
+  ctx.textAlign    = 'center';
+  ctx.textBaseline = 'top';
+  let y = IMG_H + Math.round(CW * 0.032);
+
+  // ── 稱號：「您是・{soulName}」
+  ctx.font      = `300 ${Math.round(CW * 0.030)}px "Noto Serif TC", serif`;
+  ctx.fillStyle = 'rgba(255,255,255,0.50)';
+  setShadow(8);
+  ctx.fillText(`您是・${r.soulName}`, CW / 2, y);
+  clearShadow();
+  y += Math.round(CW * 0.048);
+
+  // ── label（粗白，自動換行）
+  ctx.font      = `700 ${Math.round(CW * 0.044)}px "Noto Serif TC", serif`;
+  ctx.fillStyle = '#ffffff';
+  setShadow(10);
+  y = fillWrapped(meta.label || code, y, CW * 0.82, Math.round(CW * 0.058));
+  clearShadow();
+  y += Math.round(CW * 0.022);
+
+  // ── 菱形分隔線 1
+  drawDivider(y + 4);
+  y += Math.round(CW * 0.055);
+
+  // ════ 5. 基本印記（三欄 bar） ════
+  const seals = [
+    { lab: '危險指數', val: r.danger,   pct: parseFloat(r.dangerFill) || 0 },
+    { lab: r.attr,     val: r.attrVal,  pct: parseFloat(r.attrFill)   || 0 },
+    { lab: '逃脱機率', val: r.escape,   pct: parseFloat(r.escape)     || 0 },
+  ];
+
+  const sealW   = Math.round(CW * 0.26);
+  const sealGap = Math.round(CW * 0.04);
+  const totalW  = sealW * 3 + sealGap * 2;
+  const sealX0  = (CW - totalW) / 2;
+  const barH    = 4;
+  const barW    = sealW - 16;
+
+  seals.forEach((s, i) => {
+    const sx = sealX0 + i * (sealW + sealGap);
+    const cx = sx + sealW / 2;
+
+    // 標題
+    ctx.font      = `400 ${Math.round(CW * 0.022)}px "Noto Serif TC", serif`;
+    ctx.fillStyle = 'rgba(255,255,255,0.55)';
+    ctx.textAlign = 'center';
+    setShadow(6);
+    ctx.fillText(s.lab, cx, y);
+    clearShadow();
+
+    // bar 背景
+    const barY = y + Math.round(CW * 0.032);
+    ctx.fillStyle = 'rgba(255,255,255,0.12)';
+    ctx.fillRect(sx + 8, barY, barW, barH);
+
+    // bar 填色
+    const fillW = Math.round(barW * Math.min(s.pct, 100) / 100);
+    ctx.fillStyle = 'rgba(255,255,255,0.75)';
+    ctx.fillRect(sx + 8, barY, fillW, barH);
+
+    // 數值
+    ctx.font      = `700 ${Math.round(CW * 0.026)}px "Noto Serif TC", serif`;
+    ctx.fillStyle = '#ffffff';
+    setShadow(6);
+    ctx.fillText(s.val, cx, barY + Math.round(CW * 0.018));
+    clearShadow();
+  });
+
+  ctx.textAlign = 'center';
+  y += Math.round(CW * 0.088);
+
+  // ── 菱形分隔線 2
+  drawDivider(y + 4);
+  y += Math.round(CW * 0.055);
+
+  // ════ 6. 專屬台詞 ════
+  ctx.font      = `italic 300 ${Math.round(CW * 0.032)}px "Noto Serif TC", serif`;
+  ctx.fillStyle = 'rgba(255,255,255,0.72)';
+  setShadow(8);
+  fillWrapped(r.quote || '', y, CW * 0.80, Math.round(CW * 0.048));
+  clearShadow();
+
+  // ════ 7. 網址（底部） ════
+  ctx.font         = `300 ${Math.round(CW * 0.022)}px Georgia, serif`;
+  ctx.fillStyle    = 'rgba(255,255,255,0.25)';
+  ctx.textBaseline = 'bottom';
+  ctx.fillText('✦  ' + SITE_URL + '  ✦', CW / 2, CH - Math.round(CW * 0.032));
+
+  // ════ 8. 輸出 ════
+  const restore = () => { if (btn) { btn.textContent = origText; btn.disabled = false; } };
+
+  canvas.toBlob(async (blob) => {
+    if (!blob) { alert('圖片生成失敗'); restore(); return; }
+    const file = new File([blob], 'dark_result_short.png', { type: 'image/png' });
+    const isMobile = window.matchMedia('(pointer:coarse)').matches
+                  && navigator.canShare && navigator.canShare({ files: [file] });
+    if (isMobile) {
+      try { await navigator.share({ files: [file], title: '我的黑暗特質', url: SITE_URL }); }
+      catch(e) {}
+      restore(); return;
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'dark_result_short.png';
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    if (btn) { btn.textContent = '✦ 短圖已下載！'; setTimeout(() => restore(), 2500); }
   }, 'image/png');
 }

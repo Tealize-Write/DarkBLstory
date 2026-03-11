@@ -44,7 +44,7 @@ body {
     transition: opacity .6s ease;
 }
 .art-layer.dim {
-    opacity: .18;
+    opacity: .32;
 }
 
     .art-layer svg {
@@ -868,11 +868,12 @@ body {
         display: block;
         width: 100%;
         max-width: 280px;
-        height: 24px;
+        height: 10px;
         margin: 32px auto 16px auto;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 24'%3E%3Ccircle cx='12' cy='12' r='5' fill='none' stroke='rgba(255,255,255,0.8)' stroke-width='1.2'/%3E%3Ccircle cx='12' cy='12' r='2' fill='rgba(255,255,255,0.8)'/%3E%3Cline x1='24' y1='12' x2='265' y2='12' stroke='rgba(255,255,255,0.25)' stroke-width='1' stroke-dasharray='4 4'/%3E%3Cpath d='M285,4 Q285,12 293,12 Q285,12 285,20 Q285,12 277,12 Q285,12 285,4 Z' fill='rgba(255,255,255,0.8)'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cline x1='10' y1='5' x2='190' y2='5' stroke='rgba(255,255,255,0.2)' stroke-dasharray='2 4'/%3E%3Cpolygon points='100,0 105,5 100,10 95,5' fill='rgba(255,255,255,0.6)'/%3E%3C/svg%3E");
         background-position: center;
         background-repeat: no-repeat;
+        background-size: 100% 100%;
     }
 
 .cta {
