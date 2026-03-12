@@ -783,7 +783,7 @@ async function shareShortImage() {
 
   const CW   = 1080;
   const CH   = 1350;
-  const IMG_H = Math.round(CH * 0.55); // 圖片佔上方 55%
+  const IMG_H = Math.round(CH * 0.5); // 圖片佔上方 50%
 
   const canvas = document.createElement('canvas');
   canvas.width  = CW;
