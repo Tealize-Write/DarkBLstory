@@ -137,10 +137,10 @@ function mapToResult(role, topTrait){
       case 'crp': return "A_CHAOS_1";    // 沉淪：無情獸群攻
       case 'frc': return "A_DEVOTION_2"; // 強勢：佔有囚禁攻
       case 'sed': return "A_CHAOS_2";    // 引誘：暴力黑獅攻
-      case 'cmp': return "A_SCHEME_1";   // 共犯：腹黑勢利攻
+      case 'cmp': return "A_SCHEME_1";   // 共犯：腹黑謀略攻
       case 'grd': return "A_SCHEME_3";   // 守護：偏執瘋子攻
       case 'obs': return "A_CONTROL_1";  // 執著：陰鬱偏執攻
-      case 'pos': return "A_SCHEME_2";   // 佔有：放蕩影子攻
+      case 'pos': return "A_SCHEME_2";   // 佔有：不羈影子攻
       case 'lsc': return "A_CONTROL_2";  // 失控：黑化掠奪攻
       case 'slc': return "A_DEVOTION_3"; // 自制：病態攻
       default: return "A_CONTROL_1";
@@ -153,10 +153,10 @@ function mapToResult(role, topTrait){
       case 'opt': return "R_CONTROL_1";  // 樂觀：陽光直男受
       case 'crp': return "R_DEVOTION_1"; // 沉淪：自願沉淪受
       case 'frc': return "A_CONTROL_3";  // 強勢：冰山白神攻 (受方測出強勢，反向分配給神攻)
-      case 'sed': return "R_SCHEME_1";   // 引誘：卑劣淫蕩受
-      case 'cmp': return "R_CHAOS_2";    // 共犯：自毀抹布受
+      case 'sed': return "R_SCHEME_1";   // 引誘：恣情魅惑受
+      case 'cmp': return "R_CHAOS_2";    // 共犯：殉道自我奉獻受
       case 'grd': return "R_DEVOTION_2"; // 守護：人妻王子受
-      case 'obs': return "R_SCHEME_2";   // 執著：廢物美人受
+      case 'obs': return "R_SCHEME_2";   // 執著：隱忍美人受
       case 'pos': return "R_CONTROL_2";  // 佔有：清冷自持受
       case 'lsc': return "R_CHAOS_1";    // 失控：斯德哥爾摩受
       case 'slc': return "R_CONTROL_3";  // 自制：禁慾學者受
