@@ -16,7 +16,7 @@ const resultsData = {
     guide: "烏鴉銜石頭丟入水瓶中——你愛的是他，還是追逐他的刺激感？",
     bookName: "《寶石、烏鴉和水瓶》", bookAuthor: "君羊", bookFairy: "烏鴉喝水",
     bookTags: ["囚禁", "烏鴉", "殘疾"],
-    link: "https://early-marketplaces-521584.framer.app/story/story2",
+    link: "https://early-marketplaces-521584.framer.app/preview/story2",
     mbti: "INFJ", cp1: "陽光直男受", cp2: ["自願沉淪受", "恣情魅惑受"],
   },
 
@@ -96,7 +96,7 @@ const resultsData = {
     guide: "脫下國王的衣服，聞他後頸的味道，在他身體裡融入你的費洛蒙，國王哭了，你是那樣愉悅又幸福。",
     bookName: "《溫先生他一絲不掛》", bookAuthor: "火登", bookFairy: "國王的新衣",
     bookTags: ["口交", "年下", "下剋上"],
-    link: "https://early-marketplaces-521584.framer.app/story/story6",
+    link: "https://early-marketplaces-521584.framer.app/preview/story6",
     mbti: "ISTJ", cp1: "隱忍美人受", cp2: ["殉道自我奉獻受", "自願沉淪受"],
   },
 
@@ -144,7 +144,7 @@ const resultsData = {
     guide: "強大的自信如陽光熱烈，沒有什麼事是死纏爛打不能解決的。",
     bookName: "《沉睡荊棘》", bookAuthor: "喵芭渴死姬", bookFairy: "白雪公主/睡美人",
     bookTags: ["蘋果", "禁慾", "龍"],
-    link: "https://early-marketplaces-521584.framer.app/story/story1",
+    link: "https://early-marketplaces-521584.framer.app/preview/story1",
     mbti: "ENFP", cp1: "人妻王子受", cp2: ["恣情魅惑受", "殉道自我奉獻受"],
   },
 
@@ -176,7 +176,7 @@ const resultsData = {
     guide: "愛是信仰，愛是臣服，愛是奉獻——這將決定他有沒有資格成為你的信徒。",
     bookName: "《哈梅爾的吹笛手》", bookAuthor: "九楠", bookFairy: "哈梅爾的吹笛手",
     bookTags: ["戰損", "養成", "瘋"],
-    link: "https://early-marketplaces-521584.framer.app/story/story4",
+    link: "https://early-marketplaces-521584.framer.app/preview/story4",
     mbti: "ISTJ", cp1: "斯德哥爾摩受", cp2: ["自願沉淪受", "殉道自我奉獻受"],
   },
 
@@ -193,7 +193,7 @@ const resultsData = {
     guide: "棒球、蘇打水和一汪湖水，這座小鎮所有的夏天都裝到你的身上，不分一點給別人。",
     bookName: "《寶石、烏鴉和水瓶》", bookAuthor: "君羊", bookFairy: "烏鴉喝水",
     bookTags: ["囚禁", "烏鴉", "殘疾"],
-    link: "https://early-marketplaces-521584.framer.app/story/story2",
+    link: "https://early-marketplaces-521584.framer.app/preview/story2",
     mbti: "ENFP", cp1: "陰鬱偏執攻", cp2: ["二哈黑龍攻", "腹黑謀略攻"],
   },
 
@@ -257,7 +257,7 @@ const resultsData = {
     guide: "雖然國王一無是處，可他長得好看啊，漂亮的人在難受虛弱時更好看了，這樣說來，他可是有許多用處呢。",
     bookName: "《溫先生他一絲不掛》", bookAuthor: "火登", bookFairy: "國王的新衣",
     bookTags: ["口交", "年下", "下剋上"],
-    link: "https://early-marketplaces-521584.framer.app/story/story6",
+    link: "https://early-marketplaces-521584.framer.app/preview/story6",
     mbti: "INFP", cp1: "偏執瘋子攻", cp2: ["佔有囚禁攻", "腹黑謀略攻"],
   },
 
@@ -273,7 +273,7 @@ const resultsData = {
     guide: "恨他，愛他，又恨著那個愛他的自己。在沒有出口的牢籠裡，拼命為自己找一個走向毀滅的理由。",
     bookName: "《哈梅爾的吹笛手》", bookAuthor: "九楠", bookFairy: "哈梅爾的吹笛手",
     bookTags: ["戰損", "養成", "瘋"],
-    link: "https://early-marketplaces-521584.framer.app/story/story4",
+    link: "https://early-marketplaces-521584.framer.app/preview/story4",
     mbti: "ISFP", cp1: "病態攻", cp2: ["不羈影子攻", "冰山白神攻"],
   },
 
@@ -321,7 +321,7 @@ const resultsData = {
     guide: "在放逐之地，與他編織一場永恆的美夢，相擁而眠。",
     bookName: "《沉睡荊棘》", bookAuthor: "喵芭渴死姬", bookFairy: "白雪公主/睡美人",
     bookTags: ["蘋果", "禁慾", "龍"],
-    link: "https://early-marketplaces-521584.framer.app/story/story1",
+    link: "https://early-marketplaces-521584.framer.app/preview/story1",
     mbti: "INFP", cp1: "二哈黑龍攻", cp2: ["佔有囚禁攻", "無情獸群攻"],
   },
 };
