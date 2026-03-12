@@ -539,7 +539,7 @@ body {
     padding: 14px;
     background: #ffffff; 
     flex-shrink: 0;
-    aspect-ratio: 1 / 1.62;
+    aspect-ratio: 1000 / 1343; /* 修改圖片比例完全展現 */
     position: relative;
     box-shadow: none;
     border: 1px solid var(--line-strong);
@@ -1173,14 +1173,13 @@ body {
         margin: 0 auto; 
         border-radius: 0;
         padding: 8px;
-        aspect-ratio: 1 / 1.62;
+        aspect-ratio: 1000 / 1343; /* 修改圖片比例完全展現 */
     }
 
     .result-img {
         object-fit: cover;
         object-position: top center;
     }
-
     .r-name, .r-eyebrow, .r-desc {
         text-align: center;
         display: block;

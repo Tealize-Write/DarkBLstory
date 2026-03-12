@@ -134,7 +134,7 @@ const resultsData = {
 
   A_DEVOTION_1: {
     label: "失控守護者・為愛撕裂王國的黑龍",
-    image: "https://framerusercontent.com/images/GpHyYzlSiHtit6kGXfSSACkqf0.png",
+    image: "https://tealize-write.github.io/DarkBLstory/img/apple.png",
     soulName: "二哈黑龍攻",
     soulDesc: "看著是條猛龍，實則是狗！真的狗！",
     danger: "高", dangerFill: "90%",
@@ -238,7 +238,7 @@ const resultsData = {
     attr: "媚惑指數", attrVal: "Max", attrFill: "100%",
     escape: "20%",
     quote: "「你贏了，從現在開始，你的人生就得浪費在我這失敗者身上，誰也別想逃。」",
-    guide: "乖一點，繼續當你的贏家。既然你享受捕獲我的快感，那我就繼續留在籠裡，暫時扮演戰利品。",
+    guide: "乖乖一點，繼續當你的贏家。既然你享受捕獲他的快感，他也會繼續留在籠裡，暫時扮演戰利品。",
     bookName: "《消失的終點線》", bookAuthor: "葦", bookFairy: "龜兔賽跑",
     bookTags: ["強制愛", "NTR", "高潮地獄"],
     link: "https://early-marketplaces-521584.framer.app/preview/story8",
@@ -311,7 +311,7 @@ const resultsData = {
 
   R_DEVOTION_2: {
     label: "被禁慾束縛的王族之心",
-    image: "https://framerusercontent.com/images/GpHyYzlSiHtit6kGXfSSACkqf0.png",
+    image: "https://tealize-write.github.io/DarkBLstory/img/apple.png",
     soulName: "人妻王子受",
     soulDesc: "滿腔保護欲，不管對方再強大，都當寶寶一樣寵。",
     danger: "中", dangerFill: "50%",

@@ -181,339 +181,36 @@ function getMyTopAxesHTML() {
    DYNAMIC EMBLEM SVGs (黑暗塔羅精緻具象版)
 ════════════════════════════════ */
 function getEmblemSVG(code) {
-  // 將主線條加粗至 2.5，以防被背景圓圈吃掉
   const baseProps = 'viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"';
   
-  // 底部共通的魔法陣：雙層細虛線與實線
   const mysticCircle = `
     <circle cx="32" cy="32" r="30" stroke-width="0.5" stroke-dasharray="2 4"/>
     <circle cx="32" cy="32" r="26" stroke-width="1" stroke-opacity="0.3"/>
   `;
 
-  // 保留給特定圖案使用的星芒
-  const sparkSmall = `<path d="M 12 8 Q 12 12 8 12 Q 12 12 12 16 Q 12 12 16 12 Q 12 12 12 8 Z" fill="currentColor" stroke="none"/>`;
-
   switch(code) {
-    /* ══ 攻方對應 ══ */
-    case 'A_CONTROL_1': // 烏鴉
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <path d="M 8 54 Q 32 48 56 56" />
-          <path d="M 44 51 L 50 58" />
-          <path d="M 36 26 C 42 32 44 42 36 50 L 30 60 L 26 54 C 20 46 18 36 24 28" />
-          <path d="M 36 26 C 30 20 24 20 24 28" />
-          <path d="M 26 24 L 12 26 L 24 28 Z" fill="currentColor" stroke="none"/>
-          <circle cx="28" cy="24" r="1.5" fill="currentColor" stroke="none"/>
-          <path d="M 32 32 C 40 38 40 48 32 54 M 28 36 C 34 42 34 48 28 52" />
-          <path d="M 32 52 L 30 56 M 38 50 L 36 54" />
-        </g>
-      </svg>`;
-      
-    case 'A_CONTROL_2': // 面具
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <path d="M 12 28 C 12 16 24 18 32 24 C 40 18 52 16 52 28 C 52 40 40 38 32 44 C 24 38 12 40 12 28 Z" />
-          <path d="M 20 28 Q 24 24 28 28 Q 24 32 20 28 Z" stroke-width="1.5"/>
-          <path d="M 44 28 Q 40 24 36 28 Q 40 32 44 28 Z" stroke-width="1.5"/>
-          <path d="M 32 12 L 35 18 L 32 24 L 29 18 Z" fill="currentColor" stroke="none"/>
-          <circle cx="20" cy="28" r="1.5" fill="currentColor" stroke="none"/>
-          <circle cx="44" cy="28" r="1.5" fill="currentColor" stroke="none"/>
-        </g>
-      </svg>`;
-      
-    case 'A_CONTROL_3': // 鹿神
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <path d="M 26 28 L 38 28 L 34 46 Q 32 50 30 46 Z" />
-          <path d="M 30 44 H 34 L 32 48 Z" fill="currentColor" stroke="none"/> 
-          <path d="M 26 34 L 28 36 M 38 34 L 36 36" /> 
-          <path d="M 26 28 Q 12 24 10 32 Q 18 32 24 32 M 38 28 Q 52 24 54 32 Q 46 32 40 32" />
-          <path d="M 28 28 C 26 12 16 6 8 4 M 24 18 C 18 14 12 16 12 16 M 26 22 C 20 20 16 24 16 24" />
-          <path d="M 36 28 C 38 12 48 6 56 4 M 40 18 C 46 14 52 16 52 16 M 38 22 C 44 20 48 24 48 24" />
-        </g>
-      </svg>`;
-      
-    case 'A_SCHEME_1': // 烏龜
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <ellipse cx="32" cy="32" rx="14" ry="18" /> 
-          <path d="M 32 20 L 40 25 V 39 L 32 44 L 24 39 V 25 Z" />
-          <path d="M 32 14 V 20 M 40 22 L 46 18 M 40 42 L 46 46 M 32 50 V 44 M 24 42 L 18 46 M 24 22 L 18 18" />
-          <path d="M 28 12 Q 32 4 36 12 Z" />
-          <path d="M 18 24 Q 8 20 12 32" /> <path d="M 46 24 Q 56 20 52 32" />
-          <path d="M 22 46 Q 16 56 18 42" /> <path d="M 42 46 Q 48 56 46 42" />
-        </g>
-      </svg>`;
-      
-    case 'A_SCHEME_2': // 書 (邊框)
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <path d="M 16 10 V 46 C 16 53 20 54 26 54 H 44 V 10 Z" fill="var(--bg)" stroke="none" />
-          
-          <path d="M 22 10 H 16 V 46 C 16 53 20 54 26 54 H 44 V 50 H 26 C 23 50 22 48 22 46 Z" fill="var(--bg)" stroke="currentColor" />
-          
-          <rect x="22" y="10" width="22" height="36" fill="var(--bg)" stroke="currentColor" />
-          
-          <line x1="23" y1="48" x2="44" y2="48" stroke-width="1.5" />
-          
-          <path d="M 28 46 V 58 L 31 55 L 34 58 V 46 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="miter" />
-          
-          <rect x="26" y="14" width="14" height="28" stroke-width="1.5" />
-          
-          <rect x="37" y="23" width="10" height="10" fill="var(--bg)" stroke="currentColor" />
-          <rect x="41" y="26" width="3" height="4" rx="1.5" stroke-width="1.5" />
-          
-          <polygon points="33,16 41,28 33,40 25,28" fill="var(--bg)" stroke="currentColor" stroke-linejoin="miter" />
-          <polygon points="33,21 37,28 33,35 29,28" stroke-width="1.5" stroke-linejoin="miter" />
-          
-          </g>
-      </svg>`;
-      
-    case 'A_SCHEME_3': // 眼鏡
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g transform="translate(0, 4)" stroke-width="2.5">
-          <path d="M 8 28 C 16 24 26 26 30 30 C 34 26 44 24 56 28 L 54 32 C 46 28 38 30 34 32 C 30 30 22 28 10 32 Z" fill="currentColor" stroke="none"/>
-          <path d="M 10 32 C 10 44 28 44 30 30 M 54 32 C 54 44 36 44 34 30" />
-          <path d="M 30 30 C 32 28 34 30 34 30" />
-          <path d="M 8 28 L 4 16 M 56 28 L 60 16" />
-          <path d="M 14 36 L 20 30 M 50 36 L 44 30" />
-        </g>
-      </svg>`;
-      
-    case 'A_CHAOS_1': // 劍
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <path d="M 32 60 L 26 24 L 32 14 L 38 24 Z" />
-          <line x1="32" y1="14" x2="32" y2="60" stroke-width="1.5"/>
-          <line x1="16" y1="24" x2="48" y2="24" />
-          <line x1="22" y1="21" x2="42" y2="21" stroke-width="1.5"/>
-          <path d="M 30 21 V 10 H 34 V 21 Z" />
-          <polygon points="32,4 35,8 32,12 29,8" fill="currentColor" stroke="none"/>
-        </g>
-      </svg>`;
-      
-    case 'A_CHAOS_2': // 獅子
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <path d="M 28 8 C 36 8 42 16 42 26 C 42 36 34 44 26 44 C 18 44 14 36 16 26" />
-          <path d="M 28 8 C 24 14 24 20 28 26 M 36 12 C 32 18 32 26 36 32 M 16 26 C 20 32 26 36 32 38" />
-          <path d="M 20 18 L 12 20 L 12 24 L 18 26" />
-          <path d="M 26 44 V 58 M 34 40 V 58" />
-          <path d="M 22 58 H 28 M 30 58 H 36" /> 
-          <path d="M 38 20 C 48 24 50 36 46 46 C 42 54 36 58 36 58" />
-          <path d="M 46 42 C 54 42 58 32 54 26 C 52 24 50 26 52 28" />
-        </g>
-      </svg>`;
-      
- case 'A_DEVOTION_1': // 龍
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <path d="M 32 26
-                   C 22 10, 58 -5, 48 -20
-                   C 66 -5, 40 10, 44 22
-                   Q 50 14, 54 12
-                   Q 54 20, 50 26
-                   Q 58 28, 60 32
-                   Q 54 38, 48 38
-                   Q 44 46, 42 50
-                   Q 38 58, 32 60
-                   Q 26 58, 22 50
-                   Q 20 46, 16 38
-                   Q 10 38, 4 32
-                   Q 6 28, 14 26
-                   Q 10 20, 10 12
-                   Q 14 14, 20 22
-                   C 24 10, -2 -5, 16 -20
-                   C 6 -5, 42 10, 32 26 Z"
-                fill="var(--bg)" stroke="currentColor" stroke-linejoin="round"/>
-
-          <polygon points="20,30 28,35 24,40" fill="currentColor" stroke="none"/>
-          <polygon points="44,30 36,35 40,40" fill="currentColor" stroke="none"/>
-
-          <polygon points="29,50 25,52 28,55" fill="currentColor" stroke="none"/>
-          <polygon points="35,50 39,52 36,55" fill="currentColor" stroke="none"/>
-
-          <path d="M 32 26 V 42" stroke-width="1.5"/>
-          <path d="M 28 40 L 32 46 L 36 40" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-        </g>
-      </svg>`;
-      
-    case 'A_DEVOTION_2': // 巫師斗篷
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <path d="M 20 54 C 20 30 44 30 44 54" stroke-width="1.5" stroke-dasharray="2 4"/>
-          <path d="M 32 10 C 22 10 16 22 16 34 C 16 44 12 52 10 56 H 54 C 52 52 48 44 48 34 C 48 22 42 10 32 10 Z" />
-          <path d="M 32 18 C 24 18 22 26 24 34 C 26 40 38 40 40 34 C 42 26 40 18 32 18 Z" fill="currentColor"/>
-          <path d="M 32 42 L 34 46 L 38 48 L 34 50 L 32 54 L 30 50 L 26 48 L 30 46 Z" fill="currentColor" stroke="none"/>
-          <path d="M 24 56 V 46 M 40 56 V 46 M 32 56 V 52" stroke-width="1.5"/>
-        </g>
-      </svg>`;
-
-    case 'A_DEVOTION_3': // 長笛
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <line x1="12" y1="52" x2="52" y2="12" stroke-width="4" stroke-linecap="round"/>
-          <line x1="14" y1="50" x2="50" y2="14" stroke-width="1" stroke="var(--bg)"/>
-          <circle cx="24" cy="40" r="1.5" fill="var(--bg)" stroke="currentColor"/>
-          <circle cx="30" cy="34" r="1.5" fill="var(--bg)" stroke="currentColor"/>
-          <circle cx="36" cy="28" r="1.5" fill="var(--bg)" stroke="currentColor"/>
-          <circle cx="42" cy="22" r="1.5" fill="var(--bg)" stroke="currentColor"/>
-          <path d="M 46 18 L 50 14" stroke-width="3"/>
-          <circle cx="48" cy="16" r="1" fill="var(--bg)" stroke="none"/>
-        </g>
-      </svg>`;
-
-    /* ══ 受方對應 ══ */
+    case 'A_CONTROL_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 8 54 Q 32 48 56 56" /><path d="M 44 51 L 50 58" /><path d="M 36 26 C 42 32 44 42 36 50 L 30 60 L 26 54 C 20 46 18 36 24 28" /><path d="M 36 26 C 30 20 24 20 24 28" /><path d="M 26 24 L 12 26 L 24 28 Z" fill="currentColor" stroke="none"/><circle cx="28" cy="24" r="1.5" fill="currentColor" stroke="none"/><path d="M 32 32 C 40 38 40 48 32 54 M 28 36 C 34 42 34 48 28 52" /><path d="M 32 52 L 30 56 M 38 50 L 36 54" /></g></svg>`;
+    case 'A_CONTROL_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 12 28 C 12 16 24 18 32 24 C 40 18 52 16 52 28 C 52 40 40 38 32 44 C 24 38 12 40 12 28 Z" /><path d="M 20 28 Q 24 24 28 28 Q 24 32 20 28 Z" stroke-width="1.5"/><path d="M 44 28 Q 40 24 36 28 Q 40 32 44 28 Z" stroke-width="1.5"/><path d="M 32 12 L 35 18 L 32 24 L 29 18 Z" fill="currentColor" stroke="none"/><circle cx="20" cy="28" r="1.5" fill="currentColor" stroke="none"/><circle cx="44" cy="28" r="1.5" fill="currentColor" stroke="none"/></g></svg>`;
+    case 'A_CONTROL_3': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 26 28 L 38 28 L 34 46 Q 32 50 30 46 Z" /><path d="M 30 44 H 34 L 32 48 Z" fill="currentColor" stroke="none"/><path d="M 26 34 L 28 36 M 38 34 L 36 36" /><path d="M 26 28 Q 12 24 10 32 Q 18 32 24 32 M 38 28 Q 52 24 54 32 Q 46 32 40 32" /><path d="M 28 28 C 26 12 16 6 8 4 M 24 18 C 18 14 12 16 12 16 M 26 22 C 20 20 16 24 16 24" /><path d="M 36 28 C 38 12 48 6 56 4 M 40 18 C 46 14 52 16 52 16 M 38 22 C 44 20 48 24 48 24" /></g></svg>`;
+    case 'A_SCHEME_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><ellipse cx="32" cy="32" rx="14" ry="18" /><path d="M 32 20 L 40 25 V 39 L 32 44 L 24 39 V 25 Z" /><path d="M 32 14 V 20 M 40 22 L 46 18 M 40 42 L 46 46 M 32 50 V 44 M 24 42 L 18 46 M 24 22 L 18 18" /><path d="M 28 12 Q 32 4 36 12 Z" /><path d="M 18 24 Q 8 20 12 32" /><path d="M 46 24 Q 56 20 52 32" /><path d="M 22 46 Q 16 56 18 42" /><path d="M 42 46 Q 48 56 46 42" /></g></svg>`;
+    case 'A_SCHEME_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 16 10 V 46 C 16 53 20 54 26 54 H 44 V 10 Z" fill="var(--bg)" stroke="none" /><path d="M 22 10 H 16 V 46 C 16 53 20 54 26 54 H 44 V 50 H 26 C 23 50 22 48 22 46 Z" fill="var(--bg)" stroke="currentColor" /><rect x="22" y="10" width="22" height="36" fill="var(--bg)" stroke="currentColor" /><line x1="23" y1="48" x2="44" y2="48" stroke-width="1.5" /><path d="M 28 46 V 58 L 31 55 L 34 58 V 46 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="miter" /><rect x="26" y="14" width="14" height="28" stroke-width="1.5" /><rect x="37" y="23" width="10" height="10" fill="var(--bg)" stroke="currentColor" /><rect x="41" y="26" width="3" height="4" rx="1.5" stroke-width="1.5" /><polygon points="33,16 41,28 33,40 25,28" fill="var(--bg)" stroke="currentColor" stroke-linejoin="miter" /><polygon points="33,21 37,28 33,35 29,28" stroke-width="1.5" stroke-linejoin="miter" /></g></svg>`;
+    case 'A_SCHEME_3': return `<svg ${baseProps}>${mysticCircle}<g transform="translate(0, 4)" stroke-width="2.5"><path d="M 8 28 C 16 24 26 26 30 30 C 34 26 44 24 56 28 L 54 32 C 46 28 38 30 34 32 C 30 30 22 28 10 32 Z" fill="currentColor" stroke="none"/><path d="M 10 32 C 10 44 28 44 30 30 M 54 32 C 54 44 36 44 34 30" /><path d="M 30 30 C 32 28 34 30 34 30" /><path d="M 8 28 L 4 16 M 56 28 L 60 16" /><path d="M 14 36 L 20 30 M 50 36 L 44 30" /></g></svg>`;
+    case 'A_CHAOS_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 32 60 L 26 24 L 32 14 L 38 24 Z" /><line x1="32" y1="14" x2="32" y2="60" stroke-width="1.5"/><line x1="16" y1="24" x2="48" y2="24" /><line x1="22" y1="21" x2="42" y2="21" stroke-width="1.5"/><path d="M 30 21 V 10 H 34 V 21 Z" /><polygon points="32,4 35,8 32,12 29,8" fill="currentColor" stroke="none"/></g></svg>`;
+    case 'A_CHAOS_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 28 8 C 36 8 42 16 42 26 C 42 36 34 44 26 44 C 18 44 14 36 16 26" /><path d="M 28 8 C 24 14 24 20 28 26 M 36 12 C 32 18 32 26 36 32 M 16 26 C 20 32 26 36 32 38" /><path d="M 20 18 L 12 20 L 12 24 L 18 26" /><path d="M 26 44 V 58 M 34 40 V 58" /><path d="M 22 58 H 28 M 30 58 H 36" /><path d="M 38 20 C 48 24 50 36 46 46 C 42 54 36 58 36 58" /><path d="M 46 42 C 54 42 58 32 54 26 C 52 24 50 26 52 28" /></g></svg>`;
+    case 'A_DEVOTION_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 32 26 C 22 10, 58 -5, 48 -20 C 66 -5, 40 10, 44 22 Q 50 14, 54 12 Q 54 20, 50 26 Q 58 28, 60 32 Q 54 38, 48 38 Q 44 46, 42 50 Q 38 58, 32 60 Q 26 58, 22 50 Q 20 46, 16 38 Q 10 38, 4 32 Q 6 28, 14 26 Q 10 20, 10 12 Q 14 14, 20 22 C 24 10, -2 -5, 16 -20 C 6 -5, 42 10, 32 26 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round"/><polygon points="20,30 28,35 24,40" fill="currentColor" stroke="none"/><polygon points="44,30 36,35 40,40" fill="currentColor" stroke="none"/><polygon points="29,50 25,52 28,55" fill="currentColor" stroke="none"/><polygon points="35,50 39,52 36,55" fill="currentColor" stroke="none"/><path d="M 32 26 V 42" stroke-width="1.5"/><path d="M 28 40 L 32 46 L 36 40" stroke-width="1.5" fill="none" stroke-linecap="round"/></g></svg>`;
+    case 'A_DEVOTION_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 20 54 C 20 30 44 30 44 54" stroke-width="1.5" stroke-dasharray="2 4"/><path d="M 32 10 C 22 10 16 22 16 34 C 16 44 12 52 10 56 H 54 C 52 52 48 44 48 34 C 48 22 42 10 32 10 Z" /><path d="M 32 18 C 24 18 22 26 24 34 C 26 40 38 40 40 34 C 42 26 40 18 32 18 Z" fill="currentColor"/><path d="M 32 42 L 34 46 L 38 48 L 34 50 L 32 54 L 30 50 L 26 48 L 30 46 Z" fill="currentColor" stroke="none"/><path d="M 24 56 V 46 M 40 56 V 46 M 32 56 V 52" stroke-width="1.5"/></g></svg>`;
+    case 'A_DEVOTION_3': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><line x1="12" y1="52" x2="52" y2="12" stroke-width="4" stroke-linecap="round"/><line x1="14" y1="50" x2="50" y2="14" stroke-width="1" stroke="var(--bg)"/><circle cx="24" cy="40" r="1.5" fill="var(--bg)" stroke="currentColor"/><circle cx="30" cy="34" r="1.5" fill="var(--bg)" stroke="currentColor"/><circle cx="36" cy="28" r="1.5" fill="var(--bg)" stroke="currentColor"/><circle cx="42" cy="22" r="1.5" fill="var(--bg)" stroke="currentColor"/><path d="M 46 18 L 50 14" stroke-width="3"/><circle cx="48" cy="16" r="1" fill="var(--bg)" stroke="none"/></g></svg>`;
     
-    case 'R_CONTROL_1': // 棒球
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <circle cx="32" cy="32" r="20" /> 
-          <path d="M 22 15 C 32 24 32 40 22 49" stroke-width="2"/>
-          <path d="M 42 15 C 32 24 32 40 42 49" stroke-width="2"/>
-          <path d="M 24 20 L 18 22 M 26 28 L 20 30 M 27 36 L 21 36 M 25 44 L 19 42" stroke-width="1.5"/>
-          <path d="M 40 20 L 46 22 M 38 28 L 44 30 M 37 36 L 43 36 M 39 44 L 45 42" stroke-width="1.5"/>
-        </g>
-      </svg>`;
-      
-    case 'R_CONTROL_2': // 酒杯
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <path d="M 20 16 C 20 36 32 44 32 44 C 32 44 44 36 44 16" />
-          <path d="M 20 16 C 20 12 44 12 44 16 C 44 20 20 20 20 16" />
-          <path d="M 21 28 C 28 32 36 24 43 28" />
-          <path d="M 32 44 V 56" />
-          <path d="M 24 56 C 24 54 40 54 40 56 Z" fill="currentColor"/>
-          <path d="M 24 24 C 24 32 28 38 30 40" />
-        </g>
-      </svg>`;
-      
-    case 'R_CONTROL_3': // 魔法書
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <path d="M 16 40 V 46 C 16 46 24 44 32 48 C 40 44 48 46 48 46 V 40 C 48 40 40 38 32 42 C 24 38 16 40 16 40 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round"/>
-          
-          <path d="M 16 43 C 24 41 32 45 32 45 M 48 43 C 40 41 32 45 32 45" stroke-width="1.5" />
-          
-          <line x1="32" y1="42" x2="32" y2="48" />
-
-          <path d="M 38 38 V 53 L 40 50 L 42 53 V 39 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round" />
-
-          <path d="M 32 42 C 24 38 16 40 16 40 V 16 C 16 16 24 14 32 18 C 40 14 48 16 48 16 V 40 C 48 40 40 38 32 42 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round" />
-          
-          <line x1="32" y1="18" x2="32" y2="42" />         
-          
-          <path d="M 20 21 C 26 19 30 21 32 23" stroke-width="1.5"/>
-          <path d="M 20 37 C 26 35 30 37 32 39" stroke-width="1.5"/>        
-          
-          <path d="M 44 21 C 38 19 34 21 32 23" stroke-width="1.5"/>
-          <path d="M 44 37 C 38 35 34 37 32 39" stroke-width="1.5"/>        
-          
-          <circle cx="24" cy="29" r="3" stroke-width="1.5"/>
-          <circle cx="24" cy="29" r="1" fill="currentColor" stroke="none"/>
-          
-          <polygon points="40,26 41,28 43,29 41,30 40,32 39,30 37,29 39,28" fill="currentColor" stroke="none"/>        
-          
-          <circle cx="32" cy="12" r="1.5" fill="currentColor" stroke="none"/>
-        </g>
-      </svg>`;
-      
-    case 'R_SCHEME_1': // 兔子
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <path d="M 22 28 C 16 28 12 34 16 40 C 20 44 26 42 28 38" />
-          <path d="M 22 28 C 20 16 26 10 32 20 C 34 24 30 28 26 30" />
-          <path d="M 26 26 C 28 14 36 10 40 22 C 40 26 34 30 30 30" />
-          <path d="M 28 32 C 36 30 48 36 48 48 C 48 54 40 56 32 56" />
-          <path d="M 26 40 V 56 M 20 44 V 56" /> 
-          <path d="M 44 48 C 40 44 34 48 34 54" /> 
-          <circle cx="48" cy="44" r="4" fill="currentColor" stroke="none"/> 
-          <path d="M 20 32 L 22 34 L 20 34" /> 
-        </g>
-      </svg>`;
-      
-    case 'R_SCHEME_2': // 皇冠
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5" fill="none">
-          <rect x="16" y="46" width="32" height="6" fill="currentColor" stroke="none" />
-          <path d="M 16 46 C 10 30 20 24 32 24 C 44 24 54 30 48 46" />
-          <path d="M 24 46 C 22 34 26 28 32 24" />
-          <path d="M 40 46 C 42 34 38 28 32 24" />
-          <path d="M 32 46 V 24" />
-          <path d="M 32 24 V 16 M 28 12 L 36 12 M 32 8 V 16" stroke-width="3.5"/>
-          <polygon points="32,12 28,7 36,7" fill="currentColor" stroke="none" />
-          <polygon points="32,12 28,17 36,17" fill="currentColor" stroke="none" />
-          <polygon points="32,12 27,8 27,16" fill="currentColor" stroke="none" />
-          <polygon points="32,12 37,8 37,16" fill="currentColor" stroke="none" />
-        </g>
-      </svg>`;
-      
-    case 'R_CHAOS_1': // 老鼠
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <path d="M 12 40 L 9 40 C 10 44 14 44 16 46" />
-          
-          <path d="M 12 40 C 16 32 26 30 36 34 C 46 38 48 46 44 48 H 16" />
-          
-          <path d="M 24 34 C 20 26 28 20 32 26 C 34 30 30 34 26 36" /> 
-          
-          <path d="M 44 46 C 54 46 60 40 56 34 C 52 28 48 32 50 36" />
-        </g>
-      </svg>`;
-      
-    case 'R_CHAOS_2': // 心臟 (流血)
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <path d="M 20 22 C 10 22 14 36 24 46 C 30 52 32 56 32 56 C 32 56 34 52 40 46 C 50 36 54 22 44 22 C 38 22 34 28 32 30 C 30 28 26 22 20 22 Z" />
-          <path d="M 28 16 C 28 8 36 8 36 16 M 24 18 V 10" /> 
-          <path d="M 32 56 L 30 60 A 2 2 0 0 0 34 60 Z" fill="currentColor" stroke="none"/>
-          <path d="M 22 50 L 20 54 A 2 2 0 0 0 24 54 Z" fill="currentColor" stroke="none"/>
-        </g>
-      </svg>`;
-      
-    case 'R_DEVOTION_1': // 棒棒糖
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <line x1="32" y1="44" x2="32" y2="62" stroke-width="4"/>
-          <line x1="26" y1="44" x2="38" y2="44" />
-          <path d="M32 46 C 20 40, 12 52, 26 54 L 32 46 L 38 54 C 52 52, 44 40, 32 46 Z" fill="rgba(255,255,255,0.1)"/>
-          <circle cx="32" cy="24" r="18" fill="rgba(255,255,255,0.05)"/>
-          <path d="M32 24 C 32 18, 26 18, 26 24 C 26 32, 38 32, 38 24 C 38 14, 20 14, 20 24 C 20 40, 44 40, 44 24 C 44 6, 14 6, 14 24" stroke-width="2.5"/>
-        </g>
-      </svg>`;
-      
-    case 'R_DEVOTION_2': // 蘋果
-      return `<svg ${baseProps}>
-        ${mysticCircle}
-        <g stroke-width="2.5">
-          <path d="M 32 16 C 48 10 58 24 52 38 C 48 50 38 54 32 48 C 26 54 16 50 12 38 C 6 24 16 10 32 16 Z" />
-          <path d="M 32 16 C 32 8 36 6 38 4" /> 
-          <path d="M 36 12 C 46 8 52 14 46 20 C 40 20 34 16 36 12 Z" /> 
-          <path d="M 20 28 C 18 36 22 44 28 48" /> 
-        </g>
-      </svg>`;
-      
-    default:
-      return `<svg ${baseProps}><circle cx="32" cy="32" r="16" /><path d="M 24 32 H 40 M 32 24 V 40"/></svg>`;
+    case 'R_CONTROL_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><circle cx="32" cy="32" r="20" /><path d="M 22 15 C 32 24 32 40 22 49" stroke-width="2"/><path d="M 42 15 C 32 24 32 40 42 49" stroke-width="2"/><path d="M 24 20 L 18 22 M 26 28 L 20 30 M 27 36 L 21 36 M 25 44 L 19 42" stroke-width="1.5"/><path d="M 40 20 L 46 22 M 38 28 L 44 30 M 37 36 L 43 36 M 39 44 L 45 42" stroke-width="1.5"/></g></svg>`;
+    case 'R_CONTROL_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 20 16 C 20 36 32 44 32 44 C 32 44 44 36 44 16" /><path d="M 20 16 C 20 12 44 12 44 16 C 44 20 20 20 20 16" /><path d="M 21 28 C 28 32 36 24 43 28" /><path d="M 32 44 V 56" /><path d="M 24 56 C 24 54 40 54 40 56 Z" fill="currentColor"/><path d="M 24 24 C 24 32 28 38 30 40" /></g></svg>`;
+    case 'R_CONTROL_3': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 16 40 V 46 C 16 46 24 44 32 48 C 40 44 48 46 48 46 V 40 C 48 40 40 38 32 42 C 24 38 16 40 16 40 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round"/><path d="M 16 43 C 24 41 32 45 32 45 M 48 43 C 40 41 32 45 32 45" stroke-width="1.5" /><line x1="32" y1="42" x2="32" y2="48" /><path d="M 38 38 V 53 L 40 50 L 42 53 V 39 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round" /><path d="M 32 42 C 24 38 16 40 16 40 V 16 C 16 16 24 14 32 18 C 40 14 48 16 48 16 V 40 C 48 40 40 38 32 42 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="round" /><line x1="32" y1="18" x2="32" y2="42" /><path d="M 20 21 C 26 19 30 21 32 23" stroke-width="1.5"/><path d="M 20 37 C 26 35 30 37 32 39" stroke-width="1.5"/><path d="M 44 21 C 38 19 34 21 32 23" stroke-width="1.5"/><path d="M 44 37 C 38 35 34 37 32 39" stroke-width="1.5"/><circle cx="24" cy="29" r="3" stroke-width="1.5"/><circle cx="24" cy="29" r="1" fill="currentColor" stroke="none"/><polygon points="40,26 41,28 43,29 41,30 40,32 39,30 37,29 39,28" fill="currentColor" stroke="none"/><circle cx="32" cy="12" r="1.5" fill="currentColor" stroke="none"/></g></svg>`;
+    case 'R_SCHEME_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 22 28 C 16 28 12 34 16 40 C 20 44 26 42 28 38" /><path d="M 22 28 C 20 16 26 10 32 20 C 34 24 30 28 26 30" /><path d="M 26 26 C 28 14 36 10 40 22 C 40 26 34 30 30 30" /><path d="M 28 32 C 36 30 48 36 48 48 C 48 54 40 56 32 56" /><path d="M 26 40 V 56 M 20 44 V 56" /><path d="M 44 48 C 40 44 34 48 34 54" /><circle cx="48" cy="44" r="4" fill="currentColor" stroke="none"/><path d="M 20 32 L 22 34 L 20 34" /></g></svg>`;
+    case 'R_SCHEME_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5" fill="none"><rect x="16" y="46" width="32" height="6" fill="currentColor" stroke="none" /><path d="M 16 46 C 10 30 20 24 32 24 C 44 24 54 30 48 46" /><path d="M 24 46 C 22 34 26 28 32 24" /><path d="M 40 46 C 42 34 38 28 32 24" /><path d="M 32 46 V 24" /><path d="M 32 24 V 16 M 28 12 L 36 12 M 32 8 V 16" stroke-width="3.5"/><polygon points="32,12 28,7 36,7" fill="currentColor" stroke="none" /><polygon points="32,12 28,17 36,17" fill="currentColor" stroke="none" /><polygon points="32,12 27,8 27,16" fill="currentColor" stroke="none" /><polygon points="32,12 37,8 37,16" fill="currentColor" stroke="none" /></g></svg>`;
+    case 'R_CHAOS_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 12 40 L 9 40 C 10 44 14 44 16 46" /><path d="M 12 40 C 16 32 26 30 36 34 C 46 38 48 46 44 48 H 16" /><path d="M 24 34 C 20 26 28 20 32 26 C 34 30 30 34 26 36" /><path d="M 44 46 C 54 46 60 40 56 34 C 52 28 48 32 50 36" /></g></svg>`;
+    case 'R_CHAOS_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 20 22 C 10 22 14 36 24 46 C 30 52 32 56 32 56 C 32 56 34 52 40 46 C 50 36 54 22 44 22 C 38 22 34 28 32 30 C 30 28 26 22 20 22 Z" /><path d="M 28 16 C 28 8 36 8 36 16 M 24 18 V 10" /><path d="M 32 56 L 30 60 A 2 2 0 0 0 34 60 Z" fill="currentColor" stroke="none"/><path d="M 22 50 L 20 54 A 2 2 0 0 0 24 54 Z" fill="currentColor" stroke="none"/></g></svg>`;
+    case 'R_DEVOTION_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><line x1="32" y1="44" x2="32" y2="62" stroke-width="4"/><line x1="26" y1="44" x2="38" y2="44" /><path d="M32 46 C 20 40, 12 52, 26 54 L 32 46 L 38 54 C 52 52, 44 40, 32 46 Z" fill="rgba(255,255,255,0.1)"/><circle cx="32" cy="24" r="18" fill="rgba(255,255,255,0.05)"/><path d="M32 24 C 32 18, 26 18, 26 24 C 26 32, 38 32, 38 24 C 38 14, 20 14, 20 24 C 20 40, 44 40, 44 24 C 44 6, 14 6, 14 24" stroke-width="2.5"/></g></svg>`;
+    case 'R_DEVOTION_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 32 16 C 48 10 58 24 52 38 C 48 50 38 54 32 48 C 26 54 16 50 12 38 C 6 24 16 10 32 16 Z" /><path d="M 32 16 C 32 8 36 6 38 4" /><path d="M 36 12 C 46 8 52 14 46 20 C 40 20 34 16 36 12 Z" /><path d="M 20 28 C 18 36 22 44 28 48" /></g></svg>`;
+    default: return `<svg ${baseProps}><circle cx="32" cy="32" r="16" /><path d="M 24 32 H 40 M 32 24 V 40"/></svg>`;
   }
 }
 
@@ -543,6 +240,16 @@ function showResult(){
   const label = r.label || code;
   document.getElementById('result-img').src = r.image;
   document.getElementById('r-name').textContent = r.soulName;
+
+  const eyebrow = document.querySelector('.r-eyebrow');
+  if (eyebrow) {
+    if (r.bookFairy) {
+        eyebrow.textContent = `您是《${r.bookFairy}》中的 ──`;
+    } else {
+        eyebrow.textContent = `揭曉黑暗特質 ──`;
+    }
+  }
+
   document.getElementById('r-compound').textContent = label;
   document.getElementById('r-desc').textContent = r.soulDesc;
   
@@ -621,7 +328,9 @@ function showResult(){
    STATS & SHARE
 ════════════════════════════════ */
 function trackBookClick(code){
-  trackUserAction(code, "book_click");
+  if (typeof trackUserAction === 'function') {
+    trackUserAction(code, "book_click");
+  }
 }
 window.trackBookClick    = trackBookClick;
 window.shareResultAsImage = shareResultAsImage;
@@ -632,6 +341,9 @@ function escapeAttr(str){
   return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
+/* ════════════════════════════════
+   SHARE LONG IMAGE
+════════════════════════════════ */
 async function shareResultAsImage() {
   const code        = _lastResultCode || determineResultCode();
   const btn         = document.querySelector('.share-btn:not(.short-share)');
@@ -640,9 +352,35 @@ async function shareResultAsImage() {
   const originalText = btn ? btn.textContent : '';
   const SITE_URL    = 'https://tealize-write.github.io/DarkBLstory/';
 
-  trackUserAction(code, "share_image");
+  if (typeof trackUserAction === 'function') {
+      trackUserAction(code, "share_image");
+  }
   if(btn){ btn.textContent = "生成專屬圖像中..."; btn.disabled = true; }
   if(btnRow) btnRow.style.display = 'none';
+
+  // 加入 capturing 狀態
+  targetEl.classList.add('capturing');
+
+  // 強制插入除灰的極致純黑樣式
+  const captureStyle = document.createElement('style');
+  captureStyle.id = 'capture-override-style';
+  captureStyle.innerHTML = `
+      #result.capturing {
+          background-color: #000000 !important;
+          background-image: none !important;
+      }
+      #result.capturing .tarot-frame, 
+      #result.capturing .block, 
+      #result.capturing .cta a {
+          background: transparent !important;
+          background-color: #000000 !important;
+          box-shadow: none !important;
+      }
+      #result.capturing .result-img {
+          filter: none !important;
+      }
+  `;
+  document.head.appendChild(captureStyle);
 
   const animEls = [...targetEl.querySelectorAll('.in')];
   animEls.forEach(el => {
@@ -652,7 +390,6 @@ async function shareResultAsImage() {
     el.style.filter    = 'none';
   });
 
-  // ── 修復 SVG emblem 內的 CSS 變數（html2canvas 無法解析 var(--bg)）
   const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#000000';
   const emblemEl = targetEl.querySelector('.tarot-emblem');
   const emblemEls = emblemEl ? emblemEl.querySelectorAll('[fill="var(--bg)"], [stroke="var(--bg)"]') : [];
@@ -666,8 +403,9 @@ async function shareResultAsImage() {
   stamp.style.cssText =
     'text-align:center;padding:14px 0 18px;' +
     'font-family:Georgia,serif;font-size:13px;letter-spacing:2px;' +
-    'color:rgba(255,255,255,.5);' +
-    'border-top:1px solid rgba(255,255,255,.1);margin-top:24px;';
+    'color:rgba(255,255,255,.8);' +
+    'border-top:1px solid rgba(255,255,255,.3);margin-top:24px;' +
+    'background-color:#000000;';
   stamp.textContent = '✦  ' + SITE_URL + '  ✦';
   targetEl.appendChild(stamp);
 
@@ -681,7 +419,7 @@ async function shareResultAsImage() {
   try {
     canvas = await html2canvas(targetEl, {
       scale          : Math.min(window.devicePixelRatio || 2, 2),
-      backgroundColor: '#0a0a0a',
+      backgroundColor: '#000000', // 強制渲染純黑
       useCORS        : true,
       allowTaint     : false,
       logging        : false,
@@ -697,6 +435,7 @@ async function shareResultAsImage() {
     alert("圖片生成失敗，請稍後再試。");
   }
 
+  // 復原 DOM 狀態
   window.scrollTo(0, originalScrollY);
   animEls.forEach(el => {
     el.style.animation = '';
@@ -704,13 +443,18 @@ async function shareResultAsImage() {
     el.style.transform = '';
     el.style.filter    = '';
   });
-  // ── 還原 SVG emblem 的 fill/stroke 屬性
   emblemEls.forEach(el => {
     if(el.getAttribute('fill')   === bgColor) el.setAttribute('fill',   'var(--bg)');
     if(el.getAttribute('stroke') === bgColor) el.setAttribute('stroke', 'var(--bg)');
   });
+  
   const stampEl = document.getElementById('_share_stamp');
   if(stampEl) stampEl.remove();
+  
+  targetEl.classList.remove('capturing');
+  const overrideStyle = document.getElementById('capture-override-style');
+  if(overrideStyle) overrideStyle.remove();
+  
   if(btnRow) btnRow.style.display = 'flex';
   if(btn){ btn.textContent = originalText; btn.disabled = false; }
 
@@ -765,32 +509,32 @@ async function shareResultAsImage() {
     }
   }, 'image/png');
 }
+
 /* ════════════════════════════════
    SHARE SHORT IMAGE (1080×1350, pure Canvas)
-   Layout: image top ~55% clipped + fade → black text zone → seals → quote → url
 ════════════════════════════════ */
 async function shareShortImage() {
   const code     = _lastResultCode || determineResultCode();
   const r        = resultsData[code];
-  const meta     = r;
   const SITE_URL = 'https://tealize-write.github.io/DarkBLstory/';
   if (!r) return;
 
   const btn = document.querySelector('.share-btn.short-share');
   const origText = btn ? btn.textContent : '';
   if (btn) { btn.textContent = '生成中…'; btn.disabled = true; }
-  trackUserAction(code, 'share_short');
+  
+  if (typeof trackUserAction === 'function') {
+      trackUserAction(code, 'share_short');
+  }
 
   const CW   = 1080;
   const CH   = 1350;
-  const IMG_H = Math.round(CH * 0.6); // 圖片佔上方 60%
 
   const canvas = document.createElement('canvas');
   canvas.width  = CW;
   canvas.height = CH;
   const ctx = canvas.getContext('2d');
 
-  // ── 輔助：文字黑邊 shadow
   function setShadow(blur = 6) {
     ctx.shadowColor   = 'rgba(0,0,0,0.95)';
     ctx.shadowBlur    = blur;
@@ -801,22 +545,22 @@ async function shareShortImage() {
     ctx.shadowColor = 'transparent';
     ctx.shadowBlur  = 0;
   }
-
-  // ── 輔助：菱形分隔線
+  
+  // 優化質感的分隔線 (漸隱橫線 + 中間發光菱形)
   function drawDivider(yPos) {
-    const divW = Math.round(CW * 0.55);
-    ctx.save();
-    ctx.strokeStyle = 'rgba(255,255,255,0.22)';
-    ctx.lineWidth   = 1.5;
-    ctx.setLineDash([4, 8]);
-    ctx.beginPath();
-    ctx.moveTo((CW - divW) / 2, yPos);
-    ctx.lineTo((CW + divW) / 2, yPos);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.restore();
-    const dm = 9;
-    ctx.fillStyle = 'rgba(255,255,255,0.65)';
+    const divW = Math.round(CW * 0.6);
+    const gradLine = ctx.createLinearGradient((CW - divW)/2, 0, (CW + divW)/2, 0);
+    gradLine.addColorStop(0, 'rgba(255,255,255,0)');
+    gradLine.addColorStop(0.5, 'rgba(255,255,255,0.4)');
+    gradLine.addColorStop(1, 'rgba(255,255,255,0)');
+    
+    ctx.fillStyle = gradLine;
+    ctx.fillRect((CW - divW)/2, yPos - 0.5, divW, 1.5);
+    
+    const dm = 8;
+    ctx.fillStyle = '#ffffff';
+    ctx.shadowColor = 'rgba(255,255,255,0.8)';
+    ctx.shadowBlur = 8;
     ctx.beginPath();
     ctx.moveTo(CW/2,      yPos - dm);
     ctx.lineTo(CW/2 + dm, yPos);
@@ -824,26 +568,34 @@ async function shareShortImage() {
     ctx.lineTo(CW/2 - dm, yPos);
     ctx.closePath();
     ctx.fill();
+    ctx.shadowBlur = 0;
   }
-
-  // ── 輔助：自動換行 fillText，回傳結束 y
-  function fillWrapped(text, startY, maxW, lineH) {
-    let line = '', curY = startY;
+  
+  // 計算換行，不直接繪製，回傳字串陣列
+  function getWrappedLines(text, maxW) {
+    let lines = [];
+    let line = '';
     for (const ch of text) {
       const test = line + ch;
       if (ctx.measureText(test).width > maxW && line) {
-        ctx.fillText(line, CW / 2, curY);
-        curY += lineH;
+        lines.push(line);
         line = ch;
       } else { line = test; }
     }
-    if (line) { ctx.fillText(line, CW / 2, curY); curY += lineH; }
-    return curY;
+    if (line) lines.push(line);
+    return lines;
   }
-
-  // ── 輔助：載入圖片，優先嘗試 crossOrigin（避免 tainted canvas）
+  
+  // 自動繪製多行並回傳結束的 Y 軸
+  function fillWrapped(text, startY, maxW, lineH) {
+    const lines = getWrappedLines(text, maxW);
+    lines.forEach((l, i) => {
+        ctx.fillText(l, CW / 2, startY + i * lineH);
+    });
+    return startY + lines.length * lineH;
+  }
+  
   async function loadImg(src) {
-    // 先用 crossOrigin 嘗試，若失敗再不帶 crossOrigin 重試（部分 CDN 無 CORS header）
     const tryLoad = (useCORS) => new Promise((resolve) => {
       const img = new Image();
       if (useCORS) img.crossOrigin = 'anonymous';
@@ -853,127 +605,207 @@ async function shareShortImage() {
     });
     const imgCORS = await tryLoad(true);
     if (imgCORS) return imgCORS;
-    return tryLoad(false); // fallback：圖片會 taint canvas，改用 toDataURL
+    return tryLoad(false); 
   }
 
   // ════ 1. 全黑底 ════
-  ctx.fillStyle = '#0a0a0a';
+  ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, CW, CH);
 
-  // ════ 2. 角色圖（clip 到上方 IMG_H） ════
+  // ════ 2. 角色圖 (進一步縮小並上移，釋放下方文字空間) ════
+  const maxImgH = Math.round(CH * 0.36); // 將圖片高度壓縮至 36%
+  let imgH = 0;
+  let dy = 0; 
   try {
     const img = await loadImg(r.image);
-    const scale = Math.max(CW / img.naturalWidth, IMG_H / img.naturalHeight);
-    const sw = img.naturalWidth  * scale;
-    const sh = img.naturalHeight * scale;
-    ctx.save();
-    ctx.beginPath();
-    ctx.rect(0, 0, CW, IMG_H);
-    ctx.clip();
-    ctx.drawImage(img, (CW - sw) / 2, 0, sw, sh);
-    ctx.restore();
+    if(img) {
+      const scale = Math.min((CW * 0.85) / img.naturalWidth, maxImgH / img.naturalHeight);
+      const sw = Math.round(img.naturalWidth * scale);
+      const sh = Math.round(img.naturalHeight * scale);
+      const dx = (CW - sw) / 2;
+      ctx.drawImage(img, dx, dy, sw, sh);
+      imgH = sh;
+    }
   } catch(e) {
     console.warn('圖片載入失敗', e);
   }
 
   // ════ 3. 圖片底部淡出漸層 ════
-  const fadeStart = IMG_H * 0.60;
-  const grad = ctx.createLinearGradient(0, fadeStart, 0, IMG_H);
-  grad.addColorStop(0, 'rgba(10,10,10,0)');
-  grad.addColorStop(1, 'rgba(10,10,10,1)');
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, fadeStart, CW, IMG_H - fadeStart);
+  if (imgH > 0) {
+    const fadeStart = Math.max(0, imgH - Math.round(CW * 0.20)); 
+    const fadeEnd = imgH + 2;
+    const grad = ctx.createLinearGradient(0, fadeStart, 0, fadeEnd);
+    grad.addColorStop(0, 'rgba(0,0,0,0)');
+    grad.addColorStop(1, 'rgba(0,0,0,1)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, fadeStart, CW, fadeEnd - fadeStart);
+  }
 
-  // ════ 4. 文字區 ════
+  // ════ 4. 外框裝飾 (Tarot-style border) ════
+  ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(30, 30, CW - 60, CH - 60);
+  
+  const cl = 24; 
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+  ctx.beginPath(); ctx.moveTo(30, 30 + cl); ctx.lineTo(30, 30); ctx.lineTo(30 + cl, 30); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(CW - 30 - cl, 30); ctx.lineTo(CW - 30, 30); ctx.lineTo(CW - 30, 30 + cl); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(30, CH - 30 - cl); ctx.lineTo(30, CH - 30); ctx.lineTo(30 + cl, CH - 30); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(CW - 30 - cl, CH - 30); ctx.lineTo(CW - 30, CH - 30); ctx.lineTo(CW - 30, CH - 30 - cl); ctx.stroke();
+
+  // ════ 5. 上方文字區 (行距拉開緊湊化) ════
   ctx.textAlign    = 'center';
   ctx.textBaseline = 'top';
-  let y = IMG_H + Math.round(CW * 0.032);
+  
+  let y = imgH + Math.round(CW * 0.045);
 
-  // ── 稱號：「您是・{soulName}」
+  // ── 稱號：您是《xxx》中的 ──
   ctx.font      = `300 ${Math.round(CW * 0.030)}px "Noto Serif TC", serif`;
-  ctx.fillStyle = 'rgba(255,255,255,0.50)';
+  ctx.fillStyle = 'rgba(255,255,255,0.65)';
   setShadow(8);
-  ctx.fillText(`您是・${r.soulName}`, CW / 2, y);
+  const eyebrowText = r.bookFairy ? `您是《${r.bookFairy}》中的 ──` : `揭曉黑暗特質 ──`;
+  ctx.fillText(eyebrowText, CW / 2, y);
   clearShadow();
-  y += Math.round(CW * 0.048);
-
-  // ── label（粗白，自動換行）
-  ctx.font      = `700 ${Math.round(CW * 0.044)}px "Noto Serif TC", serif`;
-  ctx.fillStyle = '#ffffff';
-  setShadow(10);
-  y = fillWrapped(meta.label || code, y, CW * 0.82, Math.round(CW * 0.058));
-  clearShadow();
-  y += Math.round(CW * 0.022);
-
-  // ── 菱形分隔線 1
-  drawDivider(y + 4);
+  
   y += Math.round(CW * 0.055);
 
-  // ════ 5. 基本印記（三欄 bar） ════
+  // ── 靈魂名稱 (soulName - 微縮小)
+  ctx.font      = `700 ${Math.round(CW * 0.056)}px "Noto Serif TC", serif`;
+  ctx.fillStyle = '#ffffff';
+  setShadow(12);
+  ctx.fillText(r.soulName, CW / 2, y);
+  clearShadow();
+  
+  y += Math.round(CW * 0.075);
+
+  // ── label (一句話描述 - 微放大)
+  ctx.font      = `500 ${Math.round(CW * 0.040)}px "Noto Serif TC", serif`;
+  ctx.fillStyle = 'rgba(255,255,255,0.88)';
+  y = fillWrapped(r.label || code, y, CW * 0.85, Math.round(CW * 0.058));
+  
+  y += Math.round(CW * 0.055);
+
+  // ── 菱形分隔線 1
+  drawDivider(y);
+  y += Math.round(CW * 0.065);
+
+  // ════ 6. 印記 & 黑暗特質 (單排 4 欄配置) ════
+  const axisMax = typeof calcAxisMax === 'function' ? calcAxisMax() : {};
+  const axisLabel = { opt:'樂觀', crp:'沉淪', frc:'強勢', sed:'引誘', cmp:'共犯', grd:'守護', obs:'執著', pos:'佔有', lsc:'失控', slc:'自制' };
+  const validTraits = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
+  const currentScores = typeof axesScore !== 'undefined' ? axesScore : {};
+  
+  const top2 = Object.entries(currentScores)
+    .filter(([k]) => validTraits.includes(k))
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,2);
+
+  const darkTraits = top2.map(([k,v]) => ({
+    lab: axisLabel[k] || k,
+    val: String(v),
+    pct: axisMax[k] ? Math.round((v / axisMax[k]) * 100) : 0
+  }));
+
   const seals = [
-    { lab: '危險指數', val: r.danger,   pct: parseFloat(r.dangerFill) || 0 },
     { lab: r.attr,     val: r.attrVal,  pct: parseFloat(r.attrFill)   || 0 },
     { lab: '逃脱機率', val: r.escape,   pct: parseFloat(r.escape)     || 0 },
+    ...darkTraits
   ];
 
-  const sealW   = Math.round(CW * 0.26);
+  const sealW   = Math.round(CW * 0.20); 
   const sealGap = Math.round(CW * 0.04);
-  const totalW  = sealW * 3 + sealGap * 2;
+  const totalW  = (sealW * 4) + (sealGap * 3);
   const sealX0  = (CW - totalW) / 2;
-  const barH    = 4;
-  const barW    = sealW - 16;
+  const barH    = 3; 
+  const barW    = sealW - 20;
 
   seals.forEach((s, i) => {
-    const sx = sealX0 + i * (sealW + sealGap);
-    const cx = sx + sealW / 2;
+    const sx = sealX0 + (i * (sealW + sealGap));
+    const sy = y;
+    const cx = sx + (sealW / 2);
 
-    // 標題
-    ctx.font      = `400 ${Math.round(CW * 0.022)}px "Noto Serif TC", serif`;
-    ctx.fillStyle = 'rgba(255,255,255,0.55)';
+    ctx.font      = `400 ${Math.round(CW * 0.024)}px "Noto Serif TC", serif`;
+    ctx.fillStyle = 'rgba(255,255,255,0.60)';
     ctx.textAlign = 'center';
     setShadow(6);
-    ctx.fillText(s.lab, cx, y);
+    ctx.fillText(s.lab, cx, sy);
     clearShadow();
 
-    // bar 背景
-    const barY = y + Math.round(CW * 0.032);
-    ctx.fillStyle = 'rgba(255,255,255,0.12)';
-    ctx.fillRect(sx + 8, barY, barW, barH);
+    const barY = sy + Math.round(CW * 0.035);
+    ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    ctx.fillRect(sx + 10, barY, barW, barH);
 
-    // bar 填色
     const fillW = Math.round(barW * Math.min(s.pct, 100) / 100);
-    ctx.fillStyle = 'rgba(255,255,255,0.75)';
-    ctx.fillRect(sx + 8, barY, fillW, barH);
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.shadowColor = 'rgba(255,255,255,0.5)';
+    ctx.shadowBlur = 4;
+    ctx.fillRect(sx + 10, barY, fillW, barH);
+    ctx.shadowBlur = 0;
 
-    // 數值
-    ctx.font      = `700 ${Math.round(CW * 0.026)}px "Noto Serif TC", serif`;
+    ctx.font      = `700 ${Math.round(CW * 0.030)}px "Noto Serif TC", serif`;
     ctx.fillStyle = '#ffffff';
     setShadow(6);
-    ctx.fillText(s.val, cx, barY + Math.round(CW * 0.018));
+    ctx.fillText(s.val, cx, barY + Math.round(CW * 0.025));
     clearShadow();
   });
 
-  ctx.textAlign = 'center';
-  y += Math.round(CW * 0.088);
+  y += Math.round(CW * 0.11); 
 
   // ── 菱形分隔線 2
-  drawDivider(y + 4);
-  y += Math.round(CW * 0.055);
+  drawDivider(y);
+  const divider2Y = y;
 
-  // ════ 6. 專屬台詞 ════
-  ctx.font      = `italic 300 ${Math.round(CW * 0.032)}px "Noto Serif TC", serif`;
-  ctx.fillStyle = 'rgba(255,255,255,0.72)';
+  // ════ 7. 底部資訊 (由底部往上算) ════
+  const bottomMargin = 45; 
+  const bottomUrlY = CH - bottomMargin; 
+  const bottomTitleY = bottomUrlY - Math.round(CW * 0.060); 
+
+  // ── 《故事另有結局》✦ bookName (正體字、白色、較大)
+  ctx.font      = `500 ${Math.round(CW * 0.038)}px "Noto Serif TC", serif`;
+  ctx.fillStyle = '#ffffff';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'bottom';
   setShadow(8);
-  fillWrapped(r.quote || '', y, CW * 0.80, Math.round(CW * 0.048));
+  ctx.fillText(`《故事另有結局》✦ ${r.bookName}`, CW / 2, bottomTitleY);
   clearShadow();
 
-  // ════ 7. 網址（底部） ════
+  // ── 網址 (最底)
   ctx.font         = `300 ${Math.round(CW * 0.022)}px Georgia, serif`;
-  ctx.fillStyle    = 'rgba(255,255,255,0.25)';
-  ctx.textBaseline = 'bottom';
-  ctx.fillText('✦  ' + SITE_URL + '  ✦', CW / 2, CH - Math.round(CW * 0.032));
+  ctx.fillStyle    = 'rgba(255,255,255,0.30)';
+  ctx.fillText('✦  ' + SITE_URL + '  ✦', CW / 2, bottomUrlY);
 
-  // ════ 8. 輸出 ════
+
+  // ════ 8. 專屬台詞 (精準動態置中於分隔線與標題之間) ════
+  ctx.font       = `italic 300 ${Math.round(CW * 0.034)}px "Noto Serif TC", serif`;
+  ctx.fillStyle  = 'rgba(255,255,255,0.75)';
+  ctx.textBaseline = 'top';
+
+  const quoteMaxW = Math.round(CW * 0.82);
+  const quoteLineH = Math.round(CW * 0.052);
+  const quoteLines = getWrappedLines(r.quote || '', quoteMaxW);
+  const quoteTotalH = quoteLines.length * quoteLineH;
+
+  // 取得中間可用空間的頂部與底部
+  const spaceTop = divider2Y + 20; 
+  const spaceBottom = bottomTitleY - Math.round(CW * 0.05); // 大標題以上的安全距離
+
+  // 算出置中的起始 Y 座標
+  let quoteStartY = spaceTop + (spaceBottom - spaceTop - quoteTotalH) / 2;
+  
+  // 保底安全距離，避免重疊
+  if (quoteStartY < spaceTop) {
+      quoteStartY = spaceTop;
+  }
+
+  setShadow(8);
+  quoteLines.forEach((l, i) => {
+      ctx.fillText(l, CW / 2, quoteStartY + i * quoteLineH);
+  });
+  clearShadow();
+
+
+  // ════ 9. 輸出 ════
   const restore = () => { if (btn) { btn.textContent = origText; btn.disabled = false; } };
 
   const doSaveShort = (blob) => {
@@ -996,7 +828,6 @@ async function shareShortImage() {
   };
 
   try {
-    // 先嘗試 toBlob（不被 taint 時有效）
     await new Promise((resolve, reject) => {
       try {
         canvas.toBlob((blob) => {
@@ -1006,7 +837,6 @@ async function shareShortImage() {
       } catch(e) { reject(e); }
     });
   } catch(e) {
-    // tainted canvas fallback：用 toDataURL
     try {
       const dataUrl = canvas.toDataURL('image/png');
       const arr  = dataUrl.split(',');
