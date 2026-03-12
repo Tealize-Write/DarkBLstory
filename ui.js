@@ -342,7 +342,7 @@ function escapeAttr(str){
 }
 
 /* ════════════════════════════════
-   SHARE LONG IMAGE (解決長圖灰底問題)
+   SHARE LONG IMAGE
 ════════════════════════════════ */
 async function shareResultAsImage() {
   const code        = _lastResultCode || determineResultCode();
@@ -356,17 +356,22 @@ async function shareResultAsImage() {
   }
   if(btn){ btn.textContent = "生成專屬圖像中..."; btn.disabled = true; }
   
-  // 隱藏所有按鈕列，讓長圖最下方保持乾淨
   const hideEls = targetEl.querySelectorAll('.btn-row, .share-divider');
   hideEls.forEach(el => el.style.display = 'none');
 
-  // 加入 .capturing class，確保手機版 @media 也能觸發高反差文字
   targetEl.classList.add('capturing');
 
-  // 強制寫入絕對純黑無灰底樣式，並把文字強制變白
   const captureStyle = document.createElement('style');
   captureStyle.id = 'capture-override-style';
   captureStyle.innerHTML = `
+      body.capturing-global::before,
+      body.capturing-global::after,
+      .capturing-global .art-layer,
+      .capturing-global #audio-btn,
+      .capturing-global #audio-hint {
+          display: none !important;
+          opacity: 0 !important;
+      }
       #result.capturing {
           background-color: #000000 !important;
           background-image: none !important;
@@ -406,6 +411,7 @@ async function shareResultAsImage() {
       }
   `;
   document.head.appendChild(captureStyle);
+  document.body.classList.add('capturing-global');
 
   const animEls = [...targetEl.querySelectorAll('.in')];
   animEls.forEach(el => {
@@ -459,7 +465,6 @@ async function shareResultAsImage() {
     alert("圖片生成失敗，請稍後再試。");
   }
 
-  // 復原 DOM 狀態
   window.scrollTo(0, originalScrollY);
   animEls.forEach(el => {
     el.style.animation = '';
@@ -476,10 +481,10 @@ async function shareResultAsImage() {
   if(stampEl) stampEl.remove();
   
   targetEl.classList.remove('capturing');
+  document.body.classList.remove('capturing-global');
   const overrideStyle = document.getElementById('capture-override-style');
   if(overrideStyle) overrideStyle.remove();
   
-  // 恢復被隱藏的按鈕
   hideEls.forEach(el => el.style.display = '');
   if(btn){ btn.textContent = originalText; btn.disabled = false; }
 
@@ -536,7 +541,7 @@ async function shareResultAsImage() {
 }
 
 /* ════════════════════════════════
-   SHARE SHORT IMAGE (動態置中防重疊)
+   SHARE SHORT IMAGE (動態置中防重疊，高級字距排版)
 ════════════════════════════════ */
 async function shareShortImage() {
   const code     = _lastResultCode || determineResultCode();
@@ -634,10 +639,11 @@ async function shareShortImage() {
   ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, CW, CH);
 
-  // ════ 2. 角色圖 (進一步縮小並上移，釋放超級多下方空間) ════
-  const maxImgH = Math.round(CH * 0.35); // 高度極限壓縮至 35%
+  // ════ 2. 角色圖 (變大且適度往下移) ════
+  // 提升圖片佔比到 44%，讓角色更顯眼
+  const maxImgH = Math.round(CH * 0.44); 
   let imgH = 0;
-  let dy = 0; 
+  let dy = 45; // 讓出上方塔羅牌邊框空間
   try {
     const img = await loadImg(r.image);
     if(img) {
@@ -654,8 +660,10 @@ async function shareShortImage() {
 
   // ════ 3. 圖片底部淡出漸層 ════
   if (imgH > 0) {
-    const fadeStart = Math.max(0, imgH - Math.round(CW * 0.20)); 
-    const fadeEnd = imgH + 2;
+    const absoluteImgBottom = dy + imgH;
+    // 加長漸層範圍，讓融入更平滑，文字就算疊上去也不會突兀
+    const fadeStart = Math.max(0, absoluteImgBottom - Math.round(CW * 0.35)); 
+    const fadeEnd = absoluteImgBottom + 5;
     const grad = ctx.createLinearGradient(0, fadeStart, 0, fadeEnd);
     grad.addColorStop(0, 'rgba(0,0,0,0)');
     grad.addColorStop(1, 'rgba(0,0,0,1)');
@@ -676,43 +684,48 @@ async function shareShortImage() {
   ctx.beginPath(); ctx.moveTo(30, CH - 30 - cl); ctx.lineTo(30, CH - 30); ctx.lineTo(30 + cl, CH - 30); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(CW - 30 - cl, CH - 30); ctx.lineTo(CW - 30, CH - 30); ctx.lineTo(CW - 30, CH - 30 - cl); ctx.stroke();
 
-  // ════ 5. 上方文字區 (緊湊化以保留台詞空間) ════
+  // ════ 5. 上方文字區 (縮小字體、拉開字距) ════
   ctx.textAlign    = 'center';
   ctx.textBaseline = 'top';
   
-  let y = imgH + Math.round(CW * 0.04);
+  // 讓文字往上拉，重疊在被漸層處理過的圖片下半部，創造唯美重疊感
+  let y = dy + imgH - Math.round(CW * 0.08);
 
   // ── 稱號：您是《xxx》中的 ──
-  ctx.font      = `300 ${Math.round(CW * 0.030)}px "Noto Serif TC", serif`;
+  ctx.font      = `300 ${Math.round(CW * 0.026)}px "Noto Serif TC", serif`;
   ctx.fillStyle = 'rgba(255,255,255,0.65)';
+  ctx.letterSpacing = "6px"; // 拉開字距
   setShadow(8);
   const eyebrowText = r.bookFairy ? `您是《${r.bookFairy}》中的 ──` : `揭曉黑暗特質 ──`;
   ctx.fillText(eyebrowText, CW / 2, y);
   clearShadow();
   
-  y += Math.round(CW * 0.050);
+  y += Math.round(CW * 0.055);
 
   // ── 靈魂名稱 (soulName)
-  ctx.font      = `700 ${Math.round(CW * 0.056)}px "Noto Serif TC", serif`;
+  ctx.font      = `700 ${Math.round(CW * 0.050)}px "Noto Serif TC", serif`;
   ctx.fillStyle = '#ffffff';
+  ctx.letterSpacing = "14px"; // 更空靈的高級字距
   setShadow(12);
   ctx.fillText(r.soulName, CW / 2, y);
   clearShadow();
   
-  y += Math.round(CW * 0.065);
+  y += Math.round(CW * 0.075);
 
   // ── label (一句話描述)
-  ctx.font      = `500 ${Math.round(CW * 0.040)}px "Noto Serif TC", serif`;
+  ctx.font      = `500 ${Math.round(CW * 0.036)}px "Noto Serif TC", serif`;
   ctx.fillStyle = 'rgba(255,255,255,0.88)';
-  y = fillWrapped(r.label || code, y, CW * 0.85, Math.round(CW * 0.058));
+  ctx.letterSpacing = "5px"; // 描述的字距
+  y = fillWrapped(r.label || code, y, CW * 0.85, Math.round(CW * 0.060));
   
-  y += Math.round(CW * 0.050);
+  y += Math.round(CW * 0.065);
 
   // ── 菱形分隔線 1
+  ctx.letterSpacing = "0px"; // 畫分隔線與下排前，先歸零
   drawDivider(y);
-  y += Math.round(CW * 0.060);
+  y += Math.round(CW * 0.065);
 
-  // ════ 6. 印記 & 黑暗特質 (單排 4 欄配置) ════
+  // ════ 6. 印記 & 黑暗特質 (單排 4 欄配置，字縮小更精緻) ════
   const axisMax = typeof calcAxisMax === 'function' ? calcAxisMax() : {};
   const axisLabel = { opt:'樂觀', crp:'沉淪', frc:'強勢', sed:'引誘', cmp:'共犯', grd:'守護', obs:'執著', pos:'佔有', lsc:'失控', slc:'自制' };
   const validTraits = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
@@ -736,7 +749,7 @@ async function shareShortImage() {
   ];
 
   const sealW   = Math.round(CW * 0.20); 
-  const sealGap = Math.round(CW * 0.04);
+  const sealGap = Math.round(CW * 0.035);
   const totalW  = (sealW * 4) + (sealGap * 3);
   const sealX0  = (CW - totalW) / 2;
   const barH    = 3; 
@@ -747,12 +760,14 @@ async function shareShortImage() {
     const sy = y;
     const cx = sx + (sealW / 2);
 
-    ctx.font      = `400 ${Math.round(CW * 0.024)}px "Noto Serif TC", serif`;
+    ctx.font      = `400 ${Math.round(CW * 0.022)}px "Noto Serif TC", serif`;
     ctx.fillStyle = 'rgba(255,255,255,0.60)';
     ctx.textAlign = 'center';
+    ctx.letterSpacing = "2px";
     setShadow(6);
     ctx.fillText(s.lab, cx, sy);
     clearShadow();
+    ctx.letterSpacing = "0px";
 
     const barY = sy + Math.round(CW * 0.035);
     ctx.fillStyle = 'rgba(255,255,255,0.15)';
@@ -765,67 +780,68 @@ async function shareShortImage() {
     ctx.fillRect(sx + 10, barY, fillW, barH);
     ctx.shadowBlur = 0;
 
-    ctx.font      = `700 ${Math.round(CW * 0.030)}px "Noto Serif TC", serif`;
+    ctx.font      = `700 ${Math.round(CW * 0.028)}px "Noto Serif TC", serif`;
     ctx.fillStyle = '#ffffff';
+    ctx.letterSpacing = "1px";
     setShadow(6);
     ctx.fillText(s.val, cx, barY + Math.round(CW * 0.025));
     clearShadow();
+    ctx.letterSpacing = "0px";
   });
 
-  y += Math.round(CW * 0.10); 
+  y += Math.round(CW * 0.12); 
 
   // ── 菱形分隔線 2
+  ctx.letterSpacing = "0px";
   drawDivider(y);
-  const divider2Y = y; // 台詞區絕對置中的頂部起始點
+  const divider2Y = y; 
 
   // ════ 7. 底部資訊 (由底部定錨推算) ════
-  const bottomMargin = Math.round(CW * 0.040); 
+  const bottomMargin = 45; 
   const bottomUrlY = CH - bottomMargin; 
-  const bottomTitleY = bottomUrlY - Math.round(CW * 0.065); // 底部標題高度
+  const bottomTitleY = bottomUrlY - Math.round(CW * 0.065); 
 
-  // ── 《故事另有結局》✦ bookName
-  ctx.font      = `500 ${Math.round(CW * 0.038)}px "Noto Serif TC", serif`;
+  // ── 網址 (最底)
+  ctx.font         = `300 ${Math.round(CW * 0.022)}px Georgia, serif`;
+  ctx.fillStyle    = 'rgba(255,255,255,0.30)';
+  ctx.letterSpacing = "3px";
+  ctx.fillText('✦  ' + SITE_URL + '  ✦', CW / 2, bottomUrlY);
+  ctx.letterSpacing = "0px";
+
+  // ── 《故事另有結局》✦ bookName (微調縮小字體、拉開字距)
+  ctx.font      = `500 ${Math.round(CW * 0.032)}px "Noto Serif TC", serif`;
   ctx.fillStyle = '#ffffff';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'bottom';
+  ctx.letterSpacing = "4px";
   setShadow(8);
   ctx.fillText(`《故事另有結局》✦ ${r.bookName}`, CW / 2, bottomTitleY);
   clearShadow();
+  ctx.letterSpacing = "0px";
 
-  // ── 網址
-  ctx.font         = `300 ${Math.round(CW * 0.022)}px Georgia, serif`;
-  ctx.fillStyle    = 'rgba(255,255,255,0.30)';
-  ctx.fillText('✦  ' + SITE_URL + '  ✦', CW / 2, bottomUrlY);
-
-
-  // ════ 8. 專屬台詞 (無敵防壓到演算，自動絕對置中) ════
-  ctx.font       = `italic 300 ${Math.round(CW * 0.034)}px "Noto Serif TC", serif`;
+  // ════ 8. 專屬台詞 (動態絕對置中，縮小字體拉長行距) ════
+  ctx.font       = `italic 300 ${Math.round(CW * 0.030)}px "Noto Serif TC", serif`;
   ctx.fillStyle  = 'rgba(255,255,255,0.75)';
+  ctx.letterSpacing = "4px";
   ctx.textBaseline = 'top';
 
-  const quoteMaxW = Math.round(CW * 0.82);
-  const quoteLineH = Math.round(CW * 0.052);
+  const quoteMaxW = Math.round(CW * 0.85);
+  const quoteLineH = Math.round(CW * 0.048);
   const quoteLines = getWrappedLines(r.quote || '', quoteMaxW);
   const quoteTotalH = quoteLines.length * quoteLineH;
 
-  // 動態尋找剩餘空間的絕對中心點：(第二條線底部 ~ 大標題頂部)
   const spaceTop = divider2Y + 20; 
-  const spaceBottom = bottomTitleY - Math.round(CW * 0.04); // 預留安全距離
+  const spaceBottom = bottomTitleY - Math.round(CW * 0.04); 
   
-  // 置中算式
   let quoteStartY = spaceTop + (spaceBottom - spaceTop - quoteTotalH) / 2;
-  
-  // 保底機制：絕對不會重疊
-  if (quoteStartY < spaceTop) {
-      quoteStartY = spaceTop;
-  }
+  if (quoteStartY < spaceTop) quoteStartY = spaceTop;
 
   setShadow(8);
   quoteLines.forEach((l, i) => {
       ctx.fillText(l, CW / 2, quoteStartY + i * quoteLineH);
   });
   clearShadow();
-
+  ctx.letterSpacing = "0px";
 
   // ════ 9. 輸出 ════
   const restore = () => { if (btn) { btn.textContent = origText; btn.disabled = false; } };
