@@ -192,28 +192,37 @@ function getEmblemSVG(code) {
     case 'A_CONTROL_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 8 54 Q 32 48 56 56" /><path d="M 44 51 L 50 58" /><path d="M 36 26 C 42 32 44 42 36 50 L 30 60 L 26 54 C 20 46 18 36 24 28" /><path d="M 36 26 C 30 20 24 20 24 28" /><path d="M 26 24 L 12 26 L 24 28 Z" fill="currentColor" stroke="none"/><circle cx="28" cy="24" r="1.5" fill="currentColor" stroke="none"/><path d="M 32 32 C 40 38 40 48 32 54 M 28 36 C 34 42 34 48 28 52" /><path d="M 32 52 L 30 56 M 38 50 L 36 54" /></g></svg>`;
     case 'A_CONTROL_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 12 28 C 12 16 24 18 32 24 C 40 18 52 16 52 28 C 52 40 40 38 32 44 C 24 38 12 40 12 28 Z" /><path d="M 20 28 Q 24 24 28 28 Q 24 32 20 28 Z" stroke-width="1.5"/><path d="M 44 28 Q 40 24 36 28 Q 40 32 44 28 Z" stroke-width="1.5"/><path d="M 32 12 L 35 18 L 32 24 L 29 18 Z" fill="currentColor" stroke="none"/><circle cx="20" cy="28" r="1.5" fill="currentColor" stroke="none"/><circle cx="44" cy="28" r="1.5" fill="currentColor" stroke="none"/></g></svg>`;
 case 'A_CONTROL_3': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M 32 4 L 33 8 L 37 9 L 33 10 L 32 14 L 31 10 L 27 9 L 31 8 Z" fill="currentColor" stroke="none" />
+      <path d="M 28 36 L 22 62 L 42 62 L 36 36 Z" fill="var(--bg)" stroke="currentColor" />
+      <path d="M 26 50 L 32 60 L 38 50" fill="none" stroke-width="1.5" />
       
-      <path d="M 27 18 C 26 8, 16 6, 12 4 M 24 12 L 20 2 M 17 7 L 8 6" fill="none" />
-      <path d="M 37 18 C 38 8, 48 6, 52 4 M 40 12 L 44 2 M 47 7 L 56 6" fill="none" />
+      <g fill="none">
+        <path d="M 28 28 C 22 20, 8 20, 10 8" />
+        <path d="M 24 23 Q 22 12, 24 10" />
+        <path d="M 17 18 Q 14 10, 16 4" />
+        <path d="M 10 12 Q 6 15, 4 6" />
+        
+        <path d="M 36 28 C 42 20, 56 20, 54 8" />
+        <path d="M 40 23 Q 42 12, 40 10" />
+        <path d="M 47 18 Q 50 10, 48 4" />
+        <path d="M 54 12 Q 58 15, 60 6" />
+      </g>
       
-      <path d="M 22 28 L 32 58 L 42 28 Z" fill="var(--bg)" stroke="currentColor" />
-      <path d="M 26 36 L 32 50 L 38 36 M 32 50 V 58" fill="none" stroke-width="1.5" />
+      <path d="M 25 32 C 19 32, 14 33, 10 35 C 15 43, 21 41, 24 39 Z" fill="var(--bg)" stroke="currentColor" />
+      <path d="M 22 34.5 C 17 35, 13 35.5, 11 36" fill="none" stroke-width="1.5" />
+      <path d="M 39 32 C 45 32, 50 33, 54 35 C 49 43, 43 41, 40 39 Z" fill="var(--bg)" stroke="currentColor" />
+      <path d="M 42 34.5 C 47 35, 51 35.5, 53 36" fill="none" stroke-width="1.5" />
       
-      <path d="M 26 21 Q 12 16 6 22 Q 14 26 22 26 Z" fill="var(--bg)" stroke="currentColor" />
-      <path d="M 22 23 L 12 21" fill="none" stroke-width="1.5" />
-      <path d="M 38 21 Q 52 16 58 22 Q 50 26 42 26 Z" fill="var(--bg)" stroke="currentColor" />
-      <path d="M 42 23 L 52 21" fill="none" stroke-width="1.5" />
+      <path d="M 28 28 L 36 28 C 40 28, 42 36, 40 42 L 32 56 L 24 42 C 22 36, 24 28, 28 28 Z" fill="var(--bg)" stroke="currentColor" />
       
-      <path d="M 28 18 L 36 18 L 42 28 L 32 48 L 22 28 Z" fill="var(--bg)" stroke="currentColor" />
+      <path d="M 32 10 L 33.5 14 L 37.5 15.5 L 33.5 17 L 32 21 L 30.5 17 L 26.5 15.5 L 30.5 14 Z" fill="currentColor" stroke="none" />
       
-      <polygon points="32,19 29,25 32,31 35,25" fill="none" stroke="currentColor" stroke-width="1.5" />
-      <line x1="32" y1="31" x2="32" y2="43" stroke-width="1.5" />
+      <polygon points="32,26 29,31 32,36 35,31" fill="var(--bg)" stroke="currentColor" stroke-width="1.5" />
+      <line x1="32" y1="36" x2="32" y2="51" stroke-width="1.5" />
       
-      <path d="M 23 33 Q 27 36 30 36 M 41 33 Q 37 36 34 36" fill="none" stroke-width="2" />
-      <path d="M 23 33 L 21 31 M 41 33 L 43 31" fill="none" stroke-width="1.5" />
+      <path d="M 21 36 Q 25 38 30 39" fill="none" stroke-width="2" />
+      <path d="M 43 36 Q 39 38 34 39" fill="none" stroke-width="2" />
       
-      <polygon points="29,43 35,43 32,48" fill="currentColor" stroke="none" />
+      <polygon points="32,51 34.5,53 32,56 29.5,53" fill="currentColor" stroke="none" />
     </g></svg>`;
     case 'A_SCHEME_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><ellipse cx="32" cy="32" rx="14" ry="18" /><path d="M 32 20 L 40 25 V 39 L 32 44 L 24 39 V 25 Z" /><path d="M 32 14 V 20 M 40 22 L 46 18 M 40 42 L 46 46 M 32 50 V 44 M 24 42 L 18 46 M 24 22 L 18 18" /><path d="M 28 12 Q 32 4 36 12 Z" /><path d="M 18 24 Q 8 20 12 32" /><path d="M 46 24 Q 56 20 52 32" /><path d="M 22 46 Q 16 56 18 42" /><path d="M 42 46 Q 48 56 46 42" /></g></svg>`;
     case 'A_SCHEME_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 16 10 V 46 C 16 53 20 54 26 54 H 44 V 10 Z" fill="var(--bg)" stroke="none" /><path d="M 22 10 H 16 V 46 C 16 53 20 54 26 54 H 44 V 50 H 26 C 23 50 22 48 22 46 Z" fill="var(--bg)" stroke="currentColor" /><rect x="22" y="10" width="22" height="36" fill="var(--bg)" stroke="currentColor" /><line x1="23" y1="48" x2="44" y2="48" stroke-width="1.5" /><path d="M 28 46 V 58 L 31 55 L 34 58 V 46 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="miter" /><rect x="26" y="14" width="14" height="28" stroke-width="1.5" /><rect x="37" y="23" width="10" height="10" fill="var(--bg)" stroke="currentColor" /><rect x="41" y="26" width="3" height="4" rx="1.5" stroke-width="1.5" /><polygon points="33,16 41,28 33,40 25,28" fill="var(--bg)" stroke="currentColor" stroke-linejoin="miter" /><polygon points="33,21 37,28 33,35 29,28" stroke-width="1.5" stroke-linejoin="miter" /></g></svg>`;
