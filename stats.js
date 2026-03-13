@@ -8,12 +8,54 @@ function getClientId() {
   return cid;
 }
 
+// ✦ 全域變數，預存玩家地點 (預設使用時區作為國家備案)
+window.userLocationData = {
+  country: Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown',
+  city: 'unknown'
+};
+
+// ✦ 網頁一載入，就在背景偷抓精準 IP 地理位置
+fetch('https://ipapi.co/json/')
+  .then(res => res.json())
+  .then(data => {
+    if (data && data.city) {
+      window.userLocationData.country = data.country_name || window.userLocationData.country;
+      window.userLocationData.city = data.city;
+    }
+  })
+  .catch(err => console.log('IP fetch failed', err)); // 失敗也靜默處理，不影響網頁
+
+// ── 輔助函數：打包擴充的分析數據 ──
+function getTrackingPayload(code, actionType = "") {
+  const urlParams = new URLSearchParams(window.location.search);
+  const utmSource = urlParams.get('utm_source') || 'direct';
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
+  
+  let timeSpent = 0;
+  if (typeof window.quizStartTime !== 'undefined' && window.quizStartTime > 0 && actionType === "") {
+    timeSpent = Math.round((Date.now() - window.quizStartTime) / 1000);
+  }
+
+  return {
+    token: typeof GAS_TOKEN !== 'undefined' ? GAS_TOKEN : "",
+    resultCode: code,
+    action: actionType,
+    clientId: getClientId(),
+    source: utmSource,
+    referrer: document.referrer || 'none',
+    device: isMobile,
+    country: window.userLocationData.country,
+    city: window.userLocationData.city,
+    timeSpent: timeSpent
+  };
+}
+
 // ── 行為追蹤 (背景靜默發送) ──
 function trackUserAction(code, actionType) {
   if (!GAS_URL || GAS_URL.includes("在此貼上")) return;
   fetch(GAS_URL, {
     method: "POST",
-    body: JSON.stringify({ token: GAS_TOKEN, resultCode: code, action: actionType, clientId: getClientId() }),
+    body: JSON.stringify(getTrackingPayload(code, actionType)),
   }).catch(() => { /* 靜默失敗 */ });
 }
 
@@ -29,7 +71,7 @@ function sendStats(code){
 
   fetch(GAS_URL, {
     method: "POST",
-    body: JSON.stringify({ token: GAS_TOKEN, resultCode: code, clientId: getClientId() }), 
+    body: JSON.stringify(getTrackingPayload(code, "")), 
   })
   .then(r => r.json())
   .then(data => {

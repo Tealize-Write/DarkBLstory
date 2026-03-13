@@ -26,6 +26,8 @@ function animateRulers(root){
 /* ════════════════════════════════
    FLOW
 ════════════════════════════════ */
+window.quizStartTime = 0; // ✦ 新增：全域變數，記錄測驗開始時間
+
 function startQuiz(){
   document.getElementById('intro').classList.add('hidden');
   document.getElementById('result').classList.add('hidden');
@@ -37,6 +39,9 @@ function startQuiz(){
   axesScore = {};
   AXES.forEach(k => axesScore[k] = 0);
   _lastResultCode = null;
+
+  // ✦ 記錄測驗開始的時間點
+  window.quizStartTime = Date.now();
 
   const elProgress = document.getElementById('progress');
   elProgress.innerHTML='';
@@ -191,7 +196,9 @@ function getEmblemSVG(code) {
   switch(code) {
     case 'A_CONTROL_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 8 54 Q 32 48 56 56" /><path d="M 44 51 L 50 58" /><path d="M 36 26 C 42 32 44 42 36 50 L 30 60 L 26 54 C 20 46 18 36 24 28" /><path d="M 36 26 C 30 20 24 20 24 28" /><path d="M 26 24 L 12 26 L 24 28 Z" fill="currentColor" stroke="none"/><circle cx="28" cy="24" r="1.5" fill="currentColor" stroke="none"/><path d="M 32 32 C 40 38 40 48 32 54 M 28 36 C 34 42 34 48 28 52" /><path d="M 32 52 L 30 56 M 38 50 L 36 54" /></g></svg>`;
     case 'A_CONTROL_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 12 28 C 12 16 24 18 32 24 C 40 18 52 16 52 28 C 52 40 40 38 32 44 C 24 38 12 40 12 28 Z" /><path d="M 20 28 Q 24 24 28 28 Q 24 32 20 28 Z" stroke-width="1.5"/><path d="M 44 28 Q 40 24 36 28 Q 40 32 44 28 Z" stroke-width="1.5"/><path d="M 32 12 L 35 18 L 32 24 L 29 18 Z" fill="currentColor" stroke="none"/><circle cx="20" cy="28" r="1.5" fill="currentColor" stroke="none"/><circle cx="44" cy="28" r="1.5" fill="currentColor" stroke="none"/></g></svg>`;
-case 'A_CONTROL_3': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    
+    // ✦ 神鹿終極完整版 (冰山白神攻)
+    case 'A_CONTROL_3': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <path d="M 28 36 L 22 62 L 42 62 L 36 36 Z" fill="var(--bg)" stroke="currentColor" />
       <path d="M 26 50 L 32 60 L 38 50" fill="none" stroke-width="1.5" />
       
@@ -219,11 +226,13 @@ case 'A_CONTROL_3': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.
       <polygon points="32,26 29,31 32,36 35,31" fill="var(--bg)" stroke="currentColor" stroke-width="1.5" />
       <line x1="32" y1="36" x2="32" y2="51" stroke-width="1.5" />
       
-      <path d="M 21 36 Q 25 38 30 39" fill="none" stroke-width="2" />
-      <path d="M 43 36 Q 39 38 34 39" fill="none" stroke-width="2" />
+      <path d="M 28 35 L 20 31 M 36 35 L 44 31" fill="none" stroke-width="1.5" />
+      <polygon points="29,38 21,33 22,34.5" fill="currentColor" stroke="none" />
+      <polygon points="35,38 43,33 42,34.5" fill="currentColor" stroke="none" />
       
       <polygon points="32,51 34.5,53 32,56 29.5,53" fill="currentColor" stroke="none" />
     </g></svg>`;
+    
     case 'A_SCHEME_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><ellipse cx="32" cy="32" rx="14" ry="18" /><path d="M 32 20 L 40 25 V 39 L 32 44 L 24 39 V 25 Z" /><path d="M 32 14 V 20 M 40 22 L 46 18 M 40 42 L 46 46 M 32 50 V 44 M 24 42 L 18 46 M 24 22 L 18 18" /><path d="M 28 12 Q 32 4 36 12 Z" /><path d="M 18 24 Q 8 20 12 32" /><path d="M 46 24 Q 56 20 52 32" /><path d="M 22 46 Q 16 56 18 42" /><path d="M 42 46 Q 48 56 46 42" /></g></svg>`;
     case 'A_SCHEME_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 16 10 V 46 C 16 53 20 54 26 54 H 44 V 10 Z" fill="var(--bg)" stroke="none" /><path d="M 22 10 H 16 V 46 C 16 53 20 54 26 54 H 44 V 50 H 26 C 23 50 22 48 22 46 Z" fill="var(--bg)" stroke="currentColor" /><rect x="22" y="10" width="22" height="36" fill="var(--bg)" stroke="currentColor" /><line x1="23" y1="48" x2="44" y2="48" stroke-width="1.5" /><path d="M 28 46 V 58 L 31 55 L 34 58 V 46 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="miter" /><rect x="26" y="14" width="14" height="28" stroke-width="1.5" /><rect x="37" y="23" width="10" height="10" fill="var(--bg)" stroke="currentColor" /><rect x="41" y="26" width="3" height="4" rx="1.5" stroke-width="1.5" /><polygon points="33,16 41,28 33,40 25,28" fill="var(--bg)" stroke="currentColor" stroke-linejoin="miter" /><polygon points="33,21 37,28 33,35 29,28" stroke-width="1.5" stroke-linejoin="miter" /></g></svg>`;
     case 'A_SCHEME_3': return `<svg ${baseProps}>${mysticCircle}<g transform="translate(0, 4)" stroke-width="2.5"><path d="M 8 28 C 16 24 26 26 30 30 C 34 26 44 24 56 28 L 54 32 C 46 28 38 30 34 32 C 30 30 22 28 10 32 Z" fill="currentColor" stroke="none"/><path d="M 10 32 C 10 44 28 44 30 30 M 54 32 C 54 44 36 44 34 30" /><path d="M 30 30 C 32 28 34 30 34 30" /><path d="M 8 28 L 4 16 M 56 28 L 60 16" /><path d="M 14 36 L 20 30 M 50 36 L 44 30" /></g></svg>`;
@@ -238,21 +247,21 @@ case 'A_CONTROL_3': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.
     case 'R_SCHEME_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 22 28 C 16 28 12 34 16 40 C 20 44 26 42 28 38" /><path d="M 22 28 C 20 16 26 10 32 20 C 34 24 30 28 26 30" /><path d="M 26 26 C 28 14 36 10 40 22 C 40 26 34 30 30 30" /><path d="M 28 32 C 36 30 48 36 48 48 C 48 54 40 56 32 56" /><path d="M 26 40 V 56 M 20 44 V 56" /><path d="M 44 48 C 40 44 34 48 34 54" /><circle cx="48" cy="44" r="4" fill="currentColor" stroke="none"/><path d="M 20 32 L 22 34 L 20 34" /></g></svg>`;
     case 'R_SCHEME_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5" fill="none"><rect x="16" y="46" width="32" height="6" fill="currentColor" stroke="none" /><path d="M 16 46 C 10 30 20 24 32 24 C 44 24 54 30 48 46" /><path d="M 24 46 C 22 34 26 28 32 24" /><path d="M 40 46 C 42 34 38 28 32 24" /><path d="M 32 46 V 24" /><path d="M 32 24 V 16 M 28 12 L 36 12 M 32 8 V 16" stroke-width="3.5"/><polygon points="32,12 28,7 36,7" fill="currentColor" stroke="none" /><polygon points="32,12 28,17 36,17" fill="currentColor" stroke="none" /><polygon points="32,12 27,8 27,16" fill="currentColor" stroke="none" /><polygon points="32,12 37,8 37,16" fill="currentColor" stroke="none" /></g></svg>`;
     case 'R_CHAOS_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 12 40 L 9 40 C 10 44 14 44 16 46" /><path d="M 12 40 C 16 32 26 30 36 34 C 46 38 48 46 44 48 H 16" /><path d="M 24 34 C 20 26 28 20 32 26 C 34 30 30 34 26 36" /><path d="M 44 46 C 54 46 60 40 56 34 C 52 28 48 32 50 36" /></g></svg>`;
+    
+    // ✦ 3D 管狀解剖學心臟終極版 (殉道自我奉獻受)
     case 'R_CHAOS_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5" stroke-linejoin="round">
       <path d="M 28 34 L 28 14 C 28 8, 30 6, 31 6 L 31 2 L 34 2 L 34 5.5 C 35 5.5, 36 5.5, 36 5.5 L 36 2 L 39 2 L 39 6.5 C 40 7, 41 7.5, 41 7.5 L 41 4 L 44 4 L 44 10 C 47 13, 46 18, 46 22 L 46 34 L 40 34 L 40 18 C 39 15, 36 13, 34 14 L 34 34 Z" fill="var(--bg)" stroke="currentColor" />
-      
       <path d="M 22 34 L 22 10 L 18 10 L 18 14 L 14 10 L 10 14 L 16 18 L 16 34 Z" fill="var(--bg)" stroke="currentColor" />
-      
       <path d="M 32 36 L 32 20 L 48 14 L 50 20 L 38 36 Z" fill="var(--bg)" stroke="currentColor" />
       <ellipse cx="49" cy="17" rx="1.5" ry="3.5" transform="rotate(-20 49 17)" fill="var(--bg)" stroke="currentColor" />
-      
       <path d="M 26 26 C 14 24, 6 36, 14 48 C 18 56, 30 62, 38 60 C 48 50, 52 36, 44 26 C 38 20, 32 22, 26 26 Z" fill="var(--bg)" stroke="currentColor" />
-      
       <path d="M 32 30 Q 30 40, 28 50 M 30 40 Q 24 44, 20 46 M 29 45 Q 34 48, 36 52" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-      
       <path d="M 38 62 L 36 65 A 2 2 0 0 0 40 65 Z" fill="currentColor" stroke="none" />
       <path d="M 37.5 68 L 36 71 A 1.5 1.5 0 0 0 39 71 Z" fill="currentColor" stroke="none" />
+      <path d="M 39 74 L 37.5 76.5 A 1.2 1.2 0 0 0 39.5 76.5 Z" fill="currentColor" stroke="none" />
+      <path d="M 38 79 L 37 81 A 1 1 0 0 0 38.5 81 Z" fill="currentColor" stroke="none" />
     </g></svg>`;
+    
     case 'R_DEVOTION_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><line x1="32" y1="44" x2="32" y2="62" stroke-width="4"/><line x1="26" y1="44" x2="38" y2="44" /><path d="M32 46 C 20 40, 12 52, 26 54 L 32 46 L 38 54 C 52 52, 44 40, 32 46 Z" fill="rgba(255,255,255,0.1)"/><circle cx="32" cy="24" r="18" fill="rgba(255,255,255,0.05)"/><path d="M32 24 C 32 18, 26 18, 26 24 C 26 32, 38 32, 38 24 C 38 14, 20 14, 20 24 C 20 40, 44 40, 44 24 C 44 6, 14 6, 14 24" stroke-width="2.5"/></g></svg>`;
     case 'R_DEVOTION_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 32 16 C 48 10 58 24 52 38 C 48 50 38 54 32 48 C 26 54 16 50 12 38 C 6 24 16 10 32 16 Z" /><path d="M 32 16 C 32 8 36 6 38 4" /><path d="M 36 12 C 46 8 52 14 46 20 C 40 20 34 16 36 12 Z" /><path d="M 20 28 C 18 36 22 44 28 48" /></g></svg>`;
     default: return `<svg ${baseProps}><circle cx="32" cy="32" r="16" /><path d="M 24 32 H 40 M 32 24 V 40"/></svg>`;
@@ -399,7 +408,11 @@ async function shareResultAsImage() {
   if (typeof trackUserAction === 'function') {
       trackUserAction(code, "share_image");
   }
+  
   if(btn){ btn.textContent = "生成專屬圖像中..."; btn.disabled = true; }
+  
+  // ✦ 給瀏覽器 50 毫秒的喘息時間，確保「生成中...」文字順利渲染
+  await new Promise(resolve => setTimeout(resolve, 50));
   
   const hideEls = targetEl.querySelectorAll('.btn-row, .share-divider');
   hideEls.forEach(el => el.style.display = 'none');
@@ -490,10 +503,14 @@ async function shareResultAsImage() {
   const fullH = targetEl.scrollHeight;
   const fullW = targetEl.offsetWidth;
 
+  // ✦ 動態調整渲染倍率 (手機降低倍率以換取速度)
+  const isMobileSize = window.innerWidth <= 768;
+  const renderScale = isMobileSize ? 1.5 : Math.min(window.devicePixelRatio || 2, 2);
+
   let canvas = null;
   try {
     canvas = await html2canvas(targetEl, {
-      scale          : Math.min(window.devicePixelRatio || 2, 2),
+      scale          : renderScale, 
       backgroundColor: '#000000', 
       useCORS        : true,
       allowTaint     : false,
