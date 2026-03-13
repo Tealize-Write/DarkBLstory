@@ -541,7 +541,7 @@ async function shareResultAsImage() {
 }
 
 /* ════════════════════════════════
-   SHARE SHORT IMAGE (動態置中防重疊，高級字距排版)
+   SHARE SHORT IMAGE (加入圖騰徽章)
 ════════════════════════════════ */
 async function shareShortImage() {
   const code     = _lastResultCode || determineResultCode();
@@ -599,6 +599,30 @@ async function shareShortImage() {
     ctx.fill();
     ctx.shadowBlur = 0;
   }
+
+  // 繪製帶有專屬圖騰的分隔線
+  function drawEmblemDivider(yPos, emblemImg) {
+    const divW = Math.round(CW * 0.65);
+    const gradLine = ctx.createLinearGradient((CW - divW)/2, 0, (CW + divW)/2, 0);
+    gradLine.addColorStop(0, 'rgba(255,255,255,0)');
+    gradLine.addColorStop(0.2, 'rgba(255,255,255,0.4)');
+    gradLine.addColorStop(0.8, 'rgba(255,255,255,0.4)');
+    gradLine.addColorStop(1, 'rgba(255,255,255,0)');
+
+    const emblemSize = Math.round(CW * 0.085); // 圖騰大小約 91px
+    const halfGap = (emblemSize / 2) + 12;
+
+    ctx.fillStyle = gradLine;
+    ctx.fillRect((CW - divW)/2, yPos - 0.5, (divW/2) - halfGap, 1.5);
+    ctx.fillRect(CW/2 + halfGap, yPos - 0.5, (divW/2) - halfGap, 1.5);
+
+    if (emblemImg) {
+        ctx.shadowColor = 'rgba(255,255,255,0.5)';
+        ctx.shadowBlur = 10;
+        ctx.drawImage(emblemImg, (CW - emblemSize)/2, yPos - emblemSize/2, emblemSize, emblemSize);
+        ctx.shadowBlur = 0;
+    }
+  }
   
   function getWrappedLines(text, maxW) {
     let lines = [];
@@ -635,12 +659,28 @@ async function shareShortImage() {
     return tryLoad(false); 
   }
 
+  // ════ 0. 載入專屬圖騰 SVG ════
+  let emblemImg = null;
+  try {
+    let rawSvg = getEmblemSVG(code);
+    rawSvg = rawSvg.replace(/currentColor/g, 'rgba(255,255,255,0.95)');
+    rawSvg = rawSvg.replace(/var\(--bg\)/g, '#000000');
+    if (!rawSvg.includes('xmlns=')) {
+      rawSvg = rawSvg.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" ');
+    } else if (!rawSvg.includes('width=')) {
+      rawSvg = rawSvg.replace('<svg ', '<svg width="64" height="64" ');
+    }
+    const svgDataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(rawSvg);
+    emblemImg = await loadImg(svgDataUrl);
+  } catch(e) {
+    console.warn('Emblem load failed', e);
+  }
+
   // ════ 1. 全黑底 ════
   ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, CW, CH);
 
   // ════ 2. 角色圖 (變大且適度往下移) ════
-  // 提升圖片佔比到 44%，讓角色更顯眼
   const maxImgH = Math.round(CH * 0.44); 
   let imgH = 0;
   let dy = 45; // 讓出上方塔羅牌邊框空間
@@ -661,7 +701,6 @@ async function shareShortImage() {
   // ════ 3. 圖片底部淡出漸層 ════
   if (imgH > 0) {
     const absoluteImgBottom = dy + imgH;
-    // 加長漸層範圍，讓融入更平滑，文字就算疊上去也不會突兀
     const fadeStart = Math.max(0, absoluteImgBottom - Math.round(CW * 0.35)); 
     const fadeEnd = absoluteImgBottom + 5;
     const grad = ctx.createLinearGradient(0, fadeStart, 0, fadeEnd);
@@ -684,17 +723,16 @@ async function shareShortImage() {
   ctx.beginPath(); ctx.moveTo(30, CH - 30 - cl); ctx.lineTo(30, CH - 30); ctx.lineTo(30 + cl, CH - 30); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(CW - 30 - cl, CH - 30); ctx.lineTo(CW - 30, CH - 30); ctx.lineTo(CW - 30, CH - 30 - cl); ctx.stroke();
 
-  // ════ 5. 上方文字區 (縮小字體、拉開字距) ════
+  // ════ 5. 上方文字區 ════
   ctx.textAlign    = 'center';
   ctx.textBaseline = 'top';
   
-  // 讓文字往上拉，重疊在被漸層處理過的圖片下半部，創造唯美重疊感
   let y = dy + imgH - Math.round(CW * 0.08);
 
   // ── 稱號：您是《xxx》中的 ──
   ctx.font      = `300 ${Math.round(CW * 0.026)}px "Noto Serif TC", serif`;
   ctx.fillStyle = 'rgba(255,255,255,0.65)';
-  ctx.letterSpacing = "6px"; // 拉開字距
+  ctx.letterSpacing = "6px"; 
   setShadow(8);
   const eyebrowText = r.bookFairy ? `您是童話《${r.bookFairy}》中的 ──` : `揭曉黑暗特質 ──`;
   ctx.fillText(eyebrowText, CW / 2, y);
@@ -705,7 +743,7 @@ async function shareShortImage() {
   // ── 靈魂名稱 (soulName)
   ctx.font      = `700 ${Math.round(CW * 0.050)}px "Noto Serif TC", serif`;
   ctx.fillStyle = '#ffffff';
-  ctx.letterSpacing = "14px"; // 更空靈的高級字距
+  ctx.letterSpacing = "14px"; 
   setShadow(12);
   ctx.fillText(r.soulName, CW / 2, y);
   clearShadow();
@@ -715,17 +753,21 @@ async function shareShortImage() {
   // ── label (一句話描述)
   ctx.font      = `500 ${Math.round(CW * 0.036)}px "Noto Serif TC", serif`;
   ctx.fillStyle = 'rgba(255,255,255,0.88)';
-  ctx.letterSpacing = "5px"; // 描述的字距
+  ctx.letterSpacing = "5px"; 
   y = fillWrapped(r.label || code, y, CW * 0.85, Math.round(CW * 0.060));
   
   y += Math.round(CW * 0.065);
 
-  // ── 菱形分隔線 1
-  ctx.letterSpacing = "0px"; // 畫分隔線與下排前，先歸零
-  drawDivider(y);
-  y += Math.round(CW * 0.065);
+  // ── 圖騰專屬分隔線 1 ──
+  ctx.letterSpacing = "0px"; 
+  if (emblemImg) {
+      drawEmblemDivider(y, emblemImg);
+  } else {
+      drawDivider(y);
+  }
+  y += Math.round(CW * 0.070);
 
-  // ════ 6. 印記 & 黑暗特質 (單排 4 欄配置，字縮小更精緻) ════
+  // ════ 6. 印記 & 黑暗特質 (單排 4 欄) ════
   const axisMax = typeof calcAxisMax === 'function' ? calcAxisMax() : {};
   const axisLabel = { opt:'樂觀', crp:'沉淪', frc:'強勢', sed:'引誘', cmp:'共犯', grd:'守護', obs:'執著', pos:'佔有', lsc:'失控', slc:'自制' };
   const validTraits = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
@@ -789,26 +831,26 @@ async function shareShortImage() {
     ctx.letterSpacing = "0px";
   });
 
-  y += Math.round(CW * 0.12); 
+  y += Math.round(CW * 0.11); 
 
   // ── 菱形分隔線 2
   ctx.letterSpacing = "0px";
   drawDivider(y);
   const divider2Y = y; 
 
-  // ════ 7. 底部資訊 (由底部定錨推算) ════
+  // ════ 7. 底部資訊 ════
   const bottomMargin = 45; 
   const bottomUrlY = CH - bottomMargin; 
   const bottomTitleY = bottomUrlY - Math.round(CW * 0.065); 
 
-  // ── 網址 (最底)
+  // ── 網址
   ctx.font         = `300 ${Math.round(CW * 0.022)}px Georgia, serif`;
   ctx.fillStyle    = 'rgba(255,255,255,0.30)';
   ctx.letterSpacing = "3px";
   ctx.fillText('✦  ' + SITE_URL + '  ✦', CW / 2, bottomUrlY);
   ctx.letterSpacing = "0px";
 
-  // ── 《故事另有結局》✦ bookName (微調縮小字體、拉開字距)
+  // ── 《故事另有結局》✦ bookName
   ctx.font      = `500 ${Math.round(CW * 0.032)}px "Noto Serif TC", serif`;
   ctx.fillStyle = '#ffffff';
   ctx.textAlign = 'center';
@@ -819,7 +861,7 @@ async function shareShortImage() {
   clearShadow();
   ctx.letterSpacing = "0px";
 
-  // ════ 8. 專屬台詞 (動態絕對置中，縮小字體拉長行距) ════
+  // ════ 8. 專屬台詞 (動態絕對置中) ════
   ctx.font       = `italic 300 ${Math.round(CW * 0.030)}px "Noto Serif TC", serif`;
   ctx.fillStyle  = 'rgba(255,255,255,0.75)';
   ctx.letterSpacing = "4px";
