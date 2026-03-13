@@ -280,7 +280,7 @@ const resultsData = {
   R_CHAOS_2: {
     label: "被愛碾碎仍選擇再愛一次",
     image: "https://tealize-write.github.io/DarkBLstory/img/heart.png",
-    soulName: "自我奉獻受",
+    soulName: "殉道自我奉獻受",
     soulDesc: "你知道這會傷了自己，卻還是義無反顧地撞上去。",
     danger: "極高", dangerFill: "100%",
     attr: "同歸指數", attrVal: "Max", attrFill: "100%",
