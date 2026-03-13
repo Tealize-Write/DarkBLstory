@@ -696,7 +696,7 @@ async function shareShortImage() {
   ctx.fillStyle = 'rgba(255,255,255,0.65)';
   ctx.letterSpacing = "6px"; // 拉開字距
   setShadow(8);
-  const eyebrowText = r.bookFairy ? `您是《${r.bookFairy}》中的 ──` : `揭曉黑暗特質 ──`;
+  const eyebrowText = r.bookFairy ? `您是童話《${r.bookFairy}》中的 ──` : `揭曉黑暗特質 ──`;
   ctx.fillText(eyebrowText, CW / 2, y);
   clearShadow();
   
