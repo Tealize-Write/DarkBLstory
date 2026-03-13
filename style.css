@@ -1209,6 +1209,17 @@ body {
     }
 }
 
+/* ══ 手機版微調：修正 Banner 英文副標題壓字 ══ */
+@media (max-width: 768px) {
+    .banner-caption {
+        bottom: 6px;         /* 往下推到最邊緣，遠離主標題 */
+        right: 16px;         /* 稍微靠右收攏 */
+        font-size: 8.5px;    /* 字級微調，保持精緻感 */
+        letter-spacing: 3px; /* 字距微縮 */
+        line-height: 1.5;    /* 讓兩行字靠得緊湊一點 */
+    }
+}
+
 #audio-btn {
     position: fixed; 
     top: 0;

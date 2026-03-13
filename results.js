@@ -86,7 +86,7 @@ const resultsData = {
 
   A_SCHEME_3: {
     label: "以愛為名的沉默暴徒",
-    image: "https://framerusercontent.com/images/K60BMuPYxaec4ZvETplOuAZcbw.png",
+    image: "https://tealize-write.github.io/DarkBLstory/img/king_A.png",
     soulName: "偏執瘋子攻",
     soulDesc: "你深知他不應該跟你在一起，所以你脫光他、折辱他；可你又不願意他離開，所以抱他、吻他、愛他。",
     danger: "極高", dangerFill: "85%",
@@ -150,7 +150,7 @@ const resultsData = {
 
   A_DEVOTION_2: {
     label: "甜蜜牢籠的統治者",
-    image: "https://framerusercontent.com/images/l5SjfsnGDqcuNrQYZbAKTQvJij4.png",
+    image: "https://tealize-write.github.io/DarkBLstory/img/candy_A.png",
     soulName: "佔有囚禁攻",
     soulDesc: "你說愛他，於是他替你成為永世的劫，糖果很甜，你再也沒有離開的理由。",
     danger: "極高", dangerFill: "90%",
@@ -247,7 +247,7 @@ const resultsData = {
 
   R_SCHEME_2: {
     label: "無法逃離的美麗囚徒",
-    image: "https://framerusercontent.com/images/K60BMuPYxaec4ZvETplOuAZcbw.png",
+    image: "https://tealize-write.github.io/DarkBLstory/img/king_R.png",
     soulName: "隱忍美人受",
     soulDesc: "美貌和其他優點放在一起是錦上添花，若只是空有美貌的廢物，那不過是罪孽。",
     danger: "高", dangerFill: "0%",
@@ -295,7 +295,7 @@ const resultsData = {
 
   R_DEVOTION_1: {
     label: "笑著走進深淵的共犯",
-    image: "https://framerusercontent.com/images/l5SjfsnGDqcuNrQYZbAKTQvJij4.png",
+    image: "https://tealize-write.github.io/DarkBLstory/img/candy_R.png",
     soulName: "自願沉淪受",
     soulDesc: "你曾想著離開，可是真正握著鑰匙的人，一直是你。",
     danger: "高", dangerFill: "80%",
