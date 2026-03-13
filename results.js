@@ -238,7 +238,7 @@ const resultsData = {
     attr: "媚惑指數", attrVal: "Max", attrFill: "100%",
     escape: "20%",
     quote: "「你贏了，從現在開始，你的人生就得浪費在我這失敗者身上，誰也別想逃。」",
-    guide: "乖乖一點，繼續當你的贏家。既然你享受捕獲他的快感，他也會繼續留在籠裡，暫時扮演戰利品。",
+    guide: "乖一點，繼續當你的贏家。既然你享受捕獲他的快感，他也會繼續留在籠裡，暫時扮演戰利品。",
     bookName: "《消失的終點線》", bookAuthor: "葦", bookFairy: "龜兔賽跑",
     bookTags: ["強制愛", "NTR", "高潮地獄"],
     link: "https://early-marketplaces-521584.framer.app/preview/story8",

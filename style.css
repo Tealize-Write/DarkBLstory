@@ -597,23 +597,24 @@ body {
 }
 
 .r-name {
-    font-family: var(--display);
-    font-style: italic;
-    font-size: 16px; 
-    letter-spacing: 4px;
-    color: rgba(255,255,255,.9); 
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 32px; /* 將靈魂名稱大幅放大 */
+    letter-spacing: 8px; /* 拉開字距，更有氣勢 */
+    color: var(--ink);
     margin-bottom: 8px;
+    text-shadow: 0 0 12px rgba(255,255,255,0.15); /* 微微發光 */
 }
 
 .r-compound {
-    font-family: var(--serif);
-    font-weight: 700;
-    font-size: 26px;
-    letter-spacing: 2px;
-    color: var(--ink);
-    line-height: 1.4;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 15px; /* 將描述縮小作為副標題 */
+    letter-spacing: 3px;
+    color: rgba(255,255,255,.75);
+    line-height: 1.6;
     border-bottom: 1px solid var(--line);
-    padding-bottom: 16px;
+    padding-bottom: 18px;
     margin-bottom: 16px;
     position: relative;
 }
@@ -1192,7 +1193,7 @@ body {
     .r-compound {
         text-align: center;
         border-bottom: none;
-        margin-bottom: 8px;
+        margin-bottom: 16px; /* 手機版加上稍微寬鬆的間距 */
         padding-bottom: 0;
     }
 
