@@ -244,7 +244,7 @@ function showResult(){
   const eyebrow = document.querySelector('.r-eyebrow');
   if (eyebrow) {
     if (r.bookFairy) {
-        eyebrow.textContent = `您是《${r.bookFairy}》中的 ──`;
+        eyebrow.textContent = `您是童話《${r.bookFairy}》中的 ──`;
     } else {
         eyebrow.textContent = `揭曉黑暗特質 ──`;
     }
