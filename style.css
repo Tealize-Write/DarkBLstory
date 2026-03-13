@@ -1429,3 +1429,21 @@ body {
             background: rgba(255,255,255,.9) !important;
         }
 }
+/* ══ AUDIO ATTRIBUTION ══ */
+.music-attribution {
+    position: fixed;
+    bottom: 12px;
+    right: 12px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.25); /* 透明度調低，極度不起眼 */
+    font-family: var(--serif);
+    letter-spacing: 1px;
+    pointer-events: none; /* 避免擋住點擊 */
+    z-index: 50;
+    transition: opacity 0.5s ease;
+}
+
+/* 讓他在產生長圖時自動消失 (配合 ui.js 的設定) */
+.capturing-global .music-attribution {
+    display: none !important;
+}

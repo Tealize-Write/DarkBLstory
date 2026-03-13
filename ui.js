@@ -426,7 +426,8 @@ async function shareResultAsImage() {
       body.capturing-global::after,
       .capturing-global .art-layer,
       .capturing-global #audio-btn,
-      .capturing-global #audio-hint {
+      .capturing-global #audio-hint,
+      .capturing-global .music-attribution { 
           display: none !important;
           opacity: 0 !important;
       }
