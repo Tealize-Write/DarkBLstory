@@ -902,9 +902,12 @@ async function shareShortImage() {
   const divider2Y = y; 
 
   // ════ 7. 底部資訊 ════
-  const bottomMargin = 45; 
+  const bottomMargin = 55; // ✦ 把邊距拉大一點（原本是 45）
   const bottomUrlY = CH - bottomMargin; 
   const bottomTitleY = bottomUrlY - Math.round(CW * 0.065); 
+
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'bottom'; // ✦ 新增這行：讓底部文字向上生長，絕對不會往下壓到框線
 
   // ── 網址
   ctx.font         = `300 ${Math.round(CW * 0.022)}px Georgia, serif`;
@@ -916,8 +919,7 @@ async function shareShortImage() {
   // ── 《故事另有結局》✦ bookName
   ctx.font      = `500 ${Math.round(CW * 0.032)}px "Noto Serif TC", serif`;
   ctx.fillStyle = '#ffffff';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'bottom';
+  // ctx.textBaseline = 'bottom'; // (這行原本在這裡，現在可以刪掉，因為上面已經統一設定了)
   ctx.letterSpacing = "4px";
   setShadow(8);
   ctx.fillText(`《故事另有結局》✦ ${r.bookName}`, CW / 2, bottomTitleY);

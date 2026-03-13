@@ -201,15 +201,17 @@ body {
 
 .banner-caption {
     position: absolute;
-    bottom: 18px;
-    right: 20px;
+    bottom: 20px;
+    right: 24px;
     z-index: 2;
     font-family: var(--display);
     font-style: italic;
     font-size: 10px;
-    letter-spacing: 5px;
-    color: rgba(255,255,255,.78);
+    letter-spacing: 4px; /* 字距稍微收斂一點點，讓長句更易讀 */
+    color: rgba(255, 255, 255, 0.75);
     text-transform: uppercase;
+    text-align: right; /* ✦ 新增：讓兩行字向右邊整齊對齊 */
+    line-height: 1.8;  /* ✦ 新增：拉開兩行字之間的垂直距離，增加高級感 */
 }
 
 /* ══ DIVIDER ══ */
