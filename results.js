@@ -38,7 +38,7 @@ const resultsData = {
 
   A_CONTROL_3: {
     label: "冰冷的規則建立者",
-    image: "https://framerusercontent.com/images/tU3tsyKjf8sMxVq6UnyJDCSi4c.png",
+    image: "https://tealize-write.github.io/DarkBLstory/img/bite_god.png",
     soulName: "冰山白神攻",
     soulDesc: "你是規則，你就是對方的世界觀。沒有人會想反抗一座冰山，除了鐵達尼號。",
     danger: "極高", dangerFill: "90%",
@@ -118,7 +118,7 @@ const resultsData = {
 
   A_CHAOS_2: {
     label: "利爪的規則破壞者",
-    image: "https://framerusercontent.com/images/tU3tsyKjf8sMxVq6UnyJDCSi4c.png",
+    image: "https://tealize-write.github.io/DarkBLstory/img/bite_leon.png",
     soulName: "暴力黑獅攻",
     soulDesc: "當神為你關了一扇門，你就砸窗砸門砸玻璃，自己開洞出去。",
     danger: "極高", dangerFill: "80%",
