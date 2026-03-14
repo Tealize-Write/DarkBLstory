@@ -26,7 +26,7 @@ function animateRulers(root){
 /* ════════════════════════════════
    FLOW
 ════════════════════════════════ */
-window.quizStartTime = 0; // ✦ 新增：全域變數，記錄測驗開始時間
+window.quizStartTime = 0; 
 
 function startQuiz(){
   document.getElementById('intro').classList.add('hidden');
@@ -40,7 +40,6 @@ function startQuiz(){
   AXES.forEach(k => axesScore[k] = 0);
   _lastResultCode = null;
 
-  // ✦ 記錄測驗開始的時間點
   window.quizStartTime = Date.now();
 
   const elProgress = document.getElementById('progress');
@@ -161,13 +160,15 @@ function renderCpBlock(code){
    TOP AXES
 ════════════════════════════════ */
 function getMyTopAxesHTML() {
-  const axisMax = calcAxisMax();
+  const axisMax = typeof calcAxisMax === 'function' ? calcAxisMax() : {};
   const axisLabel = {
     opt:'樂觀', crp:'沉淪', frc:'強勢', sed:'引誘', cmp:'共犯',
     grd:'守護', obs:'執著', pos:'佔有', lsc:'失控', slc:'自制'
   };
   const validTraits = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
-  const top3 = Object.entries(axesScore)
+  const currentScores = typeof axesScore !== 'undefined' ? axesScore : {};
+  
+  const top3 = Object.entries(currentScores)
     .filter(([k, v]) => validTraits.includes(k))
     .sort((a,b)=>b[1]-a[1])
     .slice(0,3);
@@ -183,7 +184,7 @@ function getMyTopAxesHTML() {
 }
 
 /* ════════════════════════════════
-   DYNAMIC EMBLEM SVGs (黑暗塔羅精緻具象版)
+   DYNAMIC EMBLEM SVGs
 ════════════════════════════════ */
 function getEmblemSVG(code) {
   const baseProps = 'viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"';
@@ -196,43 +197,32 @@ function getEmblemSVG(code) {
   switch(code) {
     case 'A_CONTROL_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 8 54 Q 32 48 56 56" /><path d="M 44 51 L 50 58" /><path d="M 36 26 C 42 32 44 42 36 50 L 30 60 L 26 54 C 20 46 18 36 24 28" /><path d="M 36 26 C 30 20 24 20 24 28" /><path d="M 26 24 L 12 26 L 24 28 Z" fill="currentColor" stroke="none"/><circle cx="28" cy="24" r="1.5" fill="currentColor" stroke="none"/><path d="M 32 32 C 40 38 40 48 32 54 M 28 36 C 34 42 34 48 28 52" /><path d="M 32 52 L 30 56 M 38 50 L 36 54" /></g></svg>`;
     case 'A_CONTROL_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 12 28 C 12 16 24 18 32 24 C 40 18 52 16 52 28 C 52 40 40 38 32 44 C 24 38 12 40 12 28 Z" /><path d="M 20 28 Q 24 24 28 28 Q 24 32 20 28 Z" stroke-width="1.5"/><path d="M 44 28 Q 40 24 36 28 Q 40 32 44 28 Z" stroke-width="1.5"/><path d="M 32 12 L 35 18 L 32 24 L 29 18 Z" fill="currentColor" stroke="none"/><circle cx="20" cy="28" r="1.5" fill="currentColor" stroke="none"/><circle cx="44" cy="28" r="1.5" fill="currentColor" stroke="none"/></g></svg>`;
-    
-    // ✦ 神鹿終極完整版 (冰山白神攻)
     case 'A_CONTROL_3': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <path d="M 28 36 L 22 62 L 42 62 L 36 36 Z" fill="var(--bg)" stroke="currentColor" />
       <path d="M 26 50 L 32 60 L 38 50" fill="none" stroke-width="1.5" />
-      
       <g fill="none">
         <path d="M 28 28 C 22 20, 8 20, 10 8" />
         <path d="M 24 23 Q 22 12, 24 10" />
         <path d="M 17 18 Q 14 10, 16 4" />
         <path d="M 10 12 Q 6 15, 4 6" />
-        
         <path d="M 36 28 C 42 20, 56 20, 54 8" />
         <path d="M 40 23 Q 42 12, 40 10" />
         <path d="M 47 18 Q 50 10, 48 4" />
         <path d="M 54 12 Q 58 15, 60 6" />
       </g>
-      
       <path d="M 25 32 C 19 32, 14 33, 10 35 C 15 43, 21 41, 24 39 Z" fill="var(--bg)" stroke="currentColor" />
       <path d="M 22 34.5 C 17 35, 13 35.5, 11 36" fill="none" stroke-width="1.5" />
       <path d="M 39 32 C 45 32, 50 33, 54 35 C 49 43, 43 41, 40 39 Z" fill="var(--bg)" stroke="currentColor" />
       <path d="M 42 34.5 C 47 35, 51 35.5, 53 36" fill="none" stroke-width="1.5" />
-      
       <path d="M 28 28 L 36 28 C 40 28, 42 36, 40 42 L 32 56 L 24 42 C 22 36, 24 28, 28 28 Z" fill="var(--bg)" stroke="currentColor" />
-      
       <path d="M 32 10 L 33.5 14 L 37.5 15.5 L 33.5 17 L 32 21 L 30.5 17 L 26.5 15.5 L 30.5 14 Z" fill="currentColor" stroke="none" />
-      
       <polygon points="32,26 29,31 32,36 35,31" fill="var(--bg)" stroke="currentColor" stroke-width="1.5" />
       <line x1="32" y1="36" x2="32" y2="51" stroke-width="1.5" />
-      
       <path d="M 28 35 L 20 31 M 36 35 L 44 31" fill="none" stroke-width="1.5" />
       <polygon points="29,38 21,33 22,34.5" fill="currentColor" stroke="none" />
       <polygon points="35,38 43,33 42,34.5" fill="currentColor" stroke="none" />
-      
       <polygon points="32,51 34.5,53 32,56 29.5,53" fill="currentColor" stroke="none" />
     </g></svg>`;
-    
     case 'A_SCHEME_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><ellipse cx="32" cy="32" rx="14" ry="18" /><path d="M 32 20 L 40 25 V 39 L 32 44 L 24 39 V 25 Z" /><path d="M 32 14 V 20 M 40 22 L 46 18 M 40 42 L 46 46 M 32 50 V 44 M 24 42 L 18 46 M 24 22 L 18 18" /><path d="M 28 12 Q 32 4 36 12 Z" /><path d="M 18 24 Q 8 20 12 32" /><path d="M 46 24 Q 56 20 52 32" /><path d="M 22 46 Q 16 56 18 42" /><path d="M 42 46 Q 48 56 46 42" /></g></svg>`;
     case 'A_SCHEME_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 16 10 V 46 C 16 53 20 54 26 54 H 44 V 10 Z" fill="var(--bg)" stroke="none" /><path d="M 22 10 H 16 V 46 C 16 53 20 54 26 54 H 44 V 50 H 26 C 23 50 22 48 22 46 Z" fill="var(--bg)" stroke="currentColor" /><rect x="22" y="10" width="22" height="36" fill="var(--bg)" stroke="currentColor" /><line x1="23" y1="48" x2="44" y2="48" stroke-width="1.5" /><path d="M 28 46 V 58 L 31 55 L 34 58 V 46 Z" fill="var(--bg)" stroke="currentColor" stroke-linejoin="miter" /><rect x="26" y="14" width="14" height="28" stroke-width="1.5" /><rect x="37" y="23" width="10" height="10" fill="var(--bg)" stroke="currentColor" /><rect x="41" y="26" width="3" height="4" rx="1.5" stroke-width="1.5" /><polygon points="33,16 41,28 33,40 25,28" fill="var(--bg)" stroke="currentColor" stroke-linejoin="miter" /><polygon points="33,21 37,28 33,35 29,28" stroke-width="1.5" stroke-linejoin="miter" /></g></svg>`;
     case 'A_SCHEME_3': return `<svg ${baseProps}>${mysticCircle}<g transform="translate(0, 4)" stroke-width="2.5"><path d="M 8 28 C 16 24 26 26 30 30 C 34 26 44 24 56 28 L 54 32 C 46 28 38 30 34 32 C 30 30 22 28 10 32 Z" fill="currentColor" stroke="none"/><path d="M 10 32 C 10 44 28 44 30 30 M 54 32 C 54 44 36 44 34 30" /><path d="M 30 30 C 32 28 34 30 34 30" /><path d="M 8 28 L 4 16 M 56 28 L 60 16" /><path d="M 14 36 L 20 30 M 50 36 L 44 30" /></g></svg>`;
@@ -247,8 +237,6 @@ function getEmblemSVG(code) {
     case 'R_SCHEME_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 22 28 C 16 28 12 34 16 40 C 20 44 26 42 28 38" /><path d="M 22 28 C 20 16 26 10 32 20 C 34 24 30 28 26 30" /><path d="M 26 26 C 28 14 36 10 40 22 C 40 26 34 30 30 30" /><path d="M 28 32 C 36 30 48 36 48 48 C 48 54 40 56 32 56" /><path d="M 26 40 V 56 M 20 44 V 56" /><path d="M 44 48 C 40 44 34 48 34 54" /><circle cx="48" cy="44" r="4" fill="currentColor" stroke="none"/><path d="M 20 32 L 22 34 L 20 34" /></g></svg>`;
     case 'R_SCHEME_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5" fill="none"><rect x="16" y="46" width="32" height="6" fill="currentColor" stroke="none" /><path d="M 16 46 C 10 30 20 24 32 24 C 44 24 54 30 48 46" /><path d="M 24 46 C 22 34 26 28 32 24" /><path d="M 40 46 C 42 34 38 28 32 24" /><path d="M 32 46 V 24" /><path d="M 32 24 V 16 M 28 12 L 36 12 M 32 8 V 16" stroke-width="3.5"/><polygon points="32,12 28,7 36,7" fill="currentColor" stroke="none" /><polygon points="32,12 28,17 36,17" fill="currentColor" stroke="none" /><polygon points="32,12 27,8 27,16" fill="currentColor" stroke="none" /><polygon points="32,12 37,8 37,16" fill="currentColor" stroke="none" /></g></svg>`;
     case 'R_CHAOS_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 12 40 L 9 40 C 10 44 14 44 16 46" /><path d="M 12 40 C 16 32 26 30 36 34 C 46 38 48 46 44 48 H 16" /><path d="M 24 34 C 20 26 28 20 32 26 C 34 30 30 34 26 36" /><path d="M 44 46 C 54 46 60 40 56 34 C 52 28 48 32 50 36" /></g></svg>`;
-    
-    // ✦ 3D 管狀解剖學心臟終極版 (殉道自我奉獻受)
     case 'R_CHAOS_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5" stroke-linejoin="round">
       <path d="M 28 34 L 28 14 C 28 8, 30 6, 31 6 L 31 2 L 34 2 L 34 5.5 C 35 5.5, 36 5.5, 36 5.5 L 36 2 L 39 2 L 39 6.5 C 40 7, 41 7.5, 41 7.5 L 41 4 L 44 4 L 44 10 C 47 13, 46 18, 46 22 L 46 34 L 40 34 L 40 18 C 39 15, 36 13, 34 14 L 34 34 Z" fill="var(--bg)" stroke="currentColor" />
       <path d="M 22 34 L 22 10 L 18 10 L 18 14 L 14 10 L 10 14 L 16 18 L 16 34 Z" fill="var(--bg)" stroke="currentColor" />
@@ -261,7 +249,6 @@ function getEmblemSVG(code) {
       <path d="M 39 74 L 37.5 76.5 A 1.2 1.2 0 0 0 39.5 76.5 Z" fill="currentColor" stroke="none" />
       <path d="M 38 79 L 37 81 A 1 1 0 0 0 38.5 81 Z" fill="currentColor" stroke="none" />
     </g></svg>`;
-    
     case 'R_DEVOTION_1': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><line x1="32" y1="44" x2="32" y2="62" stroke-width="4"/><line x1="26" y1="44" x2="38" y2="44" /><path d="M32 46 C 20 40, 12 52, 26 54 L 32 46 L 38 54 C 52 52, 44 40, 32 46 Z" fill="rgba(255,255,255,0.1)"/><circle cx="32" cy="24" r="18" fill="rgba(255,255,255,0.05)"/><path d="M32 24 C 32 18, 26 18, 26 24 C 26 32, 38 32, 38 24 C 38 14, 20 14, 20 24 C 20 40, 44 40, 44 24 C 44 6, 14 6, 14 24" stroke-width="2.5"/></g></svg>`;
     case 'R_DEVOTION_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 32 16 C 48 10 58 24 52 38 C 48 50 38 54 32 48 C 26 54 16 50 12 38 C 6 24 16 10 32 16 Z" /><path d="M 32 16 C 32 8 36 6 38 4" /><path d="M 36 12 C 46 8 52 14 46 20 C 40 20 34 16 36 12 Z" /><path d="M 20 28 C 18 36 22 44 28 48" /></g></svg>`;
     default: return `<svg ${baseProps}><circle cx="32" cy="32" r="16" /><path d="M 24 32 H 40 M 32 24 V 40"/></svg>`;
@@ -379,14 +366,14 @@ function showResult(){
 }
 
 /* ════════════════════════════════
-   STATS & SHARE
+   STATS & SHARE 共用邏輯
 ════════════════════════════════ */
 function trackBookClick(code){
   if (typeof trackUserAction === 'function') {
     trackUserAction(code, "book_click");
   }
 }
-window.trackBookClick    = trackBookClick;
+window.trackBookClick     = trackBookClick;
 window.shareResultAsImage = shareResultAsImage;
 window.shareShortImage    = shareShortImage;
 
@@ -395,23 +382,71 @@ function escapeAttr(str){
   return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
+// ✦ 集中處理「分享」與「下載退路」的核心共用函式
+async function shareOrDownloadBlob(blob, filename, sharePayload, btn, origText) {
+  const file = new File([blob], filename, { type: 'image/png' });
+  const isTouchDevice = window.matchMedia('(pointer:coarse)').matches;
+  const isMobile = isTouchDevice && navigator.canShare && navigator.canShare({ files: [file] });
+
+  let shared = false;
+
+  // 1. 嘗試使用系統原生分享 (Web Share API)
+  if (isMobile) {
+    try {
+      await navigator.share({ ...sharePayload, files: [file] });
+      shared = true;
+    } catch (e) {
+      if (e.name === 'AbortError') shared = true; // 玩家主動取消不算失敗
+    }
+  }
+
+  // 2. 如果不支援或分享失敗 (如 LINE In-App 阻擋)，啟動備用下載機制
+  if (!shared) {
+    try {
+      const url = URL.createObjectURL(blob);
+      const a = Object.assign(document.createElement('a'), { href: url, download: filename });
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+      if (navigator.clipboard && navigator.clipboard.write) {
+        try {
+          await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+          if (btn) btn.textContent = '✦ 已下載＋複製到剪貼簿！';
+        } catch(e) {
+          if (btn) btn.textContent = '✦ 圖片已下載！';
+        }
+      } else {
+        if (btn) btn.textContent = '✦ 圖片已下載！';
+      }
+    } catch (err) {
+      if (btn) btn.textContent = '✦ 圖片生成完成！';
+    }
+  }
+
+  // 3. 一段時間後保證按鈕恢復原狀
+  setTimeout(() => {
+    if (btn) { btn.textContent = origText; btn.disabled = false; }
+  }, 2500);
+}
+
 /* ════════════════════════════════
-   SHARE LONG IMAGE
+   SHARE LONG IMAGE (安全下莊版)
 ════════════════════════════════ */
 async function shareResultAsImage() {
-  const code        = _lastResultCode || determineResultCode();
-  const btn         = document.querySelector('.share-btn:not(.short-share)');
-  const targetEl    = document.getElementById('result');
+  const code         = _lastResultCode || determineResultCode();
+  const btn          = document.querySelector('.share-btn:not(.short-share)');
+  const targetEl     = document.getElementById('result');
   const originalText = btn ? btn.textContent : '';
-  const SITE_URL    = 'https://tealize-write.github.io/DarkBLstory/';
+  const SITE_URL     = 'https://tealize-write.github.io/DarkBLstory/';
 
   if (typeof trackUserAction === 'function') {
       trackUserAction(code, "share_image");
   }
   
-  if(btn){ btn.textContent = "生成專屬圖像中..."; btn.disabled = true; }
+  if (btn) { btn.textContent = "生成專屬圖像中..."; btn.disabled = true; }
   
-  // ✦ 給瀏覽器 50 毫秒的喘息時間，確保「生成中...」文字順利渲染
   await new Promise(resolve => setTimeout(resolve, 50));
   
   const hideEls = targetEl.querySelectorAll('.btn-row, .share-divider');
@@ -503,12 +538,12 @@ async function shareResultAsImage() {
 
   const fullH = targetEl.scrollHeight;
   const fullW = targetEl.offsetWidth;
-
-  // ✦ 動態調整渲染倍率 (手機降低倍率以換取速度)
   const isMobileSize = window.innerWidth <= 768;
-  const renderScale = isMobileSize ? 1.5 : Math.min(window.devicePixelRatio || 2, 2);
+  const renderScale = isMobileSize ? 1.1 : Math.min(window.devicePixelRatio || 2, 2);
 
   let canvas = null;
+
+  // ✦ 引入絕對安全的 try/finally 區塊
   try {
     canvas = await html2canvas(targetEl, {
       scale          : renderScale, 
@@ -523,84 +558,48 @@ async function shareResultAsImage() {
       scrollX        : 0,
       scrollY        : 0,
     });
+
+    if (!canvas) throw new Error("Canvas 渲染失敗");
+
+    // ✦ 漂亮且標準的 Promisify 寫法
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    if (!blob) throw new Error("Blob 轉檔失敗");
+
+    await shareOrDownloadBlob(
+      blob,
+      'dark_trait_result.png',
+      {
+        title: '故事另有結局｜黑暗特質心理測驗',
+        text : '歡迎前往黑森林，測試你的黑暗特質是什麼？',
+        url  : SITE_URL
+      },
+      btn,
+      originalText
+    );
+
   } catch(err) {
-    console.error("html2canvas 失敗:", err);
+    console.error("生成圖片發生錯誤:", err);
     alert("圖片生成失敗，請稍後再試。");
+    if (btn) { btn.textContent = originalText; btn.disabled = false; }
+  } finally {
+    // ✦ 無論成功失敗，這裡保證一定會把 UI 完美復原，永不卡死
+    window.scrollTo(0, originalScrollY);
+    animEls.forEach(el => {
+      el.style.animation = '';
+      el.style.opacity   = '';
+      el.style.transform = '';
+      el.style.filter    = '';
+    });
+    emblemEls.forEach(el => {
+      if(el.getAttribute('fill')   === bgColor) el.setAttribute('fill',   'var(--bg)');
+      if(el.getAttribute('stroke') === bgColor) el.setAttribute('stroke', 'var(--bg)');
+    });
+    document.getElementById('_share_stamp')?.remove();
+    targetEl.classList.remove('capturing');
+    document.body.classList.remove('capturing-global');
+    document.getElementById('capture-override-style')?.remove();
+    hideEls.forEach(el => el.style.display = '');
   }
-
-  window.scrollTo(0, originalScrollY);
-  animEls.forEach(el => {
-    el.style.animation = '';
-    el.style.opacity   = '';
-    el.style.transform = '';
-    el.style.filter    = '';
-  });
-  emblemEls.forEach(el => {
-    if(el.getAttribute('fill')   === bgColor) el.setAttribute('fill',   'var(--bg)');
-    if(el.getAttribute('stroke') === bgColor) el.setAttribute('stroke', 'var(--bg)');
-  });
-  
-  const stampEl = document.getElementById('_share_stamp');
-  if(stampEl) stampEl.remove();
-  
-  targetEl.classList.remove('capturing');
-  document.body.classList.remove('capturing-global');
-  const overrideStyle = document.getElementById('capture-override-style');
-  if(overrideStyle) overrideStyle.remove();
-  
-  hideEls.forEach(el => el.style.display = '');
-  if(btn){ btn.textContent = originalText; btn.disabled = false; }
-
-  if(!canvas) return;
-
-  canvas.toBlob(async (blob) => {
-    if(!blob){ alert("圖片轉檔失敗"); return; }
-
-    const file    = new File([blob], 'dark_trait_result.png', { type: 'image/png' });
-    const isTouchDevice = window.matchMedia('(pointer:coarse)').matches;
-    const isMobile = isTouchDevice && navigator.canShare && navigator.canShare({ files: [file] });
-
-    if(isMobile) {
-      try {
-        await navigator.share({
-          title: '故事另有結局｜黑暗特質心理測驗',
-          text : '歡迎前往黑森林，測試你的黑暗特質是什麼？',
-          url  : SITE_URL,
-          files: [file],
-        });
-      } catch(e) { }
-      return;
-    }
-
-    const objUrl = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href     = objUrl;
-    a.download = 'dark_trait_result.png';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(objUrl), 1000);
-
-    if(navigator.clipboard && navigator.clipboard.write) {
-      try {
-        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-        if(btn){
-          btn.textContent = '✦ 已下載＋複製到剪貼簿！';
-          setTimeout(() => { btn.textContent = originalText; }, 2500);
-        }
-      } catch(e) {
-        if(btn){
-          btn.textContent = '✦ 圖片已下載！';
-          setTimeout(() => { btn.textContent = originalText; }, 2500);
-        }
-      }
-    } else {
-      if(btn){
-        btn.textContent = '✦ 圖片已下載！';
-        setTimeout(() => { btn.textContent = originalText; }, 2500);
-      }
-    }
-  }, 'image/png');
 }
 
 /* ════════════════════════════════
@@ -616,6 +615,8 @@ async function shareShortImage() {
   const origText = btn ? btn.textContent : '';
   if (btn) { btn.textContent = '生成中…'; btn.disabled = true; }
   
+  await new Promise(resolve => setTimeout(resolve, 50));
+
   if (typeof trackUserAction === 'function') {
       trackUserAction(code, 'share_short');
   }
@@ -663,7 +664,6 @@ async function shareShortImage() {
     ctx.shadowBlur = 0;
   }
 
-  // 繪製帶有專屬圖騰的分隔線
   function drawEmblemDivider(yPos, emblemImg) {
     const divW = Math.round(CW * 0.65);
     const gradLine = ctx.createLinearGradient((CW - divW)/2, 0, (CW + divW)/2, 0);
@@ -672,7 +672,7 @@ async function shareShortImage() {
     gradLine.addColorStop(0.8, 'rgba(255,255,255,0.4)');
     gradLine.addColorStop(1, 'rgba(255,255,255,0)');
 
-    const emblemSize = Math.round(CW * 0.085); // 圖騰大小約 91px
+    const emblemSize = Math.round(CW * 0.085); 
     const halfGap = (emblemSize / 2) + 12;
 
     ctx.fillStyle = gradLine;
@@ -687,15 +687,21 @@ async function shareShortImage() {
     }
   }
   
+  // ✦ 英文斷字優化：確保英文字母與標點符號不被中途腰斬
   function getWrappedLines(text, maxW) {
     let lines = [];
     let line = '';
-    for (const ch of text) {
-      const test = line + ch;
+    // 匹配: "英文/數字/符號連在一起" 或是 "單個中文字" 或是 "其他任意字元"
+    const tokens = text.match(/[a-zA-Z0-9\-\.\?\!\,]+|[\s\S]/g) || [];
+    
+    for (const token of tokens) {
+      const test = line + token;
       if (ctx.measureText(test).width > maxW && line) {
         lines.push(line);
-        line = ch;
-      } else { line = test; }
+        line = token.trimStart(); // 換行時去掉開頭可能的空白
+      } else { 
+        line = test; 
+      }
     }
     if (line) lines.push(line);
     return lines;
@@ -722,7 +728,6 @@ async function shareShortImage() {
     return tryLoad(false); 
   }
 
-  // ════ 0. 載入專屬圖騰 SVG ════
   let emblemImg = null;
   try {
     let rawSvg = getEmblemSVG(code);
@@ -735,18 +740,14 @@ async function shareShortImage() {
     }
     const svgDataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(rawSvg);
     emblemImg = await loadImg(svgDataUrl);
-  } catch(e) {
-    console.warn('Emblem load failed', e);
-  }
+  } catch(e) {}
 
-  // ════ 1. 全黑底 ════
   ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, CW, CH);
 
-  // ════ 2. 角色圖 (變大且適度往下移) ════
   const maxImgH = Math.round(CH * 0.44); 
   let imgH = 0;
-  let dy = 45; // 讓出上方塔羅牌邊框空間
+  let dy = 45; 
   try {
     const img = await loadImg(r.image);
     if(img) {
@@ -757,11 +758,8 @@ async function shareShortImage() {
       ctx.drawImage(img, dx, dy, sw, sh);
       imgH = sh;
     }
-  } catch(e) {
-    console.warn('圖片載入失敗', e);
-  }
+  } catch(e) {}
 
-  // ════ 3. 圖片底部淡出漸層 ════
   if (imgH > 0) {
     const absoluteImgBottom = dy + imgH;
     const fadeStart = Math.max(0, absoluteImgBottom - Math.round(CW * 0.35)); 
@@ -773,7 +771,6 @@ async function shareShortImage() {
     ctx.fillRect(0, fadeStart, CW, fadeEnd - fadeStart);
   }
 
-  // ════ 4. 外框裝飾 (Tarot-style border) ════
   ctx.strokeStyle = 'rgba(255,255,255,0.12)';
   ctx.lineWidth = 1.5;
   ctx.strokeRect(30, 30, CW - 60, CH - 60);
@@ -786,13 +783,11 @@ async function shareShortImage() {
   ctx.beginPath(); ctx.moveTo(30, CH - 30 - cl); ctx.lineTo(30, CH - 30); ctx.lineTo(30 + cl, CH - 30); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(CW - 30 - cl, CH - 30); ctx.lineTo(CW - 30, CH - 30); ctx.lineTo(CW - 30, CH - 30 - cl); ctx.stroke();
 
-  // ════ 5. 上方文字區 ════
   ctx.textAlign    = 'center';
   ctx.textBaseline = 'top';
   
   let y = dy + imgH - Math.round(CW * 0.08);
 
-  // ── 稱號：您是《xxx》中的 ──
   ctx.font      = `300 ${Math.round(CW * 0.026)}px "Noto Serif TC", serif`;
   ctx.fillStyle = 'rgba(255,255,255,0.65)';
   ctx.letterSpacing = "6px"; 
@@ -803,7 +798,6 @@ async function shareShortImage() {
   
   y += Math.round(CW * 0.055);
 
-  // ── 靈魂名稱 (soulName)
   ctx.font      = `700 ${Math.round(CW * 0.050)}px "Noto Serif TC", serif`;
   ctx.fillStyle = '#ffffff';
   ctx.letterSpacing = "14px"; 
@@ -813,7 +807,6 @@ async function shareShortImage() {
   
   y += Math.round(CW * 0.075);
 
-  // ── label (一句話描述)
   ctx.font      = `500 ${Math.round(CW * 0.036)}px "Noto Serif TC", serif`;
   ctx.fillStyle = 'rgba(255,255,255,0.88)';
   ctx.letterSpacing = "5px"; 
@@ -821,7 +814,6 @@ async function shareShortImage() {
   
   y += Math.round(CW * 0.065);
 
-  // ── 圖騰專屬分隔線 1 ──
   ctx.letterSpacing = "0px"; 
   if (emblemImg) {
       drawEmblemDivider(y, emblemImg);
@@ -830,7 +822,6 @@ async function shareShortImage() {
   }
   y += Math.round(CW * 0.070);
 
-  // ════ 6. 印記 & 黑暗特質 (單排 4 欄) ════
   const axisMax = typeof calcAxisMax === 'function' ? calcAxisMax() : {};
   const axisLabel = { opt:'樂觀', crp:'沉淪', frc:'強勢', sed:'引誘', cmp:'共犯', grd:'守護', obs:'執著', pos:'佔有', lsc:'失控', slc:'自制' };
   const validTraits = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
@@ -896,37 +887,31 @@ async function shareShortImage() {
 
   y += Math.round(CW * 0.11); 
 
-  // ── 菱形分隔線 2
   ctx.letterSpacing = "0px";
   drawDivider(y);
   const divider2Y = y; 
 
-  // ════ 7. 底部資訊 ════
-  const bottomMargin = 55; // ✦ 把邊距拉大一點（原本是 45）
+  const bottomMargin = 55; 
   const bottomUrlY = CH - bottomMargin; 
   const bottomTitleY = bottomUrlY - Math.round(CW * 0.065); 
 
   ctx.textAlign = 'center';
-  ctx.textBaseline = 'bottom'; // ✦ 新增這行：讓底部文字向上生長，絕對不會往下壓到框線
+  ctx.textBaseline = 'bottom'; 
 
-  // ── 網址
   ctx.font         = `300 ${Math.round(CW * 0.022)}px Georgia, serif`;
   ctx.fillStyle    = 'rgba(255,255,255,0.30)';
   ctx.letterSpacing = "3px";
   ctx.fillText('✦  ' + SITE_URL + '  ✦', CW / 2, bottomUrlY);
   ctx.letterSpacing = "0px";
 
-  // ── 《故事另有結局》✦ bookName
   ctx.font      = `500 ${Math.round(CW * 0.032)}px "Noto Serif TC", serif`;
   ctx.fillStyle = '#ffffff';
-  // ctx.textBaseline = 'bottom'; // (這行原本在這裡，現在可以刪掉，因為上面已經統一設定了)
   ctx.letterSpacing = "4px";
   setShadow(8);
   ctx.fillText(`《故事另有結局》✦ ${r.bookName}`, CW / 2, bottomTitleY);
   clearShadow();
   ctx.letterSpacing = "0px";
 
-  // ════ 8. 專屬台詞 (動態絕對置中) ════
   ctx.font       = `italic 300 ${Math.round(CW * 0.030)}px "Noto Serif TC", serif`;
   ctx.fillStyle  = 'rgba(255,255,255,0.75)';
   ctx.letterSpacing = "4px";
@@ -951,48 +936,23 @@ async function shareShortImage() {
   ctx.letterSpacing = "0px";
 
   // ════ 9. 輸出 ════
-  const restore = () => { if (btn) { btn.textContent = origText; btn.disabled = false; } };
-
-  const doSaveShort = (blob) => {
-    const file = new File([blob], 'dark_result_short.png', { type: 'image/png' });
-    const isMobile = window.matchMedia('(pointer:coarse)').matches
-                  && navigator.canShare && navigator.canShare({ files: [file] });
-    if (isMobile) {
-      navigator.share({ files: [file], title: '我的黑暗特質', url: SITE_URL })
-        .catch(() => {})
-        .finally(() => restore());
-      return;
-    }
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'dark_result_short.png';
-    document.body.appendChild(a); a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    if (btn) { btn.textContent = '✦ 短圖已下載！'; setTimeout(() => restore(), 2500); }
-  };
+  const restoreUI = () => { if (btn) { btn.textContent = origText; btn.disabled = false; } };
 
   try {
-    await new Promise((resolve, reject) => {
-      try {
-        canvas.toBlob((blob) => {
-          if (blob) { doSaveShort(blob); resolve(); }
-          else reject(new Error('toBlob returned null'));
-        }, 'image/png');
-      } catch(e) { reject(e); }
-    });
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    if (!blob) throw new Error('toBlob returned null');
+
+    // ✦ 呼叫重構後的共用下載分享函式
+    await shareOrDownloadBlob(
+      blob,
+      'dark_result_short.png',
+      { title: '我的黑暗特質', url: SITE_URL },
+      btn,
+      origText
+    );
   } catch(e) {
-    try {
-      const dataUrl = canvas.toDataURL('image/png');
-      const arr  = dataUrl.split(',');
-      const bstr = atob(arr[1]);
-      let n = bstr.length;
-      const u8 = new Uint8Array(n);
-      while(n--){ u8[n] = bstr.charCodeAt(n); }
-      doSaveShort(new Blob([u8], { type: 'image/png' }));
-    } catch(e2) {
-      alert('無法下載，請使用截圖功能儲存！');
-      restore();
-    }
+    console.error("短圖生成失敗", e);
+    alert('圖片轉檔發生錯誤，請截圖保存！');
+    restoreUI();
   }
 }
