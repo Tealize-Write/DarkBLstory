@@ -15,15 +15,16 @@ window.userLocationData = {
 };
 
 // ✦ 網頁一載入，就在背景偷抓精準 IP 地理位置
-fetch('https://ipapi.co/json/')
+// 使用 ipwho.is：免費、支援 HTTPS、無月上限
+fetch('https://ipwho.is/')
   .then(res => res.json())
   .then(data => {
-    if (data && data.city) {
-      window.userLocationData.country = data.country_name || window.userLocationData.country;
-      window.userLocationData.city = data.city;
+    if (data && data.success) {
+      window.userLocationData.country = data.country || window.userLocationData.country;
+      window.userLocationData.city    = data.city    || window.userLocationData.city;
     }
   })
-  .catch(err => console.log('IP fetch failed', err)); // 失敗也靜默處理，不影響網頁
+  .catch(err => console.warn('IP fetch failed', err));
 
 // ── 輔助函數：打包擴充的分析數據 ──
 function getTrackingPayload(code, actionType = "") {

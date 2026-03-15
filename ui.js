@@ -386,7 +386,17 @@ function trackBookClick(code){
     trackUserAction(code, "book_click");
   }
 }
-window.trackBookClick    = trackBookClick;
+
+// ✦ 新增：用來追蹤外部購書連結的通用函式
+function trackBuyLink(actionType) {
+  const code = typeof _lastResultCode !== 'undefined' ? _lastResultCode : "";
+  if (typeof trackUserAction === 'function') {
+    trackUserAction(code, actionType);
+  }
+}
+
+window.trackBookClick     = trackBookClick;
+window.trackBuyLink       = trackBuyLink;
 window.shareResultAsImage = shareResultAsImage;
 window.shareShortImage    = shareShortImage;
 
@@ -414,7 +424,7 @@ async function shareResultAsImage() {
   // ✦ 給瀏覽器 50 毫秒的喘息時間，確保「生成中...」文字順利渲染
   await new Promise(resolve => setTimeout(resolve, 50));
   
-  const hideEls = targetEl.querySelectorAll('.btn-row, .share-divider');
+  const hideEls = targetEl.querySelectorAll('.btn-row, .share-divider, .buy-book-wrap, .lab:last-of-type');
   hideEls.forEach(el => el.style.display = 'none');
 
   targetEl.classList.add('capturing');
