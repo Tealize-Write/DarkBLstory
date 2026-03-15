@@ -352,14 +352,14 @@ function showResult(){
   document.getElementById('seals').innerHTML = tarotHTML;
   animateRulers(document.getElementById('seals')); 
 
-  const cta = document.getElementById('r-cta');
+ const cta = document.getElementById('r-cta');
   const tagsHtml = (r.bookTags||[]).map(t=>'<span class="cta-tag">'+t+'</span>').join('');
   const fairyLine = r.bookFairy ? '<span class="cta-fairy">'+r.bookFairy+'</span>' : '';
   cta.innerHTML='<a href="'+escapeAttr(r.link)+'" target="_blank" rel="noopener noreferrer" onclick="trackBookClick(\''+code+'\')">'
     +'<img class="cta-cover" src="https://framerusercontent.com/images/mduS33yvcuc8AhTxWKgAsjOOek.jpg?width=1819&height=2551" alt=""/>'
     +'<div class="cta-info">'
     +  '<div class="cta-meta">'
-    +    '<span class="cta-label">解鎖故事樣本</span>'
+    +    '<span class="cta-label">前往官網試閱</span>'
     +    '<span class="cta-arrow">→</span>'
     +  '</div>'
     +  '<div class="cta-title-row">'

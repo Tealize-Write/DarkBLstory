@@ -1064,10 +1064,14 @@ body {
 /* ════════════════════════════════
    BUY BOOK BUTTON (實體書購書按鈕)
 ════════════════════════════════ */
+/* ════════════════════════════════
+   BUY BOOK BUTTON (實體書購書按鈕)
+════════════════════════════════ */
 .buy-book-wrap {
-    margin-top: 32px;
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* 讓兩個按鈕上下排列 */
+    align-items: center;    /* 置中對齊 */
+    gap: 16px;              /* 兩個按鈕之間的間距 */
     position: relative;
     z-index: 5;
 }
@@ -1077,7 +1081,9 @@ body {
     align-items: center;
     justify-content: center;
     gap: 14px;
-    padding: 16px 36px;
+    width: 100%;
+    max-width: 420px; /* 限制電腦版最大寬度，讓按鈕看起來修長優雅 */
+    padding: 16px 24px;
     background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 100%);
     border: 1px solid rgba(255,255,255,0.25);
     color: var(--ink);
@@ -1091,7 +1097,6 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
-/* 邊框四角的裝飾小點 */
 .buy-book-btn::after {
     content: "";
     position: absolute;
@@ -1101,7 +1106,6 @@ body {
     transition: border-color 0.5s ease;
 }
 
-/* 流光掃過特效 */
 .buy-book-btn::before {
     content: "";
     position: absolute;
@@ -1115,7 +1119,6 @@ body {
     pointer-events: none;
 }
 
-/* Hover 互動效果 */
 .buy-book-btn:hover {
     border-color: rgba(255,255,255,0.7);
     background: rgba(255,255,255,0.12);
@@ -1291,9 +1294,9 @@ body {
     }
 	.buy-book-btn {
         width: 100%;
-        padding: 14px 20px;
+        padding: 14px 16px;
         font-size: 14px;
-        letter-spacing: 3px;
+        letter-spacing: 2px;
     }
 }
 
