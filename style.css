@@ -1067,6 +1067,64 @@ body {
 /* ════════════════════════════════
    BUY BOOK BUTTON (實體書購書按鈕)
 ════════════════════════════════ */
+
+/* ── 18禁警語 ── */
+.adult-warning {
+    margin: 0 0 20px 0;
+    padding: 10px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+/* ── 18+ 標記：精緻霓虹脈動效果 ── */
+@keyframes agePulse {
+    0%, 100% {
+        text-shadow: 
+            0 0 4px rgba(255, 255, 255, 0.8),
+            0 0 10px rgba(255, 255, 255, 0.3);
+        opacity: 0.7;
+        transform: scale(1);
+    }
+    50% {
+        text-shadow: 
+            0 0 8px rgba(255, 255, 255, 1), 
+            0 0 20px rgba(255, 255, 255, 0.6),
+            0 0 35px rgba(255, 255, 255, 0.3);
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+.age-badge {
+    display: inline-block;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+    color: #fff;
+    font-weight: 700;
+    vertical-align: baseline;
+    font-style: normal;
+    margin-left: 4px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    line-height: 1;
+    animation: agePulse 2s ease-in-out infinite;
+    background: linear-gradient(135deg, #fff 0%, #bbb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 針對「前往官網試閱」按鈕內的特別調整 */
+.cta-label .age-badge {
+    font-size: 10px;
+    margin-top: -2px;
+}
+
 .buy-book-wrap {
     display: flex;
     flex-direction: column; /* 讓兩個按鈕上下排列 */

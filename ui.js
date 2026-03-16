@@ -359,7 +359,7 @@ function showResult(){
     +'<img class="cta-cover" src="https://framerusercontent.com/images/mduS33yvcuc8AhTxWKgAsjOOek.jpg?width=1819&height=2551" alt=""/>'
     +'<div class="cta-info">'
     +  '<div class="cta-meta">'
-    +    '<span class="cta-label">前往官網試閱</span>'
+    +    '<span class="cta-label">前往官網試閱<span class="age-badge"> · 18+</span></span>'
     +    '<span class="cta-arrow">→</span>'
     +  '</div>'
     +  '<div class="cta-title-row">'
