@@ -198,7 +198,7 @@ function getEmblemSVG(code) {
     case 'A_CONTROL_2': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5"><path d="M 12 28 C 12 16 24 18 32 24 C 40 18 52 16 52 28 C 52 40 40 38 32 44 C 24 38 12 40 12 28 Z" /><path d="M 20 28 Q 24 24 28 28 Q 24 32 20 28 Z" stroke-width="1.5"/><path d="M 44 28 Q 40 24 36 28 Q 40 32 44 28 Z" stroke-width="1.5"/><path d="M 32 12 L 35 18 L 32 24 L 29 18 Z" fill="currentColor" stroke="none"/><circle cx="20" cy="28" r="1.5" fill="currentColor" stroke="none"/><circle cx="44" cy="28" r="1.5" fill="currentColor" stroke="none"/></g></svg>`;
     
     // ✦ 神鹿終極完整版 (冰山白神攻)
-    case 'A_CONTROL_3': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    case 'A_CONTROL_3': return `<svg ${baseProps}>${mysticCircle}<g stroke-width="2.5">
       <path d="M 28 36 L 22 62 L 42 62 L 36 36 Z" fill="var(--bg)" stroke="currentColor" />
       <path d="M 26 50 L 32 60 L 38 50" fill="none" stroke-width="1.5" />
       
@@ -226,9 +226,8 @@ function getEmblemSVG(code) {
       <polygon points="32,26 29,31 32,36 35,31" fill="var(--bg)" stroke="currentColor" stroke-width="1.5" />
       <line x1="32" y1="36" x2="32" y2="51" stroke-width="1.5" />
       
-      <path d="M 28 35 L 20 31 M 36 35 L 44 31" fill="none" stroke-width="1.5" />
-      <polygon points="29,38 21,33 22,34.5" fill="currentColor" stroke="none" />
-      <polygon points="35,38 43,33 42,34.5" fill="currentColor" stroke="none" />
+      <path d="M 21 36 Q 25 38 30 39" fill="none" stroke-width="2" />
+      <path d="M 43 36 Q 39 38 34 39" fill="none" stroke-width="2" />
       
       <polygon points="32,51 34.5,53 32,56 29.5,53" fill="currentColor" stroke="none" />
     </g></svg>`;
