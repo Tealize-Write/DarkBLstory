@@ -1062,10 +1062,7 @@ body {
     color: rgba(255,255,255,.6);
 }
 /* ════════════════════════════════
-   BUY BOOK BUTTON (實體書購書按鈕)
-════════════════════════════════ */
-/* ════════════════════════════════
-   BUY BOOK BUTTON (實體書購書按鈕)
+   BUY BOOK BUTTON (實體書購書卡片與 18+ 標記)
 ════════════════════════════════ */
 
 /* ── 18禁警語 ── */
@@ -1082,22 +1079,24 @@ body {
     text-align: center;
 }
 
-/* ── 18+ 標記：精緻霓虹脈動效果 ── */
+/* ── 18+ 標記：暗紅霓虹強烈脈動效果 ── */
 @keyframes agePulse {
     0%, 100% {
         text-shadow: 
-            0 0 4px rgba(255, 255, 255, 0.8),
-            0 0 10px rgba(255, 255, 255, 0.3);
-        opacity: 0.7;
+            0 0 4px rgba(220, 20, 60, 0.8),
+            0 0 10px rgba(220, 20, 60, 0.3);
+        opacity: 0.8;
         transform: scale(1);
+        border-color: rgba(220, 20, 60, 0.4);
     }
     50% {
         text-shadow: 
-            0 0 8px rgba(255, 255, 255, 1), 
-            0 0 20px rgba(255, 255, 255, 0.6),
-            0 0 35px rgba(255, 255, 255, 0.3);
+            0 0 8px rgba(255, 50, 50, 1), 
+            0 0 15px rgba(220, 20, 60, 0.8),
+            0 0 25px rgba(220, 20, 60, 0.5);
         opacity: 1;
-        transform: scale(1.05);
+        transform: scale(1.12); /* 放大比例增加，呼吸感更明顯 */
+        border-color: rgba(255, 50, 50, 0.8);
     }
 }
 
@@ -1106,103 +1105,138 @@ body {
     font-size: 0.9em;
     letter-spacing: 1px;
     color: #fff;
-    font-weight: 700;
+    font-weight: 800;
     vertical-align: baseline;
     font-style: normal;
-    margin-left: 4px;
-    padding: 1px 4px;
+    margin-left: 6px;
+    padding: 2px 5px;
+    border: 1px solid rgba(220, 20, 60, 0.5);
     border-radius: 3px;
     line-height: 1;
-    animation: agePulse 2s ease-in-out infinite;
-    background: linear-gradient(135deg, #fff 0%, #bbb 100%);
+    animation: agePulse 1.6s ease-in-out infinite; /* 稍微加快一點呼吸節奏 */
+    /* 漸層帶有一點點暗紅血色感 */
+    background: linear-gradient(135deg, #ffffff 0%, #ff8888 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-/* 針對「前往官網試閱」按鈕內的特別調整 */
-.cta-label .age-badge {
+/* 針對卡片與連結內的 18+ 標記微調 */
+.cta-label .age-badge,
+.bbc-action .age-badge {
     font-size: 10px;
     margin-top: -2px;
+    margin-left: 8px;
 }
 
+/* ── 實體書購書卡片 (Card Design) ── */
 .buy-book-wrap {
     display: flex;
-    flex-direction: column; /* 讓兩個按鈕上下排列 */
-    align-items: center;    /* 置中對齊 */
-    gap: 16px;              /* 兩個按鈕之間的間距 */
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
     position: relative;
     z-index: 5;
+    width: 100%;
 }
 
-.buy-book-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
+.buy-book-card {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    max-width: 420px; /* 限制電腦版最大寬度，讓按鈕看起來修長優雅 */
-    padding: 16px 24px;
+    max-width: 420px;
+    padding: 20px 24px;
     background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 100%);
     border: 1px solid rgba(255,255,255,0.25);
     color: var(--ink);
     text-decoration: none;
-    font-family: var(--serif);
-    font-size: 15px;
-    letter-spacing: 4px;
-    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
     position: relative;
     overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
-.buy-book-btn::after {
+.buy-book-card::after {
     content: "";
     position: absolute;
     inset: 4px;
     border: 1px solid rgba(255,255,255,0.1);
     pointer-events: none;
-    transition: border-color 0.5s ease;
+    transition: border-color 0.4s ease;
 }
 
-.buy-book-btn::before {
-    content: "";
+.bbc-bg {
     position: absolute;
     top: 0; 
     left: -100%;
     width: 50%; 
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
     transform: skewX(-25deg);
     transition: all 0.7s ease;
     pointer-events: none;
+    z-index: 0;
 }
 
-.buy-book-btn:hover {
-    border-color: rgba(255,255,255,0.7);
-    background: rgba(255,255,255,0.12);
-    text-shadow: 0 0 10px rgba(255,255,255,0.6);
-    box-shadow: 0 0 25px rgba(255,255,255,0.15);
+.buy-book-card:hover {
+    border-color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 8px 25px rgba(255,255,255,0.12);
     transform: translateY(-2px);
 }
 
-.buy-book-btn:hover::after {
+.buy-book-card:hover::after {
     border-color: rgba(255,255,255,0.3);
 }
 
-.buy-book-btn:hover::before {
+.buy-book-card:hover .bbc-bg {
     left: 200%;
 }
 
-.buy-icon {
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    transition: color 0.5s ease, transform 0.5s ease;
+.bbc-top, .bbc-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
 }
 
-.buy-book-btn:hover .buy-icon {
-    color: var(--ink);
-    transform: scale(1.3) rotate(90deg);
-    text-shadow: 0 0 8px rgba(255,255,255,0.8);
+.bbc-top {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed rgba(255,255,255,0.2);
+}
+
+.bbc-shop {
+    font-family: var(--display);
+    font-size: 16px;
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+
+.bbc-price {
+    font-family: var(--display);
+    font-size: 18px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+
+.bbc-action {
+    font-family: var(--serif);
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.9);
+    display: flex;
+    align-items: center;
+}
+
+.bbc-note {
+    font-family: var(--serif);
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.45);
+    font-style: italic;
 }
 
 .stats {
