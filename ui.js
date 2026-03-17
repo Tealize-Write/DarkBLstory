@@ -399,6 +399,53 @@ window.trackBuyLink       = trackBuyLink;
 window.shareResultAsImage = shareResultAsImage;
 window.shareShortImage    = shareShortImage;
 
+/* ════════════════════════════════
+   年齡驗證 Modal
+════════════════════════════════ */
+let _ageTargetUrl    = '';
+let _ageActionType   = '';
+let _ageDenyTimer    = null;
+
+function ageCheck(e, url, actionType) {
+  e.preventDefault();
+  _ageTargetUrl  = url;
+  _ageActionType = actionType;
+  document.getElementById('age-modal').classList.add('active');
+}
+
+function ageModalConfirm() {
+  document.getElementById('age-modal').classList.remove('active');
+  if (typeof trackBuyLink === 'function') trackBuyLink(_ageActionType);
+  window.open(_ageTargetUrl, '_blank', 'noopener,noreferrer');
+  _ageTargetUrl  = '';
+  _ageActionType = '';
+}
+
+function ageModalDeny() {
+  document.getElementById('age-modal').classList.remove('active');
+  _ageTargetUrl  = '';
+  _ageActionType = '';
+
+  const toast = document.getElementById('age-deny-toast');
+  toast.classList.remove('show');
+  void toast.offsetWidth; // 強制 reflow，確保動畫重播
+  toast.classList.add('show');
+
+  if (_ageDenyTimer) clearTimeout(_ageDenyTimer);
+  _ageDenyTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+window.ageCheck        = ageCheck;
+window.ageModalConfirm = ageModalConfirm;
+window.ageModalDeny    = ageModalDeny;
+
+// 點擊遮罩關閉 modal（等 DOM 載入後再掛事件）
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('age-modal')?.addEventListener('click', function(e) {
+    if (e.target === this) ageModalDeny();
+  });
+});
+
 function escapeAttr(str){
   const s = String(str ?? '');
   return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
