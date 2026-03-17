@@ -9,47 +9,28 @@ function getClientId() {
 }
 
 // ── 全域變數，預存玩家地點 (預設使用時區作為國家備案)
+const _tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown';
 window.userLocationData = {
-  country: Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown',
-  city: 'unknown'
+  country: _tz,
+  city:    _tz
 };
 
-// ── IP 地理位置（雙服務備援 + 超時保護）────────────────
+// ── IP 地理位置（ipwho.is 主服務 + 超時保護）────────────────
 // 預存 Promise，讓 sendStats 可以 await 同一個結果，不重複 fetch
+// ✦ 修正：每次 race 都產生獨立計時器，避免 Promise 重複使用問題
 window._locationReady = (async () => {
-  // ✦ 修正 1：每次 race 都產生獨立計時器，避免 Promise 重複使用的問題
   const createTimeout = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-  const tryFetch = async (url, parse) => {
-    const res  = await fetch(url);
+  try {
+    const res  = await Promise.race([
+      fetch('https://ipwho.is/'),
+      createTimeout(2000)
+    ]);
+    if (!res || !res.ok) return;
     const data = await res.json();
-    return parse(data);
-  };
-
-  try {
-    const loc = await Promise.race([
-      tryFetch('https://ipwho.is/', d =>
-        d.success ? { country: d.country, city: d.city } : null
-      ),
-      createTimeout(1500)
-    ]);
-    if (loc && loc.city) {
-      window.userLocationData.country = loc.country || window.userLocationData.country;
-      window.userLocationData.city    = loc.city;
-      return;
-    }
-  } catch (_) {}
-
-  try {
-    const loc = await Promise.race([
-      tryFetch('https://freeipapi.com/api/json', d =>
-        d.countryName ? { country: d.countryName, city: d.cityName } : null
-      ),
-      createTimeout(1500)
-    ]);
-    if (loc && loc.city) {
-      window.userLocationData.country = loc.country || window.userLocationData.country;
-      window.userLocationData.city    = loc.city;
+    if (data && data.success) {
+      window.userLocationData.country = data.country || window.userLocationData.country;
+      window.userLocationData.city    = data.city    || window.userLocationData.city;
     }
   } catch (_) {}
 })();
@@ -89,7 +70,7 @@ function trackUserAction(code, actionType) {
 }
 
 // ── 測驗結果統計 ──
-// ✦ 修正 4：統一使用 async/await，移除 .then/.catch 混用
+// ✦ 修正：統一使用 async/await，先等 IP 拿到再發送
 async function sendStats(code) {
   const line  = document.getElementById('pop-line');
   const chart = document.getElementById('pop-chart');
@@ -99,6 +80,7 @@ async function sendStats(code) {
     return;
   }
 
+  // 等 IP 地理位置拿到（最多 2 秒），再打包 payload 發送
   await window._locationReady;
 
   try {
@@ -115,8 +97,7 @@ async function sendStats(code) {
   }
 }
 
-// ── XSS 防護 ──
-// ✦ 修正 3：補回 _esc，防止 API 回傳值被注入 HTML
+// ── XSS 防護：對來自外部的字串做跳脫 ──
 function _esc(str) {
   return String(str ?? '').replace(/[&<>"']/g, m =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m])
@@ -137,7 +118,7 @@ function renderStats(data, code) {
     .map(([k, v]) => ({ k, v: Number(v) || 0 }))
     .sort((a, b) => b.v - a.v);
 
-  // ✦ 修正 2：findIndex 找不到時回傳 -1，避免顯示「第 0 名」
+  // ✦ 修正：findIndex 找不到時回傳 -1，避免顯示「第 0 名」
   const myRankIndex = sortedItems.findIndex(item => item.k === myKeyword);
   const myRankText  = myRankIndex >= 0 ? String(myRankIndex + 1) : "尚未進榜";
   const totalTypes  = 20;
