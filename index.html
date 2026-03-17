@@ -293,31 +293,54 @@
 <!-- ── 年齡驗證 Modal（邀請函風格）── -->
 <div id="age-modal" class="age-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="age-modal-title">
   <div class="age-modal-box">
+
+    <!-- 四角裝飾 -->
     <div class="age-modal-corner tl"></div>
     <div class="age-modal-corner tr"></div>
     <div class="age-modal-corner bl"></div>
     <div class="age-modal-corner br"></div>
 
-    <p class="age-modal-eyebrow">✦ 黑森林入口 · 限制級 ✦</p>
-    <h2 class="age-modal-title" id="age-modal-title">成人內容確認</h2>
-
-    <!-- 紅色脈動警語區 -->
-    <div class="age-modal-alert">
-      <div class="ama-title">⚠ R18 成人限制級內容</div>
-      <div class="ama-body">此作品僅適合年滿 18 歲以上人士進行瀏覽（或合乎您所在地的合法成年年齡），且不得將內容以任何形式給予未滿 18 歲人士瀏覽。請問您是否已滿 18 歲？</div>
-    </div>
-
-    <div class="age-modal-rule"></div>
-
-    <div class="age-modal-btns">
-      <button class="age-btn" onclick="ageModalConfirm()">✦ 已滿 18 歲，進入黑森林</button>
-      <button class="age-btn" onclick="ageModalDeny()">尚未成年，先行離開</button>
-    </div>
-
-    <!-- 左下角 compass 裝飾 -->
+    <!-- 左下角 compass -->
     <div class="age-modal-emblem-corner">
       <svg viewBox="0 0 220 220" aria-hidden="true"><use href="#compass" /></svg>
     </div>
+
+    <!-- 頂部裝飾菱形 -->
+    <div class="age-modal-diamond">◆</div>
+
+    <!-- eyebrow -->
+    <p class="age-modal-eyebrow">黑森林入口　·　限制級</p>
+
+    <!-- 標題區 -->
+    <div class="age-modal-title-wrap">
+      <div class="age-modal-rule-short"></div>
+      <h2 class="age-modal-title" id="age-modal-title">成人內容確認</h2>
+      <div class="age-modal-rule-short"></div>
+    </div>
+
+    <!-- 紅色脈動警語 -->
+    <div class="age-modal-alert">
+      <div class="ama-title">⚠　R18　成人限制級內容</div>
+      <div class="ama-rule"></div>
+      <div class="ama-body">此作品僅適合年滿 18 歲以上人士進行瀏覽<br/>（或合乎您所在地的合法成年年齡），<br/>且不得將內容以任何形式給予未滿 18 歲人士瀏覽。<br/><br/>請問您是否已滿 18 歲？</div>
+    </div>
+
+    <!-- 分隔 -->
+    <div class="age-modal-rule"></div>
+
+    <!-- 按鈕 -->
+    <div class="age-modal-btns">
+      <button class="age-btn age-btn-confirm" onclick="ageModalConfirm()">
+        <span class="age-btn-deco">✦</span>
+        已滿 18 歲，進入賣貨便
+        <span class="age-btn-deco">✦</span>
+      </button>
+      <button class="age-btn age-btn-deny" onclick="ageModalDeny()">尚未成年，先行離開</button>
+    </div>
+
+    <!-- 底部裝飾 -->
+    <div class="age-modal-footer-deco">✦　✦　✦</div>
+
   </div>
 </div>
 
