@@ -394,6 +394,17 @@ function trackBuyLink(actionType) {
   }
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+  const cid = typeof getClientId === 'function' ? getClientId() : '';
+  if (!cid) return;
+  const btn = document.querySelector('a[href*="age-gate"]');
+  if (!btn) return;
+  const url = new URL(btn.href);
+  url.searchParams.set('uid', cid);
+  url.searchParams.set('utm_source', 'darkblstory');
+  btn.href = url.toString();
+});
+
 window.startQuiz          = startQuiz;
 window.confirmRestart     = confirmRestart;
 window.skipTypewriter     = skipTypewriter;
