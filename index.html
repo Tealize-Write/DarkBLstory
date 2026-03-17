@@ -232,7 +232,7 @@
                     <div class="lab" style="margin-top: 56px; margin-bottom: 24px;">實體合本預購</div>
 
                     <div class="buy-book-wrap">
-                        <a href="https://tealize-write.github.io/age-gate/" target="_blank" rel="noopener noreferrer" class="buy-book-card" onclick="trackBuyLink('click_maihuobian')">
+                        <a href="https://myship.7-11.com.tw/general/detail/GM2411116895050" class="buy-book-card" onclick="ageCheck(event,'https://myship.7-11.com.tw/general/detail/GM2411116895050','click_maihuobian')">
                             <div class="bbc-top">
                                 <span class="bbc-shop">7-11 賣貨便<span class="age-badge"> · 18+</span></span>
                                 <span class="bbc-price">NT$355</span>
@@ -290,6 +290,58 @@
     <script defer src="./audio.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+<!-- ── 年齡驗證 Modal（邀請函風格）── -->
+<div id="age-modal" class="age-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="age-modal-title">
+  <div class="age-modal-box">
+
+    <!-- 四角裝飾 -->
+    <div class="age-modal-corner tl"></div>
+    <div class="age-modal-corner tr"></div>
+    <div class="age-modal-corner bl"></div>
+    <div class="age-modal-corner br"></div>
+
+    <!-- 左下角 compass -->
+    <div class="age-modal-emblem-corner">
+      <svg viewBox="0 0 220 220" aria-hidden="true"><use href="#compass" /></svg>
+    </div>
+
+    <!-- 頂部裝飾菱形 -->
+    <div class="age-modal-diamond">◆</div>
+
+    <!-- eyebrow -->
+    <p class="age-modal-eyebrow">黑森林出口　·　限制級</p>
+
+    <!-- 標題區 -->
+    <div class="age-modal-title-wrap">
+      <div class="age-modal-rule-short"></div>
+      <h2 class="age-modal-title" id="age-modal-title">成人內容確認</h2>
+      <div class="age-modal-rule-short"></div>
+    </div>
+
+    <!-- 紅色脈動警語 -->
+    <div class="age-modal-alert">
+      <div class="ama-title">⚠　R18　成人限制級內容</div>
+      <div class="ama-rule"></div>
+      <div class="ama-body">此作品僅適合年滿 18 歲以上人士進行瀏覽<br/>（或合乎您所在地的合法成年年齡），<br/>且不得將內容以任何形式給予未滿 18 歲人士瀏覽。<br/><br/>請問您是否已滿 18 歲？</div>
+    </div>
+
+    <!-- 分隔 -->
+    <div class="age-modal-rule"></div>
+
+    <!-- 按鈕 -->
+    <div class="age-modal-btns">
+      <button class="age-btn" onclick="ageModalConfirm()">已滿 18 歲，進入賣貨便</button>
+      <button class="age-btn" onclick="ageModalDeny()">尚未成年，先行離開</button>
+    </div>
+
+    <!-- 底部裝飾 -->
+    <div class="age-modal-footer-deco">✦　✦　✦</div>
+
+  </div>
+</div>
+
+<!-- 未成年提示 -->
+<div id="age-deny-toast" class="age-deny-toast">✦ 感謝理解，歡迎成年後再來黑森林。</div>
 
 </body>
 </html>
