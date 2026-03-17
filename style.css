@@ -1817,34 +1817,16 @@ body {
     font-family: var(--serif);
     font-size: 12px;
     letter-spacing: 3px;
-    color: #ffffff;
+    color: rgba(255,255,255,0.8);
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.32);
+    border: 1px solid rgba(255,255,255,0.28);
     cursor: pointer;
-    transition: border-color 0.3s, background 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+    transition: border-color 0.3s, color 0.3s, background 0.3s;
 }
 .age-btn:hover {
-    border-color: rgba(255,255,255,0.65);
-    background: rgba(255,255,255,0.06);
-}
-.age-btn-deco {
-    font-size: 9px;
-    opacity: 0.6;
-}
-.age-btn-deny {
-    border-color: rgba(255,255,255,0.18);
-    color: rgba(255,255,255,0.65);
-    font-size: 11px;
-    letter-spacing: 2px;
-}
-.age-btn-deny:hover {
-    border-color: rgba(255,255,255,0.4);
-    color: rgba(255,255,255,0.9);
-    background: transparent;
+    border-color: rgba(255,255,255,0.6);
+    color: #ffffff;
+    background: rgba(255,255,255,0.05);
 }
 
 /* ── 底部裝飾 ── */
