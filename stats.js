@@ -14,17 +14,36 @@ window.userLocationData = {
   city: 'unknown'
 };
 
-// ✦ 網頁一載入，就在背景偷抓精準 IP 地理位置
-// 使用 ipwho.is：免費、支援 HTTPS、無月上限
-fetch('https://ipwho.is/')
-  .then(res => res.json())
-  .then(data => {
-    if (data && data.success) {
-      window.userLocationData.country = data.country || window.userLocationData.country;
-      window.userLocationData.city    = data.city    || window.userLocationData.city;
+
+// ── IP ────────────────────
+(async () => {
+  const fetchLocation = async (url, parse) => {
+    const res  = await fetch(url);
+    const data = await res.json();
+    return parse(data);
+  };
+
+  try {
+    const loc = await fetchLocation('https://ipwho.is/', d =>
+      d.success ? { country: d.country, city: d.city } : null
+    );
+    if (loc && loc.city) {
+      window.userLocationData.country = loc.country || window.userLocationData.country;
+      window.userLocationData.city    = loc.city;
+      return;
     }
-  })
-  .catch(err => console.warn('IP fetch failed', err));
+  } catch (_) { /* 主服務失敗，嘗試備援 */ }
+
+  try {
+    const loc = await fetchLocation('https://freeipapi.com/api/json', d =>
+      d.countryName ? { country: d.countryName, city: d.cityName } : null
+    );
+    if (loc && loc.city) {
+      window.userLocationData.country = loc.country || window.userLocationData.country;
+      window.userLocationData.city    = loc.city;
+    }
+  } catch (_) { /* 備援也失敗，保留時區預設值 */ }
+})();
 
 // ── 輔助函數：打包擴充的分析數據 ──
 function getTrackingPayload(code, actionType = "") {
