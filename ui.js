@@ -394,25 +394,61 @@ function trackBuyLink(actionType) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  const cid = typeof getClientId === 'function' ? getClientId() : '';
-  if (!cid) return;
-  const btn = document.querySelector('a[href*="age-gate"]');
-  if (!btn) return;
-  const url = new URL(btn.href);
-  url.searchParams.set('uid', cid);
-  url.searchParams.set('utm_source', 'darkblstory');
-  btn.href = url.toString();
-});
-
-window.startQuiz          = startQuiz;
-window.confirmRestart     = confirmRestart;
-window.skipTypewriter     = skipTypewriter;
 window.trackBookClick     = trackBookClick;
 window.trackBuyLink       = trackBuyLink;
 window.shareResultAsImage = shareResultAsImage;
 window.shareShortImage    = shareShortImage;
 
+/* ════════════════════════════════
+   年齡驗證 Modal
+════════════════════════════════ */
+let _ageTargetUrl  = '';
+let _ageActionType = '';
+let _ageDenyTimer  = null;
+
+function ageCheck(e, url, actionType) {
+  e.preventDefault();
+  _ageTargetUrl  = url;
+  _ageActionType = actionType;
+  document.getElementById('age-modal').classList.add('active');
+}
+
+function ageModalConfirm() {
+  document.getElementById('age-modal').classList.remove('active');
+  if (typeof trackBuyLink === 'function') trackBuyLink(_ageActionType);
+  window.open(_ageTargetUrl, '_blank', 'noopener,noreferrer');
+  _ageTargetUrl  = '';
+  _ageActionType = '';
+}
+
+function ageModalDeny() {
+  document.getElementById('age-modal').classList.remove('active');
+  _ageTargetUrl  = '';
+  _ageActionType = '';
+  const toast = document.getElementById('age-deny-toast');
+  toast.classList.remove('show');
+  void toast.offsetWidth;
+  toast.classList.add('show');
+  if (_ageDenyTimer) clearTimeout(_ageDenyTimer);
+  _ageDenyTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+window.ageCheck        = ageCheck;
+window.ageModalConfirm = ageModalConfirm;
+window.ageModalDeny    = ageModalDeny;
+
+document.addEventListener('DOMContentLoaded', () => {
+  // 動態把心測 clientId 注入賣貨便按鈕的 href
+  const cid = typeof getClientId === 'function' ? getClientId() : '';
+  if (cid) {
+    const btn = document.querySelector('a[href*="age-gate"]');
+    if (btn) {
+      const url = new URL(btn.href);
+      url.searchParams.set('uid', cid);
+      btn.href = url.toString();
+    }
+  }
+});
 function escapeAttr(str){
   const s = String(str ?? '');
   return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
