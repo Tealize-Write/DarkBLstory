@@ -38,10 +38,11 @@ const TRAITS = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', '
 
 // 設定結算加成倍率 (沒寫到的特質預設為 1 倍)
 const TRAIT_MULTIPLIER = {
-  opt: 1.5, // 樂觀
+  opt: 1.8, // 樂觀
   crp: 1.5, // 沉淪
   sed: 1.2, // 引誘
-  frc: 1.2  // 強勢
+  frc: 1.2, // 強勢
+  slc: 0.7  // 自制
 };
 
 // 全部回溯完仍同分時的保底順序
