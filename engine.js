@@ -37,7 +37,7 @@ function addAxisScores(obj){
 const TRAITS = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
 
 // 全部回溯完仍同分時的保底順序
-const TRAIT_FALLBACK_PRIORITY = ['obs', 'lsc', 'pos', 'slc', 'cmp', 'grd', 'sed', 'frc', 'crp', 'opt'];
+const TRAIT_FALLBACK_PRIORITY = ['opt', 'crp', 'sed', 'frc', 'obs', 'lsc', 'pos', 'slc', 'cmp', 'grd'];
 
 function getAnswerAddByHistoryIndex(questionIndex){
   const optionIndex = answerHistory[questionIndex];
