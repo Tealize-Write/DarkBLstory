@@ -36,6 +36,14 @@ function addAxisScores(obj){
 
 const TRAITS = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
 
+// 設定結算加成倍率 (沒寫到的特質預設為 1 倍)
+const TRAIT_MULTIPLIER = {
+  opt: 1.5, // 樂觀
+  crp: 1.5, // 沉淪
+  sed: 1.2, // 引誘
+  frc: 1.2  // 強勢
+};
+
 // 全部回溯完仍同分時的保底順序
 const TRAIT_FALLBACK_PRIORITY = ['opt', 'crp', 'sed', 'frc', 'obs', 'lsc', 'pos', 'slc', 'cmp', 'grd'];
 
@@ -111,11 +119,14 @@ function determineResultCode(){
   // 1) 攻受判定
   const role = determineRoleDeterministic();
 
-  // 2) 找出 10 項特質中分數最高的一項
-  const scored = TRAITS.map(trait => ({
-    trait,
-    score: Number(axesScore[trait] || 0)
-  }));
+  // 2) 找出 10 項特質中分數最高的一項 (這裡加上倍率加權)
+  const scored = TRAITS.map(trait => {
+    const mult = TRAIT_MULTIPLIER[trait] || 1;
+    return {
+      trait,
+      score: Number(axesScore[trait] || 0) * mult
+    };
+  });
 
   const maxScore = Math.max(...scored.map(x => x.score));
   const topCandidates = scored
@@ -129,6 +140,7 @@ function determineResultCode(){
 
   return mapToResult(role, topTrait);
 }
+
 function mapToResult(role, topTrait){
   // ── A side (攻方) ──
   if(role === "A"){
