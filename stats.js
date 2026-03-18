@@ -16,8 +16,6 @@ window.userLocationData = {
 };
 
 // ── IP 地理位置（ipwho.is 主服務 + 超時保護）────────────────
-// 預存 Promise，讓 sendStats 可以 await 同一個結果，不重複 fetch
-// ✦ 修正：每次 race 都產生獨立計時器，避免 Promise 重複使用問題
 window._locationReady = (async () => {
   const createTimeout = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -70,7 +68,6 @@ function trackUserAction(code, actionType) {
 }
 
 // ── 測驗結果統計 ──
-// ✦ 修正：統一使用 async/await，先等 IP 拿到再發送
 async function sendStats(code) {
   const line  = document.getElementById('pop-line');
   const chart = document.getElementById('pop-chart');
