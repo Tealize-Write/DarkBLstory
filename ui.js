@@ -167,17 +167,30 @@ function getMyTopAxesHTML() {
     grd:'守護', obs:'執著', pos:'佔有', lsc:'失控', slc:'自制'
   };
   const validTraits = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', 'slc'];
-  const top3 = Object.entries(axesScore)
-    .filter(([k, v]) => validTraits.includes(k))
+  
+  // 👇 將原始分數乘上倍率後，再進行排序
+  const weightedScores = Object.entries(axesScore).map(([k, v]) => {
+    const mult = (typeof TRAIT_MULTIPLIER !== 'undefined' && TRAIT_MULTIPLIER[k]) ? TRAIT_MULTIPLIER[k] : 1;
+    return [k, v * mult, mult]; // 把倍率也傳下去備用
+  });
+
+  const top3 = weightedScores
+    .filter(([k, v, mult]) => validTraits.includes(k))
     .sort((a,b)=>b[1]-a[1])
     .slice(0,3);
 
-  return top3.map(([k,v])=>{
-    const pct = axisMax[k] ? Math.round((v/axisMax[k])*100) : 0;
+  return top3.map(([k, v, mult])=>{
+    // 👇 分母(該特質的可能最高分)也要乘上倍率，確保能量條 % 數正確
+    const maxVal = (axisMax[k] || 1) * mult; 
+    const pct = Math.round((v / maxVal) * 100);
+    
+    // 為了避免浮點數太長，小數點最多留一位 (例如 1.5)，整數就維持整數
+    const displayVal = Number.isInteger(v) ? v : parseFloat(v.toFixed(1));
+
     return '<div class="seal">'
       + '<div class="lab">' + (axisLabel[k]||k) + '</div>'
       + buildRuler(pct+'%')
-      + '<div class="val">' + v + '</div>'
+      + '<div class="val">' + displayVal + '</div>'
       + '</div>';
   }).join('');
 }
@@ -394,61 +407,14 @@ function trackBuyLink(actionType) {
   }
 }
 
+window.startQuiz          = startQuiz;
+window.confirmRestart     = confirmRestart;
+window.skipTypewriter     = skipTypewriter;
 window.trackBookClick     = trackBookClick;
 window.trackBuyLink       = trackBuyLink;
 window.shareResultAsImage = shareResultAsImage;
 window.shareShortImage    = shareShortImage;
 
-/* ════════════════════════════════
-   年齡驗證 Modal
-════════════════════════════════ */
-let _ageTargetUrl  = '';
-let _ageActionType = '';
-let _ageDenyTimer  = null;
-
-function ageCheck(e, url, actionType) {
-  e.preventDefault();
-  _ageTargetUrl  = url;
-  _ageActionType = actionType;
-  document.getElementById('age-modal').classList.add('active');
-}
-
-function ageModalConfirm() {
-  document.getElementById('age-modal').classList.remove('active');
-  if (typeof trackBuyLink === 'function') trackBuyLink(_ageActionType);
-  window.open(_ageTargetUrl, '_blank', 'noopener,noreferrer');
-  _ageTargetUrl  = '';
-  _ageActionType = '';
-}
-
-function ageModalDeny() {
-  document.getElementById('age-modal').classList.remove('active');
-  _ageTargetUrl  = '';
-  _ageActionType = '';
-  const toast = document.getElementById('age-deny-toast');
-  toast.classList.remove('show');
-  void toast.offsetWidth;
-  toast.classList.add('show');
-  if (_ageDenyTimer) clearTimeout(_ageDenyTimer);
-  _ageDenyTimer = setTimeout(() => toast.classList.remove('show'), 3000);
-}
-
-window.ageCheck        = ageCheck;
-window.ageModalConfirm = ageModalConfirm;
-window.ageModalDeny    = ageModalDeny;
-
-document.addEventListener('DOMContentLoaded', () => {
-  // 動態把心測 clientId 注入賣貨便按鈕的 href
-  const cid = typeof getClientId === 'function' ? getClientId() : '';
-  if (cid) {
-    const btn = document.querySelector('a[href*="age-gate"]');
-    if (btn) {
-      const url = new URL(btn.href);
-      url.searchParams.set('uid', cid);
-      btn.href = url.toString();
-    }
-  }
-});
 function escapeAttr(str){
   const s = String(str ?? '');
   return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;');
