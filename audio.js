@@ -5,12 +5,6 @@
 
   bgm.volume = 0.45;
 
-  // ── 動態定位：art-tr 永遠是 top:0 right:0，直接讀 offsetWidth ──
-  // symbol viewBox 220×220，原始月亮圓心在 (60,160)
-  // 鏡像後在 art-tr 座標：cx = 220-60 = 160，cy = 220-160 = 60
-  // art-tr 貼視窗右上，所以：
-  //   top  = art-tr.offsetHeight * (60/220)
-  //   right = art-tr.offsetWidth * (60/220)   ← 從右邊數 (220-160)/220 = 60/220
   function positionBtn(){
     const artTr = document.querySelector('.art-tr');
     if(!artTr) return;
