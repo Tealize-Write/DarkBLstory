@@ -38,12 +38,14 @@ const TRAITS = ['opt', 'crp', 'frc', 'sed', 'cmp', 'grd', 'obs', 'pos', 'lsc', '
 
 // 設定結算加成倍率 (沒寫到的特質預設為 1 倍)
 const TRAIT_MULTIPLIER = {
-  opt: 1.8, // 樂觀
+  opt: 1.5, // 樂觀
   crp: 1.5, // 沉淪
   sed: 1.2, // 引誘
   frc: 1.2, // 強勢
   slc: 0.7, // 自制
   obs: 1.8, // 執著
+  grd: 1.5, // 守護
+  cmp: 0.8, // 共犯
 };
 
 // 全部回溯完仍同分時的保底順序
@@ -166,7 +168,7 @@ function mapToResult(role, topTrait){
     switch(topTrait) {
       case 'opt': return "R_CONTROL_1";  // 樂觀：陽光直男受
       case 'crp': return "R_DEVOTION_1"; // 沉淪：自願沉淪受
-      case 'frc': return "A_CONTROL_3";  // 強勢：冰山白神攻 (受方測出強勢，反向分配給神攻)
+      case 'frc': return "A_CONTROL_3";  // 強勢：冰山白神攻
       case 'sed': return "R_SCHEME_1";   // 引誘：恣情魅惑受
       case 'cmp': return "R_CHAOS_2";    // 共犯：殉道自我奉獻受
       case 'grd': return "R_DEVOTION_2"; // 守護：人妻王子受
