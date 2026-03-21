@@ -42,7 +42,7 @@ const TRAIT_MULTIPLIER = {
   crp: 1.5, // 沉淪
   sed: 1.2, // 引誘
   frc: 1.2, // 強勢
-  slc: 0.7, // 自制
+  slc: 0.8, // 自制
   obs: 1.8, // 執著
   grd: 1.5, // 守護
   cmp: 0.8, // 共犯
