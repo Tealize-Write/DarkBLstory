@@ -415,17 +415,7 @@ window.trackBuyLink       = trackBuyLink;
 window.shareResultAsImage = shareResultAsImage;
 window.shareShortImage    = shareShortImage;
 
-// ── 頁面就緒後，把心測 clientId 動態注入賣貨便按鈕 href ──
-// 讓 age-gate 能讀到同一個 uid，離開再回來也能認出同一個人（localStorage 永久保存）
-document.addEventListener('DOMContentLoaded', function () {
-  const cid = typeof getClientId === 'function' ? getClientId() : '';
-  if (!cid) return;
-  const btn = document.querySelector('a[href*="age-gate"]');
-  if (!btn) return;
-  const url = new URL(btn.href);
-  url.searchParams.set('uid', cid);
-  btn.href = url.toString();
-});
+
 
 function escapeAttr(str){
   const s = String(str ?? '');
