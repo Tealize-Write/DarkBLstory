@@ -1128,12 +1128,12 @@ body {
     margin-left: 8px;
 }
 
-/* ── 實體書購書卡片 (Card Design) ── */
+/* ── 實體書購書卡片 (與解鎖故事樣本統一風格) ── */
 .buy-book-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 12px; /* 稍微縮小間距，與上方區塊更協調 */
     position: relative;
     z-index: 5;
     width: 100%;
@@ -1141,41 +1141,57 @@ body {
 
 .buy-book-card {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
-    max-width: 420px;
-    padding: 20px 24px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 100%);
-    border: 1px solid rgba(255,255,255,0.25);
+    /* 移除最大寬度限制，讓它跟上方的 cta 區塊等寬對齊 */
+    padding: 16px 20px;
+    
+    /* ✦ 完全比照 .cta a 的設定 ✦ */
+    background: rgba(255, 255, 255, 0.03); 
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: var(--ink);
     text-decoration: none;
     position: relative;
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: all .3s ease;
 }
 
-.buy-book-card::after {
-    content: "";
-    position: absolute;
-    inset: 4px;
-    border: 1px solid rgba(255,255,255,0.1);
-    pointer-events: none;
-    transition: border-color 0.4s ease;
+/* ✦ Hover 互動效果：完全比照 .cta a:hover ✦ */
+.buy-book-card:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.08);
 }
 
-.bbc-bg {
-    position: absolute;
-    top: 0; 
-    left: -100%;
-    width: 50%; 
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    transform: skewX(-25deg);
-    transition: all 0.7s ease;
-    pointer-events: none;
-    z-index: 0;
+.bbc-shop {
+    display: flex;
+    align-items: center;
+    font-family: var(--display);
+    font-size: 15px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255,255,255,0.3); /* 沿用故事標題的微光字體 */
 }
+
+.bbc-action {
+    font-family: var(--serif);
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.4); /* 沿用 cta-arrow 的顏色 */
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+/* Hover 時右側文字變化 (模擬 cta-arrow 向右推) */
+.buy-book-card:hover .bbc-action {
+    color: var(--ink);
+    transform: translateX(4px);
+}
+
+/* 清除舊有裝飾 */
+.buy-book-card::before { display: none; }
+.bbc-bg { display: none !important; }
 
 .buy-book-card:hover {
     border-color: rgba(255,255,255,0.6);
