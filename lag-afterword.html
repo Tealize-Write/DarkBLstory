@@ -545,14 +545,15 @@
       let dbVotes = { deer: 0, lion: 0, switch: 0 };
       const hasVoted = storage.get("tealize.voted");
 
-      // 1. 先用快取立刻顯示，背景再更新
+      // 1. 已投票的用戶：先用快取顯示，背景更新後刷新
+      // 未投票的用戶：不顯示結果，等投票後才顯示
       const cached = loadCachedVotes();
-      if (cached) {
+      if (cached && hasVoted) {
         dbVotes = cached;
-        if (hasVoted) showResults(); // 快取夠新就立刻顯示
+        showResults(); // 先顯示快取（避免白屏）
       }
 
-      // 背景更新（不等待，靜默更新）
+      // 背景抓最新（無論有沒有快取都抓）
       fetchWithTimeout(API_URL + "?action=get")
         .then(res => res.json())
         .then(data => {
@@ -560,7 +561,7 @@
           dbVotes.lion   = data.lion   || 0;
           dbVotes.switch = data.switch || 0;
           saveCachedVotes(dbVotes);
-          if (hasVoted) showResults(); // 用最新數字更新顯示
+          if (hasVoted) showResults(); // 用最新數字覆蓋更新
         })
         .catch(err => { if (err.name !== "AbortError") console.log("獲取票數失敗", err); });
 
