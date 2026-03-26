@@ -1,0 +1,32 @@
+/* ══════════════════════════════════════
+   base.css — Reset, body, accessibility
+   ══════════════════════════════════════ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: 72px; scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: "Noto Sans TC", sans-serif;
+  line-height: 1.7;
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: background-color 0.6s var(--ease-smooth), color 0.6s var(--ease-smooth);
+}
+
+a { color: inherit; }
+a, button { -webkit-tap-highlight-color: transparent; }
+
+/* Skip to main content */
+.skip-to-main {
+  position: absolute; left: -9999px; z-index: 999;
+  padding: 1em; background-color: var(--accent-color);
+  color: var(--bg-color); text-decoration: none; font-weight: bold;
+}
+.skip-to-main:focus { left: 50%; transform: translateX(-50%); top: 10px; }
+
+:focus-visible {
+  outline: 3px solid var(--accent-color);
+  outline-offset: 4px;
+  border-radius: 4px;
+}

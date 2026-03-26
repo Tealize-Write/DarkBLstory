@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://script.google.com; frame-ancestors 'none';" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>後記 — 咬了神一口 | Tealize</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Noto+Sans+TC:wght@300;400;700&family=Noto+Serif+TC:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Theme flash prevention -->
+  <script>
+    (function() {
+      try {
+        const t = localStorage.getItem("tealize.theme");
+        if (t) document.documentElement.setAttribute("data-theme", t);
+      } catch(e) {}
+    })();
+  </script>
+
+  <style>
+    /* ── Theme tokens ── */
+    :root {
+      --bg: #030510;
+      --text: #e0e5f0;
+      --text-sub: #7a8aa8;
+      --accent: #6b8f3e;
+      --accent-dim: rgba(107,143,62,0.15);
+      --accent-glow: rgba(107,143,62,0.28);
+      --glass-border: rgba(107,143,62,0.25);
+      --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* ── Light theme ── */
+    [data-theme="light"] {
+      --bg: #f0f4fa;
+      --text: #0f1a2e;
+      --text-sub: #4a5e7a;
+      --accent: #4a6b28;
+      --accent-dim: rgba(74,107,40,0.10);
+      --accent-glow: rgba(74,107,40,0.18);
+      --glass-border: rgba(74,107,40,0.25);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Noto Serif TC", "Noto Sans TC", serif;
+      line-height: 1.9;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.5s var(--ease-smooth), color 0.5s var(--ease-smooth);
+    }
+
+    /* ── Ambient ── */
+    .bg-glow {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background: radial-gradient(ellipse at 50% 20%, var(--accent-glow) 0%, transparent 65%);
+      opacity: 0.6;
+    }
+    #particlesCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+
+    /* ── Theme toggle btn ── */
+    .theme-btn {
+      position: fixed; top: 18px; right: 18px; z-index: 200;
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 1.5px solid var(--glass-border);
+      background: rgba(0,0,0,0.35);
+      color: var(--accent);
+      font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.3s var(--ease-pop);
+    }
+    [data-theme="light"] .theme-btn { background: rgba(255,255,255,0.6); }
+    .theme-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 18px var(--accent-glow);
+      transform: scale(1.1) rotate(8deg);
+    }
+
+    /* ── CONTENT ── */
+    #content {
+      opacity: 1; visibility: visible;
+    }
+
+    .container { max-width: 720px; margin: 0 auto; padding: 80px 28px 100px; }
+
+    /* header */
+    .afterword-header { text-align:center; margin-bottom:3.5rem; }
+    .afterword-eyemark {
+      display: block; font-size: 2.5rem; color: var(--accent);
+      filter: drop-shadow(0 0 16px var(--accent)); margin-bottom: 1.2rem;
+    }
+    .afterword-ip {
+      font-family:"Orbitron"; font-size:.7rem; color:var(--accent);
+      letter-spacing:4px; opacity:.75; margin-bottom:.6rem;
+      word-break: break-word;
+    }
+    .afterword-title {
+      font-family:"Noto Sans TC"; font-size: clamp(1.6rem, 5vw, 2.4rem);
+      font-weight:700; letter-spacing:4px; margin-bottom:.4rem;
+    }
+    .afterword-en { font-family:"Orbitron"; font-size:.82rem; color:var(--text-sub); letter-spacing:2px; }
+    .afterword-divider {
+      width:100px; height:1px; margin:1.8rem auto;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity:.5;
+    }
+
+    /* article body */
+    .afterword-body { font-size: clamp(.95rem, 2.5vw, 1.05rem); line-height:2.2; color:var(--text); }
+    .afterword-body p { margin-bottom:1.8rem; text-indent:2em; }
+    .afterword-body .highlight { color:var(--accent); font-style:italic; font-weight:600; }
+    .afterword-body .aside {
+      text-indent:0; color:var(--text-sub); font-size:.9rem; font-style:italic;
+      margin-left:1.5em; border-left:2px solid var(--glass-border); padding-left:1em;
+      margin-bottom:1.8rem;
+    }
+    .afterword-body .signed {
+      text-indent:0; text-align:right; margin-top:3rem; color:var(--text-sub); font-size:.92rem;
+      border-top:1px dashed var(--glass-border); padding-top:1.5rem;
+    }
+
+    /* littlelion 插圖 */
+    .afterword-illus {
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+      margin-bottom: 3rem;
+      aspect-ratio: 1087 / 707;
+    }
+    .afterword-illus img {
+      width: 100%; height: 100%;
+      display: block;
+      object-fit: cover;
+      filter: brightness(0.92);
+      transition: filter 0.5s ease, transform 0.6s ease;
+    }
+    .afterword-illus:hover img {
+      filter: brightness(1.05);
+      transform: scale(1.02);
+    }
+    [data-theme="light"] .afterword-illus {
+      box-shadow: 0 8px 28px rgba(74,107,40,0.15);
+      border-color: rgba(107,143,62,0.3);
+    }
+
+    /* nav back */
+    .nav-back {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:9px 20px; border:1px solid var(--glass-border); border-radius:8px;
+      color:var(--text-sub); text-decoration:none;
+      font-family:"Orbitron"; font-size:.72rem; letter-spacing:1px;
+      transition:all .3s var(--ease-pop);
+      background: var(--accent-dim); margin-bottom:2.5rem;
+    }
+    .nav-back:hover {
+      border-color:var(--accent); color:var(--accent);
+      box-shadow:0 0 15px var(--accent-glow); transform:translateX(-4px);
+    }
+
+    /* future box */
+    .future-box {
+      margin-top:3.5rem; padding:1.8rem;
+      border:1px dashed var(--glass-border); border-radius:16px;
+      background: var(--accent-dim); text-align:center;
+    }
+    .future-box-title {
+      font-family:"Orbitron"; font-size:.78rem; color:var(--accent);
+      letter-spacing:2px; margin-bottom:.7rem; opacity:.85;
+    }
+    .future-box-desc { color:var(--text-sub); font-size:.88rem; font-family:"Noto Sans TC"; line-height:1.8; }
+
+    /* footer */
+    .afterword-footer {
+      text-align:center; margin-top:4rem; padding-top:1.8rem;
+      border-top:1px solid var(--glass-border);
+      color:var(--text-sub); font-family:"Orbitron"; font-size:.68rem;
+      letter-spacing:1px; opacity:.4;
+      /* wrap on mobile */
+      word-break: break-word;
+    }
+
+    /* ── Light theme overrides ── */
+    [data-theme="light"] body { background: var(--bg); }
+    [data-theme="light"] .nav-back  { background: rgba(240,245,255,0.6); }
+    [data-theme="light"] .future-box { background: rgba(240,245,255,0.5); }
+    [data-theme="light"] .bg-glow { opacity: 0.15; }
+    [data-theme="light"] #particlesCanvas { opacity: 0.35; }
+    [data-theme="light"] .afterword-illus {
+      box-shadow: 0 8px 28px rgba(20,50,80,0.10);
+    }
+
+/* ── Poll Box (投票系統) ── */
+    .poll-box {
+      margin-top: 3.5rem;
+      padding: 2.5rem 2rem;
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      background: rgba(107, 143, 62, 0.05); /* 微微的專屬綠色透視背景 */
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      backdrop-filter: blur(10px);
+    }
+    .poll-title {
+      font-family: "Orbitron", "Noto Sans TC";
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .poll-desc {
+      text-align: center;
+      color: var(--text-sub);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+    .poll-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .poll-btn {
+      background: var(--bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text);
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-family: "Noto Sans TC";
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s var(--ease-pop);
+      position: relative;
+      overflow: hidden;
+    }
+    .poll-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px var(--accent-glow);
+    }
+    
+    /* 統計結果 */
+    .poll-results {
+      animation: fadeIn 0.8s var(--ease-smooth);
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .poll-thanks {
+      text-align: center; color: var(--accent); font-weight: bold; margin-bottom: 1.5rem;
+    }
+    .result-item { margin-bottom: 1rem; }
+    .result-info {
+      display: flex; justify-content: space-between;
+      font-size: 0.9rem; color: var(--text); margin-bottom: 6px;
+    }
+    .progress-bar {
+      width: 100%; height: 12px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px; overflow: hidden;
+    }
+    [data-theme="light"] .progress-bar { background: rgba(0,0,0,0.08); }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 8px;
+      transition: width 1.2s var(--ease-pop);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+	
+    /* ── Mobile responsive ── */
+    @media (max-width: 600px) {
+      .container { padding: 56px 16px 72px; }
+      .afterword-ip { font-size: .62rem; letter-spacing: 2px; }
+      .afterword-title { letter-spacing: 2px; }
+      .afterword-body p { text-indent: 1.5em; }
+      .afterword-body .aside { margin-left: .8em; }
+      .afterword-body .signed { text-align: left; }
+      .nav-back { font-size: .68rem; padding: 8px 14px; }
+      .future-box { padding: 1.2rem; }
+      .theme-btn { top: 12px; right: 12px; width: 38px; height: 38px; font-size: 1rem; }
+    }
+
+    @media (max-width: 380px) {
+      .afterword-ip { display: none; }
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      .bg-glow, .afterword-illus img, .poll-btn, .nav-back, .theme-btn { 
+        animation: none !important; 
+        transition: none !important; 
+      }
+      html { scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Theme toggle -->
+  <button class="theme-btn" id="themeBtn" aria-label="切換日夜模式">
+    <i class="fa-solid fa-sun"></i>
+  </button>
+
+  <div class="bg-glow" aria-hidden="true"></div>
+  <canvas id="particlesCanvas" aria-hidden="true"></canvas>
+
+  <!-- ── CONTENT (always visible, no gate) ── -->
+  <div id="content" class="visible" aria-hidden="false">
+    <div class="container">
+
+      <a href="index.html" class="nav-back">
+        <i class="fa-solid fa-arrow-left"></i> 返回主頁
+      </a>
+
+      <header class="afterword-header">
+        <i class="fa-solid fa-eye afterword-eyemark" aria-hidden="true"></i>
+        <p class="afterword-ip">TEALIZE · A BITE OF GOD · AFTERWORD</p>
+        <h1 class="afterword-title">後記</h1>
+        <p class="afterword-en">Author's Note</p>
+        <div class="afterword-divider" aria-hidden="true"></div>
+      </header>
+
+      <div class="afterword-illus">
+        <img src="img/littlelion.jpg" alt="小獅子 — 咬了神一口插圖" loading="lazy" />
+      </div>
+
+      <article class="afterword-body">
+        <p>
+          當初抽到三個 TAG──<span class="highlight">綑綁、獸人、互攻</span>，非常高興，因為完全是我的好球帶，就不亂搞了。畢竟當初想著，如果抽到抹布，我就寫灰姑娘拿抹布擦地板；抽到高潮地獄就血海格力士在地獄裡衝浪；NTR 就是小王子搭核熱火箭（nuclear thermal rocket）。最後竟然抽到好球帶，簡直是受到 BL 之神的照顧！
+        </p>
+        <p>
+          因為是獸人，想一想後決定改編《美女與野獸》，只是一切都想跟原故事<span class="highlight">反著來</span>。原故事是美女教會了野獸文明，學會了愛，變成人類。《咬了神一口》是野獸教會了美人（神）獸性，將神從文明中解放，恢復成山神，同樣地也學會了愛。誰說愛是人類專屬呢？
+        </p>
+        <p>
+          最初神和黎昂的關係，我本來甚至想寫成邪神和祭品，然後也沒有弟弟，讓這兩隻打得更兇，血肉橫飛，肉也想寫那種邊吃邊做的食肉 play。不過這樣計算下來黎昂只有辦法活五天，之後敗血症陣亡，根本 GAME OVER，難怪我寫不下去。最後多誕生出弟弟讓故事直奔溫馨可愛，讓<span class="highlight">小奧誕生</span>簡直是我做出最棒的決定！
+        </p>
+        <p>
+          或許這故事看起來和原童話很不一樣，不過應該都能對上──主角同樣是因為親人摘花被困在屋主的領地，之後和屋主相處磨合，認識彼此，產生情感。主角也有外出遇到一群暴民，最後一樣是野獸在美人的垂淚下發出<span class="highlight">魔法少女變身</span>一般的特效，變成另一個型態。看，其實都有對上吧！（？？？
+        </p>
+        <p>
+          總之就是個跟原作反著來的「鬼」屋冒險逃生故事，只是正常人在鬼屋裡通常是解謎逃生，黎昂是打鬼打不成、<span class="highlight">跟鬼打砲</span>的奇葩一枚。於是喜得神砲友一隻，可喜可賀！是說黎昂變成神的皮，算不算是一種<span class="highlight">神製充氣娃娃</span>？總之變成鹿後，大概也是雞飛狗跳的生活，讓我們祝福他早日被弟弟吃掉！
+        </p>
+        <p class="aside">（黎：你是不是沒被鹿踢過？）</p>
+        <p>
+          寫這故事還有個困難點，野獸視角能用的詞太少，為此我作弊讓黎昂受過人類文化影響，逃避雖然可恥但真的有用，不然要變<span class="highlight">國家地理頻道</span>了！
+        </p>
+        <p>
+          這個合誌我玩得很開心，也很謝謝各個夥伴的幫助！因為正文字數爆炸，於是把後記放在這裡。謝謝閱讀到此的您！
+        </p>
+        <p class="signed">
+          ─ 兌現藍 · Tealize<br>
+        </p>
+      </article>
+
+<div class="poll-box" id="pollBox">
+        <h3 class="poll-title"><i class="fa-solid fa-heart-pulse"></i> 讀者調查：你最支持誰攻誰受？</h3>
+        
+        <div class="poll-options" id="pollOptions">
+          <button class="poll-btn" data-vote="deer">白鹿攻 × 黑獅受</button>
+          <button class="poll-btn" data-vote="lion">黑獅攻 × 白鹿受</button>
+          <button class="poll-btn" data-vote="switch">輪流互攻 (小孩子才做選擇)</button>
+        </div>
+
+        <div class="poll-results" id="pollResults" style="display: none;">
+          <p class="poll-thanks">感謝投票！目前戰況如下：</p>
+          
+          <div class="result-item">
+            <div class="result-info"><span>白鹿攻 × 黑獅受</span> <span id="res-deer">0%</span></div>
+            <div class="progress-bar"><div class="progress-fill" id="bar-deer" style="width: 0%;"></div></div>
+          </div>
+          
+          <div class="result-item">
+            <div class="result-info"><span>黑獅攻 × 白鹿受</span> <span id="res-lion">0%</span></div>
+            <div class="progress-bar"><div class="progress-fill" id="bar-lion" style="width: 0%;"></div></div>
+          </div>
+          
+          <div class="result-item">
+            <div class="result-info"><span>輪流互攻</span> <span id="res-switch">0%</span></div>
+            <div class="progress-bar"><div class="progress-fill" id="bar-switch" style="width: 0%;"></div></div>
+          </div>
+        </div>
+      </div>
+	  
+      <div class="future-box">
+        <p class="future-box-title"><i class="fa-solid fa-scroll"></i>&nbsp; 番外預留區</p>
+        <p class="future-box-desc">
+          如果想到番外會發在這裡。<br>
+        </p>
+      </div>
+
+      <footer class="afterword-footer">
+        &copy; 2026 Tealize &nbsp;·&nbsp; All rights reserved.
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      // ── Storage helper ──
+      const storage = {
+        get(key, fallback) { try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; } },
+        set(key, val)      { try { localStorage.setItem(key, val); } catch {} }
+      };
+
+      // ── fetch with timeout helper ──
+      function fetchWithTimeout(url, ms = 8000) {
+        const ctrl = new AbortController();
+        const id = setTimeout(() => ctrl.abort(), ms);
+        return fetch(url, { signal: ctrl.signal }).finally(() => clearTimeout(id));
+      }
+
+      // ── Theme ──
+      const html = document.documentElement;
+      const themeBtn  = document.getElementById("themeBtn");
+      const themeIcon = themeBtn.querySelector("i");
+
+      function syncThemeIcon() {
+        const isDark = html.getAttribute("data-theme") !== "light";
+        themeIcon.className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
+      }
+      syncThemeIcon();
+
+      themeBtn.addEventListener("click", () => {
+        const isDark = html.getAttribute("data-theme") !== "light";
+        const next = isDark ? "light" : "dark";
+        html.setAttribute("data-theme", next);
+        storage.set("tealize.theme", next);
+        syncThemeIcon();
+      });
+
+      // ── No gate — content always visible ──
+
+      // ── Olive green particle effect ──
+      const canvas = document.getElementById("particlesCanvas");
+      const ctx    = canvas.getContext("2d", { alpha: true });
+      const pts    = [];
+      const MAX    = 50;
+
+      function resize() {
+        canvas.width  = Math.floor(window.innerWidth  * devicePixelRatio);
+        canvas.height = Math.floor(window.innerHeight * devicePixelRatio);
+        canvas.style.width  = window.innerWidth  + "px";
+        canvas.style.height = window.innerHeight + "px";
+        ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      }
+      resize();
+      window.addEventListener("resize", resize, { passive: true });
+
+      const rand = (a, b) => Math.random() * (b - a) + a;
+
+      function particleColor() {
+        return html.getAttribute("data-theme") === "light" ? "#4a6b28" : "#6b8f3e";
+      }
+
+      function spawn() {
+        if (pts.length >= MAX) return;
+        pts.push({
+          x: rand(0, window.innerWidth),
+          y: rand(window.innerHeight + 50, window.innerHeight + 200),
+          r: rand(0.5, 1.8), vx: rand(-0.2, 0.2), vy: rand(-0.7, -0.3),
+          a: rand(0.1, 0.45), life: rand(800, 1500)
+        });
+      }
+
+      function tick() {
+        spawn();
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        ctx.globalCompositeOperation = "lighter";
+        const c = particleColor();
+        for (let i = pts.length - 1; i >= 0; i--) {
+          const p = pts[i];
+          p.x += p.vx; p.y += p.vy; p.life--;
+          const alpha = p.a
+            * Math.min(1, (1500 - p.life) / 100)
+            * Math.min(1, p.life / 150);
+          ctx.globalAlpha = alpha;
+          ctx.fillStyle   = c;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+          if (p.y < -30 || p.life <= 0) pts.splice(i, 1);
+        }
+        ctx.globalAlpha = 1;
+        ctx.globalCompositeOperation = "source-over";
+        requestAnimationFrame(tick);
+      }
+      tick();
+	  
+	  // ── Poll Logic (連線正式版) ──
+      const pollOptions = document.getElementById("pollOptions");
+      const pollResults = document.getElementById("pollResults");
+      const pollBtns = document.querySelectorAll(".poll-btn");
+
+      const API_URL = "https://script.google.com/macros/s/AKfycbxx9-JwDwcQ-XPm4I782i9z0JfYpvw0em4ugiCPI28NR9pKyniRyebA1pTHWSJ6fGJ0/exec";
+
+      // ── 讀取 clientId（同 app.js 邏輯）──
+      function getClientId() {
+        try {
+          const keys = Object.keys(localStorage);
+          for (const prefix of ["uid", "ag"]) {
+            const found = keys.find(k => k.startsWith(prefix));
+            if (found) return localStorage.getItem(found) || found;
+          }
+          const tw = keys.find(k => k.startsWith("tw_tealize"));
+          if (tw) return localStorage.getItem(tw);
+          const newId = "tw_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+          localStorage.setItem("tw_tealize_id", newId);
+          return newId;
+        } catch { return "unknown"; }
+      }
+      const clientId = getClientId();
+
+      let dbVotes = { deer: 0, lion: 0, switch: 0 };
+      const hasVoted = storage.get("tealize.voted");
+
+      // 1. 網頁載入時，先去後台抓取目前最新票數
+      fetchWithTimeout(API_URL + "?action=get")
+        .then(res => res.json())
+        .then(data => {
+          dbVotes.deer = data.deer || 0;
+          dbVotes.lion = data.lion || 0;
+          dbVotes.switch = data.switch || 0;
+          if (hasVoted) showResults();
+        })
+        .catch(err => { if (err.name !== "AbortError") console.log("獲取票數失敗", err); });
+
+      // 2. 綁定按鈕點擊事件
+      pollBtns.forEach(btn => {
+        btn.addEventListener("click", function() {
+          const choice = this.getAttribute("data-vote");
+          if (!["deer", "lion", "switch"].includes(choice)) return;
+
+          dbVotes[choice]++;
+          storage.set("tealize.voted", choice);
+          pollOptions.style.display = "none";
+          pollResults.style.display = "block";
+
+          document.getElementById("res-deer").textContent = "連線更新中...";
+          document.getElementById("res-lion").textContent = "連線更新中...";
+          document.getElementById("res-switch").textContent = "連線更新中...";
+
+          // 3. 傳送投票，附上 clientId
+          const voteParams = new URLSearchParams({
+            action:   "vote",
+            choice:   choice,
+            clientId: clientId
+          });
+          fetchWithTimeout(API_URL + "?" + voteParams.toString())
+            .then(res => res.json())
+            .then(data => {
+              dbVotes.deer   = data.deer   || 0;
+              dbVotes.lion   = data.lion   || 0;
+              dbVotes.switch = data.switch || 0;
+              showResults();
+            })
+            .catch(err => { if (err.name !== "AbortError") console.log("投票失敗", err); showResults(); });
+        });
+      });
+
+      function showResults() {
+        pollOptions.style.display = "none";
+        pollResults.style.display = "block";
+
+        const totalVotes = dbVotes.deer + dbVotes.lion + dbVotes.switch;
+        // 避免除以 0 的錯誤
+        if (totalVotes === 0) return;
+
+        const pDeer = Math.round((dbVotes.deer / totalVotes) * 100);
+        const pLion = Math.round((dbVotes.lion / totalVotes) * 100);
+        const pSwitch = 100 - pDeer - pLion;
+
+        document.getElementById("res-deer").textContent = pDeer + "% (" + dbVotes.deer + "票)";
+        document.getElementById("res-lion").textContent = pLion + "% (" + dbVotes.lion + "票)";
+        document.getElementById("res-switch").textContent = pSwitch + "% (" + dbVotes.switch + "票)";
+
+        setTimeout(() => {
+          document.getElementById("bar-deer").style.width = pDeer + "%";
+          document.getElementById("bar-lion").style.width = pLion + "%";
+          document.getElementById("bar-switch").style.width = pSwitch + "%";
+        }, 50);
+      }
+	  
+    })();
+  </script>
+</body>
+</html>

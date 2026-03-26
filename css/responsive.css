@@ -1,0 +1,74 @@
+/* ══════════════════════════════════════
+   responsive.css — Media queries
+   ══════════════════════════════════════ */
+
+/* 768px and below */
+@media (max-width: 768px) {
+  .nav-hamburger { display: inline-flex; }
+  .nav-links {
+    position: absolute; top: 56px; left: 0; right: 0;
+    background: var(--nav-bg); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    flex-direction: column; padding: 12px 16px; gap: 4px;
+    border-bottom: 1px solid var(--glass-border);
+    transform: translateY(-10px); opacity: 0; visibility: hidden; pointer-events: none;
+    transition: all 0.3s var(--ease-smooth);
+  }
+  .nav-links.open { transform: translateY(0); opacity: 1; visibility: visible; pointer-events: auto; }
+  .nav-links a    { width: 100%; padding: 10px 14px; }
+
+  .glitch-name   { font-size: 2.6rem; letter-spacing: 2px; }
+  .avatar-visual { width: 110px; height: 110px; }
+  .hero-sub      { font-size: 0.85rem; letter-spacing: 1.5px; }
+
+  .container-visual { padding: 60px 16px 60px 16px; }
+  .glass-panel      { padding: 1.6rem; border-radius: 18px; margin-bottom: 2.5rem; }
+  .section-title    { font-size: 1.3rem; gap: 12px; }
+
+  .novel-layout     { flex-direction: column; gap: 28px; }
+  .novel-cover-link { max-width: 100%; }
+
+  /* 統一 section-body 手機版 */
+  .section-body   { flex-direction: column; gap: 24px; }
+  .section-cover  { width: 100%; }
+  .section-media  { grid-template-columns: 1fr; gap: 16px; }
+  .section-media--wide { grid-template-columns: 1fr; }
+  .section-actions { flex-direction: column; align-items: stretch; }
+  .section-actions .cta-btn { justify-content: center; }
+  .section-title2 { font-size: 1.6rem; }
+
+  .lag-layout  { flex-direction: column; gap: 24px; }
+  .lag-images  { order: 1; width: 100%; }
+  .lag-img-main{ width: 100%; }
+  .lag-text    { order: 2; }
+  .lag-booktitle { font-size: 1.8rem; }
+  .lag-actions { flex-direction: column; align-items: stretch; }
+  .lag-actions .cta-btn { justify-content: center; }
+
+  .puzzle-input-row { flex-wrap: nowrap; }
+  .puzzle-input     { font-size: 0.95rem; padding: 9px 10px; }
+  .puzzle-submit    { padding: 9px 14px; font-size: 0.75rem; }
+
+  .book-grid { grid-template-columns: repeat(2,1fr); gap: 16px; }
+  .game-grid { grid-template-columns: 1fr; }
+  .game-grid .img-wrap { aspect-ratio: 16/9; }
+  .game-links-container { flex-direction: column; }
+
+  .container-code { padding: 80px 16px; }
+  .code-h1        { font-size: 2rem; }
+}
+
+/* 480px and below */
+@media (max-width: 480px) {
+  .glitch-name   { font-size: 2rem; letter-spacing: 1px; }
+  .control-panel { top: 62px; right: 12px; gap: 8px; }
+  .control-btn   { width: 38px; height: 38px; font-size: 1rem; }
+  .glass-panel   { padding: 1.2rem; border-radius: 14px; }
+  .section-title { font-size: 1.15rem; }
+  .container-visual { padding: 58px 10px 60px 10px; }
+
+  .book-grid     { grid-template-columns: repeat(2,1fr); gap: 12px; }
+  .puzzle-input  { min-width: 0; padding: 8px 8px; }
+  .puzzle-submit { padding: 8px 10px; letter-spacing: 0; }
+
+  .section-title2 { font-size: 1.4rem; }
+}
