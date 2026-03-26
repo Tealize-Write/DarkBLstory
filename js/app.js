@@ -555,99 +555,103 @@ document.addEventListener("DOMContentLoaded", () => {
   // ══════════════════════════════════════
   (function initTracking() {
 
-    // ── clientId：讀取或建立 ──
+    // ── clientId：掃描所有 localStorage value，找 uid_/ag_ 前綴 ──
     function getClientId() {
       try {
-        const keys = Object.keys(localStorage);
-        // 優先序：uid* > ag* > tw*（自建）
-        for (const prefix of ["uid", "ag"]) {
-          const found = keys.find(k => k.startsWith(prefix));
-          if (found) return localStorage.getItem(found) || found;
+        // 掃描所有 value（不是 key），找出已知前綴
+        for (const prefix of ["uid_", "ag_"]) {
+          for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            const v = localStorage.getItem(k) || "";
+            if (v.startsWith(prefix)) return v;
+          }
         }
-        // 找自建 tw*
-        const tw = keys.find(k => k.startsWith("tw_tealize"));
-        if (tw) return localStorage.getItem(tw);
-        // 都沒有就建一個
+        // 找自建的 tw_ tealize id
+        const existing = localStorage.getItem("tw_tealize_id");
+        if (existing) return existing;
+        // 都沒有就建立新的
         const newId = "tw_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
         localStorage.setItem("tw_tealize_id", newId);
         return newId;
       } catch { return "unknown"; }
     }
 
-    // ── 時區偏移（分鐘，JS 是反號）──
-    const tzOffset = new Date().getTimezoneOffset(); // e.g. -480 for UTC+8
+    // ── UTC+8 時間字串 ──
+    function toTW8(ts) {
+      return new Date(ts + 8 * 3600000)
+        .toISOString().replace("T", " ").slice(0, 19);
+    }
 
-    const clientId   = getClientId();
-    const enterTime  = Date.now();
-    const MAX_STAY   = 30 * 60; // 30 分鐘上限（秒）
+    const tzOffset  = new Date().getTimezoneOffset(); // 分鐘，UTC+8 = -480
+    const clientId  = getClientId();
+    const enterTime = Date.now();
+    const enterStr  = toTW8(enterTime);
 
     // ── 點擊追蹤 ──
     const clickLog = [];
 
-    // 定義要追蹤的按鈕 selector → label
     const TRACKED = [
-      // 官網 / 書籍連結
-      { sel: 'a[href*="framer.app"]',          label: "咬了神一口官網" },
-      { sel: 'a[href*="kadokado"][href*="1425"]', label: "字命覺醒VOL1" },
-      { sel: 'a[href*="kadokado"][href*="42308"]',label: "字命覺醒VOL2" },
-      { sel: 'a[href*="kadokado"][href*="65322"]',label: "字命覺醒Extra" },
-      { sel: 'a[href*="kadokado"][href*="60627"]',label: "穿越者KadoKado" },
-      { sel: 'a[href*="wixsite"]',              label: "反轉的真實官網" },
-      { sel: 'a[href*="gamer.com"]',            label: "反轉的真實巴哈" },
-      // 測驗
-      { sel: 'a[href*="story-command-academy"]',label: "字命覺醒測驗" },
-      { sel: 'a[href*="DarkBLstory"]',          label: "黑暗特質測驗" },
-      // 後記
-      { sel: '#lagAfterwordBtn',                label: "閱讀後記btn" },
-      { sel: '#spoilerConfirm',                 label: "後記確認進入" },
-      // 控制按鈕
-      { sel: '#langBtn',                        label: "切換語言" },
-      { sel: '#themeBtn',                       label: "切換主題" },
-      { sel: '#modeBtn',                        label: "切換終端機" },
-      // 導航氣泡
-      { sel: '[data-section="section-sc"]',     label: "nav:字命覺醒" },
-      { sel: '[data-section="section-lag"]',    label: "nav:咬了神一口" },
-      { sel: '[data-section="section-soil"]',   label: "nav:穿越者" },
-      { sel: '[data-section="section-game"]',   label: "nav:反轉的真實" },
+      { sel: 'a[href*="framer.app"]',             label: "咬了神一口官網" },
+      { sel: 'a[href*="kadokado"][href*="1425"]',  label: "字命覺醒VOL1" },
+      { sel: 'a[href*="kadokado"][href*="42308"]', label: "字命覺醒VOL2" },
+      { sel: 'a[href*="kadokado"][href*="65322"]', label: "字命覺醒Extra" },
+      { sel: 'a[href*="kadokado"][href*="60627"]', label: "穿越者KadoKado" },
+      { sel: 'a[href*="wixsite"]',                 label: "反轉的真實官網" },
+      { sel: 'a[href*="gamer.com"]',               label: "反轉的真實巴哈" },
+      { sel: 'a[href*="story-command-academy"]',   label: "字命覺醒測驗" },
+      { sel: 'a[href*="DarkBLstory"]',             label: "黑暗特質測驗" },
+      { sel: '#lagAfterwordBtn',                   label: "閱讀後記btn" },
+      { sel: '#spoilerConfirm',                    label: "後記確認進入" },
+      { sel: '#langBtn',                           label: "切換語言" },
+      { sel: '#themeBtn',                          label: "切換主題" },
+      { sel: '#modeBtn',                           label: "切換終端機" },
+      { sel: '[data-section="section-sc"]',        label: "nav:字命覺醒" },
+      { sel: '[data-section="section-lag"]',       label: "nav:咬了神一口" },
+      { sel: '[data-section="section-soil"]',      label: "nav:穿越者" },
+      { sel: '[data-section="section-game"]',      label: "nav:反轉的真實" },
     ];
 
-    // 綁定所有追蹤按鈕（DOMContentLoaded 後 DOM 已存在）
     TRACKED.forEach(({ sel, label }) => {
       document.querySelectorAll(sel).forEach(el => {
-        el.addEventListener("click", () => {
-          clickLog.push(label);
-        }, { passive: true });
+        el.addEventListener("click", () => { clickLog.push(label); }, { passive: true });
       });
     });
 
-    // ── 離開時送出紀錄 ──
+    // ── 離開時 POST 送出紀錄 ──
     function sendVisit(reason) {
-      const staySeconds = Math.min(
-        Math.round((Date.now() - enterTime) / 1000),
-        MAX_STAY
-      );
-      clickLog.push(`X(${reason})`); // 記錄離開方式
-      const clicks = clickLog.join(",");
+      const exitTime    = Date.now();
+      const staySeconds = Math.round((exitTime - enterTime) / 1000);
+      clickLog.push(`X:${reason}`);
 
-      const params = new URLSearchParams({
-        action:   "visit",
-        clientId: clientId,
-        tz:       String(tzOffset),
-        stay:     String(staySeconds),
-        clicks:   clicks
+      // source / referrer / device
+      const urlParams = new URLSearchParams(window.location.search);
+      const source    = urlParams.get("utm_source") || "direct";
+      const referrer  = document.referrer || "none";
+      const device    = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+                          .test(navigator.userAgent) ? "Mobile" : "Desktop";
+
+      const payload = JSON.stringify({
+        action:    "visit",
+        clientId:  clientId,
+        tz:        String(tzOffset),
+        enterTime: enterStr,
+        exitTime:  toTW8(exitTime),
+        stay:      staySeconds,
+        clicks:    clickLog.join(","),
+        source:    source,
+        referrer:  referrer,
+        device:    device
       });
 
-      // 用 sendBeacon 確保離開時也能送出（不被 unload 打斷）
-      const url = API_URL + "?" + params.toString();
+      // sendBeacon 用 POST + Blob（GAS 要對應 doPost）
+      const blob = new Blob([payload], { type: "application/json" });
       if (navigator.sendBeacon) {
-        navigator.sendBeacon(url);
+        navigator.sendBeacon(API_URL, blob);
       } else {
-        // 備用：同步 fetch（不保證成功但盡力）
-        try { fetch(url, { keepalive: true }); } catch {}
+        try { fetch(API_URL, { method: "POST", body: payload, keepalive: true }); } catch {}
       }
     }
 
-    // 只送一次
     let sent = false;
     function onLeave(reason) {
       if (sent) return;

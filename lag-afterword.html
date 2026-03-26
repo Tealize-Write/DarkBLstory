@@ -500,23 +500,24 @@
       }
       tick();
 	  
-	  // ── Poll Logic (連線正式版) ──
+	  // ── Poll Logic ──
       const pollOptions = document.getElementById("pollOptions");
       const pollResults = document.getElementById("pollResults");
-      const pollBtns = document.querySelectorAll(".poll-btn");
+      const pollBtns    = document.querySelectorAll(".poll-btn");
 
       const API_URL = "https://script.google.com/macros/s/AKfycbxx9-JwDwcQ-XPm4I782i9z0JfYpvw0em4ugiCPI28NR9pKyniRyebA1pTHWSJ6fGJ0/exec";
 
-      // ── 讀取 clientId（同 app.js 邏輯）──
+      // ── clientId：掃描 value，找 uid_/ag_ 前綴 ──
       function getClientId() {
         try {
-          const keys = Object.keys(localStorage);
-          for (const prefix of ["uid", "ag"]) {
-            const found = keys.find(k => k.startsWith(prefix));
-            if (found) return localStorage.getItem(found) || found;
+          for (const prefix of ["uid_", "ag_"]) {
+            for (let i = 0; i < localStorage.length; i++) {
+              const v = localStorage.getItem(localStorage.key(i)) || "";
+              if (v.startsWith(prefix)) return v;
+            }
           }
-          const tw = keys.find(k => k.startsWith("tw_tealize"));
-          if (tw) return localStorage.getItem(tw);
+          const existing = localStorage.getItem("tw_tealize_id");
+          if (existing) return existing;
           const newId = "tw_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
           localStorage.setItem("tw_tealize_id", newId);
           return newId;
@@ -524,21 +525,46 @@
       }
       const clientId = getClientId();
 
+      // ── 快取票數 key ──
+      const CACHE_KEY = "tealize.poll.cache";
+      const CACHE_TTL = 5 * 60 * 1000; // 5 分鐘快取
+
+      function loadCachedVotes() {
+        try {
+          const raw = localStorage.getItem(CACHE_KEY);
+          if (!raw) return null;
+          const { ts, votes } = JSON.parse(raw);
+          if (Date.now() - ts < CACHE_TTL) return votes;
+        } catch {}
+        return null;
+      }
+      function saveCachedVotes(votes) {
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), votes })); } catch {}
+      }
+
       let dbVotes = { deer: 0, lion: 0, switch: 0 };
       const hasVoted = storage.get("tealize.voted");
 
-      // 1. 網頁載入時，先去後台抓取目前最新票數
+      // 1. 先用快取立刻顯示，背景再更新
+      const cached = loadCachedVotes();
+      if (cached) {
+        dbVotes = cached;
+        if (hasVoted) showResults(); // 快取夠新就立刻顯示
+      }
+
+      // 背景更新（不等待，靜默更新）
       fetchWithTimeout(API_URL + "?action=get")
         .then(res => res.json())
         .then(data => {
-          dbVotes.deer = data.deer || 0;
-          dbVotes.lion = data.lion || 0;
+          dbVotes.deer   = data.deer   || 0;
+          dbVotes.lion   = data.lion   || 0;
           dbVotes.switch = data.switch || 0;
-          if (hasVoted) showResults();
+          saveCachedVotes(dbVotes);
+          if (hasVoted) showResults(); // 用最新數字更新顯示
         })
         .catch(err => { if (err.name !== "AbortError") console.log("獲取票數失敗", err); });
 
-      // 2. 綁定按鈕點擊事件
+      // 2. 投票
       pollBtns.forEach(btn => {
         btn.addEventListener("click", function() {
           const choice = this.getAttribute("data-vote");
@@ -546,18 +572,14 @@
 
           dbVotes[choice]++;
           storage.set("tealize.voted", choice);
+          saveCachedVotes(dbVotes);
+
           pollOptions.style.display = "none";
           pollResults.style.display = "block";
+          showResults(); // 樂觀更新立刻顯示
 
-          document.getElementById("res-deer").textContent = "連線更新中...";
-          document.getElementById("res-lion").textContent = "連線更新中...";
-          document.getElementById("res-switch").textContent = "連線更新中...";
-
-          // 3. 傳送投票，附上 clientId
           const voteParams = new URLSearchParams({
-            action:   "vote",
-            choice:   choice,
-            clientId: clientId
+            action: "vote", choice, clientId
           });
           fetchWithTimeout(API_URL + "?" + voteParams.toString())
             .then(res => res.json())
@@ -565,9 +587,10 @@
               dbVotes.deer   = data.deer   || 0;
               dbVotes.lion   = data.lion   || 0;
               dbVotes.switch = data.switch || 0;
-              showResults();
+              saveCachedVotes(dbVotes);
+              showResults(); // 用伺服器最終數字更新
             })
-            .catch(err => { if (err.name !== "AbortError") console.log("投票失敗", err); showResults(); });
+            .catch(err => { if (err.name !== "AbortError") console.log("投票失敗", err); });
         });
       });
 
