@@ -344,6 +344,86 @@ body {
     color: #fff !important;
 }
 
+/* ══ LINE 貼圖按鈕 ══ */
+.btn-line-sticker-wrap {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.btn-line-sticker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 40px;
+    font-family: var(--serif);
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-decoration: none;
+    color: rgba(255,255,255,0.80);
+    border: 1px solid rgba(6,199,85,0.35);
+    background: linear-gradient(135deg, rgba(6,199,85,0.06) 0%, rgba(0,0,0,0) 100%);
+    cursor: pointer;
+    transition: all .3s ease;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+}
+
+.btn-line-sticker::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 120%, rgba(6,199,85,0.18) 0%, transparent 65%);
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+
+.btn-line-sticker:hover {
+    border-color: rgba(6,199,85,0.75);
+    color: #fff;
+    box-shadow: 0 0 18px rgba(6,199,85,0.18), inset 0 0 12px rgba(6,199,85,0.06);
+}
+
+.btn-line-sticker:hover::before {
+    opacity: 1;
+}
+
+.btn-line-sticker:hover .line-sticker-icon {
+    transform: rotate(-8deg) scale(1.12);
+}
+
+.line-sticker-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    transition: transform .3s ease;
+}
+
+.line-sticker-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.line-sticker-title {
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: inherit;
+}
+
+.line-sticker-sub {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(6,199,85,0.65);
+    font-style: italic;
+}
+
 /* ══ SKIP BUTTON ══ */
 .skip-btn {
     background: transparent;
