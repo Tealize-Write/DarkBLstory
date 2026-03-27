@@ -348,7 +348,8 @@ body {
 .btn-line-sticker-wrap {
     width: 100%;
     max-width: 480px;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
     box-sizing: border-box;
 }
 
