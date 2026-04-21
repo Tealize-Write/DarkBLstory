@@ -1812,7 +1812,7 @@ body {
 
 .footer-explore-img {
     width: 100%;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 1;
     object-fit: cover;
     display: block;
     opacity: 0.82;
@@ -1860,8 +1860,9 @@ body {
 }
 
 .footer-members {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 6px;
 }
 
@@ -1872,6 +1873,7 @@ body {
     text-align: center;
     gap: 3px;
     padding: 6px 4px 8px;
+    width: calc((100% - 24px) / 5);
     border: 1px solid rgba(255,255,255,0.10);
     border-radius: 4px;
     background: rgba(255,255,255,0.02);
@@ -1926,6 +1928,20 @@ body {
     line-height: 1.4;
 }
 
+/* ── 鳴謝標題間距微調 ── */
+.footer-heading--collab {
+    margin-top: 14px;
+    margin-bottom: 8px;
+}
+
+/* ── 鳴謝（獨立置中） ── */
+.footer-collab {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+}
+
 .footer-copyright {
     margin-top: 24px;
     text-align: center;
@@ -1937,13 +1953,11 @@ body {
 
 @media (max-width: 580px) {
     .footer-members {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
         gap: 5px;
     }
     .footer-member-card {
-        flex: 0 0 calc(25% - 4px);
+        width: auto;
+        flex: 0 0 calc(20% - 4px);
     }
 }
 
