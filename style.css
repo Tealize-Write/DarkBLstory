@@ -206,7 +206,7 @@ body {
     z-index: 2;
     font-family: var(--display);
     font-style: italic;
-    font-size: 10px;
+    font-size: 13px;
     letter-spacing: 4px; /* 字距稍微收斂一點點，讓長句更易讀 */
     color: rgba(255, 255, 255, 0.75);
     text-transform: uppercase;
@@ -230,7 +230,7 @@ body {
         top: 50%;
         transform: translate(-50%,-50%);
         color: var(--ink);
-        font-size: 11px;
+        font-size: 13px;
         background: var(--bg);
         padding: 0 14px;
     }
@@ -309,7 +309,7 @@ body {
     flex: 1;
     min-width: 0;
     padding: 13px 22px !important;
-    font-size: 12px !important;
+    font-size: 13px !important;
     letter-spacing: 2.5px !important;
     border-color: rgba(255,255,255,0.18) !important;
     color: rgba(255,255,255,0.65) !important;
@@ -324,7 +324,7 @@ body {
 }
 
 .share-btn-icon {
-    font-size: 11px;
+    font-size: 13px;
     opacity: 0.6;
 }
 
@@ -419,7 +419,7 @@ body {
 }
 
 .line-sticker-sub {
-    font-size: 10px;
+    font-size: 13px;
     letter-spacing: 2px;
     color: rgba(6,199,85,0.65);
     font-style: italic;
@@ -432,7 +432,7 @@ body {
     color: rgba(255,255,255,.78);
     font-family: var(--display);
     font-style: italic;
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 3px;
     cursor: pointer;
     padding: 4px 0;
@@ -673,8 +673,8 @@ body {
     font-family: var(--display);
     font-style: italic;
     letter-spacing: 6px;
-    color: rgba(255,255,255,.8); 
-    font-size: 12px; 
+    color: rgba(255,255,255,.8);
+    font-size: 13px;
     text-transform: uppercase;
     margin-bottom: 16px;
 }
@@ -718,7 +718,7 @@ body {
         bottom: -7px;
         left: 0;
         color: var(--ink);
-        font-size: 10px;
+        font-size: 13px;
         background: var(--bg);
         padding-right: 12px;
         z-index: 2;
@@ -745,8 +745,8 @@ body {
 }
 
 .r-mbti-label {
-    color: rgba(255,255,255,.7); 
-    font-size: 12px; 
+    color: rgba(255,255,255,.7);
+    font-size: 13px;
     letter-spacing: 2px;
 }
 
@@ -827,7 +827,7 @@ body {
     font-family: var(--display);
     font-style: italic;
     color: rgba(255,255,255,0.7);
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 5px;
     margin: 16px 0 8px;
     text-shadow: 0 0 8px rgba(255,255,255,0.2);
@@ -869,7 +869,7 @@ body {
         font-style: italic;
         letter-spacing: 1.5px;
         color: rgba(255,255,255,.78);
-        font-size: 11px;
+        font-size: 13px;
         white-space: nowrap;
     }
 
@@ -965,7 +965,7 @@ body {
     font-style: italic;
     color: var(--ink);
     letter-spacing: 1px;
-    font-size: 12px;
+    font-size: 13px;
     text-align: right;
     white-space: nowrap;
 }
@@ -1072,7 +1072,7 @@ body {
 }
 
 .cta-label {
-    font-size: 11px;
+    font-size: 13px;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: rgba(255,255,255,.5);
@@ -1121,7 +1121,7 @@ body {
 }
 
 .cta-fairy {
-    font-size: 11px;
+    font-size: 13px;
     letter-spacing: 1.5px;
     font-style: italic;
     color: rgba(255,255,255,.4);
@@ -1136,7 +1136,7 @@ body {
 }
 
 .cta-tag {
-    font-size: 10px;
+    font-size: 13px;
     letter-spacing: 1px;
     border: 1px solid rgba(255,255,255,.25);
     padding: 3px 8px;
@@ -1154,7 +1154,7 @@ body {
     border-radius: 4px;
     background: rgba(255, 255, 255, 0.04);
     color: rgba(255, 255, 255, 0.55);
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 1.5px;
     line-height: 1.7;
     text-align: center;
@@ -1204,7 +1204,7 @@ body {
 /* 針對卡片與連結內的 18+ 標記微調 */
 .cta-label .age-badge,
 .bbc-action .age-badge {
-    font-size: 10px;
+    font-size: 13px;
     margin-top: -2px;
     margin-left: 8px;
 }
@@ -1321,7 +1321,7 @@ body {
 
 .bbc-action {
     font-family: var(--serif);
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 3px;
     color: rgba(255,255,255,0.9);
     display: flex;
@@ -1330,7 +1330,7 @@ body {
 
 .bbc-note {
     font-family: var(--serif);
-    font-size: 11px;
+    font-size: 13px;
     letter-spacing: 1px;
     color: rgba(255,255,255,0.45);
     font-style: italic;
@@ -1393,7 +1393,7 @@ body {
 .cp-label {
     font-family: var(--display);
     font-style: italic;
-    font-size: 11px;
+    font-size: 13px;
     letter-spacing: 2px;
     color: rgba(255,255,255,.55);
     white-space: nowrap;
@@ -1414,7 +1414,7 @@ body {
 }
 
 .cp-sep {
-    font-size: 11px;
+    font-size: 13px;
     color: rgba(255,255,255,.3);
     margin: 0 2px;
 }
@@ -1592,7 +1592,7 @@ body {
     pointer-events: none;
     font-family: var(--display);
     font-style: italic;
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 4px;
     color: #fff;
     background: rgba(0,0,0,.72);
@@ -1679,7 +1679,7 @@ body {
     }
 
     .meta {
-        font-size: 12px;
+        font-size: 13px;
         letter-spacing: 1px;
     }
 
@@ -1727,7 +1727,7 @@ body {
     position: fixed;
     bottom: 12px;
     right: 12px;
-    font-size: 10px;
+    font-size: 13px;
     color: rgba(255, 255, 255, 0.25); /* 透明度調低，極度不起眼 */
     font-family: var(--serif);
     letter-spacing: 1px;
@@ -1739,4 +1739,213 @@ body {
 /* 讓他在產生長圖時自動消失 (配合 ui.js 的設定) */
 .capturing-global .music-attribution {
     display: none !important;
+}
+
+/* ══ SITE FOOTER LINKS ══ */
+.site-footer-links {
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-bottom: 8px;
+}
+
+.footer-heading {
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    color: rgba(255,255,255,0.36);
+    margin-bottom: 12px;
+    font-family: var(--serif);
+}
+
+/* ── 大卡：探索更多 ── */
+.footer-explore {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.footer-explore-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    background: rgba(255,255,255,0.02);
+    color: rgba(255,255,255,0.72);
+    text-decoration: none;
+    overflow: hidden;
+    transition: border-color 0.3s, color 0.3s, background 0.3s;
+}
+
+.footer-explore-card:hover {
+    border-color: rgba(255,255,255,0.36);
+    color: rgba(255,255,255,0.95);
+    background: rgba(255,255,255,0.05);
+}
+
+.footer-explore-soon {
+    cursor: default;
+    position: relative;
+}
+
+.footer-explore-soon:hover {
+    border-color: rgba(255,255,255,0.10);
+    color: inherit;
+    background: rgba(255,255,255,0.02);
+}
+
+.footer-explore-soon::after {
+    content: "Coming Soon";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.62);
+    color: rgba(255,255,255,0.80);
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 13px;
+    letter-spacing: 5px;
+    border-radius: 4px;
+}
+
+.footer-explore-img {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    display: block;
+    opacity: 0.82;
+    transition: opacity 0.3s;
+}
+
+.footer-explore-card:hover .footer-explore-img {
+    opacity: 1;
+}
+
+.footer-explore-body {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 10px 12px 13px;
+}
+
+.footer-explore-eyebrow {
+    display: block;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.32);
+    font-style: italic;
+}
+
+.footer-explore-title {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
+.footer-explore-desc {
+    display: block;
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.04em;
+}
+
+/* ── 製作群 & 合本作者 ── */
+.footer-members-wrap {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed rgba(255,255,255,0.10);
+}
+
+.footer-members {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+}
+
+.footer-member-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 3px;
+    padding: 6px 4px 8px;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 4px;
+    background: rgba(255,255,255,0.02);
+    color: rgba(255,255,255,0.72);
+    text-decoration: none;
+    transition: border-color 0.25s, color 0.25s, background 0.25s;
+}
+
+.footer-member-card:not(.footer-member-nolink):hover {
+    border-color: rgba(255,255,255,0.32);
+    color: rgba(255,255,255,0.95);
+    background: rgba(255,255,255,0.05);
+}
+
+.footer-member-nolink {
+    cursor: default;
+    color: rgba(255,255,255,0.42);
+    border-color: rgba(255,255,255,0.07);
+}
+
+.footer-member-img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    opacity: 0.80;
+    filter: grayscale(100%);
+    transition: opacity 0.25s, filter 0.25s;
+    margin-bottom: 4px;
+}
+
+.footer-member-card:not(.footer-member-nolink):hover .footer-member-img {
+    opacity: 1;
+    filter: grayscale(0%);
+}
+
+.footer-member-name {
+    display: block;
+    font-family: var(--serif);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+}
+
+.footer-member-role {
+    display: block;
+    font-size: 13px;
+    color: rgba(255,255,255,0.40);
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+}
+
+.footer-copyright {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.22);
+    font-family: var(--serif);
+}
+
+@media (max-width: 580px) {
+    .footer-members {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 380px) {
+    .footer-explore {
+        grid-template-columns: 1fr;
+    }
+    .footer-members {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
