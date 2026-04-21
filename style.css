@@ -1937,15 +1937,18 @@ body {
 
 @media (max-width: 580px) {
     .footer-members {
-        grid-template-columns: repeat(4, 1fr);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+    .footer-member-card {
+        flex: 0 0 calc(25% - 4px);
     }
 }
 
 @media (max-width: 380px) {
     .footer-explore {
         grid-template-columns: 1fr;
-    }
-    .footer-members {
-        grid-template-columns: repeat(3, 1fr);
     }
 }
