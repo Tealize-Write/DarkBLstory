@@ -3,7 +3,7 @@
   const bgm  = document.getElementById('bgm');
   const btn  = document.getElementById('audio-btn');
 
-  bgm.volume = 0.45;
+  bgm.volume = 0.1;
 
   function positionBtn(){
     const artTr = document.querySelector('.art-tr');
