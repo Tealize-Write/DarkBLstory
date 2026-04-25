@@ -441,7 +441,11 @@ async function shareResultAsImage() {
   // ✦ 給瀏覽器 50 毫秒的喘息時間，確保「生成中...」文字順利渲染
   await new Promise(resolve => setTimeout(resolve, 50));
   
-  const hideEls = targetEl.querySelectorAll('.btn-row, .share-divider, .buy-book-wrap, .lab:last-of-type');
+  const hideEls = [
+    ...targetEl.querySelectorAll('.btn-row, .share-divider, .btn-line-sticker-wrap, .stats'),
+    targetEl.querySelector('.adult-warning')?.closest('.block'),
+    targetEl.querySelector('.site-footer-links'),
+  ].filter(Boolean);
   hideEls.forEach(el => el.style.display = 'none');
 
   targetEl.classList.add('capturing');
