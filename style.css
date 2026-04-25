@@ -1211,10 +1211,9 @@ body {
 
 /* ── 實體書購書卡片 (與解鎖故事樣本統一風格) ── */
 .buy-book-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px; /* 稍微縮小間距，與上方區塊更協調 */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
     position: relative;
     z-index: 5;
     width: 100%;
