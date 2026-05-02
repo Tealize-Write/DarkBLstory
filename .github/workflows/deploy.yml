@@ -1,0 +1,23 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate config.js from secrets
+        run: |
+          printf '/* ── CONFIG ── */\nconst GAS_URL   = "%s";\nconst GAS_TOKEN = "%s";\n' \
+            "${{ secrets.GAS_URL }}" "${{ secrets.GAS_TOKEN }}" > config.js
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          exclude_assets: ".github,.gitignore,DarkBLstory-GAS,預覽.html"

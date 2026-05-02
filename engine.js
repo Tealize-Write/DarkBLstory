@@ -1,5 +1,7 @@
 /* ── ENGINE ── */
 
+const ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+
 // 1. 定義所有的屬性：直接使用攻受(dom, sub)與 10 項細分特質
 const AXES = [
   'dom', 'sub',
@@ -200,10 +202,3 @@ function calcAxisMax(){
   return max;
 }
 
-/* ════════════════════════════════
-   GLOBAL EXPORTS
-════════════════════════════════ */
-window.startQuiz      = startQuiz;
-window.confirmRestart = confirmRestart;
-window.skipTypewriter = skipTypewriter;
-// shareResultAsImage is defined and exported in ui.js
