@@ -1480,7 +1480,29 @@ body {
     .r-desc {
         font-size: 16px;
     }
-	.buy-book-btn {
+
+    /* ── 電子書平台按鍵：手機版改單欄，避免擠壓 ── */
+    .buy-book-wrap {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .buy-book-card {
+        padding: 14px 18px;
+    }
+
+    .bbc-shop {
+        font-size: 14px;
+        letter-spacing: 1.5px;
+    }
+
+    .bbc-action {
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        white-space: nowrap;
+    }
+
+    .buy-book-btn {
         width: 100%;
         padding: 14px 16px;
         font-size: 14px;
