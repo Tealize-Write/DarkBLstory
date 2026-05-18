@@ -1269,6 +1269,7 @@ body {
   position: relative;
   z-index: 5;
   width: 100%;
+  text-align: left;
 }
 
 .buy-book-card {
@@ -1287,7 +1288,11 @@ body {
   text-decoration: none;
   position: relative;
   overflow: visible;
-  transition: all 0.3s ease;
+  transition:
+    border-color 0.3s,
+    background 0.3s,
+    transform 0.25s,
+    box-shadow 0.3s;
 }
 
 /* ✦ Hover 互動效果：完全比照 .cta a:hover ✦ */
@@ -1390,6 +1395,7 @@ body {
   min-width: 0;
   flex: 0 1 auto;
   white-space: nowrap;
+  line-height: 1.4;
 }
 
 .bbc-shop .age-badge {
@@ -1419,6 +1425,15 @@ body {
 .stats strong {
   color: var(--ink);
   font-weight: 700;
+}
+
+#pop-chart > div:first-child {
+  margin-top: 14px !important;
+  margin-bottom: 8px !important;
+}
+
+#pop-chart .seals {
+  margin-top: 4px;
 }
 
 .cp-block {
@@ -1560,9 +1575,9 @@ body {
   }
 
   .buy-book-card {
-    padding: 14px 18px;
-    flex-wrap: wrap;
-    align-items: flex-start;
+    padding: 14px 14px 12px;
+    flex-direction: column;
+    align-items: stretch;
     row-gap: 8px;
   }
 
@@ -1576,7 +1591,10 @@ body {
   .bbc-action {
     font-size: 12px;
     letter-spacing: 1.5px;
-    margin-left: auto;
+    margin-left: 0;
+    margin-top: auto;
+    padding-top: 6px;
+    align-self: flex-end;
     white-space: normal;
     overflow-wrap: anywhere;
     text-align: right;
