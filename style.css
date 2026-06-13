@@ -1526,21 +1526,44 @@ body {
 @media (max-width: 560px) {
   .result-hero {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 32px;
   }
 
   .result-img-wrap {
-    width: 75%;
+    width: 74%;
     margin: 0 auto;
     border-radius: 0;
     padding: 8px;
-    aspect-ratio: 1000 / 1343; /* 修改圖片比例完全展現 */
+    aspect-ratio: 1000 / 1343;
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.55),
+      0 4px 16px rgba(0, 0, 0, 0.38);
   }
 
   .result-img {
     object-fit: cover;
     object-position: top center;
   }
+
+  /* ── 圖片與文字之間的裝飾分隔線 ── */
+  .result-hero-info::before {
+    content: "── ✦ ──";
+    display: block;
+    text-align: center;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.32);
+    letter-spacing: 4px;
+    margin-bottom: 18px;
+  }
+
+  .r-eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+  }
+
   .r-name,
   .r-eyebrow,
   .r-desc {
@@ -1548,24 +1571,52 @@ body {
     display: block;
   }
 
+  .r-name {
+    letter-spacing: 5px;
+  }
+
   .r-mbti {
     justify-content: center;
   }
 
+  /* ── 副標題：改為置中 ✦ 裝飾線，比桌面版簡潔 ── */
   .r-compound {
     text-align: center;
     border-bottom: none;
-    margin-bottom: 16px; /* 手機版加上稍微寬鬆的間距 */
-    padding-bottom: 0;
+    padding-bottom: 22px;
+    margin-bottom: 20px;
+    position: relative;
   }
 
-  .r-compound::before,
+  .r-compound::before {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.22);
+  }
+
   .r-compound::after {
-    display: none;
+    content: "✦";
+    display: block;
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.42);
+    background: var(--bg);
+    padding: 0 8px;
   }
 
   .r-desc {
-    font-size: 16px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    line-height: 2.1;
   }
 
   /* ── 電子書平台按鍵：手機版改單欄，避免擠壓 ── */
@@ -1605,6 +1656,139 @@ body {
     padding: 14px 16px;
     font-size: 14px;
     letter-spacing: 2px;
+  }
+
+  /* ── 統計長條圖：標籤改為兩行排版，避免長名稱擠壓 ruler ── */
+  #pop-chart .seal {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "lab lab"
+      "ruler val";
+    gap: 4px 8px;
+    align-items: center;
+  }
+  #pop-chart .seal .lab {
+    grid-area: lab;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    font-size: 12px;
+    line-height: 1.4;
+    letter-spacing: 1px;
+  }
+  #pop-chart .seal .seal-ruler {
+    grid-area: ruler;
+    margin: 0;
+  }
+  #pop-chart .seal .val {
+    grid-area: val;
+    justify-self: end;
+    white-space: nowrap;
+  }
+}
+
+/* ══ 中型裝置（561–640px）：結果頁改單欄 + 電子書平台按鈕改單欄 ══ */
+@media (min-width: 561px) and (max-width: 640px) {
+  /* 結果頁 hero：改為單欄堆疊，避免 260px 圖片擠壓文字資訊區 */
+  .result-hero {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .result-img-wrap {
+    width: 68%;
+    margin: 0 auto;
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.55),
+      0 4px 16px rgba(0, 0, 0, 0.38);
+  }
+  .result-hero-info::before {
+    content: "── ✦ ──";
+    display: block;
+    text-align: center;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.32);
+    letter-spacing: 4px;
+    margin-bottom: 18px;
+  }
+  .r-eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+  }
+  .r-name,
+  .r-eyebrow,
+  .r-desc {
+    text-align: center;
+    display: block;
+  }
+  .r-name {
+    letter-spacing: 5px;
+  }
+  .r-mbti {
+    justify-content: center;
+  }
+  .r-compound {
+    text-align: center;
+    border-bottom: none;
+    padding-bottom: 22px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .r-compound::before {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.22);
+  }
+  .r-compound::after {
+    content: "✦";
+    display: block;
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.42);
+    background: var(--bg);
+    padding: 0 8px;
+  }
+  .r-desc {
+    font-size: 15px;
+    letter-spacing: 1px;
+    line-height: 2.1;
+  }
+
+  /* 電子書平台按鈕：改單欄 */
+  .buy-book-wrap {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .buy-book-card {
+    padding: 14px 14px 12px;
+    flex-direction: column;
+    align-items: stretch;
+    row-gap: 8px;
+  }
+  .bbc-shop {
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    width: 100%;
+    min-width: 0;
+  }
+  .bbc-action {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    margin-left: 0;
+    margin-top: 4px;
+    align-self: flex-end;
+    white-space: nowrap;
+    text-align: right;
   }
 }
 
